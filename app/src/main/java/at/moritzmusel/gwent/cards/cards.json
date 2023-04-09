@@ -1,0 +1,1930 @@
+{
+  "cards": [
+    {
+      "name": "Mysterious Elf",
+      "type": "neutral",
+      "row": "close",
+      "strength": "0",
+      "ability": "hero spy",
+      "filename": "mysterious_elf",
+      "count": "1"
+    },
+    {
+      "name": "Decoy",
+      "type": "special",
+      "row": "",
+      "strength": "",
+      "ability": "decoy",
+      "filename": "decoy",
+      "count": "3"
+    },
+    {
+      "name": "Biting Frost",
+      "type": "weather",
+      "row": "",
+      "strength": "",
+      "ability": "frost",
+      "filename": "frost",
+      "count": "3"
+    },
+    {
+      "name": "Cirilla Fiona Elen Riannon",
+      "type": "neutral",
+      "row": "close",
+      "strength": "15",
+      "ability": "hero",
+      "filename": "ciri",
+      "count": "1"
+    },
+    {
+      "name": "Clear Weather",
+      "type": "weather",
+      "row": "",
+      "strength": "",
+      "ability": "clear",
+      "filename": "clear",
+      "count": "2"
+    },
+    {
+      "name": "Commander's Horn",
+      "type": "special",
+      "row": "",
+      "strength": "",
+      "ability": "horn",
+      "filename": "horn",
+      "count": "3"
+    },
+    {
+      "name": "Dandelion",
+      "type": "neutral",
+      "row": "close",
+      "strength": "2",
+      "ability": "horn",
+      "filename": "dandelion",
+      "count": "1"
+    },
+    {
+      "name": "Emiel Regis Rohellec Terzieff",
+      "type": "neutral",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "emiel",
+      "count": "1"
+    },
+    {
+      "name": "Geralt of Rivia",
+      "type": "neutral",
+      "row": "close",
+      "strength": "15",
+      "ability": "hero",
+      "filename": "geralt",
+      "count": "1"
+    },
+    {
+      "name": "Impenetrable Fog",
+      "type": "weather",
+      "row": "",
+      "strength": "",
+      "ability": "fog",
+      "filename": "fog",
+      "count": "3"
+    },
+    {
+      "name": "Scorch",
+      "type": "special",
+      "row": "",
+      "strength": "",
+      "ability": "scorch",
+      "filename": "scorch",
+      "count": "3"
+    },
+    {
+      "name": "Torrential Rain",
+      "type": "weather",
+      "row": "",
+      "strength": "",
+      "ability": "rain",
+      "filename": "rain",
+      "count": "2"
+    },
+    {
+      "name": "Triss Merigold",
+      "type": "neutral",
+      "row": "close",
+      "strength": "7",
+      "ability": "hero",
+      "filename": "triss",
+      "count": "1"
+    },
+    {
+      "name": "Vesemir",
+      "type": "neutral",
+      "row": "close",
+      "strength": "6",
+      "ability": "",
+      "filename": "vesemir",
+      "count": "1"
+    },
+    {
+      "name": "Villentretenmerth",
+      "type": "neutral",
+      "row": "close",
+      "strength": "7",
+      "ability": "scorch_c",
+      "filename": "villen",
+      "count": "1"
+    },
+    {
+      "name": "Yennefer of Vengerberg",
+      "type": "neutral",
+      "row": "ranged",
+      "strength": "7",
+      "ability": "hero medic",
+      "filename": "yennefer",
+      "count": "1"
+    },
+    {
+      "name": "Zoltan Chivay",
+      "type": "neutral",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "zoltan",
+      "count": "1"
+    },
+    {
+      "name": "Olgierd von Everec",
+      "type": "neutral",
+      "row": "agile",
+      "strength": "6",
+      "ability": "morale",
+      "filename": "olgierd",
+      "count": "1"
+    },
+    {
+      "name": "Gaunter O'Dimm",
+      "type": "neutral",
+      "row": "siege",
+      "strength": "2",
+      "ability": "muster",
+      "filename": "gaunter_odimm",
+      "count": "1"
+    },
+    {
+      "name": "Gaunter O'Dimm - Darkness",
+      "type": "neutral",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "gaunter_odimm_darkness",
+      "count": "3"
+    },
+    {
+      "name": "Cow",
+      "type": "neutral",
+      "row": "ranged",
+      "strength": "0",
+      "ability": "avenger",
+      "filename": "cow",
+      "count": "1"
+    },
+    {
+      "name": "Bovine Defense Force",
+      "type": "neutral",
+      "row": "close",
+      "strength": "8",
+      "ability": "",
+      "filename": "chort",
+      "count": "0"
+    },
+    {
+      "name": "Foltest - King of Temeria",
+      "type": "realms",
+      "row": "leader",
+      "strength": "",
+      "ability": "foltest_king",
+      "filename": "foltest_silver",
+      "count": "1"
+    },
+    {
+      "name": "Foltest - Lord Commander of the North",
+      "type": "realms",
+      "row": "leader",
+      "strength": "",
+      "ability": "foltest_lord",
+      "filename": "foltest_gold",
+      "count": "1"
+    },
+    {
+      "name": "Foltest - The Siegemaster",
+      "type": "realms",
+      "row": "leader",
+      "strength": "",
+      "ability": "foltest_siegemaster",
+      "filename": "foltest_copper",
+      "count": "1"
+    },
+    {
+      "name": "Foltest - The Steel-Forged",
+      "type": "realms",
+      "row": "leader",
+      "strength": "",
+      "ability": "foltest_steelforged",
+      "filename": "foltest_bronze",
+      "count": "1"
+    },
+    {
+      "name": "Foltest - Son of Medell",
+      "type": "realms",
+      "row": "leader",
+      "strength": "",
+      "ability": "foltest_son",
+      "filename": "foltest_son_of_medell",
+      "count": "1"
+    },
+    {
+      "name": "Ballista",
+      "type": "realms",
+      "row": "siege",
+      "strength": "6",
+      "ability": "",
+      "filename": "ballista",
+      "count": "1"
+    },
+    {
+      "name": "Blue Stripes Commando",
+      "type": "realms",
+      "row": "close",
+      "strength": "4",
+      "ability": "bond",
+      "filename": "blue_stripes",
+      "count": "3"
+    },
+    {
+      "name": "Catapult",
+      "type": "realms",
+      "row": "siege",
+      "strength": "8",
+      "ability": "bond",
+      "filename": "catapult_1",
+      "count": "2"
+    },
+    {
+      "name": "Crinfrid Reavers Dragon Hunter",
+      "type": "realms",
+      "row": "ranged",
+      "strength": "5",
+      "ability": "bond",
+      "filename": "crinfrid",
+      "count": "3"
+    },
+    {
+      "name": "Dethmold",
+      "type": "realms",
+      "row": "ranged",
+      "strength": "6",
+      "ability": "",
+      "filename": "dethmold",
+      "count": "1"
+    },
+    {
+      "name": "Dun Banner Medic",
+      "type": "realms",
+      "row": "siege",
+      "strength": "5",
+      "ability": "medic",
+      "filename": "banner_nurse",
+      "count": "1"
+    },
+    {
+      "name": "Esterad Thyssen",
+      "type": "realms",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "esterad",
+      "count": "1"
+    },
+    {
+      "name": "John Natalis",
+      "type": "realms",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "natalis",
+      "count": "1"
+    },
+    {
+      "name": "Kaedweni Siege Expert",
+      "type": "realms",
+      "row": "siege",
+      "strength": "1",
+      "ability": "morale",
+      "filename": "kaedwen_siege",
+      "count": "1"
+    },
+    {
+      "name": "Kaedweni Siege Expert",
+      "type": "realms",
+      "row": "siege",
+      "strength": "1",
+      "ability": "morale",
+      "filename": "kaedwen_siege_1",
+      "count": "1"
+    },
+    {
+      "name": "Kaedweni Siege Expert",
+      "type": "realms",
+      "row": "siege",
+      "strength": "1",
+      "ability": "morale",
+      "filename": "kaedwen_siege_2",
+      "count": "1"
+    },
+    {
+      "name": "Keira Metz",
+      "type": "realms",
+      "row": "ranged",
+      "strength": "5",
+      "ability": "",
+      "filename": "keira",
+      "count": "1"
+    },
+    {
+      "name": "Philippa Eilhart",
+      "type": "realms",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "philippa",
+      "count": "1"
+    },
+    {
+      "name": "Poor Fucking Infantry",
+      "type": "realms",
+      "row": "close",
+      "strength": "1",
+      "ability": "bond",
+      "filename": "poor_infantry",
+      "count": "4"
+    },
+    {
+      "name": "Prince Stennis",
+      "type": "realms",
+      "row": "close",
+      "strength": "5",
+      "ability": "spy",
+      "filename": "stennis",
+      "count": "1"
+    },
+    {
+      "name": "Redanian Foot Soldier",
+      "type": "realms",
+      "row": "close",
+      "strength": "1",
+      "ability": "",
+      "filename": "redania",
+      "count": "1"
+    },
+    {
+      "name": "Redanian Foot Soldier",
+      "type": "realms",
+      "row": "close",
+      "strength": "1",
+      "ability": "",
+      "filename": "redania_1",
+      "count": "1"
+    },
+    {
+      "name": "Sheldon Skaggs",
+      "type": "realms",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "",
+      "filename": "sheldon",
+      "count": "1"
+    },
+    {
+      "name": "Siege Tower",
+      "type": "realms",
+      "row": "siege",
+      "strength": "6",
+      "ability": "",
+      "filename": "siege_tower",
+      "count": "1"
+    },
+    {
+      "name": "Siegfried of Denesle",
+      "type": "realms",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "siegfried",
+      "count": "1"
+    },
+    {
+      "name": "Sigismund Dijkstra",
+      "type": "realms",
+      "row": "close",
+      "strength": "4",
+      "ability": "spy",
+      "filename": "dijkstra",
+      "count": "1"
+    },
+    {
+      "name": "Síle de Tansarville",
+      "type": "realms",
+      "row": "ranged",
+      "strength": "5",
+      "ability": "",
+      "filename": "sheala",
+      "count": "1"
+    },
+    {
+      "name": "Thaler",
+      "type": "realms",
+      "row": "siege",
+      "strength": "1",
+      "ability": "spy",
+      "filename": "thaler",
+      "count": "1"
+    },
+    {
+      "name": "Sabrina Glevissig",
+      "type": "realms",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "",
+      "filename": "sabrina",
+      "count": "1"
+    },
+    {
+      "name": "Vernon Roche",
+      "type": "realms",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "vernon",
+      "count": "1"
+    },
+    {
+      "name": "Ves",
+      "type": "realms",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "ves",
+      "count": "1"
+    },
+    {
+      "name": "Yarpen Zigrin",
+      "type": "realms",
+      "row": "close",
+      "strength": "2",
+      "ability": "",
+      "filename": "yarpen",
+      "count": "1"
+    },
+    {
+      "name": "Trebuchet",
+      "type": "realms",
+      "row": "siege",
+      "strength": "6",
+      "ability": "",
+      "filename": "trebuchet",
+      "count": "1"
+    },
+    {
+      "name": "Trebuchet",
+      "type": "realms",
+      "row": "siege",
+      "strength": "6",
+      "ability": "",
+      "filename": "trebuchet_1",
+      "count": "1"
+    },
+    {
+      "name": "Emhyr var Emreis - His Imperial Majesty",
+      "type": "nilfgaard",
+      "row": "leader",
+      "strength": "",
+      "ability": "emhyr_imperial",
+      "filename": "emhyr_silver",
+      "count": "1"
+    },
+    {
+      "name": "Emhyr var Emreis - Emperor of Nilfgaard",
+      "type": "nilfgaard",
+      "row": "leader",
+      "strength": "",
+      "ability": "emhyr_emperor",
+      "filename": "emhyr_copper",
+      "count": "1"
+    },
+    {
+      "name": "Emhyr var Emreis - the White Flame",
+      "type": "nilfgaard",
+      "row": "leader",
+      "strength": "",
+      "ability": "emhyr_whiteflame",
+      "filename": "emhyr_bronze",
+      "count": "1"
+    },
+    {
+      "name": "Emhyr var Emreis - The Relentless",
+      "type": "nilfgaard",
+      "row": "leader",
+      "strength": "",
+      "ability": "emhyr_relentless",
+      "filename": "emhyr_gold",
+      "count": "1"
+    },
+    {
+      "name": "Emhyr var Emreis - Invader of the North",
+      "type": "nilfgaard",
+      "row": "leader",
+      "strength": "",
+      "ability": "emhyr_invader",
+      "filename": "emhyr_invader_of_the_north",
+      "count": "1"
+    },
+    {
+      "name": "Albrich",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "",
+      "filename": "albrich",
+      "count": "1"
+    },
+    {
+      "name": "Assire var Anahid",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "6",
+      "ability": "",
+      "filename": "assire",
+      "count": "1"
+    },
+    {
+      "name": "Black Infantry Archer",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "",
+      "filename": "black_archer",
+      "count": "1"
+    },
+    {
+      "name": "Black Infantry Archer",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "",
+      "filename": "black_archer_1",
+      "count": "1"
+    },
+    {
+      "name": "Cahir Mawr Dyffryn aep Ceallach",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "6",
+      "ability": "",
+      "filename": "cahir",
+      "count": "1"
+    },
+    {
+      "name": "Cynthia",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "",
+      "filename": "cynthia",
+      "count": "1"
+    },
+    {
+      "name": "Etolian Auxiliary Archers",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "1",
+      "ability": "medic",
+      "filename": "archer_support",
+      "count": "1"
+    },
+    {
+      "name": "Etolian Auxiliary Archers",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "1",
+      "ability": "medic",
+      "filename": "archer_support_1",
+      "count": "1"
+    },
+    {
+      "name": "Fringilla Vigo",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "6",
+      "ability": "",
+      "filename": "fringilla",
+      "count": "1"
+    },
+    {
+      "name": "Heavy Zerrikanian Fire Scorpion",
+      "type": "nilfgaard",
+      "row": "siege",
+      "strength": "10",
+      "ability": "",
+      "filename": "heavy_zerri",
+      "count": "1"
+    },
+    {
+      "name": "Impera Brigade Guard",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "3",
+      "ability": "bond",
+      "filename": "imperal_brigade",
+      "count": "4"
+    },
+    {
+      "name": "Letho of Gulet",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "letho",
+      "count": "1"
+    },
+    {
+      "name": "Menno Coehoorn",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero medic",
+      "filename": "menno",
+      "count": "1"
+    },
+    {
+      "name": "Morteisen",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "3",
+      "ability": "",
+      "filename": "morteisen",
+      "count": "1"
+    },
+    {
+      "name": "Morvran Voorhis",
+      "type": "nilfgaard",
+      "row": "siege",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "moorvran",
+      "count": "1"
+    },
+    {
+      "name": "Nausicaa Cavalry Rider",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "2",
+      "ability": "bond",
+      "filename": "nauzicaa_2",
+      "count": "3"
+    },
+    {
+      "name": "Puttkammer",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "3",
+      "ability": "",
+      "filename": "puttkammer",
+      "count": "1"
+    },
+    {
+      "name": "Rainfarn",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "4",
+      "ability": "",
+      "filename": "rainfarn",
+      "count": "1"
+    },
+    {
+      "name": "Renuald aep Matsen",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "5",
+      "ability": "",
+      "filename": "renuald",
+      "count": "1"
+    },
+    {
+      "name": "Rotten Mangonel",
+      "type": "nilfgaard",
+      "row": "siege",
+      "strength": "3",
+      "ability": "",
+      "filename": "rotten",
+      "count": "1"
+    },
+    {
+      "name": "Shilard Fitz-Oesterlen",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "7",
+      "ability": "spy",
+      "filename": "shilard",
+      "count": "1"
+    },
+    {
+      "name": "Siege Engineer",
+      "type": "nilfgaard",
+      "row": "siege",
+      "strength": "6",
+      "ability": "",
+      "filename": "siege_engineer",
+      "count": "1"
+    },
+    {
+      "name": "Siege Technician",
+      "type": "nilfgaard",
+      "row": "siege",
+      "strength": "0",
+      "ability": "medic",
+      "filename": "siege_support",
+      "count": "1"
+    },
+    {
+      "name": "Stefan Skellen",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "9",
+      "ability": "spy",
+      "filename": "stefan",
+      "count": "1"
+    },
+    {
+      "name": "Sweers",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "",
+      "filename": "sweers",
+      "count": "1"
+    },
+    {
+      "name": "Tibor Eggebracht",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "tibor",
+      "count": "1"
+    },
+    {
+      "name": "Vanhemar",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "",
+      "filename": "vanhemar",
+      "count": "1"
+    },
+    {
+      "name": "Vattier de Rideaux",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "4",
+      "ability": "spy",
+      "filename": "vattier",
+      "count": "1"
+    },
+    {
+      "name": "Vreemde",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "2",
+      "ability": "",
+      "filename": "vreemde",
+      "count": "1"
+    },
+    {
+      "name": "Young Emissary",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "5",
+      "ability": "bond",
+      "filename": "young_emissary",
+      "count": "1"
+    },
+    {
+      "name": "Young Emissary",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "5",
+      "ability": "bond",
+      "filename": "young_emissary_1",
+      "count": "1"
+    },
+    {
+      "name": "Zerrikanian Fire Scorpion",
+      "type": "nilfgaard",
+      "row": "siege",
+      "strength": "5",
+      "ability": "",
+      "filename": "zerri",
+      "count": "1"
+    },
+    {
+      "name": "Eredin - Commander of the Red Riders",
+      "type": "monsters",
+      "row": "leader",
+      "strength": "",
+      "ability": "eredin_commander",
+      "filename": "eredin_silver",
+      "count": "1"
+    },
+    {
+      "name": "Eredin - Bringer of Death",
+      "type": "monsters",
+      "row": "leader",
+      "strength": "",
+      "ability": "eredin_bringer_of_death",
+      "filename": "eredin_bronze",
+      "count": "1"
+    },
+    {
+      "name": "Eredin - Destroyer of Worlds",
+      "type": "monsters",
+      "row": "leader",
+      "strength": "",
+      "ability": "eredin_destroyer",
+      "filename": "eredin_gold",
+      "count": "1"
+    },
+    {
+      "name": "Eredin - King of the Wild Hunt",
+      "type": "monsters",
+      "row": "leader",
+      "strength": "",
+      "ability": "eredin_king",
+      "filename": "eredin_copper",
+      "count": "1"
+    },
+    {
+      "name": "Eredin Bréacc Glas - The Treacherous",
+      "type": "monsters",
+      "row": "leader",
+      "strength": "",
+      "ability": "eredin_treacherous",
+      "filename": "eredin_the_treacherous",
+      "count": "1"
+    },
+    {
+      "name": "Arachas ",
+      "type": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "arachas",
+      "count": "1"
+    },
+    {
+      "name": "Arachas ",
+      "type": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "arachas_1",
+      "count": "1"
+    },
+    {
+      "name": "Arachas ",
+      "type": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "arachas_2",
+      "count": "1"
+    },
+    {
+      "name": "Arachas- Behemoth",
+      "type": "monsters",
+      "row": "siege",
+      "strength": "6",
+      "ability": "muster",
+      "filename": "arachas_behemoth",
+      "count": "1"
+    },
+    {
+      "name": "Botchling",
+      "type": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "",
+      "filename": "poroniec",
+      "count": "1"
+    },
+    {
+      "name": "Celaeno Harpy",
+      "type": "monsters",
+      "row": "agile",
+      "strength": "2",
+      "ability": "",
+      "filename": "celaeno_harpy",
+      "count": "1"
+    },
+    {
+      "name": "Cockatrice",
+      "type": "monsters",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "",
+      "filename": "cockatrice",
+      "count": "1"
+    },
+    {
+      "name": "Crone - Brewess",
+      "type": "monsters",
+      "row": "close",
+      "strength": "6",
+      "ability": "muster",
+      "filename": "witch_velen",
+      "count": "1"
+    },
+    {
+      "name": "Crone - Weavess",
+      "type": "monsters",
+      "row": "close",
+      "strength": "6",
+      "ability": "muster",
+      "filename": "witch_velen_1",
+      "count": "1"
+    },
+    {
+      "name": "Crone - Whispess",
+      "type": "monsters",
+      "row": "close",
+      "strength": "6",
+      "ability": "muster",
+      "filename": "witch_velen_2",
+      "count": "1"
+    },
+    {
+      "name": "Draug",
+      "type": "monsters",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "draug",
+      "count": "1"
+    },
+    {
+      "name": "Earth Elemental",
+      "type": "monsters",
+      "row": "siege",
+      "strength": "6",
+      "ability": "",
+      "filename": "earth_elemental",
+      "count": "1"
+    },
+    {
+      "name": "Endrega",
+      "type": "monsters",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "",
+      "filename": "endrega",
+      "count": "1"
+    },
+    {
+      "name": "Fiend",
+      "type": "monsters",
+      "row": "close",
+      "strength": "6",
+      "ability": "",
+      "filename": "fiend",
+      "count": "1"
+    },
+    {
+      "name": "Fire Elemental",
+      "type": "monsters",
+      "row": "siege",
+      "strength": "6",
+      "ability": "",
+      "filename": "fire_elemental",
+      "count": "1"
+    },
+    {
+      "name": "Foglet",
+      "type": "monsters",
+      "row": "close",
+      "strength": "2",
+      "ability": "",
+      "filename": "fogling",
+      "count": "1"
+    },
+    {
+      "name": "Forktail",
+      "type": "monsters",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "forktail",
+      "count": "1"
+    },
+    {
+      "name": "Frightener",
+      "type": "monsters",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "frightener",
+      "count": "1"
+    },
+    {
+      "name": "Gargoyle",
+      "type": "monsters",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "",
+      "filename": "gargoyle",
+      "count": "1"
+    },
+    {
+      "name": "Ghoul",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "1",
+      "ability": "muster",
+      "filename": "ghoul",
+      "count": "1"
+    },
+    {
+      "name": "Ghoul",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "1",
+      "ability": "muster",
+      "filename": "ghoul_1",
+      "count": "1"
+    },
+    {
+      "name": "Ghoul",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "1",
+      "ability": "muster",
+      "filename": "ghoul_2",
+      "count": "1"
+    },
+    {
+      "name": "Grave Hag",
+      "deck": "monsters",
+      "row": "ranged",
+      "strength": "5",
+      "ability": "",
+      "filename": "gravehag",
+      "count": "1"
+    },
+    {
+      "name": "Griffin",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "gryffin",
+      "count": "1"
+    },
+    {
+      "name": "Harpy",
+      "deck": "monsters",
+      "row": "agile",
+      "strength": "2",
+      "ability": "",
+      "filename": "harpy",
+      "count": "1"
+    },
+    {
+      "name": "Ice Giant",
+      "deck": "monsters",
+      "row": "siege",
+      "strength": "5",
+      "ability": "",
+      "filename": "frost_giant",
+      "count": "1"
+    },
+    {
+      "name": "Imlerith",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "imlerith",
+      "count": "1"
+    },
+    {
+      "name": "Kayran",
+      "deck": "monsters",
+      "row": "agile",
+      "strength": "8",
+      "ability": "hero morale",
+      "filename": "kayran",
+      "count": "1"
+    },
+    {
+      "name": "Leshen",
+      "deck": "monsters",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "leshen",
+      "count": "1"
+    },
+    {
+      "name": "Nekker",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "2",
+      "ability": "muster",
+      "filename": "nekker",
+      "count": "1"
+    },
+    {
+      "name": "Nekker",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "2",
+      "ability": "muster",
+      "filename": "nekker_1",
+      "count": "1"
+    },
+    {
+      "name": "Nekker",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "2",
+      "ability": "muster",
+      "filename": "nekker_2",
+      "count": "1"
+    },
+    {
+      "name": "Plague Maiden",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "mighty_maiden",
+      "count": "1"
+    },
+    {
+      "name": "Vampire - Bruxa",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "bruxa",
+      "count": "1"
+    },
+    {
+      "name": "Vampire - Ekimmara",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "ekkima",
+      "count": "1"
+    },
+    {
+      "name": "Vampire - Fleder",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "fleder",
+      "count": "1"
+    },
+    {
+      "name": "Vampire - Garkain",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "garkain",
+      "count": "1"
+    },
+    {
+      "name": "Vampire - Katakan",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "5",
+      "ability": "muster",
+      "filename": "katakan",
+      "count": "1"
+    },
+    {
+      "name": "Werewolf",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "werewolf",
+      "count": "1"
+    },
+    {
+      "name": "Wyvern",
+      "deck": "monsters",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "",
+      "filename": "wyvern",
+      "count": "1"
+    },
+    {
+      "name": "Toad",
+      "deck": "monsters",
+      "row": "ranged",
+      "strength": "7",
+      "ability": "scorch_r",
+      "filename": "toad",
+      "count": "1"
+    },
+    {
+      "name": "Francesca Findabair - Queen of Dol Blathanna",
+      "deck": "scoiatael",
+      "row": "leader",
+      "strength": "",
+      "ability": "francesca_queen",
+      "filename": "francesca_silver",
+      "count": "1"
+    },
+    {
+      "name": "Francesca Findabair - the Beautiful",
+      "deck": "scoiatael",
+      "row": "leader",
+      "strength": "",
+      "ability": "francesca_beautiful",
+      "filename": "francesca_gold",
+      "count": "1"
+    },
+    {
+      "name": "Francesca Findabair - Daisy of the Valley",
+      "deck": "scoiatael",
+      "row": "leader",
+      "strength": "",
+      "ability": "francesca_daisy",
+      "filename": "francesca_copper",
+      "count": "1"
+    },
+    {
+      "name": "Francesca Findabair - Pureblood Elf",
+      "deck": "scoiatael",
+      "row": "leader",
+      "strength": "",
+      "ability": "francesca_pureblood",
+      "filename": "francesca_bronze",
+      "count": "1"
+    },
+    {
+      "name": "Francesca Findabair - Hope of the Aen Seidhe",
+      "deck": "scoiatael",
+      "row": "leader",
+      "strength": "",
+      "ability": "francesca_hope",
+      "filename": "francesca_hope_of_the_aen_seidhe",
+      "count": "1"
+    },
+    {
+      "name": "Ciaran aep Easnillien",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "3",
+      "ability": "",
+      "filename": "ciaran",
+      "count": "1"
+    },
+    {
+      "name": "Barclay Els",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "6",
+      "ability": "",
+      "filename": "barclay",
+      "count": "1"
+    },
+    {
+      "name": "Dennis Cranmer",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "6",
+      "ability": "",
+      "filename": "dennis",
+      "count": "1"
+    },
+    {
+      "name": "Dol Blathanna Archer",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "",
+      "filename": "dol_archer",
+      "count": "1"
+    },
+    {
+      "name": "Dol Blathanna Scout",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "6",
+      "ability": "",
+      "filename": "dol_infantry",
+      "count": "1"
+    },
+    {
+      "name": "Dol Blathanna Scout",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "6",
+      "ability": "",
+      "filename": "dol_infantry_1",
+      "count": "1"
+    },
+    {
+      "name": "Dol Blathanna Scout",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "6",
+      "ability": "",
+      "filename": "dol_infantry_2",
+      "count": "1"
+    },
+    {
+      "name": "Dwarven Skirmisher",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "3",
+      "ability": "muster",
+      "filename": "dwarf",
+      "count": "1"
+    },
+    {
+      "name": "Dwarven Skirmisher",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "3",
+      "ability": "muster",
+      "filename": "dwarf_1",
+      "count": "1"
+    },
+    {
+      "name": "Dwarven Skirmisher",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "3",
+      "ability": "muster",
+      "filename": "dwarf_2",
+      "count": "1"
+    },
+    {
+      "name": "Eithné",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "eithne",
+      "count": "1"
+    },
+    {
+      "name": "Elven Skirmisher",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "muster",
+      "filename": "elf_skirmisher",
+      "count": "1"
+    },
+    {
+      "name": "Elven Skirmisher",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "muster",
+      "filename": "elf_skirmisher_1",
+      "count": "1"
+    },
+    {
+      "name": "Elven Skirmisher",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "muster",
+      "filename": "elf_skirmisher_2",
+      "count": "1"
+    },
+    {
+      "name": "Filavandrel aen Fidhail",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "6",
+      "ability": "",
+      "filename": "filavandrel",
+      "count": "1"
+    },
+    {
+      "name": "Havekar Healer",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "0",
+      "ability": "medic",
+      "filename": "havekar_nurse",
+      "count": "1"
+    },
+    {
+      "name": "Havekar Healer",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "0",
+      "ability": "medic",
+      "filename": "havekar_nurse_1",
+      "count": "1"
+    },
+    {
+      "name": "Havekar Healer",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "0",
+      "ability": "medic",
+      "filename": "havekar_nurse_2",
+      "count": "1"
+    },
+    {
+      "name": "Havekar Smuggler",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "muster",
+      "filename": "havekar_support",
+      "count": "1"
+    },
+    {
+      "name": "Havekar Smuggler",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "muster",
+      "filename": "havekar_support_1",
+      "count": "1"
+    },
+    {
+      "name": "Havekar Smuggler",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "muster",
+      "filename": "havekar_support_2",
+      "count": "1"
+    },
+    {
+      "name": "Ida Emean aep Sivney",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "6",
+      "ability": "",
+      "filename": "ida",
+      "count": "1"
+    },
+    {
+      "name": "Iorveth",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "iorveth",
+      "count": "1"
+    },
+    {
+      "name": "Isengrim Faoiltiarna",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero morale",
+      "filename": "isengrim",
+      "count": "1"
+    },
+    {
+      "name": "Mahakaman Defender",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "mahakam",
+      "count": "1"
+    },
+    {
+      "name": "Mahakaman Defender",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "mahakam_1",
+      "count": "1"
+    },
+    {
+      "name": "Mahakaman Defender",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "mahakam_2",
+      "count": "1"
+    },
+    {
+      "name": "Mahakaman Defender",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "mahakam_3",
+      "count": "1"
+    },
+    {
+      "name": "Mahakaman Defender",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "mahakam_4",
+      "count": "1"
+    },
+    {
+      "name": "Milva",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "morale",
+      "filename": "milva",
+      "count": "1"
+    },
+    {
+      "name": "Riordain",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "1",
+      "ability": "",
+      "filename": "riordain",
+      "count": "1"
+    },
+    {
+      "name": "Saesenthessis",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "saskia",
+      "count": "1"
+    },
+    {
+      "name": "Toruviel",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "",
+      "filename": "toruviel",
+      "count": "1"
+    },
+    {
+      "name": "Vrihedd Brigade Recruit",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "",
+      "filename": "vrihedd_cadet",
+      "count": "1"
+    },
+    {
+      "name": "Vrihedd Brigade Veteran",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "5",
+      "ability": "",
+      "filename": "vrihedd_brigade",
+      "count": "1"
+    },
+    {
+      "name": "Vrihedd Brigade Veteran",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "5",
+      "ability": "",
+      "filename": "vrihedd_brigade_1",
+      "count": "1"
+    },
+    {
+      "name": "Yaevinn",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "6",
+      "ability": "",
+      "filename": "yaevinn",
+      "count": "1"
+    },
+    {
+      "name": "Berserker",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "berserker",
+      "filename": "berserker",
+      "count": "1"
+    },
+    {
+      "name": "Birna Bran",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "2",
+      "ability": "medic",
+      "filename": "birna",
+      "count": "1"
+    },
+    {
+      "name": "Blueboy Lugos",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "6",
+      "ability": "",
+      "filename": "blueboy",
+      "count": "1"
+    },
+    {
+      "name": "Cerys",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero muster",
+      "filename": "cerys",
+      "count": "1"
+    },
+    {
+      "name": "Clan Brokva Archer",
+      "deck": "skellige",
+      "row": "ranged",
+      "strength": "6",
+      "ability": "",
+      "filename": "brokva_archer",
+      "count": "2"
+    },
+    {
+      "name": "Clan Dimun Pirate",
+      "deck": "skellige",
+      "row": "ranged",
+      "strength": "6",
+      "ability": "scorch",
+      "filename": "dimun_pirate",
+      "count": "1"
+    },
+    {
+      "name": "Cerys - Clan Drummond Shield Maiden",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "bond",
+      "filename": "shield_maiden",
+      "count": "1"
+    },
+    {
+      "name": "Cerys - Clan Drummond Shield Maiden",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "bond",
+      "filename": "shield_maiden_1",
+      "count": "1"
+    },
+    {
+      "name": "Cerys - Clan Drummond Shield Maiden",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "bond",
+      "filename": "shield_maiden_2",
+      "count": "1"
+    },
+    {
+      "name": "Clan Heymaey Skald",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "",
+      "filename": "heymaey",
+      "count": "1"
+    },
+    {
+      "name": "Clan Tordarroch Armorsmith",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "",
+      "filename": "tordarroch",
+      "count": "1"
+    },
+    {
+      "name": "Clan an Craite Warrior",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "6",
+      "ability": "bond",
+      "filename": "craite_warrior",
+      "count": "3"
+    },
+    {
+      "name": "Donar an Hindar",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "",
+      "filename": "donar",
+      "count": "1"
+    },
+    {
+      "name": "Draig Bon-Dhu",
+      "deck": "skellige",
+      "row": "siege",
+      "strength": "2",
+      "ability": "horn",
+      "filename": "draig",
+      "count": "1"
+    },
+    {
+      "name": "Ermion",
+      "deck": "skellige",
+      "row": "ranged",
+      "strength": "8",
+      "ability": "hero mardroeme",
+      "filename": "ermion",
+      "count": "1"
+    },
+    {
+      "name": "Hemdall",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "11",
+      "ability": "hero",
+      "filename": "hemdall",
+      "count": "0"
+    },
+    {
+      "name": "Hjalmar",
+      "deck": "skellige",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "hjalmar",
+      "count": "1"
+    },
+    {
+      "name": "Holger Blackhand",
+      "deck": "skellige",
+      "row": "siege",
+      "strength": "4",
+      "ability": "",
+      "filename": "holger",
+      "count": "1"
+    },
+    {
+      "name": "Kambi",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "0",
+      "ability": "avenger_kambi",
+      "filename": "kambi",
+      "count": "1"
+    },
+    {
+      "name": "Light Longship",
+      "deck": "skellige",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "light_longship",
+      "count": "3"
+    },
+    {
+      "name": "Madman Lugos",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "6",
+      "ability": "",
+      "filename": "madmad_lugos",
+      "count": "1"
+    },
+    {
+      "name": "Mardroeme",
+      "deck": "special",
+      "row": "",
+      "strength": "",
+      "ability": "mardroeme",
+      "filename": "mardroeme",
+      "count": "3"
+    },
+    {
+      "name": "Olaf",
+      "deck": "skellige",
+      "row": "agile",
+      "strength": "12",
+      "ability": "morale",
+      "filename": "olaf",
+      "count": "1"
+    },
+    {
+      "name": "Skellige Storm",
+      "deck": "weather",
+      "row": "",
+      "strength": "",
+      "ability": "rain fog",
+      "filename": "storm",
+      "count": "3"
+    },
+    {
+      "name": "Svanrige",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "",
+      "filename": "svanrige",
+      "count": "1"
+    },
+    {
+      "name": "Transformed Vildkaarl",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "14",
+      "ability": "morale",
+      "filename": "vildkaarl",
+      "count": "0"
+    },
+    {
+      "name": "Transformed Young Vildkaarl",
+      "deck": "skellige",
+      "row": "ranged",
+      "strength": "8",
+      "ability": "bond",
+      "filename": "young_vildkaarl",
+      "count": "0"
+    },
+    {
+      "name": "Udalryk",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "",
+      "filename": "udalryk",
+      "count": "1"
+    },
+    {
+      "name": "War Longship",
+      "deck": "skellige",
+      "row": "siege",
+      "strength": "6",
+      "ability": "bond",
+      "filename": "war_longship",
+      "count": "2"
+    },
+    {
+      "name": "Young Berserker",
+      "deck": "skellige",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "berserker",
+      "filename": "young_berserker",
+      "count": "3"
+    },
+    {
+      "name": "Crach an Craite",
+      "deck": "skellige",
+      "row": "leader",
+      "strength": "",
+      "ability": "crach_an_craite",
+      "filename": "crach_an_craite",
+      "count": "0"
+    },
+    {
+      "name": "King Bran",
+      "deck": "skellige",
+      "row": "leader",
+      "strength": "",
+      "ability": "king_bran",
+      "filename": "king_bran",
+      "count": "0"
+    },
+    {
+      "name": "Schirru",
+      "deck": "scoiatael",
+      "row": "siege",
+      "strength": "8",
+      "ability": "scorch_s",
+      "filename": "schirru",
+      "count": "1"
+    }
+  ]
+}
