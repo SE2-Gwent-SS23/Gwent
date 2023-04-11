@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Gwent</string>
+    <string name="title_activity_debug_network_join">debug_activity_network_join</string>
+    <string name="title_activity_debug_network_create">debug_activity_network_create</string>
+    <!-- Strings used for fragments for navigation -->
 </resources>

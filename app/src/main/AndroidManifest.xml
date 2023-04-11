@@ -11,12 +11,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Gwent">
         <activity
+            android:name=".networking.Activities.debug_activity_network_join"
+            android:screenOrientation="portrait"
+            android:exported="false"
+            android:label="@string/title_activity_debug_network_join"
+            android:theme="@style/Theme.Gwent.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".networking.Activities.debug_activity_network_create"
+            android:screenOrientation="portrait"
+            android:exported="false"
+            android:label="@string/title_activity_debug_network_create"
+            android:theme="@style/Theme.Gwent.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="landscape">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -25,4 +45,5 @@
                 android:value="" />
         </activity>
     </application>
+
 </manifest>
