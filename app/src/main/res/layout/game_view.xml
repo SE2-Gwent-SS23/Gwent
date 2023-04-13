@@ -6,15 +6,30 @@
     android:layout_height="match_parent"
     android:background="@drawable/wood_background">
 
+    <Button
+        android:id="@+id/buttonOpponentCards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_baseline_keyboard_arrow_down_24"
+        android:backgroundTint="@color/white"
+        android:fontFamily="serif"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/iv_deck1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
     <ImageView
         android:id="@+id/iv_deck1"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginLeft="200dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="48dp"
         android:layout_marginRight="150dp"
         android:background="@drawable/card_rows_border"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,14 +67,14 @@
         android:id="@+id/iv_deck_stack_right"
         android:layout_width="68dp"
         android:layout_height="85dp"
-        android:layout_marginEnd="56dp"
+        android:layout_marginEnd="68dp"
         android:background="@drawable/card_deck_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.85"
         app:layout_constraintStart_toEndOf="@+id/iv_deck3"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.687" />
+        app:layout_constraintVertical_bias="0.751" />
 
     <TextView
         android:id="@+id/tvNumberOf"
