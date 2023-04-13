@@ -60,15 +60,16 @@ public class GameViewActivity extends AppCompatActivity {
 
         ll = (LinearLayout) findViewById(R.id.linearLayoutMainCardsDeck);
         imageViewList = new ArrayList<>();
+        int size = 9;
 
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < size; i++) {
             ImageView im = new ImageView(this);
             if(i == 0) {
-                im.setPadding(50,50,12,50);
-            } else if(i == 4) {
-                im.setPadding(12,50,50,50);
+                im.setPadding(50,50,5,50);
+            } else if(i == size-1) {
+                im.setPadding(5,50,50,50);
             } else {
-                im.setPadding(12,50,12,50);
+                im.setPadding(5,50,5,50);
             }
 
             im.setId(i+1);
