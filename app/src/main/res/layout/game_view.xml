@@ -4,16 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/wood_background"
-    android:paddingTop="5dp">
+    android:background="@drawable/wood_background">
 
     <ImageView
         android:id="@+id/iv_deck1"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="150dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginRight="100dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="150dp"
         android:background="@drawable/card_rows_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,10 +21,10 @@
     <ImageView
         android:id="@+id/iv_deck2"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="150dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="100dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="150dp"
         android:background="@drawable/card_rows_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -35,14 +34,47 @@
     <ImageView
         android:id="@+id/iv_deck3"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_marginLeft="150dp"
+        android:layout_height="120dp"
+        android:layout_marginLeft="200dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="100dp"
+        android:layout_marginRight="150dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/card_deck_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_deck2" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_deck2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/iv_deck_stack_right"
+        android:layout_width="68dp"
+        android:layout_height="85dp"
+        android:layout_marginEnd="56dp"
+        android:background="@drawable/card_deck_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toEndOf="@+id/iv_deck3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.687" />
+
+    <TextView
+        android:id="@+id/tvNumberOf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="10dp"
+        android:padding="8dp"
+        android:text="1/10"
+        android:background="@drawable/number_of_border"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/iv_deck3"
+        app:layout_constraintTop_toBottomOf="@+id/iv_deck_stack_right"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
