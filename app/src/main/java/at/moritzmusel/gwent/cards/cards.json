@@ -1,0 +1,2144 @@
+{
+  "cards": [
+    {
+      "name": "Mysterious Elf",
+      "type": "neutral",
+      "row": "close",
+      "strength": "0",
+      "ability": "hero spy",
+      "filename": "mysterious_elf",
+      "count": "1",
+      "flavor_txt": "You humans have... unusual tastes."
+    },
+    {
+      "name": "Decoy",
+      "type": "special",
+      "row": "",
+      "strength": "",
+      "ability": "decoy",
+      "filename": "decoy",
+      "count": "3",
+      "flavor_txt": "When you run out of peasants, decoys also make decent arrow fodder."
+    },
+    {
+      "name": "Biting Frost",
+      "type": "weather",
+      "row": "",
+      "strength": "",
+      "ability": "frost",
+      "filename": "frost",
+      "count": "3",
+      "flavor_txt": "Best part about frost - bodies of the fallen don't rot so quickly."
+    },
+    {
+      "name": "Cirilla Fiona Elen Riannon",
+      "type": "neutral",
+      "row": "close",
+      "strength": "15",
+      "ability": "hero",
+      "filename": "ciri",
+      "count": "1",
+      "flavor_txt": "Know when fairy tales cease to be tales? When people start believing in them."
+    },
+    {
+      "name": "Clear Weather",
+      "type": "weather",
+      "row": "",
+      "strength": "",
+      "ability": "clear",
+      "filename": "clear",
+      "count": "2",
+      "flavor_txt": "The sun's shinin', Dromle! The sun's shinin'! Maybe there's hope left after all..."
+    },
+    {
+      "name": "Commander's Horn",
+      "type": "special",
+      "row": "",
+      "strength": "",
+      "ability": "horn",
+      "filename": "horn",
+      "count": "3",
+      "flavor_txt": "Plus one to morale, minus three to hearing."
+    },
+    {
+      "name": "Dandelion",
+      "type": "neutral",
+      "row": "close",
+      "strength": "2",
+      "ability": "horn",
+      "filename": "dandelion",
+      "count": "1",
+      "flavor_txt": "Dandelion, you're a cynic, a lecher, a whoremonger, a liar - and my best friend."
+    },
+    {
+      "name": "Emiel Regis Rohellec Terzieff",
+      "type": "neutral",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "emiel",
+      "count": "1",
+      "flavor_txt": "Men, the polite ones, at least would call me a monster. A blood-drinking freak."
+    },
+    {
+      "name": "Geralt of Rivia",
+      "type": "neutral",
+      "row": "close",
+      "strength": "15",
+      "ability": "hero",
+      "filename": "geralt",
+      "count": "1",
+      "flavor_txt": "If that's what it takes to save the world, it's better to let that world die."
+    },
+    {
+      "name": "Impenetrable Fog",
+      "type": "weather",
+      "row": "",
+      "strength": "",
+      "ability": "fog",
+      "filename": "fog",
+      "count": "3",
+      "flavor_txt": "A good commander's dream... a bad one's horror."
+    },
+    {
+      "name": "Scorch",
+      "type": "special",
+      "row": "",
+      "strength": "",
+      "ability": "scorch",
+      "filename": "scorch",
+      "count": "3",
+      "flavor_txt": "Pillars of flame turn the mightiest to ash. All other tremble in shock and awe."
+    },
+    {
+      "name": "Torrential Rain",
+      "type": "weather",
+      "row": "",
+      "strength": "",
+      "ability": "rain",
+      "filename": "rain",
+      "count": "2",
+      "flavor_txt": "Even the rain in this land smells like piss."
+    },
+    {
+      "name": "Triss Merigold",
+      "type": "neutral",
+      "row": "close",
+      "strength": "7",
+      "ability": "hero",
+      "filename": "triss",
+      "count": "1",
+      "flavor_txt": "I can take care of myself. Trust me."
+    },
+    {
+      "name": "Vesemir",
+      "type": "neutral",
+      "row": "close",
+      "strength": "6",
+      "ability": "",
+      "filename": "vesemir",
+      "count": "1",
+      "flavor_txt": "If you're to be hanged, ask for water. Anything can happen before they fetch it."
+    },
+    {
+      "name": "Villentretenmerth",
+      "type": "neutral",
+      "row": "close",
+      "strength": "7",
+      "ability": "scorch_c",
+      "filename": "villen",
+      "count": "1",
+      "flavor_txt": "Also calls himself Borkh Three Jackdaws... he's not the best at names."
+    },
+    {
+      "name": "Yennefer of Vengerberg",
+      "type": "neutral",
+      "row": "ranged",
+      "strength": "7",
+      "ability": "hero medic",
+      "filename": "yennefer",
+      "count": "1",
+      "flavor_txt": "Magic is Chaos, Art and Science. It is a curse, a blessing and a progression."
+    },
+    {
+      "name": "Zoltan Chivay",
+      "type": "neutral",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "zoltan",
+      "count": "1",
+      "flavor_txt": "Life without old mates and booze is like a woman without a rump."
+    },
+    {
+      "name": "Olgierd von Everec",
+      "type": "neutral",
+      "row": "agile",
+      "strength": "6",
+      "ability": "morale",
+      "filename": "olgierd",
+      "count": "1",
+      "flavor_txt": "At least you now know I don't easily lose my head."
+    },
+    {
+      "name": "Gaunter O'Dimm",
+      "type": "neutral",
+      "row": "siege",
+      "strength": "2",
+      "ability": "muster",
+      "filename": "gaunter_odimm",
+      "count": "1",
+      "flavor_txt": "He always grants exactly what you wish for. That's the problem."
+    },
+    {
+      "name": "Gaunter O'Dimm - Darkness",
+      "type": "neutral",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "gaunter_odimm_darkness",
+      "count": "3",
+      "flavor_txt": "Fear not the shadows, but the light."
+    },
+    {
+      "name": "Cow",
+      "type": "neutral",
+      "row": "ranged",
+      "strength": "0",
+      "ability": "avenger",
+      "filename": "cow",
+      "count": "1",
+      "flavor_txt": "Mooo!"
+    },
+    {
+      "name": "Bovine Defense Force",
+      "type": "neutral",
+      "row": "close",
+      "strength": "8",
+      "ability": "",
+      "filename": "chort",
+      "count": "1",
+      "flavor_txt": "Grrrrr!"
+    },
+    {
+      "name": "Foltest - King of Temeria",
+      "type": "realms",
+      "row": "leader",
+      "strength": "",
+      "ability": "foltest_king",
+      "filename": "foltest_silver",
+      "count": "1",
+      "flavor_txt": "A well-aimed ballista razes not just the enemy's walls, but his morale as well."
+    },
+    {
+      "name": "Foltest - Lord Commander of the North",
+      "type": "realms",
+      "row": "leader",
+      "strength": "",
+      "ability": "foltest_lord",
+      "filename": "foltest_gold",
+      "count": "1",
+      "flavor_txt": "A beautiful day for battle."
+    },
+    {
+      "name": "Foltest - The Siegemaster",
+      "type": "realms",
+      "row": "leader",
+      "strength": "",
+      "ability": "foltest_siegemaster",
+      "filename": "foltest_copper",
+      "count": "1",
+      "flavor_txt": "It is natural and beautiful that a man should love his sister."
+    },
+    {
+      "name": "Foltest - The Steel-Forged",
+      "type": "realms",
+      "row": "leader",
+      "strength": "",
+      "ability": "foltest_steelforged",
+      "filename": "foltest_bronze",
+      "count": "1",
+      "flavor_txt": "Sod advisors and their schemes. I place my trust in my soldiers' blades."
+    },
+    {
+      "name": "Foltest - Son of Medell",
+      "type": "realms",
+      "row": "leader",
+      "strength": "",
+      "ability": "foltest_son",
+      "filename": "foltest_son_of_medell",
+      "count": "1",
+      "flavor_txt": "Dammit, I rule this land and I refuse to creep around its corners."
+    },
+    {
+      "name": "Ballista",
+      "type": "realms",
+      "row": "siege",
+      "strength": "6",
+      "ability": "",
+      "filename": "ballista",
+      "count": "1",
+      "flavor_txt": "'Usually we give 'em female names.' 'Like Jenny?' 'More like Bertha'"
+    },
+    {
+      "name": "Blue Stripes Commando",
+      "type": "realms",
+      "row": "close",
+      "strength": "4",
+      "ability": "bond",
+      "filename": "blue_stripes",
+      "count": "3",
+      "flavor_txt": "I'd do anything for Temeria. Mostly, though, I kill for her."
+    },
+    {
+      "name": "Catapult",
+      "type": "realms",
+      "row": "siege",
+      "strength": "8",
+      "ability": "bond",
+      "filename": "catapult_1",
+      "count": "2",
+      "flavor_txt": "The gods help those who have better catapults."
+    },
+    {
+      "name": "Crinfrid Reavers Dragon Hunter",
+      "type": "realms",
+      "row": "ranged",
+      "strength": "5",
+      "ability": "bond",
+      "filename": "crinfrid",
+      "count": "3",
+      "flavor_txt": "Haven't had much luck with monsters of late, so we enlisted."
+    },
+    {
+      "name": "Dethmold",
+      "type": "realms",
+      "row": "ranged",
+      "strength": "6",
+      "ability": "",
+      "filename": "dethmold",
+      "count": "1",
+      "flavor_txt": "I once made a prisoner vomit his own entails... Ah, good times..."
+    },
+    {
+      "name": "Dun Banner Medic",
+      "type": "realms",
+      "row": "siege",
+      "strength": "5",
+      "ability": "medic",
+      "filename": "banner_nurse",
+      "count": "1",
+      "flavor_txt": "Stitch red to red, white to white, and everything will be all right."
+    },
+    {
+      "name": "Esterad Thyssen",
+      "type": "realms",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "esterad",
+      "count": "1",
+      "flavor_txt": "Like all Thyssen men, he was tall, powerfully built and criminally handsome."
+    },
+    {
+      "name": "John Natalis",
+      "type": "realms",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "natalis",
+      "count": "1",
+      "flavor_txt": "The square should bear the name of my soldiers, of the dead. Not mine."
+    },
+    {
+      "name": "Kaedweni Siege Expert",
+      "type": "realms",
+      "row": "siege",
+      "strength": "1",
+      "ability": "morale",
+      "filename": "kaedwen_siege",
+      "count": "1",
+      "flavor_txt": "'You gotta recalibrate the arm by five degrees.' 'Do what by the what now?'"
+    },
+    {
+      "name": "Kaedweni Siege Expert",
+      "type": "realms",
+      "row": "siege",
+      "strength": "1",
+      "ability": "morale",
+      "filename": "kaedwen_siege_1",
+      "count": "1",
+      "flavor_txt": "'You gotta recalibrate the arm by five degrees.' 'Do what by the what now?'"
+    },
+    {
+      "name": "Kaedweni Siege Expert",
+      "type": "realms",
+      "row": "siege",
+      "strength": "1",
+      "ability": "morale",
+      "filename": "kaedwen_siege_2",
+      "count": "1",
+      "flavor_txt": "'You gotta recalibrate the arm by five degrees.' 'Do what by the what now?'"
+    },
+    {
+      "name": "Keira Metz",
+      "type": "realms",
+      "row": "ranged",
+      "strength": "5",
+      "ability": "",
+      "filename": "keira",
+      "count": "1",
+      "flavor_txt": "If I'm to die today, I wish to look smashing for the occasion."
+    },
+    {
+      "name": "Philippa Eilhart",
+      "type": "realms",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "philippa",
+      "count": "1",
+      "flavor_txt": "Soon the power of kings will wither, and the Lodge shall seize its rightful place."
+    },
+    {
+      "name": "Poor Fucking Infantry",
+      "type": "realms",
+      "row": "close",
+      "strength": "1",
+      "ability": "bond",
+      "filename": "poor_infantry",
+      "count": "4",
+      "flavor_txt": "I's a war veteran! ... spare me a crown?"
+    },
+    {
+      "name": "Prince Stennis",
+      "type": "realms",
+      "row": "close",
+      "strength": "5",
+      "ability": "spy",
+      "filename": "stennis",
+      "count": "1",
+      "flavor_txt": "He ploughin' wears golden armor. Golden. 'course he's an arsehole."
+    },
+    {
+      "name": "Redanian Foot Soldier",
+      "type": "realms",
+      "row": "close",
+      "strength": "1",
+      "ability": "",
+      "filename": "redania",
+      "count": "1",
+      "flavor_txt": "I've bled for Redania! I've killed for Redania... Dammit, I've even raped for Redania."
+    },
+    {
+      "name": "Redanian Foot Soldier",
+      "type": "realms",
+      "row": "close",
+      "strength": "1",
+      "ability": "",
+      "filename": "redania_1",
+      "count": "1",
+      "flavor_txt": "I've bled for Redania! I've killed for Redania... Dammit, I've even raped for Redania."
+    },
+    {
+      "name": "Sheldon Skaggs",
+      "type": "realms",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "",
+      "filename": "sheldon",
+      "count": "1",
+      "flavor_txt": "I was there, on the front lines! Right were the fightin' was the thickest!"
+    },
+    {
+      "name": "Siege Tower",
+      "type": "realms",
+      "row": "siege",
+      "strength": "6",
+      "ability": "",
+      "filename": "siege_tower",
+      "count": "1",
+      "flavor_txt": "I love the clamor of siege towers in the morning. Sounds like victory."
+    },
+    {
+      "name": "Siegfried of Denesle",
+      "type": "realms",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "siegfried",
+      "count": "1",
+      "flavor_txt": "We're on the same side, witcher. You'll realize this one day."
+    },
+    {
+      "name": "Sigismund Dijkstra",
+      "type": "realms",
+      "row": "close",
+      "strength": "4",
+      "ability": "spy",
+      "filename": "dijkstra",
+      "count": "1",
+      "flavor_txt": "Gwent's like politics, just more honest."
+    },
+    {
+      "name": "Síle de Tansarville",
+      "type": "realms",
+      "row": "ranged",
+      "strength": "5",
+      "ability": "",
+      "filename": "sheala",
+      "count": "1",
+      "flavor_txt": "The Lodge lacks humility. Our lust for power may yet be our undoing."
+    },
+    {
+      "name": "Thaler",
+      "type": "realms",
+      "row": "siege",
+      "strength": "1",
+      "ability": "spy",
+      "filename": "thaler",
+      "count": "1",
+      "flavor_txt": "Fuck off! We aren't all ploughin' philanderers. Some of us have depth..."
+    },
+    {
+      "name": "Sabrina Glevissig",
+      "type": "realms",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "",
+      "filename": "sabrina",
+      "count": "1",
+      "flavor_txt": "The Daughter of the Kaedweni Wilderness."
+    },
+    {
+      "name": "Vernon Roche",
+      "type": "realms",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "vernon",
+      "count": "1",
+      "flavor_txt": "A patriot... and a real son of a bitch."
+    },
+    {
+      "name": "Ves",
+      "type": "realms",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "ves",
+      "count": "1",
+      "flavor_txt": "Better to live one day as a king than a whole life as a beggar."
+    },
+    {
+      "name": "Yarpen Zigrin",
+      "type": "realms",
+      "row": "close",
+      "strength": "2",
+      "ability": "",
+      "filename": "yarpen",
+      "count": "1",
+      "flavor_txt": "The world belongs to whoever's best at crackin' skulls and impregnatin' lasses."
+    },
+    {
+      "name": "Trebuchet",
+      "type": "realms",
+      "row": "siege",
+      "strength": "6",
+      "ability": "",
+      "filename": "trebuchet",
+      "count": "1",
+      "flavor_txt": "Castle won't batter itself down, now will it? Get them trebuchets rollin'!"
+    },
+    {
+      "name": "Trebuchet",
+      "type": "realms",
+      "row": "siege",
+      "strength": "6",
+      "ability": "",
+      "filename": "trebuchet_1",
+      "count": "1",
+      "flavor_txt": "Castle won't batter itself down, now will it? Get them trebuchets rollin'!"
+    },
+    {
+      "name": "Emhyr var Emreis - His Imperial Majesty",
+      "type": "nilfgaard",
+      "row": "leader",
+      "strength": "",
+      "ability": "emhyr_imperial",
+      "filename": "emhyr_silver",
+      "count": "1",
+      "flavor_txt": "A sword is but one of many tools at a ruler's disposal."
+    },
+    {
+      "name": "Emhyr var Emreis - Emperor of Nilfgaard",
+      "type": "nilfgaard",
+      "row": "leader",
+      "strength": "",
+      "ability": "emhyr_emperor",
+      "filename": "emhyr_copper",
+      "count": "1",
+      "flavor_txt": "The skies wept when my Pavetta died. They will not weep for me."
+    },
+    {
+      "name": "Emhyr var Emreis - the White Flame",
+      "type": "nilfgaard",
+      "row": "leader",
+      "strength": "",
+      "ability": "emhyr_whiteflame",
+      "filename": "emhyr_bronze",
+      "count": "1",
+      "flavor_txt": "Your motives do not interest me. Only results."
+    },
+    {
+      "name": "Emhyr var Emreis - The Relentless",
+      "type": "nilfgaard",
+      "row": "leader",
+      "strength": "",
+      "ability": "emhyr_relentless",
+      "filename": "emhyr_gold",
+      "count": "1",
+      "flavor_txt": "They do not call me the Patient. Take care they do not call you the headless."
+    },
+    {
+      "name": "Emhyr var Emreis - Invader of the North",
+      "type": "nilfgaard",
+      "row": "leader",
+      "strength": "",
+      "ability": "emhyr_invader",
+      "filename": "emhyr_invader_of_the_north",
+      "count": "1",
+      "flavor_txt": "Emperors command multitudes, yet cannot control two things: their time and their hearts."
+    },
+    {
+      "name": "Albrich",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "",
+      "filename": "albrich",
+      "count": "1",
+      "flavor_txt": "A fireball? Of course. Whatever Your Imperial Majesty wishes."
+    },
+    {
+      "name": "Assire var Anahid",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "6",
+      "ability": "",
+      "filename": "assire",
+      "count": "1",
+      "flavor_txt": "Nilfgaardian mages do have a choice: servile submission, or the gallows."
+    },
+    {
+      "name": "Black Infantry Archer",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "",
+      "filename": "black_archer",
+      "count": "1",
+      "flavor_txt": "I aim for the knee. Always."
+    },
+    {
+      "name": "Black Infantry Archer",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "",
+      "filename": "black_archer_1",
+      "count": "1",
+      "flavor_txt": "I aim for the knee. Always."
+    },
+    {
+      "name": "Cahir Mawr Dyffryn aep Ceallach",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "6",
+      "ability": "",
+      "filename": "cahir",
+      "count": "1",
+      "flavor_txt": "His eyes flashed under his winged helmet. Fire gleamed form his sword's blade."
+    },
+    {
+      "name": "Cynthia",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "",
+      "filename": "cynthia",
+      "count": "1",
+      "flavor_txt": "Cynthia's talents can be deadly. She needs a tight leash."
+    },
+    {
+      "name": "Etolian Auxiliary Archers",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "1",
+      "ability": "medic",
+      "filename": "archer_support",
+      "count": "1",
+      "flavor_txt": "Double or nothing, aim for his cock."
+    },
+    {
+      "name": "Etolian Auxiliary Archers",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "1",
+      "ability": "medic",
+      "filename": "archer_support_1",
+      "count": "1",
+      "flavor_txt": "Double or nothing, aim for his cock."
+    },
+    {
+      "name": "Fringilla Vigo",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "6",
+      "ability": "",
+      "filename": "fringilla",
+      "count": "1",
+      "flavor_txt": "Magic is the highest good. It transcends all borders and divisions."
+    },
+    {
+      "name": "Heavy Zerrikanian Fire Scorpion",
+      "type": "nilfgaard",
+      "row": "siege",
+      "strength": "10",
+      "ability": "",
+      "filename": "heavy_zerri",
+      "count": "1",
+      "flavor_txt": "Not the best for taking cities, but great for razing them to the ground."
+    },
+    {
+      "name": "Impera Brigade Guard",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "3",
+      "ability": "bond",
+      "filename": "imperal_brigade",
+      "count": "4",
+      "flavor_txt": "The Impera Brigade never surrenders.Ever."
+    },
+    {
+      "name": "Letho of Gulet",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "letho",
+      "count": "1",
+      "flavor_txt": "Witcher never die in their beds."
+    },
+    {
+      "name": "Menno Coehoorn",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero medic",
+      "filename": "menno",
+      "count": "1",
+      "flavor_txt": "I'll take attentive reconnaissance unit over a fine cavalry brigade any day."
+    },
+    {
+      "name": "Morteisen",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "3",
+      "ability": "",
+      "filename": "morteisen",
+      "count": "1",
+      "flavor_txt": "No Nordling pikemen or dwarven spearbearers can hope to best trained cavalry."
+    },
+    {
+      "name": "Morvran Voorhis",
+      "type": "nilfgaard",
+      "row": "siege",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "moorvran",
+      "count": "1",
+      "flavor_txt": "Summer sun reflecting in the quiet waters of the Alba - that's Nilfgaard to me."
+    },
+    {
+      "name": "Nausicaa Cavalry Rider",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "2",
+      "ability": "bond",
+      "filename": "nauzicaa_2",
+      "count": "3",
+      "flavor_txt": "The Emperor will teach the North discipline."
+    },
+    {
+      "name": "Puttkammer",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "3",
+      "ability": "",
+      "filename": "puttkammer",
+      "count": "1",
+      "flavor_txt": "Learned a lot at Braibant Military Academy. How to scrub potatoes, for instance."
+    },
+    {
+      "name": "Rainfarn",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "4",
+      "ability": "",
+      "filename": "rainfarn",
+      "count": "1",
+      "flavor_txt": "You'll die as painfully as that pathetic traitor Windhalm did."
+    },
+    {
+      "name": "Renuald aep Matsen",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "5",
+      "ability": "",
+      "filename": "renuald",
+      "count": "1",
+      "flavor_txt": "They say the Impera fear nothing. Untrue. Renuald scares them shitless."
+    },
+    {
+      "name": "Rotten Mangonel",
+      "type": "nilfgaard",
+      "row": "siege",
+      "strength": "3",
+      "ability": "",
+      "filename": "rotten",
+      "count": "1",
+      "flavor_txt": "The rotten smell brings back childhood memories."
+    },
+    {
+      "name": "Shilard Fitz-Oesterlen",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "7",
+      "ability": "spy",
+      "filename": "shilard",
+      "count": "1",
+      "flavor_txt": "Warfare is mere sound and fury - diplomacy is what truly shapes history."
+    },
+    {
+      "name": "Siege Engineer",
+      "type": "nilfgaard",
+      "row": "siege",
+      "strength": "6",
+      "ability": "",
+      "filename": "siege_engineer",
+      "count": "1",
+      "flavor_txt": "Wielded correctly, a protractor can be a deadly weapon."
+    },
+    {
+      "name": "Siege Technician",
+      "type": "nilfgaard",
+      "row": "siege",
+      "strength": "0",
+      "ability": "medic",
+      "filename": "siege_support",
+      "count": "1",
+      "flavor_txt": "I never miss twice."
+    },
+    {
+      "name": "Stefan Skellen",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "9",
+      "ability": "spy",
+      "filename": "stefan",
+      "count": "1",
+      "flavor_txt": "My mark scars the face of our future empress. That is my proudest achievement."
+    },
+    {
+      "name": "Sweers",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "",
+      "filename": "sweers",
+      "count": "1",
+      "flavor_txt": "And hands off the girl! Whatever we may be, we're not savages."
+    },
+    {
+      "name": "Tibor Eggebracht",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "tibor",
+      "count": "1",
+      "flavor_txt": "Albaaa! Forward!! Alba! Long live the Emperor!"
+    },
+    {
+      "name": "Vanhemar",
+      "type": "nilfgaard",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "",
+      "filename": "vanhemar",
+      "count": "1",
+      "flavor_txt": "For a fire mage, he's not very... flamboyant."
+    },
+    {
+      "name": "Vattier de Rideaux",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "4",
+      "ability": "spy",
+      "filename": "vattier",
+      "count": "1",
+      "flavor_txt": "There's never been a problem a well-planned assassinations couldn't solve."
+    },
+    {
+      "name": "Vreemde",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "2",
+      "ability": "",
+      "filename": "vreemde",
+      "count": "1",
+      "flavor_txt": "Discipline is the Empire's deadliest weapon."
+    },
+    {
+      "name": "Young Emissary",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "5",
+      "ability": "bond",
+      "filename": "young_emissary",
+      "count": "1",
+      "flavor_txt": "If i acquit myself well, perhaps next they'll post me somewhere civilized."
+    },
+    {
+      "name": "Young Emissary",
+      "type": "nilfgaard",
+      "row": "close",
+      "strength": "5",
+      "ability": "bond",
+      "filename": "young_emissary_1",
+      "count": "1",
+      "flavor_txt": "If i acquit myself well, perhaps next they'll post me somewhere civilized."
+    },
+    {
+      "name": "Zerrikanian Fire Scorpion",
+      "type": "nilfgaard",
+      "row": "siege",
+      "strength": "5",
+      "ability": "",
+      "filename": "zerri",
+      "count": "1",
+      "flavor_txt": "The Zerrikanian Desert used to be a lush garden. Then these came along."
+    },
+    {
+      "name": "Eredin - Commander of the Red Riders",
+      "type": "monsters",
+      "row": "leader",
+      "strength": "",
+      "ability": "eredin_commander",
+      "filename": "eredin_silver",
+      "count": "1",
+      "flavor_txt": "It is unavoidable."
+    },
+    {
+      "name": "Eredin - Bringer of Death",
+      "type": "monsters",
+      "row": "leader",
+      "strength": "",
+      "ability": "eredin_bringer_of_death",
+      "filename": "eredin_bronze",
+      "count": "1",
+      "flavor_txt": "Have some dignity. You know how this will end."
+    },
+    {
+      "name": "Eredin - Destroyer of Worlds",
+      "type": "monsters",
+      "row": "leader",
+      "strength": "",
+      "ability": "eredin_destroyer",
+      "filename": "eredin_gold",
+      "count": "1",
+      "flavor_txt": "I've long awaited this..."
+    },
+    {
+      "name": "Eredin - King of the Wild Hunt",
+      "type": "monsters",
+      "row": "leader",
+      "strength": "",
+      "ability": "eredin_king",
+      "filename": "eredin_copper",
+      "count": "1",
+      "flavor_txt": "Go on. Show me your spins, pirouettes and faints. I want to watch."
+    },
+    {
+      "name": "Eredin Bréacc Glas - The Treacherous",
+      "type": "monsters",
+      "row": "leader",
+      "strength": "",
+      "ability": "eredin_treacherous",
+      "filename": "eredin_the_treacherous",
+      "count": "1",
+      "flavor_txt": "I'm enjoying this. You are my toy."
+    },
+    {
+      "name": "Arachas ",
+      "type": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "arachas",
+      "count": "1",
+      "flavor_txt": "Ugly - nature's way of saying 'Stay the fuck away.'"
+    },
+    {
+      "name": "Arachas ",
+      "type": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "arachas_1",
+      "count": "1",
+      "flavor_txt": "Ugly - nature's way of saying 'Stay the fuck away.'"
+    },
+    {
+      "name": "Arachas ",
+      "type": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "arachas_2",
+      "count": "1",
+      "flavor_txt": "Ugly - nature's way of saying 'Stay the fuck away.'"
+    },
+    {
+      "name": "Arachas- Behemoth",
+      "type": "monsters",
+      "row": "siege",
+      "strength": "6",
+      "ability": "muster",
+      "filename": "arachas_behemoth",
+      "count": "1",
+      "flavor_txt": "Like a cross between a crab, a spider... and a ploughin' mountain."
+    },
+    {
+      "name": "Botchling",
+      "type": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "",
+      "filename": "poroniec",
+      "count": "1",
+      "flavor_txt": "Admit your mistakes and bury them proper - else they'll come back to haunt you."
+    },
+    {
+      "name": "Celaeno Harpy",
+      "type": "monsters",
+      "row": "agile",
+      "strength": "2",
+      "ability": "",
+      "filename": "celaeno_harpy",
+      "count": "1",
+      "flavor_txt": "Common harpies feed on carrion. Celaeno harpies... they feed on dreams."
+    },
+    {
+      "name": "Cockatrice",
+      "type": "monsters",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "",
+      "filename": "cockatrice",
+      "count": "1",
+      "flavor_txt": "Born of an egg laid by a cockerel... if you believe such peasant drivel."
+    },
+    {
+      "name": "Crone - Brewess",
+      "type": "monsters",
+      "row": "close",
+      "strength": "6",
+      "ability": "muster",
+      "filename": "witch_velen",
+      "count": "1",
+      "flavor_txt": "We'll cut you up, boy. A fine broth you will make."
+    },
+    {
+      "name": "Crone - Weavess",
+      "type": "monsters",
+      "row": "close",
+      "strength": "6",
+      "ability": "muster",
+      "filename": "witch_velen_1",
+      "count": "1",
+      "flavor_txt": "I sense your pain. I see your fear..."
+    },
+    {
+      "name": "Crone - Whispess",
+      "type": "monsters",
+      "row": "close",
+      "strength": "6",
+      "ability": "muster",
+      "filename": "witch_velen_2",
+      "count": "1",
+      "flavor_txt": "I'd be your best - and last."
+    },
+    {
+      "name": "Draug",
+      "type": "monsters",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "draug",
+      "count": "1",
+      "flavor_txt": "Some men cannot admit defeat. Some keep fighting from beyond the grave."
+    },
+    {
+      "name": "Earth Elemental",
+      "type": "monsters",
+      "row": "siege",
+      "strength": "6",
+      "ability": "",
+      "filename": "earth_elemental",
+      "count": "1",
+      "flavor_txt": "How to fight an earth elemental? You don't. You run. Fast as you can."
+    },
+    {
+      "name": "Endrega",
+      "type": "monsters",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "",
+      "filename": "endrega",
+      "count": "1",
+      "flavor_txt": "The nest! Take out the nest, or the bastards'll just keep coming!"
+    },
+    {
+      "name": "Fiend",
+      "type": "monsters",
+      "row": "close",
+      "strength": "6",
+      "ability": "",
+      "filename": "fiend",
+      "count": "1",
+      "flavor_txt": "A fiend looks a bit like a deer. An enormous, evil deer."
+    },
+    {
+      "name": "Fire Elemental",
+      "type": "monsters",
+      "row": "siege",
+      "strength": "6",
+      "ability": "",
+      "filename": "fire_elemental",
+      "count": "1",
+      "flavor_txt": "Fire is so delightful."
+    },
+    {
+      "name": "Foglet",
+      "type": "monsters",
+      "row": "close",
+      "strength": "2",
+      "ability": "",
+      "filename": "fogling",
+      "count": "1",
+      "flavor_txt": "Fog creeps on little cat feet. Foglets creep over the bodies of their victims."
+    },
+    {
+      "name": "Forktail",
+      "type": "monsters",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "forktail",
+      "count": "1",
+      "flavor_txt": "Fork tails... Bah! Fuckers' tails're more like cleavers."
+    },
+    {
+      "name": "Frightener",
+      "type": "monsters",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "frightener",
+      "count": "1",
+      "flavor_txt": "'What have I done?' the mage cried out, frightened of his own creation."
+    },
+    {
+      "name": "Gargoyle",
+      "type": "monsters",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "",
+      "filename": "gargoyle",
+      "count": "1",
+      "flavor_txt": "Ancient sculptors' nightmarish fantasies, brought to life by bored mages."
+    },
+    {
+      "name": "Ghoul",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "1",
+      "ability": "muster",
+      "filename": "ghoul",
+      "count": "1",
+      "flavor_txt": "If ghouls are part of the Circle of Life... then it's a damn vicious circle."
+    },
+    {
+      "name": "Ghoul",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "1",
+      "ability": "muster",
+      "filename": "ghoul_1",
+      "count": "1",
+      "flavor_txt": "If ghouls are part of the Circle of Life... then it's a damn vicious circle."
+    },
+    {
+      "name": "Ghoul",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "1",
+      "ability": "muster",
+      "filename": "ghoul_2",
+      "count": "1",
+      "flavor_txt": "If ghouls are part of the Circle of Life... then it's a damn vicious circle."
+    },
+    {
+      "name": "Grave Hag",
+      "deck": "monsters",
+      "row": "ranged",
+      "strength": "5",
+      "ability": "",
+      "filename": "gravehag",
+      "count": "1",
+      "flavor_txt": "Their long tongues're for slurping marrow - and whipping prey."
+    },
+    {
+      "name": "Griffin",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "gryffin",
+      "count": "1",
+      "flavor_txt": "Griffins like to toy with their prey. Eat 'em alive, piece by piece."
+    },
+    {
+      "name": "Harpy",
+      "deck": "monsters",
+      "row": "agile",
+      "strength": "2",
+      "ability": "",
+      "filename": "harpy",
+      "count": "1",
+      "flavor_txt": "There are many species of harpy, and all are kleptomaniacs."
+    },
+    {
+      "name": "Ice Giant",
+      "deck": "monsters",
+      "row": "siege",
+      "strength": "5",
+      "ability": "",
+      "filename": "frost_giant",
+      "count": "1",
+      "flavor_txt": "Fled one time in my life. From the Ice Giant. And I'm not a bit ashamed."
+    },
+    {
+      "name": "Imlerith",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "imlerith",
+      "count": "1",
+      "flavor_txt": "Ladd nahw! Kill them! Litter the earth with their entrails!"
+    },
+    {
+      "name": "Kayran",
+      "deck": "monsters",
+      "row": "agile",
+      "strength": "8",
+      "ability": "hero morale",
+      "filename": "kayran",
+      "count": "1",
+      "flavor_txt": "Kill a kayran? Simple. Take your best sword... then sell it and hire a witcher."
+    },
+    {
+      "name": "Leshen",
+      "deck": "monsters",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "leshen",
+      "count": "1",
+      "flavor_txt": "We never hunt in these woods. Not even if it means the whole village starves."
+    },
+    {
+      "name": "Nekker",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "2",
+      "ability": "muster",
+      "filename": "nekker",
+      "count": "1",
+      "flavor_txt": "Damn things are almost cute, if you ignore the whole vicious killer aspect."
+    },
+    {
+      "name": "Nekker",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "2",
+      "ability": "muster",
+      "filename": "nekker_1",
+      "count": "1",
+      "flavor_txt": "Damn things are almost cute, if you ignore the whole vicious killer aspect."
+    },
+    {
+      "name": "Nekker",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "2",
+      "ability": "muster",
+      "filename": "nekker_2",
+      "count": "1",
+      "flavor_txt": "Damn things are almost cute, if you ignore the whole vicious killer aspect."
+    },
+    {
+      "name": "Plague Maiden",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "mighty_maiden",
+      "count": "1",
+      "flavor_txt": "The sick rave about a boil-pocked woman surrounded by herds of rabid rats..."
+    },
+    {
+      "name": "Vampire - Bruxa",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "bruxa",
+      "count": "1",
+      "flavor_txt": "A vile, bloodthirsty, man-eating hag. Kind of like my mother-in-law."
+    },
+    {
+      "name": "Vampire - Ekimmara",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "ekkima",
+      "count": "1",
+      "flavor_txt": "Who would think overgrown bats would have a taste for gaudy jewelry?"
+    },
+    {
+      "name": "Vampire - Fleder",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "fleder",
+      "count": "1",
+      "flavor_txt": "Higher vampires embrace their victims. Fleders rip them to shreds."
+    },
+    {
+      "name": "Vampire - Garkain",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "garkain",
+      "count": "1",
+      "flavor_txt": "Blood-drinkers and corpse-eaters so foul their very ugliness paralyses foes."
+    },
+    {
+      "name": "Vampire - Katakan",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "5",
+      "ability": "muster",
+      "filename": "katakan",
+      "count": "1",
+      "flavor_txt": "Drinking the blood of the Continent since the Conjunction."
+    },
+    {
+      "name": "Werewolf",
+      "deck": "monsters",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "werewolf",
+      "count": "1",
+      "flavor_txt": "Wolves aren't as bad as they say. Werewolves, though - they're worse."
+    },
+    {
+      "name": "Wyvern",
+      "deck": "monsters",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "",
+      "filename": "wyvern",
+      "count": "1",
+      "flavor_txt": "Imagine a cross between a winged snake and a nightmare. Wyverns are worse."
+    },
+    {
+      "name": "Toad",
+      "deck": "monsters",
+      "row": "ranged",
+      "strength": "7",
+      "ability": "scorch_r",
+      "filename": "toad",
+      "count": "1",
+      "flavor_txt": "Big. Bad. Ugly. Squats in the sewers."
+    },
+    {
+      "name": "Francesca Findabair - Queen of Dol Blathanna",
+      "deck": "scoiatael",
+      "row": "leader",
+      "strength": "",
+      "ability": "francesca_queen",
+      "filename": "francesca_silver",
+      "count": "1",
+      "flavor_txt": "Ash shall fertilize the soil. By spring, the valley shall bloom once more."
+    },
+    {
+      "name": "Francesca Findabair - the Beautiful",
+      "deck": "scoiatael",
+      "row": "leader",
+      "strength": "",
+      "ability": "francesca_beautiful",
+      "filename": "francesca_gold",
+      "count": "1",
+      "flavor_txt": "The Elder Races have forgotten more than humans can ever hope to know."
+    },
+    {
+      "name": "Francesca Findabair - Daisy of the Valley",
+      "deck": "scoiatael",
+      "row": "leader",
+      "strength": "",
+      "ability": "francesca_daisy",
+      "filename": "francesca_copper",
+      "count": "1",
+      "flavor_txt": "Do not let my beauty distract your aim."
+    },
+    {
+      "name": "Francesca Findabair - Pureblood Elf",
+      "deck": "scoiatael",
+      "row": "leader",
+      "strength": "",
+      "ability": "francesca_pureblood",
+      "filename": "francesca_bronze",
+      "count": "1",
+      "flavor_txt": "To live in peace, we first must kill. This is human oppression's cruel finale."
+    },
+    {
+      "name": "Francesca Findabair - Hope of the Aen Seidhe",
+      "deck": "scoiatael",
+      "row": "leader",
+      "strength": "",
+      "ability": "francesca_hope",
+      "filename": "francesca_hope_of_the_aen_seidhe",
+      "count": "1",
+      "flavor_txt": "Daede sian caente, Aen Seidhe en'allane ael coeden..."
+    },
+    {
+      "name": "Ciaran aep Easnillien",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "3",
+      "ability": "",
+      "filename": "ciaran",
+      "count": "1",
+      "flavor_txt": "The path to freedom is paved in blood, not ink."
+    },
+    {
+      "name": "Barclay Els",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "6",
+      "ability": "",
+      "filename": "barclay",
+      "count": "1",
+      "flavor_txt": "Our mead smells like piss, do it? Easy to fix - I'll break your fuckin' nose!"
+    },
+    {
+      "name": "Dennis Cranmer",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "6",
+      "ability": "",
+      "filename": "dennis",
+      "count": "1",
+      "flavor_txt": "I know how to carry out orders, so you can shove you advice up your coal chute."
+    },
+    {
+      "name": "Dol Blathanna Archer",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "",
+      "filename": "dol_archer",
+      "count": "1",
+      "flavor_txt": "Take another step, dh'oine. You'd look better with an arrow between your eyes."
+    },
+    {
+      "name": "Dol Blathanna Scout",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "6",
+      "ability": "",
+      "filename": "dol_infantry",
+      "count": "1",
+      "flavor_txt": "They track like hounds, run like deer and kill like cold-hearted bastards."
+    },
+    {
+      "name": "Dol Blathanna Scout",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "6",
+      "ability": "",
+      "filename": "dol_infantry_1",
+      "count": "1",
+      "flavor_txt": "They track like hounds, run like deer and kill like cold-hearted bastards."
+    },
+    {
+      "name": "Dol Blathanna Scout",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "6",
+      "ability": "",
+      "filename": "dol_infantry_2",
+      "count": "1",
+      "flavor_txt": "They track like hounds, run like deer and kill like cold-hearted bastards."
+    },
+    {
+      "name": "Dwarven Skirmisher",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "3",
+      "ability": "muster",
+      "filename": "dwarf",
+      "count": "1",
+      "flavor_txt": "Worked a pickaxe all me life. Battleaxe won't be any trouble."
+    },
+    {
+      "name": "Dwarven Skirmisher",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "3",
+      "ability": "muster",
+      "filename": "dwarf_1",
+      "count": "1",
+      "flavor_txt": "Worked a pickaxe all me life. Battleaxe won't be any trouble."
+    },
+    {
+      "name": "Dwarven Skirmisher",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "3",
+      "ability": "muster",
+      "filename": "dwarf_2",
+      "count": "1",
+      "flavor_txt": "Worked a pickaxe all me life. Battleaxe won't be any trouble."
+    },
+    {
+      "name": "Eithné",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "eithne",
+      "count": "1",
+      "flavor_txt": "The dryad queen has eyes of molten silver, and a heart of cold-forged steel."
+    },
+    {
+      "name": "Elven Skirmisher",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "muster",
+      "filename": "elf_skirmisher",
+      "count": "1",
+      "flavor_txt": "No matter what you may have heard, elves don't take human scalps. Too much lice."
+    },
+    {
+      "name": "Elven Skirmisher",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "muster",
+      "filename": "elf_skirmisher_1",
+      "count": "1",
+      "flavor_txt": "No matter what you may have heard, elves don't take human scalps. Too much lice."
+    },
+    {
+      "name": "Elven Skirmisher",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "muster",
+      "filename": "elf_skirmisher_2",
+      "count": "1",
+      "flavor_txt": "No matter what you may have heard, elves don't take human scalps. Too much lice."
+    },
+    {
+      "name": "Filavandrel aen Fidhail",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "6",
+      "ability": "",
+      "filename": "filavandrel",
+      "count": "1",
+      "flavor_txt": "Though we are now few and scattered, our hearts burn brighter than ever."
+    },
+    {
+      "name": "Havekar Healer",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "0",
+      "ability": "medic",
+      "filename": "havekar_nurse",
+      "count": "1",
+      "flavor_txt": "Sure, I'll patch you up. Gonna cost you, though."
+    },
+    {
+      "name": "Havekar Healer",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "0",
+      "ability": "medic",
+      "filename": "havekar_nurse_1",
+      "count": "1",
+      "flavor_txt": "Sure, I'll patch you up. Gonna cost you, though."
+    },
+    {
+      "name": "Havekar Healer",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "0",
+      "ability": "medic",
+      "filename": "havekar_nurse_2",
+      "count": "1",
+      "flavor_txt": "Sure, I'll patch you up. Gonna cost you, though."
+    },
+    {
+      "name": "Havekar Smuggler",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "muster",
+      "filename": "havekar_support",
+      "count": "1",
+      "flavor_txt": "I fight for whoever's paying the best. Or whoever's easiest to rob."
+    },
+    {
+      "name": "Havekar Smuggler",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "muster",
+      "filename": "havekar_support_1",
+      "count": "1",
+      "flavor_txt": "I fight for whoever's paying the best. Or whoever's easiest to rob."
+    },
+    {
+      "name": "Havekar Smuggler",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "muster",
+      "filename": "havekar_support_2",
+      "count": "1",
+      "flavor_txt": "I fight for whoever's paying the best. Or whoever's easiest to rob."
+    },
+    {
+      "name": "Ida Emean aep Sivney",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "6",
+      "ability": "",
+      "filename": "ida",
+      "count": "1",
+      "flavor_txt": "I am a Sage. My power lies in possessing knowledge. Not sharing it."
+    },
+    {
+      "name": "Iorveth",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "iorveth",
+      "count": "1",
+      "flavor_txt": "King or beggar, what's the difference? One dh'oine less."
+    },
+    {
+      "name": "Isengrim Faoiltiarna",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero morale",
+      "filename": "isengrim",
+      "count": "1",
+      "flavor_txt": "It dawns on them once they notice my scar: a realization of imminent death."
+    },
+    {
+      "name": "Mahakaman Defender",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "mahakam",
+      "count": "1",
+      "flavor_txt": "I'm telling ye, we're born fer battle - we slash straight at their knees!"
+    },
+    {
+      "name": "Mahakaman Defender",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "mahakam_1",
+      "count": "1",
+      "flavor_txt": "I'm telling ye, we're born fer battle - we slash straight at their knees!"
+    },
+    {
+      "name": "Mahakaman Defender",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "mahakam_2",
+      "count": "1",
+      "flavor_txt": "I'm telling ye, we're born fer battle - we slash straight at their knees!"
+    },
+    {
+      "name": "Mahakaman Defender",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "mahakam_3",
+      "count": "1",
+      "flavor_txt": "I'm telling ye, we're born fer battle - we slash straight at their knees!"
+    },
+    {
+      "name": "Mahakaman Defender",
+      "deck": "scoiatael",
+      "row": "close",
+      "strength": "5",
+      "ability": "",
+      "filename": "mahakam_4",
+      "count": "1",
+      "flavor_txt": "I'm telling ye, we're born fer battle - we slash straight at their knees!"
+    },
+    {
+      "name": "Milva",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "morale",
+      "filename": "milva",
+      "count": "1",
+      "flavor_txt": "With each arrow I loose, I think of my da. He'd be proud. I think."
+    },
+    {
+      "name": "Riordain",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "1",
+      "ability": "",
+      "filename": "riordain",
+      "count": "1",
+      "flavor_txt": "Stare into their eyes, feast on their terror. Then go in for the kill."
+    },
+    {
+      "name": "Saesenthessis",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "saskia",
+      "count": "1",
+      "flavor_txt": "Beautiful, pure, fierce - the perfect icon for a rebellion."
+    },
+    {
+      "name": "Toruviel",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "",
+      "filename": "toruviel",
+      "count": "1",
+      "flavor_txt": "I'd gladly kill you from up close, stare in your eyes... But you reek, human."
+    },
+    {
+      "name": "Vrihedd Brigade Recruit",
+      "deck": "scoiatael",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "",
+      "filename": "vrihedd_cadet",
+      "count": "1",
+      "flavor_txt": "Hatred burns brighter than any fire, and cuts deeper than any blade."
+    },
+    {
+      "name": "Vrihedd Brigade Veteran",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "5",
+      "ability": "",
+      "filename": "vrihedd_brigade",
+      "count": "1",
+      "flavor_txt": "Vrihedd? What's that mean? Trouble."
+    },
+    {
+      "name": "Vrihedd Brigade Veteran",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "5",
+      "ability": "",
+      "filename": "vrihedd_brigade_1",
+      "count": "1",
+      "flavor_txt": "Vrihedd? What's that mean? Trouble."
+    },
+    {
+      "name": "Yaevinn",
+      "deck": "scoiatael",
+      "row": "agile",
+      "strength": "6",
+      "ability": "",
+      "filename": "yaevinn",
+      "count": "1",
+      "flavor_txt": "We are the drops of rain that together make a ferocious storm."
+    },
+    {
+      "name": "Berserker",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "berserker",
+      "filename": "berserker",
+      "count": "1",
+      "flavor_txt": "Kill, crush, cleave!"
+    },
+    {
+      "name": "Birna Bran",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "2",
+      "ability": "medic",
+      "filename": "birna",
+      "count": "1",
+      "flavor_txt": "Skellige must have a strong king. No matter what it takes."
+    },
+    {
+      "name": "Blueboy Lugos",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "6",
+      "ability": "",
+      "filename": "blueboy",
+      "count": "1",
+      "flavor_txt": "I'm damn near ready to puke from boredom."
+    },
+    {
+      "name": "Cerys",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "10",
+      "ability": "hero muster",
+      "filename": "cerys",
+      "count": "1",
+      "flavor_txt": "They call me Sparrowhawk, know why? Because I eat rats like you for breakfast."
+    },
+    {
+      "name": "Clan Brokva Archer",
+      "deck": "skellige",
+      "row": "ranged",
+      "strength": "6",
+      "ability": "",
+      "filename": "brokva_archer",
+      "count": "2",
+      "flavor_txt": "So ye can hit a movin' target at two hundred paces. Me, too. In a storm."
+    },
+    {
+      "name": "Clan Dimun Pirate",
+      "deck": "skellige",
+      "row": "ranged",
+      "strength": "6",
+      "ability": "scorch",
+      "filename": "dimun_pirate",
+      "count": "1",
+      "flavor_txt": "Can see the fear in their eyes. Fear o' me... fear o' Clan Dimun!"
+    },
+    {
+      "name": "Cerys - Clan Drummond Shield Maiden",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "bond",
+      "filename": "shield_maiden",
+      "count": "1",
+      "flavor_txt": "They'll shatter on our shields like waves on a rocky shore."
+    },
+    {
+      "name": "Cerys - Clan Drummond Shield Maiden",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "bond",
+      "filename": "shield_maiden_1",
+      "count": "1",
+      "flavor_txt": "They'll shatter on our shields like waves on a rocky shore."
+    },
+    {
+      "name": "Cerys - Clan Drummond Shield Maiden",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "bond",
+      "filename": "shield_maiden_2",
+      "count": "1",
+      "flavor_txt": "They'll shatter on our shields like waves on a rocky shore."
+    },
+    {
+      "name": "Clan Heymaey Skald",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "",
+      "filename": "heymaey",
+      "count": "1",
+      "flavor_txt": "The deeds of Clan Heymaey will go down in history."
+    },
+    {
+      "name": "Clan Tordarroch Armorsmith",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "",
+      "filename": "tordarroch",
+      "count": "1",
+      "flavor_txt": "Ye're in for a pundin'."
+    },
+    {
+      "name": "Clan an Craite Warrior",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "6",
+      "ability": "bond",
+      "filename": "craite_warrior",
+      "count": "3",
+      "flavor_txt": "I'll bring the an Craites such glory, bards'll go hoarse singin' me praises!"
+    },
+    {
+      "name": "Donar an Hindar",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "",
+      "filename": "donar",
+      "count": "1",
+      "flavor_txt": "I've gathered all the jarls together. Now make your case."
+    },
+    {
+      "name": "Draig Bon-Dhu",
+      "deck": "skellige",
+      "row": "siege",
+      "strength": "2",
+      "ability": "horn",
+      "filename": "draig",
+      "count": "1",
+      "flavor_txt": "Hear ye now the tale of the heroic deeds of Clan an Craite."
+    },
+    {
+      "name": "Ermion",
+      "deck": "skellige",
+      "row": "ranged",
+      "strength": "8",
+      "ability": "hero mardroeme",
+      "filename": "ermion",
+      "count": "1",
+      "flavor_txt": "Only the ignorant dismiss the importance of myths."
+    },
+    {
+      "name": "Hemdall",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "11",
+      "ability": "hero",
+      "filename": "hemdall",
+      "count": "1",
+      "flavor_txt": "When the time of the White Frost comes, Hemdall will sound the call for battle."
+    },
+    {
+      "name": "Hjalmar",
+      "deck": "skellige",
+      "row": "ranged",
+      "strength": "10",
+      "ability": "hero",
+      "filename": "hjalmar",
+      "count": "1",
+      "flavor_txt": "Instead of mournin' the fallen, let's drink to their memory!"
+    },
+    {
+      "name": "Holger Blackhand",
+      "deck": "skellige",
+      "row": "siege",
+      "strength": "4",
+      "ability": "",
+      "filename": "holger",
+      "count": "1",
+      "flavor_txt": "Now let's drink to Emperor of Nilfgaard - may his prick forever stay limp!"
+    },
+    {
+      "name": "Kambi",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "0",
+      "ability": "avenger_kambi",
+      "filename": "kambi",
+      "count": "1",
+      "flavor_txt": "When the time comes, the cockerel Kambi shall crow and awaken Hemdall."
+    },
+    {
+      "name": "Light Longship",
+      "deck": "skellige",
+      "row": "ranged",
+      "strength": "4",
+      "ability": "muster",
+      "filename": "light_longship",
+      "count": "3",
+      "flavor_txt": "Escape them? In the waters of Skellige? Good luck."
+    },
+    {
+      "name": "Madman Lugos",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "6",
+      "ability": "",
+      "filename": "madmad_lugos",
+      "count": "1",
+      "flavor_txt": "WAAAAAAAAAAGH!!!!"
+    },
+    {
+      "name": "Mardroeme",
+      "deck": "special",
+      "row": "",
+      "strength": "",
+      "ability": "mardroeme",
+      "filename": "mardroeme",
+      "count": "3",
+      "flavor_txt": "Eat enough of them, and the world will never be the same..."
+    },
+    {
+      "name": "Olaf",
+      "deck": "skellige",
+      "row": "agile",
+      "strength": "12",
+      "ability": "morale",
+      "filename": "olaf",
+      "count": "1",
+      "flavor_txt": "Many've tried to defeat Olaf. But won't hear about it from them - they're dead."
+    },
+    {
+      "name": "Skellige Storm",
+      "deck": "weather",
+      "row": "",
+      "strength": "",
+      "ability": "rain fog",
+      "filename": "storm",
+      "count": "3",
+      "flavor_txt": "This ain't no normal storm. This here's the wrath of the gods."
+    },
+    {
+      "name": "Svanrige",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "",
+      "filename": "svanrige",
+      "count": "1",
+      "flavor_txt": "The emperor also thought him an accidental king. At first."
+    },
+    {
+      "name": "Transformed Vildkaarl",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "14",
+      "ability": "morale",
+      "filename": "vildkaarl",
+      "count": "1",
+      "flavor_txt": "Saw them fight once in my life... and once was enough."
+    },
+    {
+      "name": "Transformed Young Vildkaarl",
+      "deck": "skellige",
+      "row": "ranged",
+      "strength": "8",
+      "ability": "bond",
+      "filename": "young_vildkaarl",
+      "count": "1",
+      "flavor_txt": "Rooaaaar!"
+    },
+    {
+      "name": "Udalryk",
+      "deck": "skellige",
+      "row": "close",
+      "strength": "4",
+      "ability": "",
+      "filename": "udalryk",
+      "count": "1",
+      "flavor_txt": "Haaaargh! After me, if ye've the bollocks!"
+    },
+    {
+      "name": "War Longship",
+      "deck": "skellige",
+      "row": "siege",
+      "strength": "6",
+      "ability": "bond",
+      "filename": "war_longship",
+      "count": "2",
+      "flavor_txt": "They say Hemdall's heart swells whenever the longships sail out on a raid."
+    },
+    {
+      "name": "Young Berserker",
+      "deck": "skellige",
+      "row": "ranged",
+      "strength": "2",
+      "ability": "berserker",
+      "filename": "young_berserker",
+      "count": "3",
+      "flavor_txt": "Want some?"
+    },
+    {
+      "name": "Crach an Craite",
+      "deck": "skellige",
+      "row": "leader",
+      "strength": "",
+      "ability": "crach_an_craite",
+      "filename": "crach_an_craite",
+      "count": "1",
+      "flavor_txt": "A king's gotta be wise. A king's gotta command respect. A king's gotta have stones."
+    },
+    {
+      "name": "King Bran",
+      "deck": "skellige",
+      "row": "leader",
+      "strength": "",
+      "ability": "king_bran",
+      "filename": "king_bran",
+      "count": "1",
+      "flavor_txt": "No one can replace Bran. Though they're sure to try."
+    },
+    {
+      "name": "Schirru",
+      "deck": "scoiatael",
+      "row": "siege",
+      "strength": "8",
+      "ability": "scorch_s",
+      "filename": "schirru",
+      "count": "1",
+      "flavor_txt": "Time to look death in the face."
+    }
+  ]
+}
