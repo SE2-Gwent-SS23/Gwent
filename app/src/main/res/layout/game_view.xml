@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/wood_background">
@@ -25,9 +24,9 @@
         android:id="@+id/gridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="250dp"
+        android:layout_marginStart="250dp"
         android:layout_marginTop="35dp"
-        android:layout_marginRight="200dp"
+        android:layout_marginEnd="200dp"
         android:columnCount="1"
         android:rowCount="4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +67,8 @@
         android:columnCount="1"
         android:rowCount="5"
         app:layout_constraintBottom_toTopOf="@+id/iv_profile_pic_user"
-        app:layout_constraintEnd_toStartOf="@+id/iv_deck_stack_left"
+        app:layout_constraintEnd_toStartOf="@+id/gridLayout"
+        app:layout_constraintHorizontal_bias="0.095"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_profile_pic_opponent">
 
@@ -130,8 +130,8 @@
         android:layout_marginStart="16dp"
         android:background="@drawable/profile_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/iv_deck_stack_left"
-        app:layout_constraintHorizontal_bias="0.081"
+        app:layout_constraintEnd_toStartOf="@+id/framelayout1"
+        app:layout_constraintHorizontal_bias="0.123"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.041" />
@@ -143,35 +143,72 @@
         android:layout_marginStart="24dp"
         android:background="@drawable/profile_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/iv_deck_stack_left"
+        app:layout_constraintEnd_toStartOf="@+id/framelayout1"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_profile_pic_opponent"
         app:layout_constraintVertical_bias="0.951" />
 
-    <ImageView
-        android:id="@+id/iv_deck_stack_left"
+    <FrameLayout
+        android:id="@+id/framelayout1"
         android:layout_width="68dp"
         android:layout_height="85dp"
-        android:background="@drawable/card_deck_back_user_left"
+        android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/gridLayout"
-        app:layout_constraintHorizontal_bias="0.791"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.601" />
+        app:layout_constraintStart_toEndOf="@+id/gridLayout2"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/iv_deck_stack_right"
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/card_deck_back_user_left"
+            android:scaleType="matrix"></ImageView>
+
+        <TextView
+            android:id="@+id/stack_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="top|center"
+            android:background="@drawable/tv_points"
+            android:padding="5dp"
+            android:text="2"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/framelayout2"
         android:layout_width="68dp"
         android:layout_height="85dp"
-        android:background="@drawable/card_deck_back_user_right"
+        android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.233"
+        app:layout_constraintEnd_toStartOf="@+id/gridLayout3"
         app:layout_constraintStart_toEndOf="@+id/gridLayout"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.601" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_deck_stack_right"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/card_deck_back_user_right"
+            android:scaleType="matrix"></ImageView>
+
+        <TextView
+            android:id="@+id/stack_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="top|center"
+            android:background="@drawable/tv_points"
+            android:padding="5dp"
+            android:text="4"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/linearLayoutMainCardsDeck"
@@ -206,6 +243,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <GridLayout
+        android:id="@+id/gridLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnCount="1"
@@ -213,8 +251,8 @@
         android:rowCount="3"
         app:layout_constraintBottom_toTopOf="@+id/tvNumberOf"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.853"
-        app:layout_constraintStart_toEndOf="@+id/iv_deck_stack_right"
+        app:layout_constraintHorizontal_bias="0.939"
+        app:layout_constraintStart_toEndOf="@+id/gridLayout"
         app:layout_constraintTop_toBottomOf="@+id/tvNumberOfOpponent">
 
         <TextView
@@ -269,7 +307,6 @@
         android:id="@+id/tvNumberOf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/number_of_border"
@@ -279,6 +316,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintTop_toBottomOf="@+id/iv_deck_stack_right"
+        app:layout_constraintStart_toEndOf="@+id/framelayout2"
+        app:layout_constraintTop_toBottomOf="@+id/framelayout2"
         app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package at.moritzmusel.gwent;
 import android.content.ClipData;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,9 +14,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -57,10 +61,15 @@ public class GameViewActivity extends AppCompatActivity {
         });
 
         ll = findViewById(R.id.linearLayoutMainCardsDeck);
+
         imageViewList = new ArrayList<>();
         int size = 9;
 
+        //FrameLayout fl = new FrameLayout(ll.getContext());
+        //fl.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
+
         for (int i = 0; i < size; i++) {
+            //ImageView im = new ImageView(fl.getContext());
             ImageView im = new ImageView(this);
             if (i == 0) {
                 im.setPadding(50, 50, 5, 50);
@@ -128,6 +137,19 @@ public class GameViewActivity extends AppCompatActivity {
 
             setImageFromAsset(im);
             imageViewList.add(im);
+            //fl.addView(im);
+
+            /*TextView tv = new TextView(fl.getContext());
+            tv.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.tv_points));
+            tv.setText("3");
+            tv.setTextSize(5);
+            tv.setGravity(Gravity.LEFT);
+            tv.setTextColor(Color.parseColor("#FFFFFF"));
+            FrameLayout.LayoutParams lp1 = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.LEFT);
+            tv.setLayoutParams(lp1);
+            fl.addView(tv);*/
+
+            //ll.removeAllViews();
             ll.addView(im);
         }
     }
