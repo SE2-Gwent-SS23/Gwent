@@ -5,7 +5,6 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
@@ -13,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +36,8 @@ public class GameViewActivity extends AppCompatActivity {
     private Button buttonOpponentCards;
     private int counterOpponentView = 0;
     private PopupWindow popupWindow;
+    private int touchWidth;
+    private int touchHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,7 +169,7 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     private void setImageFromAssetForOpponent(ImageView image) {
-        Bitmap bitmap = ((BitmapDrawable) getDrawable(R.drawable.card_deck_back)).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) getDrawable(R.drawable.card_deck_back_opponent_right)).getBitmap();
         Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 50, 70, true));
         image.setImageDrawable(dr);
     }
@@ -206,14 +208,17 @@ public class GameViewActivity extends AppCompatActivity {
             }
         }
 
-        // create the popup window
-        int width = ConstraintLayout.LayoutParams.WRAP_CONTENT;
-        int height = ConstraintLayout.LayoutParams.WRAP_CONTENT;
 
-        popupWindow = new PopupWindow(popupView, width, height, false);
+        // important: before getting the size of pop-up we should assign default measurements for the view
+        popupView.measure(0, 0);
+
+        // create the popup window
+        popupWindow = new PopupWindow(popupView, popupView.getMeasuredWidth(), popupView.getMeasuredHeight(), false);
+
 
         // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
+
+
 }

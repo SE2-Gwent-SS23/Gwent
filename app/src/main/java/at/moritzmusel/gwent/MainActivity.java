@@ -1,9 +1,9 @@
 package at.moritzmusel.gwent;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,7 +12,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_view);
 
-        //Intent gameViewIntent = new Intent(MainActivity.this, GameViewActivity.class);
-        //startActivity(gameViewIntent);
+        Intent gameViewIntent = new Intent(MainActivity.this, GameViewActivity.class);
+        startActivity(gameViewIntent);
     }
+
 }
