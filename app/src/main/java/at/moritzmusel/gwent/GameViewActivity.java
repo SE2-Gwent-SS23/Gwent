@@ -34,10 +34,7 @@ public class GameViewActivity extends AppCompatActivity {
     private String msg;
     private android.widget.LinearLayout.LayoutParams layoutParams;
     private Button buttonOpponentCards;
-    private int counterOpponentView = 0;
     private PopupWindow popupWindow;
-    private int touchWidth;
-    private int touchHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,40 +42,41 @@ public class GameViewActivity extends AppCompatActivity {
         setContentView(R.layout.game_view);
 
         buttonOpponentCards = (Button) findViewById(R.id.buttonOpponentCards);
-        buttonOpponentCards.setOnClickListener(new View.OnClickListener() {
+        buttonOpponentCards.setOnTouchListener(new OnSwipeTouchListener(this, findViewById(R.id.buttonOpponentCards)) {
             @Override
-            public void onClick(View view) {
-                if(counterOpponentView % 2 == 0) {
-                    buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_up_24) );
-                    onButtonShowPopupWindowClick(getWindow().getDecorView().getRootView());
-                    counterOpponentView++;
-                } else {
-                    buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_down_24) );
-                    popupWindow.dismiss();
-                    counterOpponentView++;
-                }
+            void onSwipeTop() {
+                buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_down_24));
+                popupWindow.dismiss();
+                super.onSwipeTop();
+            }
+
+            @Override
+            void onSwipeBottom() {
+                buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_up_24));
+                onButtonShowPopupWindowClick(getWindow().getDecorView().getRootView());
+                super.onSwipeBottom();
             }
         });
 
-        ll = (LinearLayout) findViewById(R.id.linearLayoutMainCardsDeck);
+        ll = findViewById(R.id.linearLayoutMainCardsDeck);
         imageViewList = new ArrayList<>();
         int size = 9;
 
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             ImageView im = new ImageView(this);
-            if(i == 0) {
-                im.setPadding(50,50,5,50);
-            } else if(i == size-1) {
-                im.setPadding(5,50,50,50);
+            if (i == 0) {
+                im.setPadding(50, 50, 5, 50);
+            } else if (i == size - 1) {
+                im.setPadding(5, 50, 50, 50);
             } else {
-                im.setPadding(5,50,5,50);
+                im.setPadding(5, 50, 5, 50);
             }
 
-            im.setId(i+1);
+            im.setId(i + 1);
             im.setOnDragListener(new View.OnDragListener() {
                 @Override
                 public boolean onDrag(View v, DragEvent event) {
-                    switch(event.getAction()) {
+                    switch (event.getAction()) {
                         case DragEvent.ACTION_DRAG_STARTED:
                             layoutParams = (LinearLayout.LayoutParams) v.getLayoutParams();
                             Log.d(msg, "Action is DragEvent.ACTION_DRAG_STARTED");
@@ -88,7 +86,7 @@ public class GameViewActivity extends AppCompatActivity {
                             int x_cord = (int) event.getX();
                             int y_cord = (int) event.getY();
                             break;
-                        case DragEvent.ACTION_DRAG_EXITED :
+                        case DragEvent.ACTION_DRAG_EXITED:
                             Log.d(msg, "Action is DragEvent.ACTION_DRAG_EXITED");
                             x_cord = (int) event.getX();
                             y_cord = (int) event.getY();
@@ -96,18 +94,19 @@ public class GameViewActivity extends AppCompatActivity {
                             layoutParams.topMargin = y_cord;
                             v.setLayoutParams(layoutParams);
                             break;
-                        case DragEvent.ACTION_DRAG_LOCATION  :
+                        case DragEvent.ACTION_DRAG_LOCATION:
                             Log.d(msg, "Action is DragEvent.ACTION_DRAG_LOCATION");
                             x_cord = (int) event.getX();
                             y_cord = (int) event.getY();
                             break;
-                        case DragEvent.ACTION_DRAG_ENDED   :
+                        case DragEvent.ACTION_DRAG_ENDED:
                             Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENDED");
                             break;
                         case DragEvent.ACTION_DROP:
                             Log.d(msg, "ACTION_DROP event");
                             break;
-                        default: break;
+                        default:
+                            break;
                     }
                     return true;
                 }
@@ -135,12 +134,9 @@ public class GameViewActivity extends AppCompatActivity {
         }
     }
 
-    private void setOpponentCardDeck() {
-
-    }
-
     /**
      * Card is currently randomly chosen.
+     *
      * @param image
      */
     public void setImageFromAsset(ImageView image) {
@@ -150,9 +146,8 @@ public class GameViewActivity extends AppCompatActivity {
             String[] file = manager.list("");
             int fileSize = file.length;
             int i = ThreadLocalRandom.current().nextInt(0, fileSize + 1);
-            //for (int i = 0; i < file.length; i++) {
             try {
-                InputStream imgStream ;
+                InputStream imgStream;
                 imgStream = manager.open(file[i]);
                 Drawable d = Drawable.createFromStream(imgStream, null);
                 Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
@@ -162,7 +157,6 @@ public class GameViewActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //  }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -177,6 +171,7 @@ public class GameViewActivity extends AppCompatActivity {
     /**
      * Pop-op windows of cards from opponent.
      * At the moment the number of cards is randomly chosen.
+     *
      * @param view
      */
     public void onButtonShowPopupWindowClick(View view) {
@@ -185,20 +180,20 @@ public class GameViewActivity extends AppCompatActivity {
         View popupView = inflater.inflate(R.layout.popup_window_opponent, null);
         llOpponent = popupView.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
 
-        int size = ThreadLocalRandom.current().nextInt(1,  6);
+        int size = ThreadLocalRandom.current().nextInt(1, 6);
         System.out.println(size);
 
-        if(size == 1) {
+        if (size == 1) {
             ImageView im = new ImageView(view.getContext());
             im.setPadding(50, 50, 50, 50);
             setImageFromAssetForOpponent(im);
             llOpponent.addView(im);
         } else {
-            for(int i = 0; i < size; i++) {
+            for (int i = 0; i < size; i++) {
                 ImageView im = new ImageView(view.getContext());
                 if (i == 0) {
                     im.setPadding(50, 50, 12, 50);
-                } else if (i == size-1) {
+                } else if (i == size - 1) {
                     im.setPadding(12, 50, 50, 50);
                 } else {
                     im.setPadding(12, 50, 12, 50);
@@ -208,13 +203,11 @@ public class GameViewActivity extends AppCompatActivity {
             }
         }
 
-
         // important: before getting the size of pop-up we should assign default measurements for the view
         popupView.measure(0, 0);
 
         // create the popup window
         popupWindow = new PopupWindow(popupView, popupView.getMeasuredWidth(), popupView.getMeasuredHeight(), false);
-
 
         // show the popup window
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
