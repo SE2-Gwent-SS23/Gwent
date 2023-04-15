@@ -24,7 +24,9 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".WelcomeActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".WelcomeActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 </manifest>
