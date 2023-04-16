@@ -19,6 +19,7 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,26 +64,22 @@ public class GameViewActivity extends AppCompatActivity {
         ll = findViewById(R.id.linearLayoutMainCardsDeck);
 
         imageViewList = new ArrayList<>();
-        int size = 9;
-
-        //FrameLayout fl = new FrameLayout(ll.getContext());
-        //fl.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
+        int size = 9; // default value to test the gui
 
         for (int i = 0; i < size; i++) {
-            //ImageView im = new ImageView(fl.getContext());
-            ImageView im = new ImageView(this);
-            if (i == 0) {
-                im.setPadding(50, 50, 5, 50);
-            } else if (i == size - 1) {
-                im.setPadding(5, 50, 50, 50);
-            } else {
-                im.setPadding(5, 50, 5, 50);
-            }
 
-            im.setId(i + 1);
+            RelativeLayout childLayout = new RelativeLayout(ll.getContext());
+
+            ImageView im  = new ImageView(ll.getContext());
+            TextView tv = new TextView(ll.getContext());
+
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+            im.setId(i + 1); // to be set by backend
             im.setOnDragListener(new View.OnDragListener() {
                 @Override
                 public boolean onDrag(View v, DragEvent event) {
+                    int x_cord, y_cord;
                     switch (event.getAction()) {
                         case DragEvent.ACTION_DRAG_STARTED:
                             layoutParams = (LinearLayout.LayoutParams) v.getLayoutParams();
@@ -90,8 +87,8 @@ public class GameViewActivity extends AppCompatActivity {
                             break;
                         case DragEvent.ACTION_DRAG_ENTERED:
                             Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENTERED");
-                            int x_cord = (int) event.getX();
-                            int y_cord = (int) event.getY();
+                            x_cord = (int) event.getX();
+                            y_cord = (int) event.getY();
                             break;
                         case DragEvent.ACTION_DRAG_EXITED:
                             Log.d(msg, "Action is DragEvent.ACTION_DRAG_EXITED");
@@ -136,21 +133,28 @@ public class GameViewActivity extends AppCompatActivity {
             });
 
             setImageFromAsset(im);
-            imageViewList.add(im);
-            //fl.addView(im);
+            if(i==0) {
+                childLayout.setPadding(10, 10, 0, 10);
+            } else if(i == size-1) {
+                childLayout.setPadding(10, 10, 10, 10);
+            } else {
+                childLayout.setPadding(10, 10, 0, 10);
+            }
+            childLayout.addView(im, params);
 
-            /*TextView tv = new TextView(fl.getContext());
-            tv.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.tv_points));
-            tv.setText("3");
-            tv.setTextSize(5);
-            tv.setGravity(Gravity.LEFT);
-            tv.setTextColor(Color.parseColor("#FFFFFF"));
-            FrameLayout.LayoutParams lp1 = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.LEFT);
-            tv.setLayoutParams(lp1);
-            fl.addView(tv);*/
+            params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.CENTER_IN_PARENT);
+            tv.setId(i+1); // to be set by backend
 
-            //ll.removeAllViews();
-            ll.addView(im);
+            tv.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.card_tv_points));
+            tv.setText("8");
+            tv.setPadding(20,10,20,10);
+            tv.setTextSize(15);
+            tv.setTextColor(Color.BLACK);
+            childLayout.addView(tv, params);
+
+            LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            ll.addView(childLayout, parentParams);
         }
     }
 
@@ -173,12 +177,11 @@ public class GameViewActivity extends AppCompatActivity {
                 Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
                 Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 150, 200, true));
                 image.setImageDrawable(dr);
-
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getLocalizedMessage());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getLocalizedMessage());
         }
     }
 
@@ -201,22 +204,21 @@ public class GameViewActivity extends AppCompatActivity {
         llOpponent = popupView.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
 
         int size = ThreadLocalRandom.current().nextInt(1, 6);
-        System.out.println(size);
 
         if (size == 1) {
             ImageView im = new ImageView(view.getContext());
-            im.setPadding(50, 50, 50, 50);
+            im.setPadding(10, 10, 10, 10);
             setImageFromAssetForOpponent(im);
             llOpponent.addView(im);
         } else {
             for (int i = 0; i < size; i++) {
                 ImageView im = new ImageView(view.getContext());
-                if (i == 0) {
-                    im.setPadding(50, 50, 12, 50);
-                } else if (i == size - 1) {
-                    im.setPadding(12, 50, 50, 50);
+                if(i==0) {
+                    im.setPadding(10, 10, 0, 10);
+                } else if(i == size-1) {
+                    im.setPadding(10, 10, 10, 10);
                 } else {
-                    im.setPadding(12, 50, 12, 50);
+                    im.setPadding(10, 10, 0, 10);
                 }
                 setImageFromAssetForOpponent(im);
                 llOpponent.addView(im);
