@@ -64,7 +64,7 @@ public class GameViewActivity extends AppCompatActivity {
         ll = findViewById(R.id.linearLayoutMainCardsDeck);
 
         imageViewList = new ArrayList<>();
-        int size = 9;
+        int size = 9; // default value to test the gui
 
         for (int i = 0; i < size; i++) {
 
@@ -75,7 +75,7 @@ public class GameViewActivity extends AppCompatActivity {
 
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-            im.setId(i + 1); // to be set
+            im.setId(i + 1); // to be set by backend
             im.setOnDragListener(new View.OnDragListener() {
                 @Override
                 public boolean onDrag(View v, DragEvent event) {
@@ -144,7 +144,7 @@ public class GameViewActivity extends AppCompatActivity {
 
             params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             params.addRule(RelativeLayout.CENTER_IN_PARENT);
-            tv.setId(i+1); // to be set
+            tv.setId(i+1); // to be set by backend
 
             tv.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.card_tv_points));
             tv.setText("8");
@@ -154,7 +154,6 @@ public class GameViewActivity extends AppCompatActivity {
             childLayout.addView(tv, params);
 
             LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
             ll.addView(childLayout, parentParams);
         }
     }
@@ -178,12 +177,11 @@ public class GameViewActivity extends AppCompatActivity {
                 Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
                 Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 150, 200, true));
                 image.setImageDrawable(dr);
-
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getLocalizedMessage());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getLocalizedMessage());
         }
     }
 
@@ -209,18 +207,18 @@ public class GameViewActivity extends AppCompatActivity {
 
         if (size == 1) {
             ImageView im = new ImageView(view.getContext());
-            im.setPadding(50, 50, 50, 50);
+            im.setPadding(10, 10, 10, 10);
             setImageFromAssetForOpponent(im);
             llOpponent.addView(im);
         } else {
             for (int i = 0; i < size; i++) {
                 ImageView im = new ImageView(view.getContext());
-                if (i == 0) {
-                    im.setPadding(50, 50, 12, 50);
-                } else if (i == size - 1) {
-                    im.setPadding(12, 50, 50, 50);
+                if(i==0) {
+                    im.setPadding(10, 10, 0, 10);
+                } else if(i == size-1) {
+                    im.setPadding(10, 10, 10, 10);
                 } else {
-                    im.setPadding(12, 50, 12, 50);
+                    im.setPadding(10, 10, 0, 10);
                 }
                 setImageFromAssetForOpponent(im);
                 llOpponent.addView(im);
