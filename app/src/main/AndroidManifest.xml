@@ -10,6 +10,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
+            android:name=".MainMenuActivity"
+            android:exported="false"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".LoadingActivity"
             android:exported="false"
             android:screenOrientation="landscape">
@@ -40,4 +56,5 @@
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
     </application>
+
 </manifest>

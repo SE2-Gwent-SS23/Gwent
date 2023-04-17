@@ -34,8 +34,8 @@ public class LoadingActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                /*Intent MenuIntent = new Intent(LoadingActivity.this, MenuActivity.class);
-                startActivity(MenuIntent);*/
+                Intent MainMenuIntent = new Intent(LoadingActivity.this, MainMenuActivity.class);
+                startActivity(MainMenuIntent);
             }
         }.start();
     }
