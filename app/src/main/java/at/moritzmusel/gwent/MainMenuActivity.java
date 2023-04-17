@@ -25,8 +25,8 @@ public class MainMenuActivity extends AppCompatActivity {
         });
 
         settingsBtn.setOnClickListener(view -> {
-            /*Intent SettingsIntent = new Intent(MainMenuActivity.this, SettingsActivity.class);
-            startActivity(SettingsIntent);*/
+            Intent SettingsIntent = new Intent(MainMenuActivity.this, SettingsActivity.class);
+            startActivity(SettingsIntent);
         });
 
         quitBtn.setOnClickListener(view -> {
