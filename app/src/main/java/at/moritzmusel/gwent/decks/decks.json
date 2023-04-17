@@ -1,0 +1,128 @@
+{
+  "decks": [
+    {
+      "name": "Northern Realms Deck",
+      "leader": "Foltest - The Siegemaster",
+      "cards": [
+        {
+          "name": "Geralt of Rivia",
+          "count": 1
+        },
+        {
+          "name": "Ciri",
+          "count": 1
+        },
+        {
+          "name": "Yennefer of Vengerberg",
+          "count": 1
+        },
+        {
+          "name": "Vesemir",
+          "count": 1
+        },
+        {
+          "name": "John Natalis",
+          "count": 1
+        },
+        {
+          "name": "Esterad Thyssen",
+          "count": 1
+        },
+        {
+          "name": "Thaler",
+          "count": 1
+        },
+        {
+          "name": "Sigismund Dijkstra",
+          "count": 1
+        },
+        {
+          "name": "Prince Stennis",
+          "count": 1
+        },
+        {
+          "name": "Keira Metz",
+          "count": 1
+        },
+        {
+          "name": "Dun Banner Medic",
+          "count": 1
+        },
+        {
+          "name": "Blue Stripes Commando",
+          "count": 3
+        },
+        {
+          "name": "Crinfrid Reavers Dragon Hunter",
+          "count": 3
+        },
+        {
+          "name": "Poor Fucking Infantry",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "Scoia'tael Deck",
+      "leader": "Francesca Findabair - the Beautiful",
+      "cards": [
+        {
+          "name": "Geralt of Rivia",
+          "count": 1
+        },
+        {
+          "name": "Ciri",
+          "count": 1
+        },
+        {
+          "name": "Iorveth",
+          "count": 1
+        },
+        {
+          "name": "Saesenthessis",
+          "count": 1
+        },
+        {
+          "name": "Isengrim Faoiltiarna",
+          "count": 1
+        },
+        {
+          "name": "Milva",
+          "count": 1
+        },
+        {
+          "name": "Yaevinn",
+          "count": 1
+        },
+        {
+          "name": "Ciaran aep Easnillen",
+          "count": 1
+        },
+        {
+          "name": "Dol Blathanna Scout",
+          "count": 1
+        },
+        {
+          "name": "Dennis Cranmer",
+          "count": 1
+        },
+        {
+          "name": "Vrihedd Brigade Veteran",
+          "count": 2
+        },
+        {
+          "name": "Dol Blathanna Archer",
+          "count": 1
+        },
+        {
+          "name": "Mahakaman Defender",
+          "count": 3
+        },
+        {
+          "name": "Vrihedd Brigade Recruit",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}
