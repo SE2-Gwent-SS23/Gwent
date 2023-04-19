@@ -2,7 +2,7 @@
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=SE2-Gwent-SS23_Gwent&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=SE2-Gwent-SS23_Gwent)
 
 
-![alt text](https://www.playgwent.com/build/img/thumbnail/social-en-314a4fd2.jpg?raw=true)
+<img src="https://cdn.vox-cdn.com/thumbor/UY9qkeeHR4j2OSxBma-pqd2VvgU=/0x0:1024x659/1200x800/filters:focal(431x249:593x411)/cdn.vox-cdn.com/uploads/chorus_image/image/49801529/gwentcardgame.0.jpg" width="250" style="display: block;margin-left: auto;margin-right: auto;"/>
 
 # Project description
 This repository is an android version of the card game "Gwent" from the famous "The Witcher" game series developed by cdprojektred.  
