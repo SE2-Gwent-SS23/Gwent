@@ -23,8 +23,8 @@
 
     <GridLayout
         android:id="@+id/gridLayout"
-        android:layout_width="316dp"
-        android:layout_height="197dp"
+        android:layout_width="341dp"
+        android:layout_height="288dp"
         android:layout_marginStart="250dp"
         android:layout_marginTop="35dp"
         android:layout_marginEnd="200dp"
@@ -57,7 +57,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewCardLineOne"
             android:layout_width="match_parent"
-            android:layout_height="39dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/card_rows_border"
             android:orientation="horizontal" />
 

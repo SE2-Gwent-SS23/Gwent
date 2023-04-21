@@ -23,11 +23,11 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import at.moritzmusel.gwent.R;
-import at.moritzmusel.gwent.adapter.CardAdapter;
+import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
 import at.moritzmusel.gwent.model.Listener;
 
-public class GameViewActivity extends AppCompatActivity {
+public class GameViewActivity extends AppCompatActivity implements Listener {
 
     private ArrayList<ImageView> imageViewList;
     private LinearLayout ll, llOpponent;
@@ -71,22 +71,27 @@ public class GameViewActivity extends AppCompatActivity {
         list1.add(new Card("1", android.R.drawable.ic_dialog_email));
 
         List<Card> list2 = new ArrayList<>();
+        list2.add(new Card("1", android.R.drawable.ic_dialog_email));
 
         RecyclerView userRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewUserCardStack);
-        CardAdapter adapterUser = new CardAdapter(list1, getApplicationContext());
+        UserCardAdapter adapterUser = new UserCardAdapter(list1, getApplicationContext(), this);
         userRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        userRecyclerView.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        userRecyclerView.setLayoutManager(linearLayoutManagerUser);
         userRecyclerView.setItemAnimator(new DefaultItemAnimator());
         userRecyclerView.setAdapter(adapterUser);
+        userRecyclerView.setOnDragListener(adapterUser.getDragInstance());
 
-
-        RecyclerView lineOneRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewUserCardStack);
-        CardAdapter adapterLineOne = new CardAdapter(list1, getApplicationContext());
+        RecyclerView lineOneRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCardLineOne);
+        UserCardAdapter adapterLineOne = new UserCardAdapter(list2, getApplicationContext(), this);
         lineOneRecyclerView.setHasFixedSize(true);
-        lineOneRecyclerView.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager linearLayoutManagerLaneOne = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        lineOneRecyclerView.setLayoutManager(linearLayoutManagerLaneOne);
         lineOneRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        lineOneRecyclerView.setOnDragListener(adapterUser.dragInstance);
         lineOneRecyclerView.setAdapter(adapterLineOne);
+
+
 
 
         /*ll = findViewById(R.id.linearLayoutMainCardsDeck);
@@ -238,4 +243,28 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void setEmptyListUserStack(boolean b) {
+
+    }
+
+    @Override
+    public void setEmptyListLineOne(boolean b) {
+
+    }
+
+    @Override
+    public void setEmptyListLineTwo(boolean b) {
+
+    }
+
+    @Override
+    public void setEmptyListLineThree(boolean b) {
+
+    }
+
+    @Override
+    public void setEmptyListLineFour(boolean b) {
+
+    }
 }
