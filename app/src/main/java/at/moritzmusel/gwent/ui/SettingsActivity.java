@@ -1,8 +1,10 @@
-package at.moritzmusel.gwent;
+package at.moritzmusel.gwent.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import at.moritzmusel.gwent.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

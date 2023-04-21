@@ -1,4 +1,4 @@
-package at.moritzmusel.gwent;
+package at.moritzmusel.gwent.ui;
 
 import android.content.Context;
 import android.view.GestureDetector;

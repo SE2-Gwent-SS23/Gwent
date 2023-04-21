@@ -1,4 +1,4 @@
-package at.moritzmusel.gwent;
+package at.moritzmusel.gwent.ui;
 
 import android.content.ClipData;
 import android.content.res.AssetManager;
@@ -14,8 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -24,11 +22,19 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+
+import at.moritzmusel.gwent.R;
+import at.moritzmusel.gwent.adapter.CardAdapter;
+import at.moritzmusel.gwent.data.Card;
 
 public class GameViewActivity extends AppCompatActivity {
 
@@ -61,7 +67,22 @@ public class GameViewActivity extends AppCompatActivity {
             }
         });
 
-        ll = findViewById(R.id.linearLayoutMainCardsDeck);
+         List<Card> list = new ArrayList<>();
+         list.add(new Card("1", android.R.drawable.ic_dialog_email));
+         list.add(new Card("2", android.R.drawable.ic_dialog_info));
+         list.add(new Card("3", android.R.drawable.ic_dialog_map));
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewUserCardStack);
+        CardAdapter adapter = new CardAdapter(list, getApplicationContext());
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+
+
+
+        /*ll = findViewById(R.id.linearLayoutMainCardsDeck);
 
         imageViewList = new ArrayList<>();
         int size = 9; // default value to test the gui
@@ -155,35 +176,10 @@ public class GameViewActivity extends AppCompatActivity {
 
             LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             ll.addView(childLayout, parentParams);
-        }
+        }*/
     }
 
-    /**
-     * Card is currently randomly chosen.
-     *
-     * @param image
-     */
-    public void setImageFromAsset(ImageView image) {
 
-        AssetManager manager = getAssets();
-        try {
-            String[] file = manager.list("");
-            int fileSize = file.length;
-            int i = ThreadLocalRandom.current().nextInt(0, fileSize + 1);
-            try {
-                InputStream imgStream;
-                imgStream = manager.open(file[i]);
-                Drawable d = Drawable.createFromStream(imgStream, null);
-                Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
-                Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 150, 200, true));
-                image.setImageDrawable(dr);
-            } catch (IOException e) {
-                System.out.println(e.getLocalizedMessage());
-            }
-        } catch (IOException e) {
-            System.out.println(e.getLocalizedMessage());
-        }
-    }
 
     private void setImageFromAssetForOpponent(ImageView image) {
         Bitmap bitmap = ((BitmapDrawable) getDrawable(R.drawable.card_deck_back_opponent_right)).getBitmap();

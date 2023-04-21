@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/loading_pic"
-    tools:context=".MainMenuActivity">
+    tools:context=".ui.MainMenuActivity">
 
     <Button
         android:id="@+id/button_play"
