@@ -1,4 +1,4 @@
-package at.moritzmusel.gwent.data;
+package at.moritzmusel.gwent.model;
 
 public class Card {
     String number;

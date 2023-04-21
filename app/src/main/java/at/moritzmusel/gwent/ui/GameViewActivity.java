@@ -1,24 +1,16 @@
 package at.moritzmusel.gwent.ui;
 
-import android.content.ClipData;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -26,15 +18,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.CardAdapter;
-import at.moritzmusel.gwent.data.Card;
+import at.moritzmusel.gwent.model.Card;
+import at.moritzmusel.gwent.model.Listener;
 
 public class GameViewActivity extends AppCompatActivity {
 
@@ -67,19 +58,35 @@ public class GameViewActivity extends AppCompatActivity {
             }
         });
 
-         List<Card> list = new ArrayList<>();
-         list.add(new Card("1", android.R.drawable.ic_dialog_email));
-         list.add(new Card("2", android.R.drawable.ic_dialog_info));
-         list.add(new Card("3", android.R.drawable.ic_dialog_map));
+        List<Card> list1 = new ArrayList<>();
+        list1.add(new Card("1", android.R.drawable.ic_dialog_email));
+        list1.add(new Card("2", android.R.drawable.ic_dialog_info));
+        list1.add(new Card("3", android.R.drawable.ic_dialog_map));
+        list1.add(new Card("1", android.R.drawable.ic_dialog_email));
+        list1.add(new Card("2", android.R.drawable.ic_dialog_info));
+        list1.add(new Card("3", android.R.drawable.ic_dialog_map));
+        list1.add(new Card("1", android.R.drawable.ic_dialog_email));
+        list1.add(new Card("2", android.R.drawable.ic_dialog_info));
+        list1.add(new Card("3", android.R.drawable.ic_dialog_map));
+        list1.add(new Card("1", android.R.drawable.ic_dialog_email));
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewUserCardStack);
-        CardAdapter adapter = new CardAdapter(list, getApplicationContext());
-        recyclerView.setHasFixedSize(true);
+        List<Card> list2 = new ArrayList<>();
+
+        RecyclerView userRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewUserCardStack);
+        CardAdapter adapterUser = new CardAdapter(list1, getApplicationContext());
+        userRecyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+        userRecyclerView.setLayoutManager(linearLayoutManager);
+        userRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        userRecyclerView.setAdapter(adapterUser);
 
+
+        RecyclerView lineOneRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewUserCardStack);
+        CardAdapter adapterLineOne = new CardAdapter(list1, getApplicationContext());
+        lineOneRecyclerView.setHasFixedSize(true);
+        lineOneRecyclerView.setLayoutManager(linearLayoutManager);
+        lineOneRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        lineOneRecyclerView.setAdapter(adapterLineOne);
 
 
         /*ll = findViewById(R.id.linearLayoutMainCardsDeck);
@@ -180,7 +187,6 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
 
-
     private void setImageFromAssetForOpponent(ImageView image) {
         Bitmap bitmap = ((BitmapDrawable) getDrawable(R.drawable.card_deck_back_opponent_right)).getBitmap();
         Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 50, 70, true));
@@ -209,9 +215,9 @@ public class GameViewActivity extends AppCompatActivity {
         } else {
             for (int i = 0; i < size; i++) {
                 ImageView im = new ImageView(view.getContext());
-                if(i==0) {
+                if (i == 0) {
                     im.setPadding(10, 10, 0, 10);
-                } else if(i == size-1) {
+                } else if (i == size - 1) {
                     im.setPadding(10, 10, 10, 10);
                 } else {
                     im.setPadding(10, 10, 0, 10);

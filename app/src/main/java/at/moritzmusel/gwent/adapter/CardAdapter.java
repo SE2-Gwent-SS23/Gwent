@@ -1,18 +1,18 @@
 package at.moritzmusel.gwent.adapter;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.view.DragEvent;
+import android.os.Build;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,10 +25,11 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import at.moritzmusel.gwent.R;
-import at.moritzmusel.gwent.data.Card;
+import at.moritzmusel.gwent.model.Card;
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> implements View.OnTouchListener {
 
+    public View.OnDragListener dragInstance;
     private List<Card> list = new ArrayList<>();
     private String msg;
     private android.widget.LinearLayout.LayoutParams layoutParams;
@@ -93,6 +94,29 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            ClipData data = ClipData.newPlainText("", "");
+            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                view.startDragAndDrop(data, shadowBuilder, view, 0);
+            } else {
+                view.startDrag(data, shadowBuilder, view, 0);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public void updateList(List<Card> list) {
+        this.list = list;
+    }
+
+    public List<Card> getList() {
+        return this.list;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
