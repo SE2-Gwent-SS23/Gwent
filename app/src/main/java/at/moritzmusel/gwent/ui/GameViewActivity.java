@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -144,8 +145,11 @@ public class GameViewActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_window_opponent, null);
         llOpponent = popupView.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
-        int max = 6, min = 1;
-        int size = (int) (Math.random() * (max - min + 1) + min);
+
+        // Compliant for security-sensitive use cases
+        SecureRandom random = new SecureRandom();
+        int bound = 10;
+        int size = random.nextInt(bound);
 
         if (size == 1) {
             ImageView im = new ImageView(view.getContext());
