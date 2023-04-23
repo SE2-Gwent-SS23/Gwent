@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name=".MainMenuActivity"
+            android:name=".ui.MainMenuActivity"
             android:exported="false"
             android:screenOrientation="landscape">
             <meta-data
@@ -18,7 +18,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.SettingsActivity"
             android:exported="false"
             android:screenOrientation="landscape">
             <meta-data
@@ -26,7 +26,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".LoadingActivity"
+            android:name=".ui.LoadingActivity"
             android:exported="false"
             android:screenOrientation="landscape">
             <meta-data
@@ -48,11 +48,11 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".ui.WelcomeActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".GameViewActivity"
+            android:name=".ui.GameViewActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
     </application>

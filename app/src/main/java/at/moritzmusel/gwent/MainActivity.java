@@ -4,11 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
-import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import at.moritzmusel.gwent.ui.WelcomeActivity;
 
 public class MainActivity extends AppCompatActivity {
 

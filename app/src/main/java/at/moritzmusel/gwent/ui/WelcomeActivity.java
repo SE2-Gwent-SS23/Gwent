@@ -1,15 +1,14 @@
-package at.moritzmusel.gwent;
+package at.moritzmusel.gwent.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import at.moritzmusel.gwent.R;
 
 public class WelcomeActivity extends AppCompatActivity {
 

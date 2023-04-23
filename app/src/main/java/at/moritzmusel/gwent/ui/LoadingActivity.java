@@ -1,4 +1,4 @@
-package at.moritzmusel.gwent;
+package at.moritzmusel.gwent.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import at.moritzmusel.gwent.R;
 
 public class LoadingActivity extends AppCompatActivity {
 
