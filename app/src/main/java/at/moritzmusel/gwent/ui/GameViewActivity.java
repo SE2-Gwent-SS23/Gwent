@@ -25,9 +25,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
-import at.moritzmusel.gwent.model.Listener;
 
-public class GameViewActivity extends AppCompatActivity implements Listener {
+public class GameViewActivity extends AppCompatActivity {
 
     private ArrayList<ImageView> imageViewList;
     private LinearLayout ll, llOpponent;
@@ -59,22 +58,31 @@ public class GameViewActivity extends AppCompatActivity implements Listener {
         });
 
         List<Card> list1 = new ArrayList<>();
-        list1.add(new Card("1", android.R.drawable.ic_dialog_email));
-        list1.add(new Card("2", android.R.drawable.ic_dialog_info));
-        list1.add(new Card("3", android.R.drawable.ic_dialog_map));
-        list1.add(new Card("1", android.R.drawable.ic_dialog_email));
-        list1.add(new Card("2", android.R.drawable.ic_dialog_info));
-        list1.add(new Card("3", android.R.drawable.ic_dialog_map));
-        list1.add(new Card("1", android.R.drawable.ic_dialog_email));
-        list1.add(new Card("2", android.R.drawable.ic_dialog_info));
-        list1.add(new Card("3", android.R.drawable.ic_dialog_map));
-        list1.add(new Card("1", android.R.drawable.ic_dialog_email));
+        list1.add(new Card(1, 2));
+        list1.add(new Card(2, 3));
+        list1.add(new Card(3, 4));
+        list1.add(new Card(1, 5));
+        list1.add(new Card(2, 6));
+        list1.add(new Card(3, 7));
+        list1.add(new Card(1, 8));
+        list1.add(new Card(2, 17));
+        list1.add(new Card(3, 16));
+        list1.add(new Card(1, 15));
 
         List<Card> list2 = new ArrayList<>();
-        list2.add(new Card("1", android.R.drawable.ic_dialog_email));
+        list2.add(new Card(1, 18));
 
-        RecyclerView userRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewUserCardStack);
-        UserCardAdapter adapterUser = new UserCardAdapter(list1, getApplicationContext(), this);
+        List<Card> list3 = new ArrayList<>();
+        list3.add(new Card(1, 19));
+
+        List<Card> list4 = new ArrayList<>();
+        list4.add(new Card(1, 20));
+
+        List<Card> list5 = new ArrayList<>();
+        list5.add(new Card(1, 21));
+
+        RecyclerView userRecyclerView = findViewById(R.id.recyclerViewUserCardStack);
+        UserCardAdapter adapterUser = new UserCardAdapter(list1, getApplicationContext());
         userRecyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
         userRecyclerView.setLayoutManager(linearLayoutManagerUser);
@@ -82,115 +90,42 @@ public class GameViewActivity extends AppCompatActivity implements Listener {
         userRecyclerView.setAdapter(adapterUser);
         userRecyclerView.setOnDragListener(adapterUser.getDragInstance());
 
-        RecyclerView lineOneRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCardLineOne);
-        UserCardAdapter adapterLineOne = new UserCardAdapter(list2, getApplicationContext(), this);
+        RecyclerView lineOneRecyclerView = findViewById(R.id.recyclerViewCardLineOne);
+        UserCardAdapter adapterLineOne = new UserCardAdapter(list2, getApplicationContext());
         lineOneRecyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerLaneOne = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
         lineOneRecyclerView.setLayoutManager(linearLayoutManagerLaneOne);
         lineOneRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        lineOneRecyclerView.setOnDragListener(adapterUser.dragInstance);
         lineOneRecyclerView.setAdapter(adapterLineOne);
+        lineOneRecyclerView.setOnDragListener(adapterLineOne.getDragInstance());
 
+        RecyclerView lineTwoRecyclerView = findViewById(R.id.recyclerViewCardLineTwo);
+        UserCardAdapter adapterLineTwo = new UserCardAdapter(list3, getApplicationContext());
+        lineTwoRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManagerLaneTwo = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        lineTwoRecyclerView.setLayoutManager(linearLayoutManagerLaneTwo);
+        lineTwoRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        lineTwoRecyclerView.setAdapter(adapterLineTwo);
+        lineTwoRecyclerView.setOnDragListener(adapterLineTwo.getDragInstance());
 
+        RecyclerView lineThreeRecyclerView = findViewById(R.id.recyclerViewCardLineThree);
+        UserCardAdapter adapterLineThree = new UserCardAdapter(list4, getApplicationContext());
+        lineThreeRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManagerLaneThree = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        lineThreeRecyclerView.setLayoutManager(linearLayoutManagerLaneThree);
+        lineThreeRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        lineThreeRecyclerView.setAdapter(adapterLineThree);
+        lineThreeRecyclerView.setOnDragListener(adapterLineThree.getDragInstance());
 
-
-        /*ll = findViewById(R.id.linearLayoutMainCardsDeck);
-
-        imageViewList = new ArrayList<>();
-        int size = 9; // default value to test the gui
-
-        for (int i = 0; i < size; i++) {
-
-            RelativeLayout childLayout = new RelativeLayout(ll.getContext());
-
-            ImageView im  = new ImageView(ll.getContext());
-            TextView tv = new TextView(ll.getContext());
-
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-            im.setId(i + 1); // to be set by backend
-            im.setOnDragListener(new View.OnDragListener() {
-                @Override
-                public boolean onDrag(View v, DragEvent event) {
-                    int x_cord, y_cord;
-                    switch (event.getAction()) {
-                        case DragEvent.ACTION_DRAG_STARTED:
-                            layoutParams = (LinearLayout.LayoutParams) v.getLayoutParams();
-                            Log.d(msg, "Action is DragEvent.ACTION_DRAG_STARTED");
-                            break;
-                        case DragEvent.ACTION_DRAG_ENTERED:
-                            Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENTERED");
-                            x_cord = (int) event.getX();
-                            y_cord = (int) event.getY();
-                            break;
-                        case DragEvent.ACTION_DRAG_EXITED:
-                            Log.d(msg, "Action is DragEvent.ACTION_DRAG_EXITED");
-                            x_cord = (int) event.getX();
-                            y_cord = (int) event.getY();
-                            layoutParams.leftMargin = x_cord;
-                            layoutParams.topMargin = y_cord;
-                            v.setLayoutParams(layoutParams);
-                            break;
-                        case DragEvent.ACTION_DRAG_LOCATION:
-                            Log.d(msg, "Action is DragEvent.ACTION_DRAG_LOCATION");
-                            x_cord = (int) event.getX();
-                            y_cord = (int) event.getY();
-                            break;
-                        case DragEvent.ACTION_DRAG_ENDED:
-                            Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENDED");
-                            break;
-                        case DragEvent.ACTION_DROP:
-                            Log.d(msg, "ACTION_DROP event");
-                            break;
-                        default:
-                            break;
-                    }
-                    return true;
-                }
-            });
-
-            im.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        ClipData data = ClipData.newPlainText("", "");
-                        View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(im);
-
-                        im.startDrag(data, shadowBuilder, im, 0);
-                        im.setVisibility(View.INVISIBLE);
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            });
-
-            setImageFromAsset(im);
-            if(i==0) {
-                childLayout.setPadding(10, 10, 0, 10);
-            } else if(i == size-1) {
-                childLayout.setPadding(10, 10, 10, 10);
-            } else {
-                childLayout.setPadding(10, 10, 0, 10);
-            }
-            childLayout.addView(im, params);
-
-            params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params.addRule(RelativeLayout.CENTER_IN_PARENT);
-            tv.setId(i+1); // to be set by backend
-
-            tv.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.card_tv_points));
-            tv.setText("8");
-            tv.setPadding(20,10,20,10);
-            tv.setTextSize(15);
-            tv.setTextColor(Color.BLACK);
-            childLayout.addView(tv, params);
-
-            LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            ll.addView(childLayout, parentParams);
-        }*/
+        RecyclerView lineFourRecyclerView = findViewById(R.id.recyclerViewCardLineFour);
+        UserCardAdapter adapterLineFour = new UserCardAdapter(list5, getApplicationContext());
+        lineFourRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManagerLaneFour = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        lineFourRecyclerView.setLayoutManager(linearLayoutManagerLaneFour);
+        lineFourRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        lineFourRecyclerView.setAdapter(adapterLineFour);
+        lineFourRecyclerView.setOnDragListener(adapterLineFour.getDragInstance());
     }
-
 
     private void setImageFromAssetForOpponent(ImageView image) {
         Bitmap bitmap = ((BitmapDrawable) getDrawable(R.drawable.card_deck_back_opponent_right)).getBitmap();
@@ -240,31 +175,5 @@ public class GameViewActivity extends AppCompatActivity implements Listener {
 
         // show the popup window
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-    }
-
-
-    @Override
-    public void setEmptyListUserStack(boolean b) {
-
-    }
-
-    @Override
-    public void setEmptyListLineOne(boolean b) {
-
-    }
-
-    @Override
-    public void setEmptyListLineTwo(boolean b) {
-
-    }
-
-    @Override
-    public void setEmptyListLineThree(boolean b) {
-
-    }
-
-    @Override
-    public void setEmptyListLineFour(boolean b) {
-
     }
 }

@@ -10,15 +10,12 @@ import java.util.List;
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
-import at.moritzmusel.gwent.model.Listener;
 
 public class DragListener implements View.OnDragListener {
 
     private boolean isDropped = false;
-    private Listener listener;
 
-    public DragListener(Listener listener) {
-        this.listener = listener;
+    public DragListener() {
     }
 
     @Override
@@ -30,32 +27,39 @@ public class DragListener implements View.OnDragListener {
             View viewSource = (View) event.getLocalState();
             int viewId = view.getId();
             final int cvItem = R.id.framelayout1;
-            //final int tvEmptyListTop = R.id.tvEmptyListStackLineOne;
-            //final int tvEmptyListBottom = R.id.tvEmptyListUserStack;
-            final int rvTop = R.id.recyclerViewCardLineOne;
-            final int rvBottom = R.id.recyclerViewUserCardStack;
+            final int rvOne = R.id.recyclerViewCardLineOne;
+            final int rvTwo = R.id.recyclerViewCardLineTwo;
+            final int rvThree = R.id.recyclerViewCardLineThree;
+            final int rvFour = R.id.recyclerViewCardLineFour;
+            final int rvUser = R.id.recyclerViewUserCardStack;
 
             switch (viewId) {
                 case cvItem:
-                    //case tvEmptyListTop:
-                    //case tvEmptyListBottom:
-                case rvTop:
-                case rvBottom:
-
+                case rvOne:
+                case rvTwo:
+                case rvThree:
+                case rvFour:
+                case rvUser:
                     RecyclerView target;
                     switch (viewId) {
-                        //case tvEmptyListTop:
-                        case rvTop:
-                            target = (RecyclerView) view.getRootView().findViewById(rvTop);
+                        case rvOne:
+                            target = view.getRootView().findViewById(rvOne);
                             break;
-                        //case tvEmptyListBottom:
-                        case rvBottom:
-                            target = (RecyclerView) view.getRootView().findViewById(rvBottom);
+                        case rvTwo:
+                            target = view.getRootView().findViewById(rvTwo);
+                            break;
+                        case rvThree:
+                            target = view.getRootView().findViewById(rvThree);
+                            break;
+                        case rvFour:
+                            target = view.getRootView().findViewById(rvFour);
+                            break;
+                        case rvUser:
+                            target = view.getRootView().findViewById(rvUser);
                             break;
                         default:
                             target = (RecyclerView) view.getParent();
-                            //positionTarget = (int) view.getTag();
-                            //positionTarget = 3;
+                            positionTarget = (int) view.getTag();
                     }
 
                     if (viewSource != null) {
@@ -63,7 +67,6 @@ public class DragListener implements View.OnDragListener {
 
                         UserCardAdapter adapterSource = (UserCardAdapter) source.getAdapter();
                         int positionSource = (int) viewSource.getTag();
-                        int sourceId = source.getId();
 
                         Card list = adapterSource.getList().get(positionSource);
                         List<Card> listSource = adapterSource.getList();
@@ -81,19 +84,6 @@ public class DragListener implements View.OnDragListener {
                         }
                         adapterTarget.updateList(customListTarget);
                         adapterTarget.notifyDataSetChanged();
-
-                        if (sourceId == rvBottom && adapterSource.getItemCount() < 1) {
-                            listener.setEmptyListLineOne(true);
-                        }
-                        /*if (viewId == tvEmptyListBottom) {
-                            listener.setEmptyListLineOne(false);
-                        }*/
-                        if (sourceId == rvTop && adapterSource.getItemCount() < 1) {
-                            listener.setEmptyListUserStack(true);
-                        }
-                        /*if (viewId == tvEmptyListTop) {
-                            listener.setEmptyListUserStack(false);
-                        }*/
                     }
                     break;
             }

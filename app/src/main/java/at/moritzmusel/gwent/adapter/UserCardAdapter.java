@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,26 +22,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.model.Card;
-import at.moritzmusel.gwent.model.Listener;
 import at.moritzmusel.gwent.ui.DragListener;
 
 public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHolder> implements View.OnTouchListener {
 
-    public View.OnDragListener dragInstance;
     private List<Card> list;
-    private String msg;
-    private android.widget.LinearLayout.LayoutParams layoutParams;
     private Context context;
-    private Listener listener;
 
-    public UserCardAdapter(List<Card> list, Context context, Listener listener) {
+    public UserCardAdapter(List<Card> list, Context context) {
         this.list = list;
         this.context = context;
-        this.listener = listener;
     }
 
     @NonNull
@@ -57,29 +49,27 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull UserCardAdapter.ViewHolder holder, int position) {
         Card card = this.list.get(position);
-        holder.textView.setText(this.list.get(position).getNumber());
+        holder.textView.setText(card.getNumber()+"");
         holder.frameLayout.setTag(position);
-        //holder.imageView.setImageResource(this.list.get(position).getImage());
-        setImageFromAsset(holder.imageView);
+        setImageFromAsset(card.getImage(), holder.imageView);
         holder.frameLayout.setOnTouchListener(this);
-        holder.frameLayout.setOnDragListener(new DragListener(listener));
+        holder.frameLayout.setOnDragListener(new DragListener());
     }
 
     /**
      * Card is currently randomly chosen.
      *
+     * @param cardImageId
      * @param image
      */
-    public void setImageFromAsset(ImageView image) {
+    public void setImageFromAsset(Integer cardImageId, ImageView image) {
 
         AssetManager manager = context.getAssets();
         try {
             String[] file = manager.list("");
-            int fileSize = file.length;
-            int i = ThreadLocalRandom.current().nextInt(0, fileSize + 1);
             try {
                 InputStream imgStream;
-                imgStream = manager.open(file[i]);
+                imgStream = manager.open(file[cardImageId]);
                 Drawable d = Drawable.createFromStream(imgStream, null);
                 Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
                 Drawable dr = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, 150, 200, true));
@@ -113,12 +103,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
     }
 
     public DragListener getDragInstance() {
-        if (listener != null) {
-            return new DragListener(listener);
-        } else {
-            Log.e("ListAdapter", "Listener wasn't initialized!");
-            return null;
-        }
+         return new DragListener();
     }
 
     public void updateList(List<Card> list) {
@@ -137,9 +122,9 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
-            this.imageView = (ImageView) itemView.findViewById(R.id.card_placeholder_image);
-            this.textView = (TextView) itemView.findViewById(R.id.card_placeholder_tv);
-            this.frameLayout = (FrameLayout)itemView.findViewById(R.id.framelayout1);
+            this.imageView = itemView.findViewById(R.id.card_placeholder_image);
+            this.textView = itemView.findViewById(R.id.card_placeholder_tv);
+            this.frameLayout = itemView.findViewById(R.id.framelayout1);
         }
     }
 }
