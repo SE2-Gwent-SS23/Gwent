@@ -144,8 +144,8 @@ public class GameViewActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_window_opponent, null);
         llOpponent = popupView.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
-
-        int size = ThreadLocalRandom.current().nextInt(1, 6);
+        int max = 6, min = 1;
+        int size = (int) (Math.random() * (max - min + 1) + min);
 
         if (size == 1) {
             ImageView im = new ImageView(view.getContext());
