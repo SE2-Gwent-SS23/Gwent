@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import at.moritzmusel.gwent.R;
@@ -19,8 +20,8 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
         Button playBtn = findViewById(R.id.button_play);
-        Button settingsBtn = findViewById(R.id.button_settings);
-        Button quitBtn = findViewById(R.id.button_quit);
+        ImageView settingsImg = findViewById(R.id.imageView_settings);
+        ImageView quitImg = findViewById(R.id.imageView_quit);
 
         playBtn.setOnClickListener(view -> {
             // Initializing the popup menu and giving the reference as current context
@@ -53,12 +54,12 @@ public class MainMenuActivity extends AppCompatActivity {
             popupMenu.show();
         });
 
-        settingsBtn.setOnClickListener(view -> {
+        settingsImg.setOnClickListener(view -> {
             Intent SettingsIntent = new Intent(MainMenuActivity.this, SettingsActivity.class);
             startActivity(SettingsIntent);
         });
 
-        quitBtn.setOnClickListener(view -> {
+        quitImg.setOnClickListener(view -> {
             this.finishAffinity();
         });
     }
