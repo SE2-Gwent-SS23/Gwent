@@ -7,21 +7,21 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/app_filename"
         android:supportsRtl="true"
         android:theme="@style/Theme.Gwent">
         <activity
-            android:name=".MainActivity"
+            android:filename=".MainActivity"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:filename="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:filename="android.intent.category.LAUNCHER" />
             </intent-filter>
 
             <meta-data
-                android:name="android.app.lib_name"
+                android:filename="android.app.lib_filename"
                 android:value="" />
         </activity>
     </application>

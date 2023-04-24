@@ -5,59 +5,59 @@
       "leader": "Foltest - The Siegemaster",
       "cards": [
         {
-          "name": "Geralt of Rivia",
+          "filename": "geralt",
           "count": 1
         },
         {
-          "name": "Ciri",
+          "filename": "ciri",
           "count": 1
         },
         {
-          "name": "Yennefer of Vengerberg",
+          "filename": "yennefer",
           "count": 1
         },
         {
-          "name": "Vesemir",
+          "filename": "vesemir",
           "count": 1
         },
         {
-          "name": "John Natalis",
+          "filename": "natalis",
           "count": 1
         },
         {
-          "name": "Esterad Thyssen",
+          "filename": "esterad",
           "count": 1
         },
         {
-          "name": "Thaler",
+          "filename": "thaler",
           "count": 1
         },
         {
-          "name": "Sigismund Dijkstra",
+          "filename": "dijkstra",
           "count": 1
         },
         {
-          "name": "Prince Stennis",
+          "filename": "stennis",
           "count": 1
         },
         {
-          "name": "Keira Metz",
+          "filename": "keira",
           "count": 1
         },
         {
-          "name": "Dun Banner Medic",
+          "filename": "banner_nurse",
           "count": 1
         },
         {
-          "name": "Blue Stripes Commando",
+          "filename": "blue_stripes",
           "count": 3
         },
         {
-          "name": "Crinfrid Reavers Dragon Hunter",
+          "filename": "crinfrid",
           "count": 3
         },
         {
-          "name": "Poor Fucking Infantry",
+          "filename": "poor_infantry",
           "count": 2
         }
       ]
@@ -67,59 +67,71 @@
       "leader": "Francesca Findabair - the Beautiful",
       "cards": [
         {
-          "name": "Geralt of Rivia",
+          "filename": "geralt",
           "count": 1
         },
         {
-          "name": "Ciri",
+          "filename": "ciri",
           "count": 1
         },
         {
-          "name": "Iorveth",
+          "filename": "iorveth",
           "count": 1
         },
         {
-          "name": "Saesenthessis",
+          "filename": "saskia",
           "count": 1
         },
         {
-          "name": "Isengrim Faoiltiarna",
+          "filename": "isengrim",
           "count": 1
         },
         {
-          "name": "Milva",
+          "filename": "milva",
           "count": 1
         },
         {
-          "name": "Yaevinn",
+          "filename": "yaevinn",
           "count": 1
         },
         {
-          "name": "Ciaran aep Easnillen",
+          "filename": "ciaran",
           "count": 1
         },
         {
-          "name": "Dol Blathanna Scout",
+          "filename": "dol_infantry",
           "count": 1
         },
         {
-          "name": "Dennis Cranmer",
+          "filename": "dennis",
           "count": 1
         },
         {
-          "name": "Vrihedd Brigade Veteran",
-          "count": 2
-        },
-        {
-          "name": "Dol Blathanna Archer",
+          "filename": "vrihedd_brigade",
           "count": 1
         },
         {
-          "name": "Mahakaman Defender",
-          "count": 3
+          "filename": "vrihedd_brigade_1",
+          "count": 1
         },
         {
-          "name": "Vrihedd Brigade Recruit",
+          "filename": "dol_archer",
+          "count": 1
+        },
+        {
+          "filename": "mahakam",
+          "count": 1
+        },
+        {
+          "filename": "mahakam_1",
+          "count": 1
+        },
+        {
+          "filename": "mahakam_2",
+          "count": 1
+        },
+        {
+          "filename": "vrihedd_cadet",
           "count": 1
         }
       ]
