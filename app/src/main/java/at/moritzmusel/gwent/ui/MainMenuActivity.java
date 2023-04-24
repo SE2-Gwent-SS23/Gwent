@@ -19,13 +19,13 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        Button playBtn = findViewById(R.id.button_play);
+        ImageView startImg = findViewById(R.id.imageView_play);
         ImageView settingsImg = findViewById(R.id.imageView_settings);
         ImageView quitImg = findViewById(R.id.imageView_quit);
 
-        playBtn.setOnClickListener(view -> {
+        startImg.setOnClickListener(view -> {
             // Initializing the popup menu and giving the reference as current context
-            PopupMenu popupMenu = new PopupMenu(MainMenuActivity.this, playBtn);
+            PopupMenu popupMenu = new PopupMenu(MainMenuActivity.this, startImg);
 
             // Inflating popup menu from popup_menu.xml file
             popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
