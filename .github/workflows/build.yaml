@@ -1,4 +1,4 @@
-filename: SonarCloud
+name: SonarCloud
 on:
   push:
     branches:
@@ -7,30 +7,30 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   build:
-    filename: Build and analyze
+    name: Build and analyze
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - filename: Set up JDK 11
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: 11
           distribution: 'zulu' # Alternative distribution options are available
-      - filename: Cache SonarCloud packages
+      - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-      - filename: Cache Gradle packages
+      - name: Cache Gradle packages
         uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      - filename: Build and analyze
+      - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

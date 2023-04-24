@@ -1,16 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style filename="Theme.Gwent" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Gwent" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item filename="colorPrimary">@color/purple_500</item>
-        <item filename="colorPrimaryVariant">@color/purple_700</item>
-        <item filename="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item filename="colorSecondary">@color/teal_200</item>
-        <item filename="colorSecondaryVariant">@color/teal_700</item>
-        <item filename="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item filename="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>

@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.filename = "Gwent"
+rootProject.name = "Gwent"
 include ':app'

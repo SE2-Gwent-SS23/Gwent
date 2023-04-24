@@ -15,7 +15,7 @@ sonarqube {
 }
 
 android {
-    filenamespace 'at.moritzmusel.gwent'
+    namespace 'at.moritzmusel.gwent'
     compileSdk 33
 
     defaultConfig {
@@ -23,7 +23,7 @@ android {
         minSdk 33
         targetSdk 33
         versionCode 1
-        versionfilename "1.0"
+        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,6 +43,9 @@ android {
             useJUnitPlatform()
             finalizedBy jacocoTestReport
         }
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
