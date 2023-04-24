@@ -24,7 +24,7 @@
 @rem Set local scope for the variables with windows NT shell
 if "%OS%"=="Windows_NT" setlocal
 
-set DIRfilename=%~dp0
+set DIRfileability=%~dp0
 if "%DIRfilename%" == "" set DIRfilename=.
 set APP_BASE_filename=%~n0
 set APP_HOME=%DIRfilename%
