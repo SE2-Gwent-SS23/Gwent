@@ -1,4 +1,4 @@
-package at.moritzmusel.gwent;
+package at.moritzmusel.gwent.ui;
 
 import android.content.Context;
 import android.view.GestureDetector;
@@ -54,7 +54,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                 }
             }
             catch (Exception exception) {
-                exception.printStackTrace();
+                System.out.println(exception);
             }
             return result;
         }

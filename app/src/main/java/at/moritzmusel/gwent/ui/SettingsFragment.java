@@ -1,9 +1,11 @@
-package at.moritzmusel.gwent;
+package at.moritzmusel.gwent.ui;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
 import androidx.annotation.Nullable;
+
+import at.moritzmusel.gwent.R;
 
 public class SettingsFragment extends PreferenceFragment {
 
