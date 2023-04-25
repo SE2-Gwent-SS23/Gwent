@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -126,6 +127,8 @@ public class GameViewActivity extends AppCompatActivity {
         lineFourRecyclerView.setItemAnimator(new DefaultItemAnimator());
         lineFourRecyclerView.setAdapter(adapterLineFour);
         lineFourRecyclerView.setOnDragListener(adapterLineFour.getDragInstance());
+
+        showRedraw();
     }
 
     private void setImageFromAssetForOpponent(ImageView image) {
@@ -180,4 +183,40 @@ public class GameViewActivity extends AppCompatActivity {
         // show the popup window
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
+
+    private void showRedraw() {
+
+        new CountDownTimer(1000, 1000) {
+
+            @Override
+            public void onTick(long l) {
+
+            }
+            @Override
+            public void onFinish() {
+                showRedrawPopup(GameViewActivity.this.getWindow().getDecorView().getRootView());
+            }
+
+        }.start();
+    }
+
+    PopupWindow redrawWnd;
+    public void showRedrawPopup(View parent) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_window_redraw, null);
+
+        popupView.measure(0, 0);
+
+        redrawWnd = new PopupWindow(popupView, popupView.getMeasuredWidth(), popupView.getMeasuredHeight(), false);
+
+        // show the popup window
+        redrawWnd.showAtLocation(parent, Gravity.CENTER, 0, 0);
+    }
+
+    public void onClickCloseRedraw(View view) {
+        if(redrawWnd != null) {
+            redrawWnd.dismiss();
+        }
+    }
+
 }
