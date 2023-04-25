@@ -5,7 +5,9 @@ package at.moritzmusel.gwent.networking;
  * E.g. Environment.GET_CURRENT_GAMESTATE.getCommand();
  */
 enum Game_Commands {
-    GET_CURRENT_GAMESTATE("get gamestate");
+    GET_CURRENT_GAMESTATE("get gamestate"),
+    GET_PASSWORD("get password"),
+    INIT_GAME("initialize game");
 
     private String command;
 

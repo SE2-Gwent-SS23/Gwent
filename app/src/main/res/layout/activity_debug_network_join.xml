@@ -9,12 +9,13 @@
         android:id="@+id/ip_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="IP Address"
+        android:hint="IP Address (eg. 192.168.80.43)"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ip_input_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
@@ -29,14 +30,25 @@
         app:layout_constraintTop_toBottomOf="@id/ip_text">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/pw_input_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
     </com.google.android.material.textfield.TextInputLayout>
-    <View style="@style/Divider_Small"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/join_btn"
+        android:text="Join"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pw_text"
+        app:layout_constraintBottom_toTopOf="@id/spacer">
+    </androidx.appcompat.widget.AppCompatButton>
+    <View style="@style/Divider_Small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/join_btn"
         android:id="@+id/spacer"
         ></View>
 

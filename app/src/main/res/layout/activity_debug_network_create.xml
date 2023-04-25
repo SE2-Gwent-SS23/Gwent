@@ -6,23 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".networking.Activities.debug_activity_network_join">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create Lobby"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/btn"
-        ></androidx.appcompat.widget.AppCompatButton>
     <TextView
+        android:id="@+id/ipandpw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn"
-        android:id="@+id/ipandpw"
-        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent"
         android:textAlignment="center"
         android:textSize="25dp"
         ></TextView>
@@ -43,7 +33,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spacer"
         app:layout_constraintBottom_toTopOf="@id/spacer2"
-        android:visibility="invisible"
         ></TextView>
     <View style="@style/Divider_Big"
         app:layout_constraintStart_toStartOf="parent"
