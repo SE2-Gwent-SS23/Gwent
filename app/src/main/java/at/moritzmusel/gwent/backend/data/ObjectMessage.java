@@ -1,4 +1,4 @@
-package at.moritzmusel.gwent.networking;
+package at.moritzmusel.gwent.backend.data;
 
 public class ObjectMessage {
     private Game_Commands command;

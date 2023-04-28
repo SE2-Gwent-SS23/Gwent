@@ -2,5 +2,8 @@
     <string name="app_name">Gwent</string>
     <string name="title_activity_debug_network_join">debug_activity_network_join</string>
     <string name="title_activity_debug_network_create">debug_activity_network_create</string>
+    <string name="ipPlaceholder">IP Address (eg. 192.168.80.43)</string>
+    <string name="pwPlaceholder">Password</string>
+    <string name="btn_text_join">Join</string>
     <!-- Strings used for fragments for navigation -->
 </resources>

@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import at.moritzmusel.gwent.networking.Activities.debug_activity_network_create;
-import at.moritzmusel.gwent.networking.Activities.debug_activity_network_join;
+import at.moritzmusel.gwent.backend.Activities.debug_activity_network_create;
+import at.moritzmusel.gwent.backend.Activities.debug_activity_network_join;
 
 public class MainActivity extends AppCompatActivity {
 

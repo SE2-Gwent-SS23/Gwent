@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".networking.Activities.debug_activity_network_join">
+    tools:context=".backend.Activities.debug_activity_network_join">
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/ip_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="IP Address (eg. 192.168.80.43)"
+        android:hint="@string/ipPlaceholder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -24,7 +24,7 @@
         android:id="@+id/pw_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="@string/pwPlaceholder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ip_text">
@@ -37,7 +37,7 @@
     </com.google.android.material.textfield.TextInputLayout>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/join_btn"
-        android:text="Join"
+        android:text="@string/btn_text_join"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,12 +45,13 @@
         app:layout_constraintTop_toBottomOf="@id/pw_text"
         app:layout_constraintBottom_toTopOf="@id/spacer">
     </androidx.appcompat.widget.AppCompatButton>
-    <View style="@style/Divider_Small"
+
+    <View
+        style="@style/Divider_Small"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/join_btn"
-        android:id="@+id/spacer"
-        ></View>
+        android:id="@+id/spacer" />
 
     <TextView
         android:id="@+id/debug_txt"
@@ -60,5 +61,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spacer"></TextView>
+        app:layout_constraintTop_toBottomOf="@id/spacer" />
 </androidx.constraintlayout.widget.ConstraintLayout>

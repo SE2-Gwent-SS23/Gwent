@@ -1,24 +1,17 @@
-package at.moritzmusel.gwent.networking.Activities;
+package at.moritzmusel.gwent.backend.Activities;
 
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.StrictMode;
 import android.text.InputFilter;
 import android.text.method.ScrollingMovementMethod;
-import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.databinding.ActivityDebugNetworkJoinBinding;

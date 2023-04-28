@@ -1,6 +1,6 @@
 package at.moritzmusel.gwent.networking;
 
-import android.os.StrictMode;
+import  android.os.StrictMode;
 
 import java.io.*;
 import java.net.*;
@@ -28,6 +28,7 @@ public class Client {
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
             // Prompt the user for the password
+            oos.writeObject(new ObjectMessage(Game_Commands.GET_PASSWORD, Client.PASSWORD, userInfo));
             oos.writeObject(new ObjectMessage(Game_Commands.GET_PASSWORD, Client.PASSWORD, userInfo));
 
             // Clean up

@@ -1,4 +1,4 @@
-package at.moritzmusel.gwent.networking;
+package at.moritzmusel.gwent.backend.data;
 
 /**
  * Enums for available commands to use.

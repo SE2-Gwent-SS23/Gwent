@@ -1,12 +1,10 @@
-package at.moritzmusel.gwent.networking.Activities;
+package at.moritzmusel.gwent.backend.Activities;
 
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
-import android.view.View;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
 
@@ -16,7 +14,6 @@ import at.moritzmusel.gwent.networking.Client;
 import at.moritzmusel.gwent.networking.Server;
 
 public class debug_activity_network_create extends AppCompatActivity {
-
     private AppBarConfiguration appBarConfiguration;
     private ActivityDebugNetworkCreateBinding binding;
     private TextView debugTextField;
@@ -30,11 +27,6 @@ public class debug_activity_network_create extends AppCompatActivity {
 
         binding = ActivityDebugNetworkCreateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        // TODO NE RICHTIGE SCHEIßIDEE ABER KEIN BOCK GRADE GESAMTEN SERVER UMZUSCHREIBEN DAMIT ER IN EINEM THREAD LÄUFT
-        StrictMode.ThreadPolicy gfgPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(gfgPolicy);
-        // -----------
 
         init();
 
