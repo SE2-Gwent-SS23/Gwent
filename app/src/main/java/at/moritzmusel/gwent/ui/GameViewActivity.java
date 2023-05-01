@@ -1,5 +1,6 @@
 package at.moritzmusel.gwent.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,6 +20,7 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,7 +30,6 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ThreadLocalRandom;
 
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
@@ -36,28 +37,28 @@ import at.moritzmusel.gwent.model.Card;
 
 public class GameViewActivity extends AppCompatActivity {
 
-    private ArrayList<ImageView> imageViewList;
-    private LinearLayout ll, llOpponent;
-    private String msg;
-    private android.widget.LinearLayout.LayoutParams layoutParams;
     private Button buttonOpponentCards;
     private PopupWindow popupWindow;
-
+    private Context context;
+    
     //variables for shake sensor
     private SensorManager mSensorManager;
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
-
+    
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_view);
 
+        context = getApplicationContext();
         buttonOpponentCards = (Button) findViewById(R.id.buttonOpponentCards);
         buttonOpponentCards.setOnTouchListener(new OnSwipeTouchListener(this, findViewById(R.id.buttonOpponentCards)) {
             @Override
             void onSwipeTop() {
+                buttonOpponentCards.performClick();
                 buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_down_24));
                 popupWindow.dismiss();
                 super.onSwipeTop();
@@ -65,6 +66,7 @@ public class GameViewActivity extends AppCompatActivity {
 
             @Override
             void onSwipeBottom() {
+                buttonOpponentCards.performClick();
                 buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_up_24));
                 onButtonShowPopupWindowClick(getWindow().getDecorView().getRootView());
                 super.onSwipeBottom();
@@ -149,7 +151,7 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     private void setImageFromAssetForOpponent(ImageView image) {
-        Bitmap bitmap = ((BitmapDrawable) getDrawable(R.drawable.card_deck_back_opponent_right)).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) AppCompatResources.getDrawable(this.context, R.drawable.card_deck_back_opponent_right)).getBitmap();
         Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 50, 70, true));
         image.setImageDrawable(dr);
     }
@@ -164,7 +166,7 @@ public class GameViewActivity extends AppCompatActivity {
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_window_opponent, null);
-        llOpponent = popupView.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
+        LinearLayout llOpponent = popupView.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
 
         // Compliant for security-sensitive use cases
         SecureRandom random = new SecureRandom();

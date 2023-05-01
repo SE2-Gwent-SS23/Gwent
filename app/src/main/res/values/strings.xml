@@ -19,6 +19,22 @@
     <string name="restricted_mode_description">Restricted Mode</string>
     <string name="prefs_enable_stats">prefs_enable_stats</string>
     <string name="enable_stats">Enable stats for nerds</string>
+    <string name="valueOfTwo">2</string>
+    <string name="valueOfThree">3</string>
+    <string name="valueOfFour">4</string>
+    <string name="valueOfTen">10</string>
+    <string name="card_placeholder">Card Placeholder</string>
+    <string name="WhiteFrostImageView">White Forst ImageView</string>
+    <string name="ImageViewSquare">ImageViewSquare</string>
+    <string name="ImageViewNaturesGift">ImageView Natures Gift</string>
+    <string name="ImageViewProfilePicOpponent">ImageView Profile Pic Opponent</string>
+    <string name="ImageViewProfilePicUser">ImageView Profile Pic User</string>
+    <string name="ImageViewDeckStackRight">ImageView Deck Stack Right</string>
+    <string name="ImageViewButtonGamePassWaitAndReturn">ImageView Button Game Pass Wait And Return</string>
+    <string name="ImageViewDeckStackOpponentRight">ImageView Deck Stack Opponent Right</string>
+    <string name="ImageViewDeckStackOpponentLeft">ImageView Deck Stack Opponent Left</string>
+    <string name="ImageViewWelcomeScreen">ImageView Welcome Screen</string>
+    <string name="CardDeckBackUserLeftImageView">Card Deck Back User Left ImageView</string>
 
     <string-array name="pref_upload_quality_entries">
         <item>360p</item>
