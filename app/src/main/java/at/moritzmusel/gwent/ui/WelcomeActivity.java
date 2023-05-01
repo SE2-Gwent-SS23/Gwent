@@ -20,14 +20,10 @@ public class WelcomeActivity extends AppCompatActivity {
         // Setting background color for Welcome Screen
         ImageView backgroundImg = (ImageView) findViewById(R.id.imageViewWelcomeScreen);
         backgroundImg.setBackgroundColor(Color.rgb(255, 255, 255));
-        backgroundImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Starting Load Screen when Welcome Screen is clicked
-                Intent welcomeToLoadingIntent = new Intent(WelcomeActivity.this, LoadingActivity.class);
-                startActivity(welcomeToLoadingIntent);
-            }
+        backgroundImg.setOnClickListener(view -> {
+            // Starting Load Screen when Welcome Screen is clicked
+            Intent welcomeToLoadingIntent = new Intent(WelcomeActivity.this, LoadingActivity.class);
+            startActivity(welcomeToLoadingIntent);
         });
-
     }
 }
