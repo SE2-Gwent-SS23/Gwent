@@ -29,7 +29,6 @@ public class DragListener implements View.OnDragListener {
 
             View viewSource = (View) event.getLocalState();
             int viewId = view.getId();
-            final int cvItem = R.id.framelayout1;
             final int rvOne = R.id.recyclerViewCardLineOne;
             final int rvTwo = R.id.recyclerViewCardLineTwo;
             final int rvThree = R.id.recyclerViewCardLineThree;

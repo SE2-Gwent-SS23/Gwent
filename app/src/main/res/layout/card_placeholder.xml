@@ -15,7 +15,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scaleType="matrix"
-        android:contentDescription="Card Placeholder" />
+        android:contentDescription="@string/card_placeholder" />
 
     <TextView
         android:id="@+id/card_placeholder_tv"

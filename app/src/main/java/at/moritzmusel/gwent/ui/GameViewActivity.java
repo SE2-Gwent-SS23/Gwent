@@ -132,7 +132,6 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     private void setImageFromAssetForOpponent(ImageView image) {
-        //Drawable dr = AppCompatResources.getDrawable(this.context, R.drawable.card_deck_back_opponent_right);
         Bitmap bitmap = ((BitmapDrawable) AppCompatResources.getDrawable(this.context, R.drawable.card_deck_back_opponent_right)).getBitmap();
         Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 50, 70, true));
         image.setImageDrawable(dr);

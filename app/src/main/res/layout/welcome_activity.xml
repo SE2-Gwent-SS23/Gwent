@@ -19,5 +19,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/gwent_logo"
-        android:contentDescription="ImageView Welcome Screen" />
+        android:contentDescription="@string/ImageViewWelcomeScreen" />
 </androidx.constraintlayout.widget.ConstraintLayout>

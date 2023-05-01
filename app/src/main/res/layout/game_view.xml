@@ -87,7 +87,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.041"
-            android:contentDescription="White Forst ImageView" />
+            android:contentDescription="@string/WhiteFrostImageView" />
 
         <TextView
             android:id="@+id/tvWhiteFrost"
@@ -106,7 +106,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="@drawable/square"
-            android:contentDescription="ImageView Square" />
+            android:contentDescription="@string/ImageViewSquare" />
 
         <ImageView
             android:id="@+id/iv_natures_gift"
@@ -115,7 +115,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:background="@drawable/natures_gift"
-            android:contentDescription="ImageView Natures Gift" />
+            android:contentDescription="@string/ImageViewNaturesGift" />
 
         <TextView
             android:id="@+id/tvNaturesGift"
@@ -141,7 +141,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.041"
-        android:contentDescription="ImageView Profile Pic Opponent" />
+        android:contentDescription="@string/ImageViewProfilePicOpponent" />
 
     <ImageView
         android:id="@+id/iv_profile_pic_user"
@@ -155,7 +155,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_profile_pic_opponent"
         app:layout_constraintVertical_bias="0.951"
-        android:contentDescription="ImageView Profile Pic User"/>
+        android:contentDescription="@string/ImageViewProfilePicUser"/>
 
     <FrameLayout
         android:id="@+id/framelayout1"
@@ -171,7 +171,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@drawable/card_deck_back_user_left"
-            android:scaleType="matrix"></ImageView>
+            android:scaleType="matrix"
+            android:contentDescription="@string/CardDeckBackUserLeftImageView"></ImageView>
 
         <TextView
             android:id="@+id/stack_left"
@@ -202,7 +203,7 @@
             android:layout_height="fill_parent"
             android:background="@drawable/card_deck_back_user_right"
             android:scaleType="matrix"
-            android:contentDescription="ImageView Deck Stack Right"></ImageView>
+            android:contentDescription="@string/ImageViewDeckStackRight"></ImageView>
 
         <TextView
             android:id="@+id/stack_right"
@@ -276,7 +277,7 @@
             app:layout_constraintStart_toEndOf="@+id/iv_deck_stack_right"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.58"
-            android:contentDescription="ImageView Button Game Pass Wait And Return" />
+            android:contentDescription="@string/ImageViewButtonGamePassWaitAndReturn" />
 
         <TextView
             android:id="@+id/tvUserPoints"
