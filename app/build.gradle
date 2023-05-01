@@ -74,7 +74,6 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'androidx.test.ext:junit:1.1.5@aar'
     testImplementation 'androidx.test.espresso:espresso-core:3.5.1@aar'
-
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 
