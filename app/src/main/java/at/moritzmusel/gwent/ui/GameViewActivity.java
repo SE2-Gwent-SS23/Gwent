@@ -74,28 +74,28 @@ public class GameViewActivity extends AppCompatActivity {
         });
 
         List<Card> list1 = new ArrayList<>();
-        list1.add(new Card(1, 2));
-        list1.add(new Card(2, 3));
-        list1.add(new Card(3, 4));
-        list1.add(new Card(1, 5));
-        list1.add(new Card(2, 6));
-        list1.add(new Card(3, 7));
-        list1.add(new Card(1, 8));
-        list1.add(new Card(2, 17));
-        list1.add(new Card(3, 16));
-        list1.add(new Card(1, 15));
+        list1.add(new Card(1, 2, false, true));
+        list1.add(new Card(2, 3, false, true));
+        list1.add(new Card(3, 4,false, true));
+        list1.add(new Card(1, 5, false, true));
+        list1.add(new Card(2, 6, false, true));
+        list1.add(new Card(3, 7, false, true));
+        list1.add(new Card(1, 8, false, true));
+        list1.add(new Card(2, 17, false, true));
+        list1.add(new Card(3, 16, false, true));
+        list1.add(new Card(1, 15, false, true));
 
         List<Card> list2 = new ArrayList<>();
-        list2.add(new Card(1, 18));
+        list2.add(new Card(1, 18, false, false));
 
         List<Card> list3 = new ArrayList<>();
-        list3.add(new Card(1, 19));
+        list3.add(new Card(1, 19, true, false));
 
         List<Card> list4 = new ArrayList<>();
-        list4.add(new Card(1, 20));
+        list4.add(new Card(1, 20, false, false));
 
         List<Card> list5 = new ArrayList<>();
-        list5.add(new Card(1, 21));
+        list5.add(new Card(1, 21, false, false));
 
         RecyclerView userRecyclerView = findViewById(R.id.recyclerViewUserCardStack);
         UserCardAdapter adapterUser = new UserCardAdapter(list1, getApplicationContext());

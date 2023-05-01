@@ -51,8 +51,14 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         holder.textView.setText(cardNumber);
         holder.frameLayout.setTag(position);
         setImageFromAsset(card.getImage(), holder.imageView);
-        holder.frameLayout.setOnTouchListener(this);
-        holder.frameLayout.setOnDragListener(new DragListener());
+        if(card.isDecoyCard()) {
+            holder.frameLayout.setOnTouchListener(this);
+            holder.frameLayout.setOnDragListener(new DragListener());
+            // calculate points ...
+        } else if(card.isUserCard()) {
+            holder.frameLayout.setOnTouchListener(this);
+            holder.frameLayout.setOnDragListener(new DragListener());
+        }
     }
 
     /**
