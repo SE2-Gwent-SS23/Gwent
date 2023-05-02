@@ -86,7 +86,8 @@
             app:layout_constraintHorizontal_bias="0.081"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.041" />
+            app:layout_constraintVertical_bias="0.041"
+            android:contentDescription="@string/WhiteFrostImageView" />
 
         <TextView
             android:id="@+id/tvWhiteFrost"
@@ -96,7 +97,7 @@
             android:layout_marginBottom="30dp"
             android:background="@drawable/white_frost_border"
             android:padding="6dp"
-            android:text="3"
+            android:text="@string/valueOfThree"
             android:textColor="@color/white" />
 
         <ImageView
@@ -104,7 +105,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:background="@drawable/square" />
+            android:background="@drawable/square"
+            android:contentDescription="@string/ImageViewSquare" />
 
         <ImageView
             android:id="@+id/iv_natures_gift"
@@ -112,7 +114,8 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:background="@drawable/natures_gift" />
+            android:background="@drawable/natures_gift"
+            android:contentDescription="@string/ImageViewNaturesGift" />
 
         <TextView
             android:id="@+id/tvNaturesGift"
@@ -121,7 +124,7 @@
             android:layout_gravity="center"
             android:background="@drawable/natures_gift_border"
             android:padding="6dp"
-            android:text="10"
+            android:text="@string/valueOfTen"
             android:textColor="@color/white" />
 
     </GridLayout>
@@ -137,7 +140,8 @@
         app:layout_constraintHorizontal_bias="0.123"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.041" />
+        app:layout_constraintVertical_bias="0.041"
+        android:contentDescription="@string/ImageViewProfilePicOpponent" />
 
     <ImageView
         android:id="@+id/iv_profile_pic_user"
@@ -150,7 +154,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_profile_pic_opponent"
-        app:layout_constraintVertical_bias="0.951" />
+        app:layout_constraintVertical_bias="0.951"
+        android:contentDescription="@string/ImageViewProfilePicUser"/>
 
     <FrameLayout
         android:id="@+id/framelayout1"
@@ -166,17 +171,17 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@drawable/card_deck_back_user_left"
-            android:scaleType="matrix"></ImageView>
+            android:scaleType="matrix"
+            android:contentDescription="@string/CardDeckBackUserLeftImageView"></ImageView>
 
         <TextView
             android:id="@+id/stack_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_gravity="top|center"
             android:background="@drawable/tv_points"
             android:padding="5dp"
-            android:text="2"
+            android:text="@string/valueOfTwo"
             android:textColor="@android:color/white"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -197,7 +202,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@drawable/card_deck_back_user_right"
-            android:scaleType="matrix"></ImageView>
+            android:scaleType="matrix"
+            android:contentDescription="@string/ImageViewDeckStackRight"></ImageView>
 
         <TextView
             android:id="@+id/stack_right"
@@ -207,7 +213,7 @@
             android:layout_gravity="top|center"
             android:background="@drawable/tv_points"
             android:padding="5dp"
-            android:text="4"
+            android:text="@string/valueOfFour"
             android:textColor="@android:color/white"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -270,7 +276,8 @@
             app:layout_constraintHorizontal_bias="0.853"
             app:layout_constraintStart_toEndOf="@+id/iv_deck_stack_right"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.58" />
+            app:layout_constraintVertical_bias="0.58"
+            android:contentDescription="@string/ImageViewButtonGamePassWaitAndReturn" />
 
         <TextView
             android:id="@+id/tvUserPoints"
@@ -311,8 +318,8 @@
         android:id="@+id/linearLayoutUserCardStack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@drawable/card_deck_border"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tvNumberOf"
         app:layout_constraintHorizontal_bias="0.509"

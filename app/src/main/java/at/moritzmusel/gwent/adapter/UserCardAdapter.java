@@ -6,7 +6,6 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -42,18 +41,26 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
     public UserCardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View listItem = layoutInflater.inflate(R.layout.card_placeholder, parent, false);
-        ViewHolder viewHolder = new ViewHolder(listItem);
-        return viewHolder;
+        return new ViewHolder(listItem);
     }
 
     @Override
     public void onBindViewHolder(@NonNull UserCardAdapter.ViewHolder holder, int position) {
         Card card = this.list.get(position);
-        holder.textView.setText(card.getNumber()+"");
+        String cardNumber = card.getNumber().toString();
+        holder.textView.setText(cardNumber);
         holder.frameLayout.setTag(position);
         setImageFromAsset(card.getImage(), holder.imageView);
-        holder.frameLayout.setOnTouchListener(this);
-        holder.frameLayout.setOnDragListener(new DragListener());
+        if(card.isDecoyCard() != null && card.isDecoyCard()) {
+            holder.frameLayout.performClick();
+            holder.frameLayout.setOnTouchListener(this);
+            holder.frameLayout.setOnDragListener(new DragListener());
+            // calculate points ...
+        } else if(card.isUserCard() != null && card.isUserCard()) {
+            holder.frameLayout.performClick();
+            holder.frameLayout.setOnTouchListener(this);
+            holder.frameLayout.setOnDragListener(new DragListener());
+        }
     }
 
     /**
@@ -63,22 +70,25 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
      * @param image
      */
     public void setImageFromAsset(Integer cardImageId, ImageView image) {
-
         AssetManager manager = context.getAssets();
         try {
             String[] file = manager.list("");
-            try {
-                InputStream imgStream;
-                imgStream = manager.open(file[cardImageId]);
-                Drawable d = Drawable.createFromStream(imgStream, null);
-                Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
-                Drawable dr = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, 150, 200, true));
-                image.setImageDrawable(dr);
-            } catch (IOException e) {
-                System.out.println(e.getLocalizedMessage());
-            }
+            setImageWithInputStream(cardImageId, image, manager, file);
         } catch (IOException e) {
-            System.out.println(e.getLocalizedMessage());
+            Log.e("Error", e.getLocalizedMessage());
+        }
+    }
+
+    private void setImageWithInputStream(Integer cardImageId, ImageView image, AssetManager manager, String [] file) {
+        InputStream imgStream;
+        try {
+            imgStream = manager.open(file[cardImageId]);
+            Drawable d = Drawable.createFromStream(imgStream, null);
+            Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
+            Drawable dr = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, 150, 200, true));
+            image.setImageDrawable(dr);
+        } catch (IOException e) {
+            Log.e("Error", e.getLocalizedMessage());
         }
     }
 
@@ -89,14 +99,11 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
+        view.performClick();
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             ClipData data = ClipData.newPlainText("", "");
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                view.startDragAndDrop(data, shadowBuilder, view, 0);
-            } else {
-                view.startDrag(data, shadowBuilder, view, 0);
-            }
+            view.startDragAndDrop(data, shadowBuilder, view, 0);
             return true;
         }
         return false;
