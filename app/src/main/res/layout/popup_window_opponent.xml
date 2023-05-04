@@ -32,13 +32,13 @@
                 android:layout_width="48dp"
                 android:layout_height="65dp"
                 android:layout_gravity="center"
-                android:background="@drawable/card_deck_back_user_left" />
+                android:background="@drawable/card_deck_back_user_left"
+                android:contentDescription="@string/ImageViewDeckStackOpponentLeft" />
 
             <TextView
                 android:id="@+id/stack_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_gravity="top|center"
                 android:background="@drawable/tv_points"
                 android:padding="5dp"
@@ -76,13 +76,13 @@
                 android:layout_width="48dp"
                 android:layout_height="65dp"
                 android:layout_gravity="center"
-                android:background="@drawable/card_deck_back_opponent_right" />
+                android:background="@drawable/card_deck_back_opponent_right"
+                android:contentDescription="@string/ImageViewDeckStackOpponentRight" />
 
             <TextView
                 android:id="@+id/stack_rightOpponent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_gravity="top|center"
                 android:background="@drawable/tv_points"
                 android:padding="5dp"
