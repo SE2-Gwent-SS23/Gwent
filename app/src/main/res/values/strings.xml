@@ -36,6 +36,10 @@
     <string name="ImageViewDeckStackOpponentLeft">ImageView Deck Stack Opponent Left</string>
     <string name="ImageViewWelcomeScreen">ImageView Welcome Screen</string>
     <string name="CardDeckBackUserLeftImageView">Card Deck Back User Left ImageView</string>
+    <string name="error_missing_permissions">Missing permissions!</string>
+    <string name="ipPlaceholder">192.168.72.10</string>
+    <string name="pwPlaceholder">AX89A</string>
+    <string name="btn_text_join">Join</string>
 
     <string name="ipPlaceholder">enter ip</string>
     <string name="pwPlaceholder">enter pw</string>
