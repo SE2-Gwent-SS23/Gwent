@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayoutRedraw"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/number_of_border"
-    android:padding="2dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="2dp"
+    android:background="#00BEACAC"
+    >
+
+<!--    <FrameLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        >-->
 
     <Button
         android:id="@+id/btnEndRedraw"
@@ -34,8 +43,8 @@
 
     <GridLayout
         android:id="@+id/gridLayout4"
-        android:layout_width="179dp"
-        android:layout_height="183dp"
+        android:layout_width="305dp"
+        android:layout_height="301dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
@@ -123,4 +132,7 @@
 
     </GridLayout>
 
+<!--    </FrameLayout>-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+<!--</RelativeLayout>-->

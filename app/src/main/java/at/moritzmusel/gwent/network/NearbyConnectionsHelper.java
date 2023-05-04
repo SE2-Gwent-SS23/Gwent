@@ -257,22 +257,22 @@ public abstract class NearbyConnectionsHelper {
      * if we successfully reached the device.
      */
     protected void connectToEndpoint(final Endpoint endpoint) {
-        logV("Sending a connection request to endpoint " + endpoint);
-        // Mark ourselves as connecting so we don't connect multiple times
-        mIsConnecting = true;
-
-        // Ask to connect
-        mConnectionsClient
-                .requestConnection(getName(), endpoint.getId(), mConnectionLifecycleCallback)
-                .addOnFailureListener(
-                        new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                logW("requestConnection() failed.", e);
-                                mIsConnecting = false;
-                                onConnectionFailed(endpoint);
-                            }
-                        });
+//        logV("Sending a connection request to endpoint " + endpoint);
+//        // Mark ourselves as connecting so we don't connect multiple times
+//        mIsConnecting = true;
+//
+//        // Ask to connect
+//        mConnectionsClient
+//                .requestConnection(getName(), endpoint.getId(), mConnectionLifecycleCallback)
+//                .addOnFailureListener(
+//                        new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                logW("requestConnection() failed.", e);
+//                                mIsConnecting = false;
+//                                onConnectionFailed(endpoint);
+//                            }
+//                        });
     }
 
     /** Returns {@code true} if we're currently attempting to connect to another device. */
@@ -356,9 +356,9 @@ public abstract class NearbyConnectionsHelper {
      *
      * @return All permissions required for the app to properly function.
      */
-    protected String[] getRequiredPermissions() {
-        return REQUIRED_PERMISSIONS;
-    }
+//    protected String[] getRequiredPermissions() {
+//        return REQUIRED_PERMISSIONS;
+//    }
 
     /** Returns the client's name. Visible to others when connecting. */
     protected abstract String getName();

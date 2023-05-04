@@ -81,6 +81,12 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity
+        android:name=".ui.RedrawActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
+            />
+
 <!-- END -->
     </application>
 </manifest>

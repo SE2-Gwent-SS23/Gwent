@@ -2,6 +2,7 @@ package at.moritzmusel.gwent.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -10,6 +11,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -148,6 +150,8 @@ public class GameViewActivity extends AppCompatActivity {
         mAccel = 10f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
+
+        showRedraw();
     }
 
     private void setImageFromAssetForOpponent(ImageView image) {
@@ -234,5 +238,32 @@ public class GameViewActivity extends AppCompatActivity {
     protected void onPause() {
         mSensorManager.unregisterListener(mSensorListener);
         super.onPause();
+    }
+
+    private void showRedraw() {
+        new CountDownTimer(1000, 1000) {
+            @Override
+            public void onTick(long l) {
+            }
+            @Override
+            public void onFinish() {
+                showRedrawPopup(GameViewActivity.this.getWindow().getDecorView().getRootView());
+                //startActivity(new Intent(GameViewActivity.this, RedrawActivity.class));
+            }
+        }.start();
+    }
+    PopupWindow redrawWnd;
+    public void showRedrawPopup(View parent) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_window_redraw, null);
+        popupView.measure(0, 0);
+        redrawWnd = new PopupWindow(popupView, popupView.getMeasuredWidth(), popupView.getMeasuredHeight(), false);
+        // show the popup window
+        redrawWnd.showAtLocation(parent, Gravity.CENTER, 0, 0);
+    }
+    public void onClickCloseRedraw(View view) {
+        if(redrawWnd != null) {
+            redrawWnd.dismiss();
+        }
     }
 }

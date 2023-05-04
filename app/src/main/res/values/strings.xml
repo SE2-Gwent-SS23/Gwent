@@ -23,7 +23,8 @@
     <string name="valueOfThree">3</string>
     <string name="valueOfFour">4</string>
     <string name="valueOfTen">10</string>
-    <string name="card_placeholder">Card Placeholder</string>
+    <string name="card_placeholder">Card
+        holder</string>
     <string name="WhiteFrostImageView">White Forst ImageView</string>
     <string name="ImageViewSquare">ImageViewSquare</string>
     <string name="ImageViewNaturesGift">ImageView Natures Gift</string>
@@ -35,6 +36,12 @@
     <string name="ImageViewDeckStackOpponentLeft">ImageView Deck Stack Opponent Left</string>
     <string name="ImageViewWelcomeScreen">ImageView Welcome Screen</string>
     <string name="CardDeckBackUserLeftImageView">Card Deck Back User Left ImageView</string>
+
+    <string name="ipPlaceholder">enter ip</string>
+    <string name="pwPlaceholder">enter pw</string>
+    <string name="btn_text_join">Join</string>
+    <string name="error_missing_permissions">kane rechte</string>
+
 
     <string-array name="pref_upload_quality_entries">
         <item>360p</item>

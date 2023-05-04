@@ -23,4 +23,5 @@
         <item name="android:layout_height">90dp</item>
         <item name="android:background">@color/divider</item>
     </style>
+
 </resources>
