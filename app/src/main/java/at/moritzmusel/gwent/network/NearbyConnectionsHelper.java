@@ -1,5 +1,7 @@
 package at.moritzmusel.gwent.network;
 
+import static at.moritzmusel.gwent.network.Utils.Permissions.REQUIRED_PERMISSIONS;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -262,6 +264,7 @@ public abstract class NearbyConnectionsHelper {
         mIsConnecting = true;
 
         // Ask to connect
+        /*
         mConnectionsClient
                 .requestConnection(getName(), endpoint.getId(), mConnectionLifecycleCallback)
                 .addOnFailureListener(
@@ -273,6 +276,7 @@ public abstract class NearbyConnectionsHelper {
                                 onConnectionFailed(endpoint);
                             }
                         });
+         */
     }
 
     /** Returns {@code true} if we're currently attempting to connect to another device. */

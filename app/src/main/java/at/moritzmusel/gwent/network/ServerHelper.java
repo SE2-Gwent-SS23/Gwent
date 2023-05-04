@@ -179,15 +179,15 @@ public abstract class ServerHelper {
                                     "onPayloadTransferUpdate(endpointId=%s, update=%s)", endpointId, update));
                 }
             };
-
-    /** Called when our Activity is first created. */
+    /*
+     Called when our Activity is first created.
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mConnectionsClient = Nearby.getConnectionsClient(this);
     }
 
-    /** Called when the user has accepted (or denied) our permission request. */
+     Called when the user has accepted (or denied) our permission request.
     @CallSuper
     @Override
     public void onRequestPermissionsResult(
@@ -207,6 +207,8 @@ public abstract class ServerHelper {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
+    */
 
     /**
      * Sets the device to advertising mode. It will broadcast to other devices in discovery mode.

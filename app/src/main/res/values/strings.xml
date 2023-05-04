@@ -35,6 +35,7 @@
     <string name="ImageViewDeckStackOpponentLeft">ImageView Deck Stack Opponent Left</string>
     <string name="ImageViewWelcomeScreen">ImageView Welcome Screen</string>
     <string name="CardDeckBackUserLeftImageView">Card Deck Back User Left ImageView</string>
+    <string name="error_missing_permissions">Missing permissions!</string>
 
     <string-array name="pref_upload_quality_entries">
         <item>360p</item>
