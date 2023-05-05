@@ -36,11 +36,9 @@
     <string name="ImageViewDeckStackOpponentLeft">ImageView Deck Stack Opponent Left</string>
     <string name="ImageViewWelcomeScreen">ImageView Welcome Screen</string>
     <string name="CardDeckBackUserLeftImageView">Card Deck Back User Left ImageView</string>
+    <string name="RedrawDoneButton">Fertig</string>
+    <string name="RedrawDrop">Hier ablegen</string>
 
-    <string name="ipPlaceholder">enter ip</string>
-    <string name="pwPlaceholder">enter pw</string>
-    <string name="btn_text_join">Join</string>
-    <string name="error_missing_permissions">kane rechte</string>
 
 
     <string-array name="pref_upload_quality_entries">

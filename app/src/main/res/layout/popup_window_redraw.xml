@@ -6,133 +6,58 @@
     android:id="@+id/constraintLayoutRedraw"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="2dp"
     android:background="#00BEACAC"
-    >
-
-<!--    <FrameLayout-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_centerVertical="true"-->
-<!--        >-->
-
-    <Button
-        android:id="@+id/btnEndRedraw"
-        android:layout_width="90dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:onClick="onClickCloseRedraw"
-        android:text="Fertig"
-        android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRedraw" />
-
-    <Button
-        android:id="@+id/btnRedraw"
-        android:layout_width="90dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="50dp"
-        android:autoText="false"
-        android:text="Neu Ziehen"
-        android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <GridLayout
-        android:id="@+id/gridLayout4"
-        android:layout_width="305dp"
-        android:layout_height="301dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="#55FFFFFF"
-        android:columnCount="3"
-        android:rowCount="3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnEndRedraw"
+    android:padding="2dp">
+    <!--    <FrameLayout-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        android:layout_centerVertical="true"-->
+    <!--        >-->
+    <FrameLayout
+        android:layout_width="564dp"
+        android:layout_height="283dp"
+        android:layout_marginTop="40dp"
+        android:foregroundGravity="center"
+        app:flow_horizontalAlign="center"
+        app:flow_verticalAlign="center"
         app:layout_constraintTop_toTopOf="parent"
-        tools:context=".MainActivity">
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="83dp">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_rowWeight="0"
-            android:layout_columnWeight="0"
-            android:layout_margin="5dp"
-            android:src="@drawable/card_deck_back_opponent_right" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/redrawUserCards"
+            android:layout_width="372dp"
+            android:layout_height="227dp"
+            android:layout_gravity="right|center_horizontal"
+            android:foregroundGravity="center|right"
+            android:orientation="horizontal"
+            app:spanCount="5"
+            tools:itemCount="10"
+            android:layout_marginTop="40dp"/>
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_rowWeight="0"
-            android:layout_columnWeight="0"
-            android:layout_margin="5dp"
-            android:src="@drawable/card_deck_back_opponent_right" />
+        <Button
+            android:id="@+id/btnRedraw"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center|start"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="-40dp"
+            android:text="@string/RedrawDrop"
+            android:textSize="14sp" />
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_rowWeight="0"
-            android:layout_columnWeight="0"
-            android:layout_margin="5dp"
-            android:src="@drawable/card_deck_back_opponent_right" />
+        <Button
+            android:id="@+id/btnEndRedraw"
+            android:layout_width="101dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|start"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="50dp"
+            android:onClick="onClickCloseRedraw"
+            android:text="@string/RedrawDoneButton"
+            android:textSize="12sp" />
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_rowWeight="0"
-            android:layout_columnWeight="0"
-            android:layout_margin="5dp"
-            android:src="@drawable/card_deck_back_opponent_right" />
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_rowWeight="0"
-            android:layout_columnWeight="0"
-            android:layout_margin="5dp"
-            android:src="@drawable/card_deck_back_opponent_right" />
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_rowWeight="0"
-            android:layout_columnWeight="0"
-            android:layout_margin="5dp"
-            android:src="@drawable/card_deck_back_opponent_right" />
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_rowWeight="0"
-            android:layout_columnWeight="0"
-            android:layout_margin="5dp"
-            android:src="@drawable/card_deck_back_opponent_right" />
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_rowWeight="0"
-            android:layout_columnWeight="0"
-            android:layout_margin="5dp"
-            android:src="@drawable/card_deck_back_opponent_right" />
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_rowWeight="0"
-            android:layout_columnWeight="0"
-            android:layout_margin="5dp"
-            android:src="@drawable/card_deck_back_opponent_right" />
-
-    </GridLayout>
-
-<!--    </FrameLayout>-->
-
+    </FrameLayout>
+    <!--    </FrameLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
-<!--</RelativeLayout>-->
+    <!--</RelativeLayout>-->
