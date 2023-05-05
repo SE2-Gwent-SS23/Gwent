@@ -19,7 +19,7 @@ public class Permissions {
     /**
      * These permissions are required before connecting to Nearby Connections.
      */
-    private static final String[] REQUIRED_PERMISSIONS;
+    public static final String[] REQUIRED_PERMISSIONS;
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
     private final Activity activity;
     private final Context context;
