@@ -1,6 +1,7 @@
 package at.moritzmusel.gwent.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -117,15 +118,33 @@ public class GameViewActivity extends AppCompatActivity {
         RedrawActivity.showRedraw(this, userCards);
     }
 
-    private void setCards(int recyclerViewUserCardStack, List<Card> cards) {
-        RecyclerView userRecyclerView = findViewById(recyclerViewUserCardStack);
-        UserCardAdapter adapterUser = new UserCardAdapter(cards, getApplicationContext());
-        userRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        userRecyclerView.setLayoutManager(linearLayoutManagerUser);
-        userRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        userRecyclerView.setAdapter(adapterUser);
-        userRecyclerView.setOnDragListener(adapterUser.getDragInstance());
+    public void setCards(int recyclerViewUserCardStack, List<Card> cards) {
+        setCards(findViewById(recyclerViewUserCardStack), cards, getApplicationContext(), GameViewActivity.this);
+//        RecyclerView userRecyclerView = findViewById(recyclerViewUserCardStack);
+//        UserCardAdapter adapterUser = new UserCardAdapter(cards, getApplicationContext());
+//        userRecyclerView.setHasFixedSize(true);
+//        LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+//        userRecyclerView.setLayoutManager(linearLayoutManagerUser);
+//        userRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        userRecyclerView.setAdapter(adapterUser);
+//        userRecyclerView.setOnDragListener(adapterUser.getDragInstance());
+    }
+
+    public static void setCards(RecyclerView view, List<Card> cards, Context context, Activity parentActivity) {
+        setCards(view, cards, context, parentActivity, null);
+    }
+    public static void setCards(RecyclerView view, List<Card> cards, Context context, Activity parentActivity, View.OnDragListener dragListener) {
+        UserCardAdapter adapterUser = new UserCardAdapter(cards, context);
+        view.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(parentActivity, LinearLayoutManager.HORIZONTAL, false);
+        view.setLayoutManager(linearLayoutManagerUser);
+        view.setItemAnimator(new DefaultItemAnimator());
+        view.setAdapter(adapterUser);
+        if (dragListener == null){
+            view.setOnDragListener(adapterUser.getDragInstance());
+        } else{
+            view.setOnDragListener(dragListener);
+        }
     }
 
     public void setUserCards(List<Card> cards) {

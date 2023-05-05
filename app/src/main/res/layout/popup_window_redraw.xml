@@ -17,24 +17,35 @@
     <FrameLayout
         android:layout_width="564dp"
         android:layout_height="283dp"
-        android:layout_marginTop="40dp"
         android:foregroundGravity="center"
         app:flow_horizontalAlign="center"
         app:flow_verticalAlign="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="83dp">
+        android:background="#BDC2CC">
+
+        <!--            tools:itemCount="10" -->
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/redrawUserCards"
-            android:layout_width="372dp"
-            android:layout_height="227dp"
-            android:layout_gravity="right|center_horizontal"
+            android:id="@+id/redrawUserCards1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|center_horizontal"
+            android:layout_marginTop="10dp"
             android:foregroundGravity="center|right"
-            android:orientation="horizontal"
-            app:spanCount="5"
-            tools:itemCount="10"
-            android:layout_marginTop="40dp"/>
+            android:orientation="horizontal" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/redrawUserCards2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|center_horizontal"
+            android:layout_marginTop="100dp"
+            android:foregroundGravity="center|right"
+            android:orientation="horizontal" />
 
         <Button
             android:id="@+id/btnRedraw"
@@ -42,7 +53,7 @@
             android:layout_height="100dp"
             android:layout_gravity="center|start"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="-40dp"
+            android:layout_marginTop="-60dp"
             android:text="@string/RedrawDrop"
             android:textSize="14sp" />
 
@@ -52,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|start"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:onClick="onClickCloseRedraw"
             android:text="@string/RedrawDoneButton"
             android:textSize="12sp" />
