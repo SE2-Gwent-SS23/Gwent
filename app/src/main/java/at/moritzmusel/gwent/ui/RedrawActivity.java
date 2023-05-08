@@ -12,9 +12,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
@@ -28,6 +29,7 @@ public class RedrawActivity extends AppCompatActivity {
     TextView mRedrawDropView;
     TextView mRedrawCountView;
     int mRedrawCount = 0;
+    SecureRandom mRandom = new SecureRandom();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,10 +127,8 @@ public class RedrawActivity extends AppCompatActivity {
     }
 
     private Card drawRandomCard() {
-        //213Cards, ToDo
-        Random rand = new Random();
-        int img = rand.nextInt(214);
-        int pts = rand.nextInt(7);
+        int img = mRandom.nextInt(214);
+        int pts = mRandom.nextInt(7);
         return new Card(pts + 1, img, false, true);
     }
 
