@@ -35,28 +35,28 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewCardLineOne"
+            android:id="@+id/recyclerViewCardOpponentLaneOne"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:background="@drawable/card_lanes_opponent"
+            android:orientation="horizontal" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewCardOpponentLaneTwo"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:background="@drawable/card_lanes_opponent"
+            android:orientation="horizontal" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewCardUserLaneOne"
             android:layout_width="match_parent"
             android:layout_height="65dp"
             android:background="@drawable/card_rows_border"
             android:orientation="horizontal" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewCardLineTwo"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:background="@drawable/card_rows_border"
-            android:orientation="horizontal" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewCardLineThree"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:background="@drawable/card_rows_border"
-            android:orientation="horizontal" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewCardLineFour"
+            android:id="@+id/recyclerViewCardUserLaneTwo"
             android:layout_width="match_parent"
             android:layout_height="65dp"
             android:background="@drawable/card_rows_border"
