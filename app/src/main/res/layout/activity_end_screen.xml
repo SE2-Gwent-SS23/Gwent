@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewVictoryOrLost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="40dp"
+        android:text="Victory"
+        android:textSize="40dp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TableLayout
+        android:gravity="center"
+        android:layout_width="729dp"
+        android:layout_height="335dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewVictoryOrLost">
+
+        <TableRow
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tvRoundEmpty"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="Name" />
+
+            <TextView
+                android:id="@+id/tvRoundOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="Round 1" />
+
+            <TextView
+                android:id="@+id/tvRoundTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="Round 2" />
+            <TextView
+                android:id="@+id/tvRoundThree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="Round 3" />
+        </TableRow>
+
+        <TableRow
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp" >
+
+            <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:textStyle="bold|italic"
+                android:text="Username" />
+            <TextView
+                android:id="@+id/tvRoundOneUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:text="10" />
+
+            <TextView
+                android:id="@+id/tvRoundTwoUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:text="47" />
+
+            <TextView
+                android:id="@+id/tvRoundThreeUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:text="16" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tvOpponentName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:textStyle="bold|italic"
+                android:text="Opponent" />
+
+            <TextView
+                android:id="@+id/tvRoundOneOpponent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:text="4" />
+
+            <TextView
+                android:id="@+id/tvRoundTwoOpponent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:text="9" />
+
+            <TextView
+                android:id="@+id/tvRoundThreeOpponent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:text="1" />
+        </TableRow>
+
+    </TableLayout>
+
+    <!--<GridLayout
+        android:id="@+id/gridLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:rowCount="4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvRoundOne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Round 1" />
+
+        <TextView
+            android:id="@+id/tvRoundTwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Round 2" />
+        <TextView
+            android:id="@+id/tvRoundThree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Round 3" />
+    </GridLayout>-->
+</androidx.constraintlayout.widget.ConstraintLayout>

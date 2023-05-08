@@ -59,6 +59,14 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".ui.GameEndScreenActivity"
+            android:exported="false"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.WelcomeActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
