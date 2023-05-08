@@ -3,7 +3,6 @@ package at.moritzmusel.gwent.ui;
 import android.view.DragEvent;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import at.moritzmusel.gwent.R;
 
@@ -11,6 +10,7 @@ public class RedrawDragListener implements View.OnDragListener {
 
     TextView redrawDrop;
     RedrawActivity mRedrawActivity;
+    int cnt = 0;
 
     /**
      * Constructor
@@ -23,22 +23,25 @@ public class RedrawDragListener implements View.OnDragListener {
     @Override
     public boolean onDrag(View view, DragEvent event) {
 
-        //int redrawDrop = R.id.txt_Redraw_Drop;
-        //redrawDrop = (TextView) findV R.id.txt_Redraw_Drop;
-
         int dragEvent = event.getAction();
         if (view.getId()== R.id.txtRedrawDrop) {
             switch (dragEvent) {
                 case DragEvent.ACTION_DRAG_ENTERED:
-                        redrawDrop.setText("hi");
+                        //redrawDrop.setText(cnt + "/3");
                     break;
                 case DragEvent.ACTION_DRAG_EXITED:
-                        redrawDrop.setText("bye");
+                        //redrawDrop.setText("Hier ablegen");
                     break;
                 case DragEvent.ACTION_DROP:
-                        redrawDrop.setText("dropped");
-                        mRedrawActivity.replaceCard((View) event.getLocalState());
-                    Toast.makeText(view.getContext(), "new card should appear", Toast.LENGTH_SHORT).show();
+                        //redrawDrop.setText("dropped");
+//                        if (cnt <= 2){
+                            mRedrawActivity.replaceCard((View) event.getLocalState());
+//                            cnt++;
+//                            mRedrawActivity.setRedrawCountView(cnt);
+//                        }if (cnt == 3){
+//                            redrawDrop.setText("Bitte auf Fertig tippen");
+//                        }
+                    //Toast.makeText(view.getContext(), "new card should appear", Toast.LENGTH_SHORT).show();
                     break;
             }
         }

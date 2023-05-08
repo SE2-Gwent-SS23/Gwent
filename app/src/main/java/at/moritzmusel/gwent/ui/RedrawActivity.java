@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
@@ -23,8 +24,10 @@ public class RedrawActivity extends AppCompatActivity {
     private static List<Card> sPlayerCards; //prototyp
     private static GameViewActivity sGameViewAdapter;//prototyp
     private List<Card> mPlayerCards;
-    TextView txt_Redraw_Drop;
     private List<List<Card>> mRedrawCards;
+    TextView mRedrawDropView;
+    TextView mRedrawCountView;
+    int mRedrawCount = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,13 +36,15 @@ public class RedrawActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mPlayerCards = sPlayerCards; //b.getSerializable("cards");
 
-        txt_Redraw_Drop = findViewById(R.id.txtRedrawDrop);
-        RedrawDragListener listener = new RedrawDragListener( this, txt_Redraw_Drop);
-        txt_Redraw_Drop.setOnDragListener(listener);
+        mRedrawCountView = findViewById(R.id.txtRedrawCount);
+        mRedrawDropView = findViewById(R.id.txtRedrawDrop);
+        RedrawDragListener listener = new RedrawDragListener(this, mRedrawDropView);
+        mRedrawDropView.setOnDragListener(listener);
 
         mRedrawCards = halveList(mPlayerCards);
         GameViewActivity.setCards(findViewById(R.id.redrawUserCards1), mRedrawCards.get(0), getApplicationContext(), this, listener);
         GameViewActivity.setCards(findViewById(R.id.redrawUserCards2), mRedrawCards.get(1), getApplicationContext(), this, listener);
+
 
         //findViewById(R.id.redrawUserCards1).setOnDragListener(new RedrawDragListener());
         //findViewById(R.id.btnEndRedraw).setOnDragListener(new RedrawDragListener());
@@ -50,6 +55,7 @@ public class RedrawActivity extends AppCompatActivity {
             @Override
             public void onTick(long l) {
             }
+
             @Override
             public void onFinish() {
 //                Intent intent = new Intent(gameView, RedrawActivity.class);
@@ -71,7 +77,7 @@ public class RedrawActivity extends AppCompatActivity {
 
         for (int i = 0; i < mRedrawCards.size(); i++) {
             for (int j = 0; j < mRedrawCards.get(i).size(); j++) {
-                mPlayerCards.set((j+i*5),mRedrawCards.get(i).get(j));
+                mPlayerCards.set((j + i * 5), mRedrawCards.get(i).get(j));
             }
         }
         sGameViewAdapter.refreshUserHandCards();
@@ -83,12 +89,12 @@ public class RedrawActivity extends AppCompatActivity {
     }
 
     public List<List<Card>> halveList(List<Card> list) {
-        int marker = list.size()/2;
+        int marker = list.size() / 2;
         List<Card> firstHalf = new ArrayList<Card>();
         List<Card> secondHalf = new ArrayList<Card>();
 
-        for (int i = 0; i < list.size() ; i++) {
-            if (i<marker){
+        for (int i = 0; i < list.size(); i++) {
+            if (i < marker) {
                 firstHalf.add(list.get(i));
             } else {
                 secondHalf.add(list.get(i));
@@ -100,21 +106,31 @@ public class RedrawActivity extends AppCompatActivity {
 
         return result;
     }
-    
-    public void replaceCard(View cardView ){
-        UserCardAdapter adapter = (UserCardAdapter) ((RecyclerView) cardView.getParent()).getAdapter();
-        int cardPos = (int) cardView.getTag();
-        //Card card = adapter.getList().get(cardPos);
-        List<Card> listSource = adapter.getList();
-        listSource.set(cardPos, drawRandomCard());
-        adapter.updateList(listSource);
-        adapter.notifyDataSetChanged();
+
+    public void replaceCard(View cardView) {
+        if (mRedrawCount <= 2) {
+            UserCardAdapter adapter = (UserCardAdapter) ((RecyclerView) cardView.getParent()).getAdapter();
+            int cardPos = (int) cardView.getTag();
+            //Card card = adapter.getList().get(cardPos);
+            List<Card> listSource = adapter.getList();
+            listSource.set(cardPos, drawRandomCard());
+            adapter.updateList(listSource);
+            adapter.notifyDataSetChanged();
+            mRedrawCount++;
+            mRedrawCountView.setText(mRedrawCount + "/3");
+        }
+        if (mRedrawCount == 3) {
+            mRedrawDropView.setText("Bitte auf Fertig tippen");
+        }
     }
 
-    private Card drawRandomCard(){
+    private Card drawRandomCard() {
         //213Cards, ToDo
-        return new Card(1, 42, false, true);
-
-
+        Random rand = new Random();
+        int img = rand.nextInt(214);
+        int pts = rand.nextInt(7);
+        return new Card(pts + 1, img, false, true);
     }
+
 }
+
