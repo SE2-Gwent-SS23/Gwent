@@ -108,7 +108,7 @@ public class GameViewActivity extends AppCompatActivity {
         userRecyclerView.setAdapter(adapterUser);
         userRecyclerView.setOnDragListener(adapterUser.getDragInstance());
 
-        RecyclerView lineOneRecyclerView = findViewById(R.id.recyclerViewCardLineOne);
+        RecyclerView lineOneRecyclerView = findViewById(R.id.recyclerViewCardOpponentLaneOne);
         UserCardAdapter adapterLineOne = new UserCardAdapter(list2, getApplicationContext());
         lineOneRecyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerLaneOne = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
@@ -117,7 +117,7 @@ public class GameViewActivity extends AppCompatActivity {
         lineOneRecyclerView.setAdapter(adapterLineOne);
         lineOneRecyclerView.setOnDragListener(adapterLineOne.getDragInstance());
 
-        RecyclerView lineTwoRecyclerView = findViewById(R.id.recyclerViewCardLineTwo);
+        RecyclerView lineTwoRecyclerView = findViewById(R.id.recyclerViewCardOpponentLaneTwo);
         UserCardAdapter adapterLineTwo = new UserCardAdapter(list3, getApplicationContext());
         lineTwoRecyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerLaneTwo = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
@@ -126,7 +126,7 @@ public class GameViewActivity extends AppCompatActivity {
         lineTwoRecyclerView.setAdapter(adapterLineTwo);
         lineTwoRecyclerView.setOnDragListener(adapterLineTwo.getDragInstance());
 
-        RecyclerView lineThreeRecyclerView = findViewById(R.id.recyclerViewCardLineThree);
+        RecyclerView lineThreeRecyclerView = findViewById(R.id.recyclerViewCardUserLaneOne);
         UserCardAdapter adapterLineThree = new UserCardAdapter(list4, getApplicationContext());
         lineThreeRecyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerLaneThree = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
@@ -135,7 +135,7 @@ public class GameViewActivity extends AppCompatActivity {
         lineThreeRecyclerView.setAdapter(adapterLineThree);
         lineThreeRecyclerView.setOnDragListener(adapterLineThree.getDragInstance());
 
-        RecyclerView lineFourRecyclerView = findViewById(R.id.recyclerViewCardLineFour);
+        RecyclerView lineFourRecyclerView = findViewById(R.id.recyclerViewCardUserLaneTwo);
         UserCardAdapter adapterLineFour = new UserCardAdapter(list5, getApplicationContext());
         lineFourRecyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerLaneFour = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);

@@ -29,32 +29,31 @@ public class DragListener implements View.OnDragListener {
 
             View viewSource = (View) event.getLocalState();
             int viewId = view.getId();
-            final int rvOne = R.id.recyclerViewCardLineOne;
-            final int rvTwo = R.id.recyclerViewCardLineTwo;
-            final int rvThree = R.id.recyclerViewCardLineThree;
-            final int rvFour = R.id.recyclerViewCardLineFour;
+            final int rvOpponentOne = R.id.recyclerViewCardOpponentLaneOne;
+            final int rvOpponentTwo = R.id.recyclerViewCardOpponentLaneTwo;
+            final int rvUserOne = R.id.recyclerViewCardUserLaneOne;
+            final int rvUserTwo = R.id.recyclerViewCardUserLaneTwo;
             final int rvUser = R.id.recyclerViewUserCardStack;
 
             RecyclerView target;
             switch (viewId) {
-                case rvOne:
-                    target = view.getRootView().findViewById(rvOne);
+                case rvOpponentOne:
+                case rvOpponentTwo:
+                    positionTarget = 1;
+                    target = view.getRootView().findViewById(rvUser);
                     break;
-                case rvTwo:
-                    target = view.getRootView().findViewById(rvTwo);
+                case rvUserOne:
+                    target = view.getRootView().findViewById(rvUserOne);
                     break;
-                case rvThree:
-                    target = view.getRootView().findViewById(rvThree);
-                    break;
-                case rvFour:
-                    target = view.getRootView().findViewById(rvFour);
+                case rvUserTwo:
+                    target = view.getRootView().findViewById(rvUserTwo);
                     break;
                 case rvUser:
                     target = view.getRootView().findViewById(rvUser);
                     break;
                 default:
-                    target = (RecyclerView) view.getParent();
-                    positionTarget = (int) view.getTag();
+                    target = view.getRootView().findViewById(rvUser);
+                    positionTarget = 1;
                     break;
             }
 
@@ -75,7 +74,7 @@ public class DragListener implements View.OnDragListener {
                 List<Card> customListTarget = adapterTarget.getList();
 
                 if (positionTarget >= 0) {
-                    customListTarget.add(positionTarget, list);
+                    customListTarget.add(positionSource, list);
                 } else {
                     customListTarget.add(list);
                 }
