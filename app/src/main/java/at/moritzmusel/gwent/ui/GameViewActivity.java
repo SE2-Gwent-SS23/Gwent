@@ -98,53 +98,49 @@ public class GameViewActivity extends AppCompatActivity {
         List<Card> list5 = new ArrayList<>();
         list5.add(new Card(1, 21, false, false));
 
+        setCards(R.id.recyclerViewCardOpponentLaneOne, list2);
+        setCards(R.id.recyclerViewCardOpponentLaneTwo, list3);
+
         setUserCards(userCards);
+        setCards(R.id.recyclerViewCardUserLaneOne, list4);
+        setCards(R.id.recyclerViewCardUserLaneTwo, list5);
 
-//<<<<<<< HEAD
-//        setCards(R.id.recyclerViewCardLineOne, list2);
+//        RecyclerView lineOneRecyclerView = findViewById(R.id.recyclerViewCardOpponentLaneOne);
+//        UserCardAdapter adapterLineOne = new UserCardAdapter(list2, getApplicationContext());
+//        lineOneRecyclerView.setHasFixedSize(true);
+//        LinearLayoutManager linearLayoutManagerLaneOne = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+//        lineOneRecyclerView.setLayoutManager(linearLayoutManagerLaneOne);
+//        lineOneRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        lineOneRecyclerView.setAdapter(adapterLineOne);
+//        lineOneRecyclerView.setOnDragListener(adapterLineOne.getDragInstance());
 //
-//        setCards(R.id.recyclerViewCardLineTwo, list3);
+//        RecyclerView lineTwoRecyclerView = findViewById(R.id.recyclerViewCardOpponentLaneTwo);
+//        UserCardAdapter adapterLineTwo = new UserCardAdapter(list3, getApplicationContext());
+//        lineTwoRecyclerView.setHasFixedSize(true);
+//        LinearLayoutManager linearLayoutManagerLaneTwo = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+//        lineTwoRecyclerView.setLayoutManager(linearLayoutManagerLaneTwo);
+//        lineTwoRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        lineTwoRecyclerView.setAdapter(adapterLineTwo);
+//        lineTwoRecyclerView.setOnDragListener(adapterLineTwo.getDragInstance());
 //
-//        setCards(R.id.recyclerViewCardLineThree, list4);
+//        RecyclerView lineThreeRecyclerView = findViewById(R.id.recyclerViewCardUserLaneOne);
+//        UserCardAdapter adapterLineThree = new UserCardAdapter(list4, getApplicationContext());
+//        lineThreeRecyclerView.setHasFixedSize(true);
+//        LinearLayoutManager linearLayoutManagerLaneThree = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+//        lineThreeRecyclerView.setLayoutManager(linearLayoutManagerLaneThree);
+//        lineThreeRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        lineThreeRecyclerView.setAdapter(adapterLineThree);
+//        lineThreeRecyclerView.setOnDragListener(adapterLineThree.getDragInstance());
 //
-//        setCards(R.id.recyclerViewCardLineFour, list5);
-//=======
-        RecyclerView lineOneRecyclerView = findViewById(R.id.recyclerViewCardOpponentLaneOne);
-        UserCardAdapter adapterLineOne = new UserCardAdapter(list2, getApplicationContext());
-        lineOneRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManagerLaneOne = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        lineOneRecyclerView.setLayoutManager(linearLayoutManagerLaneOne);
-        lineOneRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        lineOneRecyclerView.setAdapter(adapterLineOne);
-        lineOneRecyclerView.setOnDragListener(adapterLineOne.getDragInstance());
+//        RecyclerView lineFourRecyclerView = findViewById(R.id.recyclerViewCardUserLaneTwo);
+//        UserCardAdapter adapterLineFour = new UserCardAdapter(list5, getApplicationContext());
+//        lineFourRecyclerView.setHasFixedSize(true);
+//        LinearLayoutManager linearLayoutManagerLaneFour = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+//        lineFourRecyclerView.setLayoutManager(linearLayoutManagerLaneFour);
+//        lineFourRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        lineFourRecyclerView.setAdapter(adapterLineFour);
+//        lineFourRecyclerView.setOnDragListener(adapterLineFour.getDragInstance());
 
-        RecyclerView lineTwoRecyclerView = findViewById(R.id.recyclerViewCardOpponentLaneTwo);
-        UserCardAdapter adapterLineTwo = new UserCardAdapter(list3, getApplicationContext());
-        lineTwoRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManagerLaneTwo = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        lineTwoRecyclerView.setLayoutManager(linearLayoutManagerLaneTwo);
-        lineTwoRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        lineTwoRecyclerView.setAdapter(adapterLineTwo);
-        lineTwoRecyclerView.setOnDragListener(adapterLineTwo.getDragInstance());
-
-        RecyclerView lineThreeRecyclerView = findViewById(R.id.recyclerViewCardUserLaneOne);
-        UserCardAdapter adapterLineThree = new UserCardAdapter(list4, getApplicationContext());
-        lineThreeRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManagerLaneThree = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        lineThreeRecyclerView.setLayoutManager(linearLayoutManagerLaneThree);
-        lineThreeRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        lineThreeRecyclerView.setAdapter(adapterLineThree);
-        lineThreeRecyclerView.setOnDragListener(adapterLineThree.getDragInstance());
-
-        RecyclerView lineFourRecyclerView = findViewById(R.id.recyclerViewCardUserLaneTwo);
-        UserCardAdapter adapterLineFour = new UserCardAdapter(list5, getApplicationContext());
-        lineFourRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManagerLaneFour = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        lineFourRecyclerView.setLayoutManager(linearLayoutManagerLaneFour);
-        lineFourRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        lineFourRecyclerView.setAdapter(adapterLineFour);
-        lineFourRecyclerView.setOnDragListener(adapterLineFour.getDragInstance());
-//>>>>>>> main
 
         //shake sensor initialisation
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
