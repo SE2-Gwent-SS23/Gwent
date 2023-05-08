@@ -1,6 +1,5 @@
 package at.moritzmusel.gwent.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,18 +10,22 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 
 import at.moritzmusel.gwent.R;
+import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
 
 public class RedrawActivity extends AppCompatActivity {
-    private static List<Card> sPlayerCards;
+    private static List<Card> sPlayerCards; //prototyp
+    private static GameViewActivity sGameViewAdapter;//prototyp
     private List<Card> mPlayerCards;
     TextView txt_Redraw_Drop;
+    private List<List<Card>> mRedrawCards;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,13 +33,17 @@ public class RedrawActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mPlayerCards = sPlayerCards; //b.getSerializable("cards");
 
-        txt_Redraw_Drop = (TextView) findViewById(R.id.txt_Redraw_Drop);
+        txt_Redraw_Drop = findViewById(R.id.txtRedrawDrop);
+        RedrawDragListener listener = new RedrawDragListener( this, txt_Redraw_Drop);
+        txt_Redraw_Drop.setOnDragListener(listener);
 
-       List<List<Card>> redrawCards = halveList(mPlayerCards);
-        GameViewActivity.setCards(findViewById(R.id.redrawUserCards1), redrawCards.get(0), getApplicationContext(), this, new RedrawDragListener());
-        GameViewActivity.setCards(findViewById(R.id.redrawUserCards2), redrawCards.get(1), getApplicationContext(), this, new RedrawDragListener());
+        mRedrawCards = halveList(mPlayerCards);
+        GameViewActivity.setCards(findViewById(R.id.redrawUserCards1), mRedrawCards.get(0), getApplicationContext(), this, listener);
+        GameViewActivity.setCards(findViewById(R.id.redrawUserCards2), mRedrawCards.get(1), getApplicationContext(), this, listener);
+
+        //findViewById(R.id.redrawUserCards1).setOnDragListener(new RedrawDragListener());
+        //findViewById(R.id.btnEndRedraw).setOnDragListener(new RedrawDragListener());
     }
-
 
     public static void showRedraw(GameViewActivity gameView, List<Card> playerCards) {
         new CountDownTimer(1500, 1500) {
@@ -50,8 +57,8 @@ public class RedrawActivity extends AppCompatActivity {
 //                b.putSerializable("cards", playerCards); //todo: checken wie man list übergeben kann
 //                intent.putExtras(b);
 //                gameView.startActivity(intent);
-
                 sPlayerCards = playerCards; //workaround
+                sGameViewAdapter = gameView;
                 gameView.startActivity(new Intent(gameView, RedrawActivity.class));
 
             }
@@ -59,7 +66,19 @@ public class RedrawActivity extends AppCompatActivity {
     }
 
     public void onClickCloseRedraw(View view) {
-        mPlayerCards.set(0, new Card(6, 10, false, true));
+        //mPlayerCards.set(0, new Card(6, 10, false, true));
+        //sPlayerCards.set(0, new Card(7,22,false, true));
+
+        for (int i = 0; i < mRedrawCards.size(); i++) {
+            for (int j = 0; j < mRedrawCards.get(i).size(); j++) {
+                mPlayerCards.set((j+i*5),mRedrawCards.get(i).get(j));
+            }
+        }
+        sGameViewAdapter.refreshUserHandCards();
+
+        //RecyclerView userHandCards = findViewById(R.id.recyclerViewUserCardStack);
+        //GameViewActivity.setCards(userHandCards,
+
         finish();
     }
 
@@ -67,7 +86,6 @@ public class RedrawActivity extends AppCompatActivity {
         int marker = list.size()/2;
         List<Card> firstHalf = new ArrayList<Card>();
         List<Card> secondHalf = new ArrayList<Card>();
-
 
         for (int i = 0; i < list.size() ; i++) {
             if (i<marker){
@@ -80,7 +98,23 @@ public class RedrawActivity extends AppCompatActivity {
         result.add(firstHalf);
         result.add(secondHalf);
 
-        //txt_Redraw_Drop.setText("hi");
         return result;
+    }
+    
+    public void replaceCard(View cardView ){
+        UserCardAdapter adapter = (UserCardAdapter) ((RecyclerView) cardView.getParent()).getAdapter();
+        int cardPos = (int) cardView.getTag();
+        //Card card = adapter.getList().get(cardPos);
+        List<Card> listSource = adapter.getList();
+        listSource.set(cardPos, drawRandomCard());
+        adapter.updateList(listSource);
+        adapter.notifyDataSetChanged();
+    }
+
+    private Card drawRandomCard(){
+        //213Cards, ToDo
+        return new Card(1, 42, false, true);
+
+
     }
 }

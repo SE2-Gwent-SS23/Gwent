@@ -2,7 +2,6 @@ package at.moritzmusel.gwent.ui;
 
 import android.view.DragEvent;
 import android.view.View;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -10,41 +9,39 @@ import at.moritzmusel.gwent.R;
 
 public class RedrawDragListener implements View.OnDragListener {
 
-    TextView redraw_Drop;
-    private boolean isDropped = false;
+    TextView redrawDrop;
+    RedrawActivity mRedrawActivity;
 
     /**
      * Constructor
      */
-    public RedrawDragListener() {
+    public RedrawDragListener(RedrawActivity activity, TextView target) {
+        mRedrawActivity = activity;
+        redrawDrop = target;
     }
 
     @Override
     public boolean onDrag(View view, DragEvent event) {
 
-
         //int redrawDrop = R.id.txt_Redraw_Drop;
+        //redrawDrop = (TextView) findV R.id.txt_Redraw_Drop;
 
         int dragEvent = event.getAction();
-
-        switch (dragEvent){
-            case DragEvent.ACTION_DRAG_ENTERED:
-                redraw_Drop.setText("hi");
-                break;
-            case DragEvent.ACTION_DRAG_EXITED:
-                break;
-            case DragEvent.ACTION_DROP:
-                isDropped = true;
-                final View v = (View) event.getLocalState();
-
-                if (v.getId()==R.id.txt_Redraw_Drop){
-                    redraw_Drop.setText("hi");
-                }
-
-                break;
-
+        if (view.getId()== R.id.txtRedrawDrop) {
+            switch (dragEvent) {
+                case DragEvent.ACTION_DRAG_ENTERED:
+                        redrawDrop.setText("hi");
+                    break;
+                case DragEvent.ACTION_DRAG_EXITED:
+                        redrawDrop.setText("bye");
+                    break;
+                case DragEvent.ACTION_DROP:
+                        redrawDrop.setText("dropped");
+                        mRedrawActivity.replaceCard((View) event.getLocalState());
+                    Toast.makeText(view.getContext(), "new card should appear", Toast.LENGTH_SHORT).show();
+                    break;
+            }
         }
-
 //        if (event.getAction() == DragEvent.ACTION_DROP) {
 //            isDropped = true;
 //            int positionTarget = -1;
@@ -58,5 +55,4 @@ public class RedrawDragListener implements View.OnDragListener {
 //        }
         return true;
    }
-
 }

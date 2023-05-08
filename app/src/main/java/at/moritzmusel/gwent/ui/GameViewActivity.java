@@ -203,7 +203,6 @@ public class GameViewActivity extends AppCompatActivity {
         // show the popup window
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
-
     //shake sensor listener
     private final SensorEventListener mSensorListener = new SensorEventListener() {
         @Override
@@ -236,6 +235,11 @@ public class GameViewActivity extends AppCompatActivity {
         mSensorManager.unregisterListener(mSensorListener);
         super.onPause();
     }
+    //END shake sensor listener
 
+    public void refreshUserHandCards(){
+        UserCardAdapter adapter = (UserCardAdapter) ((RecyclerView) findViewById(R.id.recyclerViewUserCardStack)).getAdapter();
 
+        adapter.notifyDataSetChanged();
+    }
 }
