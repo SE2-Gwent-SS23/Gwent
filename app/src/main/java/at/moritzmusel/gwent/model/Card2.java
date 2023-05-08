@@ -23,7 +23,7 @@ public class Card2 {
     int count;
     String flavor_txt;
 
-    public void fill(String filename, Context context) throws JSONException {
+    public void fill(String filename, Context context) throws JSONException, IOException {
         this.filename = filename;
 
         JSONObject jsonObject = new JSONObject(loadCardJSONFromAsset(context));
@@ -91,22 +91,23 @@ public class Card2 {
         }
     }
 
-    private String loadCardJSONFromAsset(Context context) {
+    private String loadCardJSONFromAsset(Context context) throws IOException {
         String json = null;
+        InputStream is = null;
         try {
-            InputStream is = context.getAssets().open("cards.json");
+            is = context.getAssets().open("cards.json");
+
 
             int size = is.available();
             byte[] buffer = new byte[size];
-
-            is.read(buffer);
+            int bytesRead = is.read(buffer);
             is.close();
-
             json = new String(buffer, "UTF-8");
-
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
+        }finally{
+            is.close();
         }
         return json;
 
