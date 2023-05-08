@@ -47,13 +47,15 @@
             android:foregroundGravity="center|right"
             android:orientation="horizontal" />
 
-        <Button
-            android:id="@+id/btnRedraw"
+        <TextView
+            android:id="@+id/txt_Redraw_Drop"
             android:layout_width="150dp"
             android:layout_height="100dp"
             android:layout_gravity="center|start"
+            android:gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginTop="-60dp"
+            android:background="#5A595B"
             android:text="@string/RedrawDrop"
             android:textSize="14sp" />
 

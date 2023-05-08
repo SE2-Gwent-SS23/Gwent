@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,12 +22,15 @@ import at.moritzmusel.gwent.model.Card;
 public class RedrawActivity extends AppCompatActivity {
     private static List<Card> sPlayerCards;
     private List<Card> mPlayerCards;
+    TextView txt_Redraw_Drop;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_window_redraw);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mPlayerCards = sPlayerCards; //b.getSerializable("cards");
+
+        txt_Redraw_Drop = (TextView) findViewById(R.id.txt_Redraw_Drop);
 
        List<List<Card>> redrawCards = halveList(mPlayerCards);
         GameViewActivity.setCards(findViewById(R.id.redrawUserCards1), redrawCards.get(0), getApplicationContext(), this, new RedrawDragListener());
@@ -56,7 +60,6 @@ public class RedrawActivity extends AppCompatActivity {
 
     public void onClickCloseRedraw(View view) {
         mPlayerCards.set(0, new Card(6, 10, false, true));
-
         finish();
     }
 
@@ -77,6 +80,7 @@ public class RedrawActivity extends AppCompatActivity {
         result.add(firstHalf);
         result.add(secondHalf);
 
+        //txt_Redraw_Drop.setText("hi");
         return result;
     }
 }
