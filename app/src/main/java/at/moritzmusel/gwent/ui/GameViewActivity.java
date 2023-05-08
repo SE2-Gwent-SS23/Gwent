@@ -1,8 +1,8 @@
 package at.moritzmusel.gwent.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -11,7 +11,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,17 +74,17 @@ public class GameViewActivity extends AppCompatActivity {
             }
         });
 
-        List<Card> list1 = new ArrayList<>();
-        list1.add(new Card(1, 2, false, true));
-        list1.add(new Card(2, 3, false, true));
-        list1.add(new Card(3, 4,false, true));
-        list1.add(new Card(1, 5, false, true));
-        list1.add(new Card(2, 6, false, true));
-        list1.add(new Card(3, 7, false, true));
-        list1.add(new Card(1, 8, false, true));
-        list1.add(new Card(2, 17, false, true));
-        list1.add(new Card(3, 16, false, true));
-        list1.add(new Card(1, 15, false, true));
+        List<Card> userCards = new ArrayList<>();
+        userCards.add(new Card(1, 2, false, true));
+        userCards.add(new Card(2, 3, false, true));
+        userCards.add(new Card(3, 4,false, true));
+        userCards.add(new Card(1, 5, false, true));
+        userCards.add(new Card(2, 6, false, true));
+        userCards.add(new Card(3, 7, false, true));
+        userCards.add(new Card(1, 8, false, true));
+        userCards.add(new Card(2, 17, false, true));
+        userCards.add(new Card(3, 16, false, true));
+        userCards.add(new Card(1, 15, false, true));
 
         List<Card> list2 = new ArrayList<>();
         list2.add(new Card(1, 18, false, false));
@@ -99,50 +98,49 @@ public class GameViewActivity extends AppCompatActivity {
         List<Card> list5 = new ArrayList<>();
         list5.add(new Card(1, 21, false, false));
 
-        RecyclerView userRecyclerView = findViewById(R.id.recyclerViewUserCardStack);
-        UserCardAdapter adapterUser = new UserCardAdapter(list1, getApplicationContext());
-        userRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        userRecyclerView.setLayoutManager(linearLayoutManagerUser);
-        userRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        userRecyclerView.setAdapter(adapterUser);
-        userRecyclerView.setOnDragListener(adapterUser.getDragInstance());
+        setCards(R.id.recyclerViewCardOpponentLaneOne, list2);
+        setCards(R.id.recyclerViewCardOpponentLaneTwo, list3);
 
-        RecyclerView lineOneRecyclerView = findViewById(R.id.recyclerViewCardOpponentLaneOne);
-        UserCardAdapter adapterLineOne = new UserCardAdapter(list2, getApplicationContext());
-        lineOneRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManagerLaneOne = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        lineOneRecyclerView.setLayoutManager(linearLayoutManagerLaneOne);
-        lineOneRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        lineOneRecyclerView.setAdapter(adapterLineOne);
-        lineOneRecyclerView.setOnDragListener(adapterLineOne.getDragInstance());
+        setUserCards(userCards);
+        setCards(R.id.recyclerViewCardUserLaneOne, list4);
+        setCards(R.id.recyclerViewCardUserLaneTwo, list5);
 
-        RecyclerView lineTwoRecyclerView = findViewById(R.id.recyclerViewCardOpponentLaneTwo);
-        UserCardAdapter adapterLineTwo = new UserCardAdapter(list3, getApplicationContext());
-        lineTwoRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManagerLaneTwo = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        lineTwoRecyclerView.setLayoutManager(linearLayoutManagerLaneTwo);
-        lineTwoRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        lineTwoRecyclerView.setAdapter(adapterLineTwo);
-        lineTwoRecyclerView.setOnDragListener(adapterLineTwo.getDragInstance());
+//        RecyclerView lineOneRecyclerView = findViewById(R.id.recyclerViewCardOpponentLaneOne);
+//        UserCardAdapter adapterLineOne = new UserCardAdapter(list2, getApplicationContext());
+//        lineOneRecyclerView.setHasFixedSize(true);
+//        LinearLayoutManager linearLayoutManagerLaneOne = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+//        lineOneRecyclerView.setLayoutManager(linearLayoutManagerLaneOne);
+//        lineOneRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        lineOneRecyclerView.setAdapter(adapterLineOne);
+//        lineOneRecyclerView.setOnDragListener(adapterLineOne.getDragInstance());
+//
+//        RecyclerView lineTwoRecyclerView = findViewById(R.id.recyclerViewCardOpponentLaneTwo);
+//        UserCardAdapter adapterLineTwo = new UserCardAdapter(list3, getApplicationContext());
+//        lineTwoRecyclerView.setHasFixedSize(true);
+//        LinearLayoutManager linearLayoutManagerLaneTwo = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+//        lineTwoRecyclerView.setLayoutManager(linearLayoutManagerLaneTwo);
+//        lineTwoRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        lineTwoRecyclerView.setAdapter(adapterLineTwo);
+//        lineTwoRecyclerView.setOnDragListener(adapterLineTwo.getDragInstance());
+//
+//        RecyclerView lineThreeRecyclerView = findViewById(R.id.recyclerViewCardUserLaneOne);
+//        UserCardAdapter adapterLineThree = new UserCardAdapter(list4, getApplicationContext());
+//        lineThreeRecyclerView.setHasFixedSize(true);
+//        LinearLayoutManager linearLayoutManagerLaneThree = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+//        lineThreeRecyclerView.setLayoutManager(linearLayoutManagerLaneThree);
+//        lineThreeRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        lineThreeRecyclerView.setAdapter(adapterLineThree);
+//        lineThreeRecyclerView.setOnDragListener(adapterLineThree.getDragInstance());
+//
+//        RecyclerView lineFourRecyclerView = findViewById(R.id.recyclerViewCardUserLaneTwo);
+//        UserCardAdapter adapterLineFour = new UserCardAdapter(list5, getApplicationContext());
+//        lineFourRecyclerView.setHasFixedSize(true);
+//        LinearLayoutManager linearLayoutManagerLaneFour = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+//        lineFourRecyclerView.setLayoutManager(linearLayoutManagerLaneFour);
+//        lineFourRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        lineFourRecyclerView.setAdapter(adapterLineFour);
+//        lineFourRecyclerView.setOnDragListener(adapterLineFour.getDragInstance());
 
-        RecyclerView lineThreeRecyclerView = findViewById(R.id.recyclerViewCardUserLaneOne);
-        UserCardAdapter adapterLineThree = new UserCardAdapter(list4, getApplicationContext());
-        lineThreeRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManagerLaneThree = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        lineThreeRecyclerView.setLayoutManager(linearLayoutManagerLaneThree);
-        lineThreeRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        lineThreeRecyclerView.setAdapter(adapterLineThree);
-        lineThreeRecyclerView.setOnDragListener(adapterLineThree.getDragInstance());
-
-        RecyclerView lineFourRecyclerView = findViewById(R.id.recyclerViewCardUserLaneTwo);
-        UserCardAdapter adapterLineFour = new UserCardAdapter(list5, getApplicationContext());
-        lineFourRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManagerLaneFour = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        lineFourRecyclerView.setLayoutManager(linearLayoutManagerLaneFour);
-        lineFourRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        lineFourRecyclerView.setAdapter(adapterLineFour);
-        lineFourRecyclerView.setOnDragListener(adapterLineFour.getDragInstance());
 
         //shake sensor initialisation
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -151,7 +149,40 @@ public class GameViewActivity extends AppCompatActivity {
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
 
-        showRedraw();
+        RedrawActivity.showRedraw(this, userCards);
+    }
+
+    public void setCards(int recyclerViewUserCardStack, List<Card> cards) {
+        setCards(findViewById(recyclerViewUserCardStack), cards, getApplicationContext(), GameViewActivity.this);
+//        RecyclerView userRecyclerView = findViewById(recyclerViewUserCardStack);
+//        UserCardAdapter adapterUser = new UserCardAdapter(cards, getApplicationContext());
+//        userRecyclerView.setHasFixedSize(true);
+//        LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(GameViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
+//        userRecyclerView.setLayoutManager(linearLayoutManagerUser);
+//        userRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        userRecyclerView.setAdapter(adapterUser);
+//        userRecyclerView.setOnDragListener(adapterUser.getDragInstance());
+    }
+
+    public static void setCards(RecyclerView view, List<Card> cards, Context context, Activity parentActivity) {
+        setCards(view, cards, context, parentActivity, null);
+    }
+    public static void setCards(RecyclerView view, List<Card> cards, Context context, Activity parentActivity, View.OnDragListener dragListener) {
+        UserCardAdapter adapterUser = new UserCardAdapter(cards, context);
+        view.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(parentActivity, LinearLayoutManager.HORIZONTAL, false);
+        view.setLayoutManager(linearLayoutManagerUser);
+        view.setItemAnimator(new DefaultItemAnimator());
+        view.setAdapter(adapterUser);
+        if (dragListener == null){
+            view.setOnDragListener(adapterUser.getDragInstance());
+        } else{
+            view.setOnDragListener(dragListener);
+        }
+    }
+
+    public void setUserCards(List<Card> cards) {
+        setCards(R.id.recyclerViewUserCardStack, cards);
     }
 
     private void setImageFromAssetForOpponent(ImageView image) {
@@ -206,7 +237,6 @@ public class GameViewActivity extends AppCompatActivity {
         // show the popup window
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
-
     //shake sensor listener
     private final SensorEventListener mSensorListener = new SensorEventListener() {
         @Override
@@ -239,31 +269,11 @@ public class GameViewActivity extends AppCompatActivity {
         mSensorManager.unregisterListener(mSensorListener);
         super.onPause();
     }
+    //END shake sensor listener
 
-    private void showRedraw() {
-        new CountDownTimer(1000, 1000) {
-            @Override
-            public void onTick(long l) {
-            }
-            @Override
-            public void onFinish() {
-                showRedrawPopup(GameViewActivity.this.getWindow().getDecorView().getRootView());
-                //startActivity(new Intent(GameViewActivity.this, RedrawActivity.class));
-            }
-        }.start();
-    }
-    PopupWindow redrawWnd;
-    public void showRedrawPopup(View parent) {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.popup_window_redraw, null);
-        popupView.measure(0, 0);
-        redrawWnd = new PopupWindow(popupView, popupView.getMeasuredWidth(), popupView.getMeasuredHeight(), false);
-        // show the popup window
-        redrawWnd.showAtLocation(parent, Gravity.CENTER, 0, 0);
-    }
-    public void onClickCloseRedraw(View view) {
-        if(redrawWnd != null) {
-            redrawWnd.dismiss();
-        }
+    public void refreshUserHandCards(){
+        UserCardAdapter adapter = (UserCardAdapter) ((RecyclerView) findViewById(R.id.recyclerViewUserCardStack)).getAdapter();
+
+        adapter.notifyDataSetChanged();
     }
 }

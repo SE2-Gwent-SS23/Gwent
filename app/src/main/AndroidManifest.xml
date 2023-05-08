@@ -93,6 +93,8 @@
         android:name=".ui.RedrawActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan"
+            android:theme="@style/Theme.AppCompat.Dialog"
+            android:label=""
             />
 
 <!-- END -->

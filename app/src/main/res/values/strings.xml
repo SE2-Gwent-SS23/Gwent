@@ -36,6 +36,8 @@
     <string name="ImageViewDeckStackOpponentLeft">ImageView Deck Stack Opponent Left</string>
     <string name="ImageViewWelcomeScreen">ImageView Welcome Screen</string>
     <string name="CardDeckBackUserLeftImageView">Card Deck Back User Left ImageView</string>
+    <string name="RedrawDoneButton">Fertig</string>
+    <string name="RedrawDrop">Hier ablegen</string>
     <string name="error_missing_permissions">Missing permissions!</string>
     <string name="ipPlaceholder">192.168.72.10</string>
     <string name="pwPlaceholder">AX89A</string>
