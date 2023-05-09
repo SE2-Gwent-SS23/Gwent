@@ -74,29 +74,22 @@
             android:name=".ui.GameViewActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
-<!-- DEBUGGING ACTIVITIES -->
+        <!-- DEBUGGING ACTIVITIES -->
         <activity
-            android:name=".network.Activities.CreateDebugActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".network.Activities.JoinDebugActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-        android:name=".ui.RedrawActivity"
-            android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/Theme.AppCompat.Dialog"
+            android:name=".ui.RedrawActivity"
             android:label=""
-            />
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Dialog"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".network.Activities.HostActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
 
-<!-- END -->
+        <!-- END -->
     </application>
 </manifest>
