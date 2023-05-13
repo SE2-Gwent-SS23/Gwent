@@ -44,10 +44,6 @@ public class RedrawActivity extends AppCompatActivity {
         mRedrawCards = halveList(mPlayerCards);
         GameViewActivity.setCards(findViewById(R.id.redrawUserCards1), mRedrawCards.get(0), getApplicationContext(), this, listener);
         GameViewActivity.setCards(findViewById(R.id.redrawUserCards2), mRedrawCards.get(1), getApplicationContext(), this, listener);
-
-
-        //findViewById(R.id.redrawUserCards1).setOnDragListener(new RedrawDragListener());
-        //findViewById(R.id.btnEndRedraw).setOnDragListener(new RedrawDragListener());
     }
 
     public static void showRedraw(GameViewActivity gameView, List<Card> playerCards) {
@@ -72,19 +68,12 @@ public class RedrawActivity extends AppCompatActivity {
     }
 
     public void onClickCloseRedraw(View view) {
-        //mPlayerCards.set(0, new Card(6, 10, false, true));
-        //sPlayerCards.set(0, new Card(7,22,false, true));
-
         for (int i = 0; i < mRedrawCards.size(); i++) {
             for (int j = 0; j < mRedrawCards.get(i).size(); j++) {
                 mPlayerCards.set((j + i * 5), mRedrawCards.get(i).get(j));
             }
         }
         sGameViewAdapter.refreshUserHandCards();
-
-        //RecyclerView userHandCards = findViewById(R.id.recyclerViewUserCardStack);
-        //GameViewActivity.setCards(userHandCards,
-
         finish();
     }
 
@@ -111,7 +100,6 @@ public class RedrawActivity extends AppCompatActivity {
         if (mRedrawCount <= 2) {
             UserCardAdapter adapter = (UserCardAdapter) ((RecyclerView) cardView.getParent()).getAdapter();
             int cardPos = (int) cardView.getTag();
-            //Card card = adapter.getList().get(cardPos);
             List<Card> listSource = adapter.getList();
             listSource.set(cardPos, drawRandomCard());
             adapter.updateList(listSource);
@@ -120,7 +108,8 @@ public class RedrawActivity extends AppCompatActivity {
             mRedrawCountView.setText(mRedrawCount + "/3");
         }
         if (mRedrawCount == 3) {
-            mRedrawDropView.setText("Bitte auf Fertig tippen");
+            String str = getString(R.string.RedrawDropFinished);
+            mRedrawDropView.setText(str); //ToDo: use String res
         }
     }
 
