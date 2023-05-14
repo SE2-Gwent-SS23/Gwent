@@ -54,12 +54,15 @@ public class GwentViewModel extends ViewModel {
         @Override
         public void onPayloadReceived(@NonNull String s, @NonNull Payload payload) {
             //TODO logic for receive
+            //TODO UPDATE UI
             i(TAG, "onPayloadReceive");
         }
 
         @Override
         public void onPayloadTransferUpdate(@NonNull String s, @NonNull PayloadTransferUpdate payloadTransferUpdate) {
             //TODO logic for send
+            // send data
+            connectionsClient.sendPayload("", dataToPayload(state));
             i(TAG, "onPayloadSend");
         }
     };
@@ -130,7 +133,7 @@ public class GwentViewModel extends ViewModel {
         this.connectionsClient = connectionsClient;
     }
 
-    private void startHosting() {
+    public void startHosting() {
         d(TAG, "Start advertising...");
         //TODO HOSTING VIEW HERE
         AdvertisingOptions advertisingOptions = new AdvertisingOptions.Builder().setStrategy(STRATEGY).build();
@@ -143,11 +146,12 @@ public class GwentViewModel extends ViewModel {
                 })
                 .addOnFailureListener(command -> {
                     d(TAG, "Unable to start advertising");
+                    e(TAG, command.getMessage());
                     //TODO NAVIGATE BACK TO HOMESCREEN
                 });
     }
 
-    private void startDiscovering() {
+    public void startDiscovering() {
         d(TAG, "Start discovering...");
         //TODO NAVIGATE TO JOIN LOBBY SCREEN HERE
         DiscoveryOptions discoveryOptions = new DiscoveryOptions.Builder().setStrategy(STRATEGY).build();

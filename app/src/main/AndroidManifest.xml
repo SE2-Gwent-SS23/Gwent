@@ -22,6 +22,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
+            android:name=".LobbyActivity"
+            android:exported="false"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.MainMenuActivity"
             android:exported="false"
             android:screenOrientation="landscape">
@@ -51,6 +59,7 @@
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -73,8 +82,7 @@
         <activity
             android:name=".ui.GameViewActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan" />
-        <!-- DEBUGGING ACTIVITIES -->
+            android:windowSoftInputMode="adjustPan" /> <!-- DEBUGGING ACTIVITIES -->
         <activity
             android:name=".ui.RedrawActivity"
             android:label=""
@@ -89,7 +97,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
-        <!-- END -->
     </application>
+
 </manifest>

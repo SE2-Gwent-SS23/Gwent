@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import at.moritzmusel.gwent.LobbyActivity;
 import at.moritzmusel.gwent.R;
 
 public class MainMenuActivity extends AppCompatActivity {
@@ -36,14 +37,13 @@ public class MainMenuActivity extends AppCompatActivity {
                     Toast.makeText(MainMenuActivity.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
 
                     if (menuItem.getTitle().equals("Host")) {
-                        //placeholder
-                        Intent GameViewIntent = new Intent(MainMenuActivity.this, GameViewActivity.class);
-                        startActivity(GameViewIntent);
-
+                        Intent i = new Intent(MainMenuActivity.this, LobbyActivity.class);
+                        i.putExtra("lobby_type","create");
+                        startActivity(i);
                     } else if (menuItem.getTitle().equals("Join")) {
-                        //placeholder
-                        Intent GameViewIntent = new Intent(MainMenuActivity.this, GameViewActivity.class);
-                        startActivity(GameViewIntent);
+                        Intent i = new Intent(MainMenuActivity.this, LobbyActivity.class);
+                        i.putExtra("lobby_type","join");
+                        startActivity(i);
                     } else {
                         Toast.makeText(MainMenuActivity.this, "Error", Toast.LENGTH_SHORT).show();
                         return false;
