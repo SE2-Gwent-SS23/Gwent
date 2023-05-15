@@ -336,5 +336,4 @@ public class GameViewActivity extends AppCompatActivity {
         );
     }
 
-
 }
