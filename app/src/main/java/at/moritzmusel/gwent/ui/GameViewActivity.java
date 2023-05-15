@@ -183,14 +183,17 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     private String loadCardJSONFromAsset() throws IOException {
-        String jsonString;
+        String jsonString = null;
         InputStream is = null;
         try {
             is = context.getAssets().open("cards.json");
             int size = is.available();
             byte[] buffer = new byte[size];
-            is.close();
-            jsonString = new String(buffer, "UTF-8");
+
+            while (is.read(buffer) > 0) {
+                jsonString = new String(buffer, "UTF-8");
+            }
+            if (is != null) is.close();
         } catch (IOException e) {
             System.out.println(e.getLocalizedMessage());
             return null;
@@ -383,8 +386,8 @@ public class GameViewActivity extends AppCompatActivity {
         LinearLayout llOpponent = popupView.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
 
         tvOpponentMonster = popupView.findViewById(R.id.tvOpponentMonsters);
-        tvOpponentMonster.setText(gameState.getOpponentHand().size()+"");
+        tvOpponentMonster.setText(gameState.getOpponentHand().size() + "");
         tvOpponentGrave = popupView.findViewById(R.id.tvOpponentGrave);
-        tvOpponentGrave.setText(gameState.getOpponentGrave().size()+"");
+        tvOpponentGrave.setText(gameState.getOpponentGrave().size() + "");
     }
 }

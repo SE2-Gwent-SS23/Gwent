@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -186,7 +187,7 @@ public class Utils {
      * @return Return a 4 digit integer.
      */
     public static int generatePassword(){
-        Random random = new Random();
+        SecureRandom random = new SecureRandom();
         return Integer.parseInt(String.format("%04d", (random.nextInt(9000) + 1000)));
     }
 }
