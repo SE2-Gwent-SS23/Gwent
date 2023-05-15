@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import at.moritzmusel.gwent.model.Card2;
 
 public class GameState {
+
+    // if leader is used then boolean = true; if weather is set then boolean = true;
     String myDeck;
     String opponentDeck;
     List<Card2> myHand;
@@ -27,6 +29,33 @@ public class GameState {
     Boolean usedMyLeader;
     Card2 opponentLeader;
     Boolean usedOpponentLeader;
+    Boolean[] myWins;
+    Boolean[] opponentWins;
+
+    public GameState() {
+        String myDeck = "";
+        String opponentDeck = "";
+        List<Card2> myHand = new ArrayList<>();
+        List<Card2> opponentHand = new ArrayList<>();
+        List<Card2> myGrave = new ArrayList<>();
+        List<Card2> opponentGrave = new ArrayList<>();
+        List<Card2> weather = new ArrayList<>();
+        List<Card2> myClose = new ArrayList<>();
+        Boolean myWeatherClose = false;
+        List<Card2> myRanged = new ArrayList<>();
+        Boolean myWeatherRanged = false;
+        List<Card2> opponentClose = new ArrayList<>();
+        Boolean opponentWeatherClose = false;
+        List<Card2> opponentRanged = new ArrayList<>();
+        Boolean opponentWeatherRanged = false;
+
+        Card2 myLeader = new Card2();
+        Boolean usedMyLeader = false;
+        Card2 opponentLeader = new Card2();
+        Boolean usedOpponentLeader = false;
+        Boolean[] myWins = {false, false, false};
+        Boolean[] opponentWins = {false, false, false};
+    }
 
     public int calculateMyPoints() {
         int sum = 0;
@@ -37,6 +66,20 @@ public class GameState {
             sum += c.getStrength();
         }
         return sum;
+    }
+
+    public boolean determineWinner(Boolean[] array) {
+        int counter = 0;
+        for (boolean b : array) {
+            if (b) {
+                counter++;
+            }
+        }
+        if (counter >= 2) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public int calculateOpponentPoints() {
@@ -75,18 +118,22 @@ public class GameState {
         Boolean tempOpponentWeatherRanged = this.opponentWeatherRanged;
         Card2 tempOpponentLeader = this.opponentLeader;
         Boolean tempUsedOpponentLeader = this.usedOpponentLeader;
+        Boolean[] tempOpponentWins = this.opponentWins;
+
 
         this.opponentDeck = this.myDeck;
         this.opponentWeatherClose = this.myWeatherClose;
         this.opponentWeatherRanged = this.myWeatherRanged;
         this.opponentLeader = this.myLeader;
         this.usedOpponentLeader = this.usedMyLeader;
+        this.opponentWins = this.myWins;
 
         this.myDeck = tempOpponentDeck;
         this.myWeatherClose = tempOpponentWeatherClose;
         this.myWeatherRanged = tempOpponentWeatherRanged;
         this.myLeader = tempOpponentLeader;
         this.usedMyLeader = tempUsedOpponentLeader;
+        this.myWins = tempOpponentWins;
 
     }
 
@@ -313,5 +360,21 @@ public class GameState {
 
     public void setUsedOpponentLeader(Boolean usedOpponentLeader) {
         this.usedOpponentLeader = usedOpponentLeader;
+    }
+
+    public Boolean[] getMyWins() {
+        return myWins;
+    }
+
+    public void setMyWins(Boolean[] myWins) {
+        this.myWins = myWins;
+    }
+
+    public Boolean[] getOpponentWins() {
+        return opponentWins;
+    }
+
+    public void setOpponentWins(Boolean[] opponentWins) {
+        this.opponentWins = opponentWins;
     }
 }
