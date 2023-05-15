@@ -130,7 +130,7 @@ public class GwentViewModel extends ViewModel {
         this.connectionsClient = connectionsClient;
     }
 
-    private void startHosting() {
+    public void startHosting() {
         d(TAG, "Start advertising...");
         //TODO HOSTING VIEW HERE
         AdvertisingOptions advertisingOptions = new AdvertisingOptions.Builder().setStrategy(STRATEGY).build();
