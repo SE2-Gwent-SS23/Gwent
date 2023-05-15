@@ -29,32 +29,32 @@ public class GameState {
     Boolean usedMyLeader;
     Card2 opponentLeader;
     Boolean usedOpponentLeader;
-    Boolean[] myWins;
-    Boolean[] opponentWins;
+    boolean[] myWins;
+    boolean[] opponentWins;
 
     public GameState() {
-        String myDeck = "";
-        String opponentDeck = "";
-        List<Card2> myHand = new ArrayList<>();
-        List<Card2> opponentHand = new ArrayList<>();
-        List<Card2> myGrave = new ArrayList<>();
-        List<Card2> opponentGrave = new ArrayList<>();
-        List<Card2> weather = new ArrayList<>();
-        List<Card2> myClose = new ArrayList<>();
-        Boolean myWeatherClose = false;
-        List<Card2> myRanged = new ArrayList<>();
-        Boolean myWeatherRanged = false;
-        List<Card2> opponentClose = new ArrayList<>();
-        Boolean opponentWeatherClose = false;
-        List<Card2> opponentRanged = new ArrayList<>();
-        Boolean opponentWeatherRanged = false;
+        this.myDeck = "";
+        this.opponentDeck = "";
+        this.myHand = new ArrayList<>();
+        this.opponentHand = new ArrayList<>();
+        this.myGrave = new ArrayList<>();
+        this.opponentGrave = new ArrayList<>();
+        this.weather = new ArrayList<>();
+        this.myClose = new ArrayList<>();
+        this.myWeatherClose = false;
+        this.myRanged = new ArrayList<>();
+        this.myWeatherRanged = false;
+        this.opponentClose = new ArrayList<>();
+        this.opponentWeatherClose = false;
+        this.opponentRanged = new ArrayList<>();
+        this.opponentWeatherRanged = false;
 
-        Card2 myLeader = new Card2();
-        Boolean usedMyLeader = false;
-        Card2 opponentLeader = new Card2();
-        Boolean usedOpponentLeader = false;
-        Boolean[] myWins = {false, false, false};
-        Boolean[] opponentWins = {false, false, false};
+        this.myLeader = new Card2();
+        this.usedMyLeader = false;
+        this.opponentLeader = new Card2();
+        this.usedOpponentLeader = false;
+        this.myWins = new boolean[]{false, false, false};
+        this.opponentWins = new boolean[]{false, false, false};
     }
 
     public int calculateMyPoints() {
@@ -118,7 +118,7 @@ public class GameState {
         Boolean tempOpponentWeatherRanged = this.opponentWeatherRanged;
         Card2 tempOpponentLeader = this.opponentLeader;
         Boolean tempUsedOpponentLeader = this.usedOpponentLeader;
-        Boolean[] tempOpponentWins = this.opponentWins;
+        boolean[] tempOpponentWins = this.opponentWins;
 
 
         this.opponentDeck = this.myDeck;
@@ -362,19 +362,19 @@ public class GameState {
         this.usedOpponentLeader = usedOpponentLeader;
     }
 
-    public Boolean[] getMyWins() {
+    public boolean[] getMyWins() {
         return myWins;
     }
 
-    public void setMyWins(Boolean[] myWins) {
+    public void setMyWins(boolean[] myWins) {
         this.myWins = myWins;
     }
 
-    public Boolean[] getOpponentWins() {
+    public boolean[] getOpponentWins() {
         return opponentWins;
     }
 
-    public void setOpponentWins(Boolean[] opponentWins) {
+    public void setOpponentWins(boolean[] opponentWins) {
         this.opponentWins = opponentWins;
     }
 }
