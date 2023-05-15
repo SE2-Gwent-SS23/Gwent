@@ -1172,7 +1172,7 @@
     },
     {
       "name": "Ghoul",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "1",
       "ability": "muster",
@@ -1182,7 +1182,7 @@
     },
     {
       "name": "Ghoul",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "1",
       "ability": "muster",
@@ -1192,7 +1192,7 @@
     },
     {
       "name": "Ghoul",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "1",
       "ability": "muster",
@@ -1202,7 +1202,7 @@
     },
     {
       "name": "Grave Hag",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "ranged",
       "strength": "5",
       "ability": "none",
@@ -1212,7 +1212,7 @@
     },
     {
       "name": "Griffin",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "5",
       "ability": "none",
@@ -1222,7 +1222,7 @@
     },
     {
       "name": "Harpy",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "agile",
       "strength": "2",
       "ability": "none",
@@ -1232,7 +1232,7 @@
     },
     {
       "name": "Ice Giant",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "siege",
       "strength": "5",
       "ability": "none",
@@ -1242,7 +1242,7 @@
     },
     {
       "name": "Imlerith",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "10",
       "ability": "hero",
@@ -1252,7 +1252,7 @@
     },
     {
       "name": "Kayran",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "agile",
       "strength": "8",
       "ability": "hero morale",
@@ -1262,7 +1262,7 @@
     },
     {
       "name": "Leshen",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "ranged",
       "strength": "10",
       "ability": "hero",
@@ -1272,7 +1272,7 @@
     },
     {
       "name": "Nekker",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "2",
       "ability": "muster",
@@ -1282,7 +1282,7 @@
     },
     {
       "name": "Nekker",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "2",
       "ability": "muster",
@@ -1292,7 +1292,7 @@
     },
     {
       "name": "Nekker",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "2",
       "ability": "muster",
@@ -1302,7 +1302,7 @@
     },
     {
       "name": "Plague Maiden",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "5",
       "ability": "none",
@@ -1312,7 +1312,7 @@
     },
     {
       "name": "Vampire - Bruxa",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "4",
       "ability": "muster",
@@ -1322,7 +1322,7 @@
     },
     {
       "name": "Vampire - Ekimmara",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "4",
       "ability": "muster",
@@ -1332,7 +1332,7 @@
     },
     {
       "name": "Vampire - Fleder",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "4",
       "ability": "muster",
@@ -1342,7 +1342,7 @@
     },
     {
       "name": "Vampire - Garkain",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "4",
       "ability": "muster",
@@ -1352,7 +1352,7 @@
     },
     {
       "name": "Vampire - Katakan",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "5",
       "ability": "muster",
@@ -1362,7 +1362,7 @@
     },
     {
       "name": "Werewolf",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "close",
       "strength": "5",
       "ability": "none",
@@ -1372,7 +1372,7 @@
     },
     {
       "name": "Wyvern",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "ranged",
       "strength": "2",
       "ability": "none",
@@ -1382,7 +1382,7 @@
     },
     {
       "name": "Toad",
-      "deck": "monsters",
+      "type": "monsters",
       "row": "ranged",
       "strength": "7",
       "ability": "scorch_r",
@@ -1392,7 +1392,7 @@
     },
     {
       "name": "Francesca Findabair - Queen of Dol Blathanna",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "leader",
       "strength": "0",
       "ability": "francesca_queen",
@@ -1402,7 +1402,7 @@
     },
     {
       "name": "Francesca Findabair - the Beautiful",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "leader",
       "strength": "0",
       "ability": "francesca_beautiful",
@@ -1412,7 +1412,7 @@
     },
     {
       "name": "Francesca Findabair - Daisy of the Valley",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "leader",
       "strength": "0",
       "ability": "francesca_daisy",
@@ -1422,7 +1422,7 @@
     },
     {
       "name": "Francesca Findabair - Pureblood Elf",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "leader",
       "strength": "0",
       "ability": "francesca_pureblood",
@@ -1432,7 +1432,7 @@
     },
     {
       "name": "Francesca Findabair - Hope of the Aen Seidhe",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "leader",
       "strength": "0",
       "ability": "francesca_hope",
@@ -1442,7 +1442,7 @@
     },
     {
       "name": "Ciaran aep Easnillien",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "agile",
       "strength": "3",
       "ability": "none",
@@ -1452,7 +1452,7 @@
     },
     {
       "name": "Barclay Els",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "agile",
       "strength": "6",
       "ability": "none",
@@ -1462,7 +1462,7 @@
     },
     {
       "name": "Dennis Cranmer",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "close",
       "strength": "6",
       "ability": "none",
@@ -1472,7 +1472,7 @@
     },
     {
       "name": "Dol Blathanna Archer",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "4",
       "ability": "none",
@@ -1482,7 +1482,7 @@
     },
     {
       "name": "Dol Blathanna Scout",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "agile",
       "strength": "6",
       "ability": "none",
@@ -1492,7 +1492,7 @@
     },
     {
       "name": "Dol Blathanna Scout",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "agile",
       "strength": "6",
       "ability": "none",
@@ -1502,7 +1502,7 @@
     },
     {
       "name": "Dol Blathanna Scout",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "agile",
       "strength": "6",
       "ability": "none",
@@ -1512,7 +1512,7 @@
     },
     {
       "name": "Dwarven Skirmisher",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "close",
       "strength": "3",
       "ability": "muster",
@@ -1522,7 +1522,7 @@
     },
     {
       "name": "Dwarven Skirmisher",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "close",
       "strength": "3",
       "ability": "muster",
@@ -1532,7 +1532,7 @@
     },
     {
       "name": "Dwarven Skirmisher",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "close",
       "strength": "3",
       "ability": "muster",
@@ -1542,7 +1542,7 @@
     },
     {
       "name": "Eithné",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "10",
       "ability": "hero",
@@ -1552,7 +1552,7 @@
     },
     {
       "name": "Elven Skirmisher",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "2",
       "ability": "muster",
@@ -1562,7 +1562,7 @@
     },
     {
       "name": "Elven Skirmisher",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "2",
       "ability": "muster",
@@ -1572,7 +1572,7 @@
     },
     {
       "name": "Elven Skirmisher",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "2",
       "ability": "muster",
@@ -1582,7 +1582,7 @@
     },
     {
       "name": "Filavandrel aen Fidhail",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "agile",
       "strength": "6",
       "ability": "none",
@@ -1592,7 +1592,7 @@
     },
     {
       "name": "Havekar Healer",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "0",
       "ability": "medic",
@@ -1602,7 +1602,7 @@
     },
     {
       "name": "Havekar Healer",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "0",
       "ability": "medic",
@@ -1612,7 +1612,7 @@
     },
     {
       "name": "Havekar Healer",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "0",
       "ability": "medic",
@@ -1622,7 +1622,7 @@
     },
     {
       "name": "Havekar Smuggler",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "close",
       "strength": "5",
       "ability": "muster",
@@ -1632,7 +1632,7 @@
     },
     {
       "name": "Havekar Smuggler",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "close",
       "strength": "5",
       "ability": "muster",
@@ -1642,7 +1642,7 @@
     },
     {
       "name": "Havekar Smuggler",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "close",
       "strength": "5",
       "ability": "muster",
@@ -1652,7 +1652,7 @@
     },
     {
       "name": "Ida Emean aep Sivney",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "6",
       "ability": "none",
@@ -1662,7 +1662,7 @@
     },
     {
       "name": "Iorveth",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "10",
       "ability": "hero",
@@ -1672,7 +1672,7 @@
     },
     {
       "name": "Isengrim Faoiltiarna",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "close",
       "strength": "10",
       "ability": "hero morale",
@@ -1682,7 +1682,7 @@
     },
     {
       "name": "Mahakaman Defender",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "close",
       "strength": "5",
       "ability": "none",
@@ -1692,7 +1692,7 @@
     },
     {
       "name": "Mahakaman Defender",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "close",
       "strength": "5",
       "ability": "none",
@@ -1702,7 +1702,7 @@
     },
     {
       "name": "Mahakaman Defender",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "close",
       "strength": "5",
       "ability": "none",
@@ -1712,7 +1712,7 @@
     },
     {
       "name": "Mahakaman Defender",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "close",
       "strength": "5",
       "ability": "none",
@@ -1722,7 +1722,7 @@
     },
     {
       "name": "Mahakaman Defender",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "close",
       "strength": "5",
       "ability": "none",
@@ -1732,7 +1732,7 @@
     },
     {
       "name": "Milva",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "10",
       "ability": "morale",
@@ -1742,7 +1742,7 @@
     },
     {
       "name": "Riordain",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "1",
       "ability": "none",
@@ -1752,7 +1752,7 @@
     },
     {
       "name": "Saesenthessis",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "10",
       "ability": "hero",
@@ -1762,7 +1762,7 @@
     },
     {
       "name": "Toruviel",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "2",
       "ability": "none",
@@ -1772,7 +1772,7 @@
     },
     {
       "name": "Vrihedd Brigade Recruit",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "ranged",
       "strength": "4",
       "ability": "none",
@@ -1782,7 +1782,7 @@
     },
     {
       "name": "Vrihedd Brigade Veteran",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "agile",
       "strength": "5",
       "ability": "none",
@@ -1792,7 +1792,7 @@
     },
     {
       "name": "Vrihedd Brigade Veteran",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "agile",
       "strength": "5",
       "ability": "none",
@@ -1802,7 +1802,7 @@
     },
     {
       "name": "Yaevinn",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "agile",
       "strength": "6",
       "ability": "none",
@@ -1812,7 +1812,7 @@
     },
     {
       "name": "Berserker",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "4",
       "ability": "berserker",
@@ -1822,7 +1822,7 @@
     },
     {
       "name": "Birna Bran",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "2",
       "ability": "medic",
@@ -1832,7 +1832,7 @@
     },
     {
       "name": "Blueboy Lugos",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "6",
       "ability": "none",
@@ -1842,7 +1842,7 @@
     },
     {
       "name": "Cerys",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "10",
       "ability": "hero muster",
@@ -1852,7 +1852,7 @@
     },
     {
       "name": "Clan Brokva Archer",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "ranged",
       "strength": "6",
       "ability": "none",
@@ -1862,7 +1862,7 @@
     },
     {
       "name": "Clan Dimun Pirate",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "ranged",
       "strength": "6",
       "ability": "scorch",
@@ -1872,7 +1872,7 @@
     },
     {
       "name": "Cerys - Clan Drummond Shield Maiden",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "4",
       "ability": "bond",
@@ -1882,7 +1882,7 @@
     },
     {
       "name": "Cerys - Clan Drummond Shield Maiden",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "4",
       "ability": "bond",
@@ -1892,7 +1892,7 @@
     },
     {
       "name": "Cerys - Clan Drummond Shield Maiden",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "4",
       "ability": "bond",
@@ -1902,7 +1902,7 @@
     },
     {
       "name": "Clan Heymaey Skald",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "4",
       "ability": "none",
@@ -1912,7 +1912,7 @@
     },
     {
       "name": "Clan Tordarroch Armorsmith",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "4",
       "ability": "none",
@@ -1922,7 +1922,7 @@
     },
     {
       "name": "Clan an Craite Warrior",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "6",
       "ability": "bond",
@@ -1932,7 +1932,7 @@
     },
     {
       "name": "Donar an Hindar",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "4",
       "ability": "none",
@@ -1942,7 +1942,7 @@
     },
     {
       "name": "Draig Bon-Dhu",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "siege",
       "strength": "2",
       "ability": "horn",
@@ -1952,7 +1952,7 @@
     },
     {
       "name": "Ermion",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "ranged",
       "strength": "8",
       "ability": "hero mardroeme",
@@ -1962,7 +1962,7 @@
     },
     {
       "name": "Hemdall",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "11",
       "ability": "hero",
@@ -1972,7 +1972,7 @@
     },
     {
       "name": "Hjalmar",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "ranged",
       "strength": "10",
       "ability": "hero",
@@ -1982,7 +1982,7 @@
     },
     {
       "name": "Holger Blackhand",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "siege",
       "strength": "4",
       "ability": "none",
@@ -1992,7 +1992,7 @@
     },
     {
       "name": "Kambi",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "0",
       "ability": "avenger_kambi",
@@ -2002,7 +2002,7 @@
     },
     {
       "name": "Light Longship",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "ranged",
       "strength": "4",
       "ability": "muster",
@@ -2012,7 +2012,7 @@
     },
     {
       "name": "Madman Lugos",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "6",
       "ability": "none",
@@ -2022,7 +2022,7 @@
     },
     {
       "name": "Mardroeme",
-      "deck": "special",
+      "type": "special",
       "row": "none",
       "strength": "0",
       "ability": "mardroeme",
@@ -2032,7 +2032,7 @@
     },
     {
       "name": "Olaf",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "agile",
       "strength": "12",
       "ability": "morale",
@@ -2042,7 +2042,7 @@
     },
     {
       "name": "Skellige Storm",
-      "deck": "weather",
+      "type": "weather",
       "row": "none",
       "strength": "0",
       "ability": "rain fog",
@@ -2052,7 +2052,7 @@
     },
     {
       "name": "Svanrige",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "4",
       "ability": "none",
@@ -2062,7 +2062,7 @@
     },
     {
       "name": "Transformed Vildkaarl",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "14",
       "ability": "morale",
@@ -2072,7 +2072,7 @@
     },
     {
       "name": "Transformed Young Vildkaarl",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "ranged",
       "strength": "8",
       "ability": "bond",
@@ -2082,7 +2082,7 @@
     },
     {
       "name": "Udalryk",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "close",
       "strength": "4",
       "ability": "none",
@@ -2092,7 +2092,7 @@
     },
     {
       "name": "War Longship",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "siege",
       "strength": "6",
       "ability": "bond",
@@ -2102,7 +2102,7 @@
     },
     {
       "name": "Young Berserker",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "ranged",
       "strength": "2",
       "ability": "berserker",
@@ -2112,7 +2112,7 @@
     },
     {
       "name": "Crach an Craite",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "leader",
       "strength": "0",
       "ability": "crach_an_craite",
@@ -2122,7 +2122,7 @@
     },
     {
       "name": "King Bran",
-      "deck": "skellige",
+      "type": "skellige",
       "row": "leader",
       "strength": "0",
       "ability": "king_bran",
@@ -2132,7 +2132,7 @@
     },
     {
       "name": "Schirru",
-      "deck": "scoiatael",
+      "type": "scoiatael",
       "row": "siege",
       "strength": "8",
       "ability": "scorch_s",
