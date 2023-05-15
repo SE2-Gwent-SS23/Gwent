@@ -47,6 +47,7 @@ public class GameViewActivity extends AppCompatActivity {
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
+    private List<RecyclerView> recyclerViews;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -73,6 +74,15 @@ public class GameViewActivity extends AppCompatActivity {
                 super.onSwipeBottom();
             }
         });
+
+        //adding views to list
+        this.recyclerViews = new ArrayList<RecyclerView>();
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardOpponentLaneOne));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardOpponentLaneTwo));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneOne));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneTwo));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewUserCardStack));
+
 
         List<Card> userCards = new ArrayList<>();
         userCards.add(new Card(1, 2, false, true));
@@ -104,8 +114,6 @@ public class GameViewActivity extends AppCompatActivity {
         setUserCards(userCards);
         setCards(R.id.recyclerViewCardUserLaneOne, list4);
         setCards(R.id.recyclerViewCardUserLaneTwo, list5);
-
-
 
 
 //        RecyclerView lineOneRecyclerView = findViewById(R.id.recyclerViewCardOpponentLaneOne);
@@ -288,34 +296,29 @@ public class GameViewActivity extends AppCompatActivity {
      * Also disables all relevant DragListeners.
      */
     public void enableDisableYourTurn(boolean yourTurn) {
-        RecyclerView opponentRangedView = findViewById(R.id.recyclerViewCardOpponentLaneOne);
-        RecyclerView opponentCloseView = findViewById(R.id.recyclerViewCardOpponentLaneTwo);
-        RecyclerView myCloseView = findViewById(R.id.recyclerViewCardUserLaneOne);
-        RecyclerView myRangedView = findViewById(R.id.recyclerViewCardUserLaneTwo);
-        RecyclerView myHandView = findViewById(R.id.recyclerViewUserCardStack);
         ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
 
 
         if (!yourTurn) {
-            opponentRangedView.setOnDragListener(null);
-            opponentCloseView.setOnDragListener(null);
-            myCloseView.setOnDragListener(null);
-            myRangedView.setOnDragListener(null);
-            myHandView.setOnDragListener(null);
+
+            for (RecyclerView view : this.recyclerViews) {
+                    view.setOnDragListener(null);
+            }
+
             endTurn.setOnClickListener(null);
 
+            /* why is it not removing the animation?
             opponentRangedView.setItemAnimator(null);
             opponentCloseView.setItemAnimator(null);
             myCloseView.setItemAnimator(null);
             myRangedView.setItemAnimator(null);
             myHandView.setItemAnimator(null);
-        } else {
-            opponentRangedView.setOnDragListener(new DragListener());
-            opponentCloseView.setOnDragListener(new DragListener());
-            myCloseView.setOnDragListener(new DragListener());
-            myRangedView.setOnDragListener(new DragListener());
-            myHandView.setOnDragListener(new DragListener());
 
+             */
+        } else {
+            for (RecyclerView view : this.recyclerViews) {
+                view.setOnDragListener(new DragListener());
+            }
 
             endTurn.setOnClickListener(clickEndTurn());
         }
