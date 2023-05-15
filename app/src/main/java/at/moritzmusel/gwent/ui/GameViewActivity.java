@@ -189,11 +189,10 @@ public class GameViewActivity extends AppCompatActivity {
             is = context.getAssets().open("cards.json");
             int size = is.available();
             byte[] buffer = new byte[size];
-            is.read(buffer);
             is.close();
             jsonString = new String(buffer, "UTF-8");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getLocalizedMessage());
             return null;
         } finally {
             if (is != null) is.close();
