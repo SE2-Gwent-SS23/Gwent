@@ -178,6 +178,7 @@ public class GameViewActivity extends AppCompatActivity {
             newCard.changeRow(obj.optString("row"));
             newCard.changeAbility(obj.optString("ability"));
             allCardsList.add(newCard);
+
         }
     }
 
