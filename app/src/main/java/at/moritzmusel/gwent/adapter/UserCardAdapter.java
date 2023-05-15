@@ -25,6 +25,7 @@ import java.util.List;
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.model.Ability;
 import at.moritzmusel.gwent.model.Card;
+import at.moritzmusel.gwent.model.Type;
 import at.moritzmusel.gwent.network.data.GameState;
 import at.moritzmusel.gwent.ui.DragListener;
 
@@ -57,7 +58,9 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         holder.textView.setText(cardNumber);
         holder.frameLayout.setTag(position);
         try {
-            setImageFromAsset(context.getAssets().open("monsters_arachas.jpg"), holder.imageView);
+            System.out.println(card.getType().toString());
+            String fileName = card.getType().toString() +"_"+card.getFilename() + ".jpg";
+            setImageFromAsset(context.getAssets().open(fileName), holder.imageView);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
