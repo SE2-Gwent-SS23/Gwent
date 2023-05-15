@@ -41,13 +41,13 @@ public class GameViewActivity extends AppCompatActivity {
     private Button buttonOpponentCards;
     private PopupWindow popupWindow;
     private Context context;
-    
+
     //variables for shake sensor
     private SensorManager mSensorManager;
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
-    
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class GameViewActivity extends AppCompatActivity {
         List<Card> userCards = new ArrayList<>();
         userCards.add(new Card(1, 2, false, true));
         userCards.add(new Card(2, 3, false, true));
-        userCards.add(new Card(3, 4,false, true));
+        userCards.add(new Card(3, 4, false, true));
         userCards.add(new Card(1, 5, false, true));
         userCards.add(new Card(2, 6, false, true));
         userCards.add(new Card(3, 7, false, true));
@@ -104,6 +104,9 @@ public class GameViewActivity extends AppCompatActivity {
         setUserCards(userCards);
         setCards(R.id.recyclerViewCardUserLaneOne, list4);
         setCards(R.id.recyclerViewCardUserLaneTwo, list5);
+
+
+
 
 //        RecyclerView lineOneRecyclerView = findViewById(R.id.recyclerViewCardOpponentLaneOne);
 //        UserCardAdapter adapterLineOne = new UserCardAdapter(list2, getApplicationContext());
@@ -167,6 +170,7 @@ public class GameViewActivity extends AppCompatActivity {
     public static void setCards(RecyclerView view, List<Card> cards, Context context, Activity parentActivity) {
         setCards(view, cards, context, parentActivity, null);
     }
+
     public static void setCards(RecyclerView view, List<Card> cards, Context context, Activity parentActivity, View.OnDragListener dragListener) {
         UserCardAdapter adapterUser = new UserCardAdapter(cards, context);
         view.setHasFixedSize(true);
@@ -174,9 +178,9 @@ public class GameViewActivity extends AppCompatActivity {
         view.setLayoutManager(linearLayoutManagerUser);
         view.setItemAnimator(new DefaultItemAnimator());
         view.setAdapter(adapterUser);
-        if (dragListener == null){
+        if (dragListener == null) {
             view.setOnDragListener(adapterUser.getDragInstance());
-        } else{
+        } else {
             view.setOnDragListener(dragListener);
         }
     }
@@ -189,6 +193,7 @@ public class GameViewActivity extends AppCompatActivity {
         Bitmap bitmap = ((BitmapDrawable) AppCompatResources.getDrawable(this.context, R.drawable.card_deck_back_opponent_right)).getBitmap();
         Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 50, 70, true));
         image.setImageDrawable(dr);
+
     }
 
     /**
@@ -237,6 +242,7 @@ public class GameViewActivity extends AppCompatActivity {
         // show the popup window
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
+
     //shake sensor listener
     private final SensorEventListener mSensorListener = new SensorEventListener() {
         @Override
@@ -271,9 +277,61 @@ public class GameViewActivity extends AppCompatActivity {
     }
     //END shake sensor listener
 
-    public void refreshUserHandCards(){
+    public void refreshUserHandCards() {
         UserCardAdapter adapter = (UserCardAdapter) ((RecyclerView) findViewById(R.id.recyclerViewUserCardStack)).getAdapter();
 
         adapter.notifyDataSetChanged();
     }
+
+    /**
+     * Change Boolean "yourTurn" to enables and disables the "End Turn" button (false to disable)
+     * Also disables all relevant DragListeners.
+     */
+    public void enableDisableYourTurn(boolean yourTurn) {
+        RecyclerView opponentRangedView = findViewById(R.id.recyclerViewCardOpponentLaneOne);
+        RecyclerView opponentCloseView = findViewById(R.id.recyclerViewCardOpponentLaneTwo);
+        RecyclerView myCloseView = findViewById(R.id.recyclerViewCardUserLaneOne);
+        RecyclerView myRangedView = findViewById(R.id.recyclerViewCardUserLaneTwo);
+        RecyclerView myHandView = findViewById(R.id.recyclerViewUserCardStack);
+        ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
+
+
+        if (!yourTurn) {
+            opponentRangedView.setOnDragListener(null);
+            opponentCloseView.setOnDragListener(null);
+            myCloseView.setOnDragListener(null);
+            myRangedView.setOnDragListener(null);
+            myHandView.setOnDragListener(null);
+            endTurn.setOnClickListener(null);
+
+            opponentRangedView.setItemAnimator(null);
+            opponentCloseView.setItemAnimator(null);
+            myCloseView.setItemAnimator(null);
+            myRangedView.setItemAnimator(null);
+            myHandView.setItemAnimator(null);
+        } else {
+            opponentRangedView.setOnDragListener(new DragListener());
+            opponentCloseView.setOnDragListener(new DragListener());
+            myCloseView.setOnDragListener(new DragListener());
+            myRangedView.setOnDragListener(new DragListener());
+            myHandView.setOnDragListener(new DragListener());
+
+
+            endTurn.setOnClickListener(clickEndTurn());
+        }
+    }
+
+    private View.OnClickListener clickEndTurn() {
+        return (new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //your code goes here
+                enableDisableYourTurn(false);
+            }
+        }
+
+        );
+    }
+
+
 }
