@@ -2023,7 +2023,7 @@
     {
       "name": "Mardroeme",
       "deck": "special",
-      "row": "",
+      "row": "none",
       "strength": "0",
       "ability": "mardroeme",
       "filename": "mardroeme",
@@ -2043,7 +2043,7 @@
     {
       "name": "Skellige Storm",
       "deck": "weather",
-      "row": "",
+      "row": "none",
       "strength": "0",
       "ability": "rain fog",
       "filename": "storm",
