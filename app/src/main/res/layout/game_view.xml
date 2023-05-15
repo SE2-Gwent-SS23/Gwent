@@ -175,7 +175,7 @@
             android:contentDescription="@string/CardDeckBackUserLeftImageView"></ImageView>
 
         <TextView
-            android:id="@+id/stack_left"
+            android:id="@+id/tvMyGrave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|center"
