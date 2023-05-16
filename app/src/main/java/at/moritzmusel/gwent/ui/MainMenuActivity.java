@@ -6,11 +6,9 @@ import androidx.appcompat.widget.PopupMenu;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import at.moritzmusel.gwent.LobbyActivity;
 import at.moritzmusel.gwent.R;
 
 public class MainMenuActivity extends AppCompatActivity {
@@ -37,11 +35,11 @@ public class MainMenuActivity extends AppCompatActivity {
                     Toast.makeText(MainMenuActivity.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
 
                     if (menuItem.getTitle().equals("Host")) {
-                        Intent i = new Intent(MainMenuActivity.this, LobbyActivity.class);
+                        Intent i = new Intent(MainMenuActivity.this, GameViewActivity.class);
                         i.putExtra("lobby_type","create");
                         startActivity(i);
                     } else if (menuItem.getTitle().equals("Join")) {
-                        Intent i = new Intent(MainMenuActivity.this, LobbyActivity.class);
+                        Intent i = new Intent(MainMenuActivity.this, GameViewActivity.class);
                         i.putExtra("lobby_type","join");
                         startActivity(i);
                     } else {

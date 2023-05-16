@@ -1,45 +1,78 @@
 package at.moritzmusel.gwent.ui;
 
+import static at.moritzmusel.gwent.network.Utils.Logger.e;
+import static at.moritzmusel.gwent.network.Utils.Logger.i;
+
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.nearby.Nearby;
+
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
+import at.moritzmusel.gwent.network.CHAOS.Network;
+import at.moritzmusel.gwent.network.CHAOS.NetworkInstance;
+import at.moritzmusel.gwent.network.CHAOS.TriggerValueChangeListener;
+import at.moritzmusel.gwent.network.data.GameState;
+
 
 public class GameViewActivity extends AppCompatActivity {
-
+    private static final String TAG = "GameViewActivity";
     private Button buttonOpponentCards;
     private PopupWindow popupWindow;
+    private Dialog lobbyDialog;
     private Context context;
     
     //variables for shake sensor
@@ -47,12 +80,51 @@ public class GameViewActivity extends AppCompatActivity {
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
-    
+
+    //Network stuff
+    private Network network;
+    private String sessionType = "";
+    private final String[] REQUIRED_PERMISSIONS;
+    private static ActivityResultLauncher<String[]> requestMultiplePermissions;
+    private TriggerValueChangeListener onConnectionSuccessfullTrigger;
+
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            REQUIRED_PERMISSIONS = new String[]{
+                    android.Manifest.permission.BLUETOOTH_SCAN,
+                    android.Manifest.permission.BLUETOOTH_ADVERTISE,
+                    android.Manifest.permission.BLUETOOTH_CONNECT,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.NEARBY_WIFI_DEVICES
+            };
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            REQUIRED_PERMISSIONS = new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION};
+        } else {
+            REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
+        }
+
+        requestMultiplePermissions = this.registerForActivityResult(
+                new ActivityResultContracts.RequestMultiplePermissions(),
+                permissions -> {
+                    if (permissions.entrySet().stream().anyMatch(val -> !val.getValue())) {
+                        Log.e(TAG, "Missing permissions");
+                        Toast.makeText(this, "Required permissions needed. Go to settings!", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                    else recreate();
+                });
+
+        Log.i(TAG, Arrays.toString(REQUIRED_PERMISSIONS));
+    }
+    // end
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_view);
+
+        sessionType = getIntent().getExtras().getString("lobby_type");
 
         context = getApplicationContext();
         buttonOpponentCards = (Button) findViewById(R.id.buttonOpponentCards);
@@ -73,6 +145,8 @@ public class GameViewActivity extends AppCompatActivity {
                 super.onSwipeBottom();
             }
         });
+
+
 
         List<Card> userCards = new ArrayList<>();
         userCards.add(new Card(1, 2, false, true));
@@ -149,7 +223,26 @@ public class GameViewActivity extends AppCompatActivity {
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
 
-        RedrawActivity.showRedraw(this, userCards);
+        //NETWORKING
+        onConnectionSuccessfullTrigger = value -> {
+            if((Boolean) value){
+                if (lobbyDialog.isShowing()) {
+                    lobbyDialog.dismiss();
+                    RedrawActivity.showRedraw(GameViewActivity.this, userCards);
+                }
+            }else {
+                startActivity(new Intent(this, MainMenuActivity.class));
+                Toast.makeText(this, "Error creating/hosting lobby.", Toast.LENGTH_LONG).show();
+            }
+        };
+        network = NetworkInstance.getInstance(Nearby.getConnectionsClient(this), this, onConnectionSuccessfullTrigger);
+        lobbyDialog = new Dialog(this);
+        lobbyDialog.setContentView(R.layout.lobby_window);
+        showLobbyPopup();
+
+        network.getCurrentState().observeForever(gameState -> {
+            i(TAG + " From Network:", gameState.toString());
+        });
     }
 
     public void setCards(int recyclerViewUserCardStack, List<Card> cards) {
@@ -273,7 +366,57 @@ public class GameViewActivity extends AppCompatActivity {
 
     public void refreshUserHandCards(){
         UserCardAdapter adapter = (UserCardAdapter) ((RecyclerView) findViewById(R.id.recyclerViewUserCardStack)).getAdapter();
-
         adapter.notifyDataSetChanged();
+        // Kein plan ob das hierher kommt???
+        GameState gs = network.getCurrentState().getValue();
+        gs.setMyHand(new ArrayList<>());
+        network.play(gs);
+        //
+    }
+
+    private void showLobbyPopup() {
+
+
+        TextView lobbyText = lobbyDialog.findViewById(R.id.lobby_text);
+        TextView infoText = lobbyDialog.findViewById(R.id.info_text);
+
+        // Set dialog window attributes
+        Window window = lobbyDialog.getWindow();
+        if (window != null) {
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+            window.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+        }
+        lobbyDialog.show();
+
+        if(sessionType.equals("join")){
+            lobbyText.setText("Join Lobby");
+            infoText.setText("Searching for a game...");
+            network.startDiscovering();
+        }else if(sessionType.equals("create")){
+            lobbyText.setText("Create Lobby");
+            infoText.setText("Creating game. Looking for opponents...");
+            network.startHosting();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(!hasPermissions(this, REQUIRED_PERMISSIONS)){
+            Log.i(TAG, "requestMultiplePermissions called");
+            requestMultiplePermissions.launch(REQUIRED_PERMISSIONS);
+        }
+    }
+
+    private boolean hasPermissions(Activity activity, String[] permissions) {
+        List<String> permissionsList = Arrays.asList(permissions);
+        return permissionsList.isEmpty() ||
+                permissionsList.stream().allMatch(vals -> ContextCompat.checkSelfPermission(activity, vals) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
     }
 }

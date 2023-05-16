@@ -68,7 +68,6 @@ public class RedrawActivity extends AppCompatActivity {
                 sPlayerCards = playerCards; //workaround
                 sGameViewAdapter = gameView;
                 gameView.startActivity(new Intent(gameView, RedrawActivity.class));
-
             }
         }.start();
     }
