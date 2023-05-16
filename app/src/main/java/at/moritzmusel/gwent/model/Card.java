@@ -93,17 +93,6 @@ public class Card {
     }
 
     public Type getType() {
-        /*switch(type) {
-            case neutral: return "neutral";
-            case monsters: return "monsters";
-            case special: return "special";
-            case weather: return "weather";
-            case realms: return "realms";
-            case nilfgaard: return "nilfgaard";
-            case scoiatael: return "scoiatael";
-            case skellige: return "skellige";
-            default: return "";
-        }*/
         return type;
     }
 

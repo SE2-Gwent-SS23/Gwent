@@ -58,7 +58,6 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         holder.textView.setText(cardNumber);
         holder.frameLayout.setTag(position);
         try {
-            System.out.println(card.getType().toString());
             String fileName = card.getType().toString() +"_"+card.getFilename() + ".jpg";
             setImageFromAsset(context.getAssets().open(fileName), holder.imageView);
         } catch (IOException e) {
