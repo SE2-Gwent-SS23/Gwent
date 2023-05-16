@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import at.moritzmusel.gwent.model.Card2;
+import at.moritzmusel.gwent.model.Card;
 
 public class GameState implements Serializable {
     //TODO last parameter @board should be the game info storage type
@@ -25,31 +24,31 @@ public class GameState implements Serializable {
 
     String myDeck;
     String opponentDeck;
-    List<Card2> myHand;
-    List<Card2> opponentHand;
-    List<Card2> myGrave;
-    List<Card2> opponentGrave;
-    List<Card2> weather;
-    List<Card2> myClose;
+    List<Card> myHand;
+    List<Card> opponentHand;
+    List<Card> myGrave;
+    List<Card> opponentGrave;
+    List<Card> weather;
+    List<Card> myClose; // 3. Reihe
     Boolean myWeatherClose;
-    List<Card2> myRanged;
+    List<Card> myRanged; // 4. Reihe
     Boolean myWeatherRanged;
-    List<Card2> opponentClose;
+    List<Card> opponentClose; // 2. Reihe
     Boolean opponentWeatherClose;
-    List<Card2> opponentRanged;
+    List<Card> opponentRanged; // 1. Reihe
     Boolean opponentWeatherRanged;
 
-    Card2 myLeader;
+    Card myLeader;
     Boolean usedMyLeader;
-    Card2 opponentLeader;
+    Card opponentLeader;
     Boolean usedOpponentLeader;
 
     public int calculateMyPoints() {
         int sum = 0;
-        for (Card2 c : this.myClose) {
+        for (Card c : this.myClose) {
             sum += c.getStrength();
         }
-        for (Card2 c : this.myRanged) {
+        for (Card c : this.myRanged) {
             sum += c.getStrength();
         }
         return sum;
@@ -57,10 +56,10 @@ public class GameState implements Serializable {
 
     public int calculateOpponentPoints() {
         int sum = 0;
-        for (Card2 c : this.opponentClose) {
+        for (Card c : this.opponentClose) {
             sum += c.getStrength();
         }
-        for (Card2 c : this.opponentRanged) {
+        for (Card c : this.opponentRanged) {
             sum += c.getStrength();
         }
         return sum;
@@ -71,10 +70,10 @@ public class GameState implements Serializable {
     }
 
     public void swapPlayer() {
-        List<Card2> tempOpponentHand = new ArrayList<>(this.opponentHand);
-        List<Card2> tempOpponentGrave = new ArrayList<>(this.opponentGrave);
-        List<Card2> tempOpponentClose = new ArrayList<>(this.opponentClose);
-        List<Card2> tempOpponentRanged = new ArrayList<>(this.opponentRanged);
+        List<Card> tempOpponentHand = new ArrayList<>(this.opponentHand);
+        List<Card> tempOpponentGrave = new ArrayList<>(this.opponentGrave);
+        List<Card> tempOpponentClose = new ArrayList<>(this.opponentClose);
+        List<Card> tempOpponentRanged = new ArrayList<>(this.opponentRanged);
 
         this.opponentHand = new ArrayList<>(this.myHand);
         this.opponentGrave = new ArrayList<>(this.myGrave);
@@ -89,7 +88,7 @@ public class GameState implements Serializable {
         String tempOpponentDeck = this.opponentDeck;
         Boolean tempOpponentWeatherClose = this.opponentWeatherClose;
         Boolean tempOpponentWeatherRanged = this.opponentWeatherRanged;
-        Card2 tempOpponentLeader = this.opponentLeader;
+        Card tempOpponentLeader = this.opponentLeader;
         Boolean tempUsedOpponentLeader = this.usedOpponentLeader;
 
         this.opponentDeck = this.myDeck;
@@ -107,75 +106,75 @@ public class GameState implements Serializable {
     }
 
 
-    public void addToMyHand(Card2 card) {
+    public void addToMyHand(Card card) {
         this.myHand.add(card);
     }
 
-    public void removeFromMyHand(Card2 card) {
+    public void removeFromMyHand(Card card) {
         this.myHand.remove(card);
     }
 
-    public void addToOpponentHand(Card2 card) {
+    public void addToOpponentHand(Card card) {
         this.opponentHand.add(card);
     }
 
-    public void removeFromOpponentHand(Card2 card) {
+    public void removeFromOpponentHand(Card card) {
         this.opponentHand.remove(card);
     }
 
-    public void addToMyGrave(Card2 card) {
+    public void addToMyGrave(Card card) {
         this.myGrave.add(card);
     }
 
-    public void removeFromMyGrave(Card2 card) {
+    public void removeFromMyGrave(Card card) {
         this.myGrave.remove(card);
     }
 
-    public void addOpponentToGrave(Card2 card) {
+    public void addOpponentToGrave(Card card) {
         this.opponentGrave.add(card);
     }
 
-    public void removeFromOpponentGrave(Card2 card) {
+    public void removeFromOpponentGrave(Card card) {
         this.opponentGrave.remove(card);
     }
 
-    public void addToWeather(Card2 card) {
+    public void addToWeather(Card card) {
         this.weather.add(card);
     }
 
-    public void removeFromWeather(Card2 card) {
+    public void removeFromWeather(Card card) {
         this.weather.remove(card);
     }
 
-    public void addToMyClose(Card2 card) {
+    public void addToMyClose(Card card) {
         this.myClose.add(card);
     }
 
-    public void removeFromMyClose(Card2 card) {
+    public void removeFromMyClose(Card card) {
         this.myClose.remove(card);
     }
 
-    public void addToMyRanged(Card2 card) {
+    public void addToMyRanged(Card card) {
         this.myRanged.add(card);
     }
 
-    public void removeFromMyRanged(Card2 card) {
+    public void removeFromMyRanged(Card card) {
         this.myRanged.remove(card);
     }
 
-    public void addToOpponentClose(Card2 card) {
+    public void addToOpponentClose(Card card) {
         this.opponentClose.add(card);
     }
 
-    public void removeFromOpponentClose(Card2 card) {
+    public void removeFromOpponentClose(Card card) {
         this.opponentClose.remove(card);
     }
 
-    public void addToOpponentRanged(Card2 card) {
+    public void addToOpponentRanged(Card card) {
         this.opponentRanged.add(card);
     }
 
-    public void removeFromOpponentRanged(Card2 card) {
+    public void removeFromOpponentRanged(Card card) {
         this.opponentRanged.remove(card);
     }
 
@@ -195,51 +194,51 @@ public class GameState implements Serializable {
         this.opponentDeck = opponentDeck;
     }
 
-    public List<Card2> getMyHand() {
+    public List<Card> getMyHand() {
         return myHand;
     }
 
-    public void setMyHand(List<Card2> myHand) {
+    public void setMyHand(List<Card> myHand) {
         this.myHand = myHand;
     }
 
-    public List<Card2> getOpponentHand() {
+    public List<Card> getOpponentHand() {
         return opponentHand;
     }
 
-    public void setOpponentHand(List<Card2> opponentHand) {
+    public void setOpponentHand(List<Card> opponentHand) {
         this.opponentHand = opponentHand;
     }
 
-    public List<Card2> getMyGrave() {
+    public List<Card> getMyGrave() {
         return myGrave;
     }
 
-    public void setMyGrave(List<Card2> myGrave) {
+    public void setMyGrave(List<Card> myGrave) {
         this.myGrave = myGrave;
     }
 
-    public List<Card2> getOpponentGrave() {
+    public List<Card> getOpponentGrave() {
         return opponentGrave;
     }
 
-    public void setOpponentGrave(List<Card2> opponentGrave) {
+    public void setOpponentGrave(List<Card> opponentGrave) {
         this.opponentGrave = opponentGrave;
     }
 
-    public List<Card2> getWeather() {
+    public List<Card> getWeather() {
         return weather;
     }
 
-    public void setWeather(List<Card2> weather) {
+    public void setWeather(List<Card> weather) {
         this.weather = weather;
     }
 
-    public List<Card2> getMyClose() {
+    public List<Card> getMyClose() {
         return myClose;
     }
 
-    public void setMyClose(List<Card2> myClose) {
+    public void setMyClose(List<Card> myClose) {
         this.myClose = myClose;
     }
 
@@ -251,11 +250,11 @@ public class GameState implements Serializable {
         this.myWeatherClose = myWeatherClose;
     }
 
-    public List<Card2> getMyRanged() {
+    public List<Card> getMyRanged() {
         return myRanged;
     }
 
-    public void setMyRanged(List<Card2> myRanged) {
+    public void setMyRanged(List<Card> myRanged) {
         this.myRanged = myRanged;
     }
 
@@ -267,11 +266,11 @@ public class GameState implements Serializable {
         this.myWeatherRanged = myWeatherRanged;
     }
 
-    public List<Card2> getOpponentClose() {
+    public List<Card> getOpponentClose() {
         return opponentClose;
     }
 
-    public void setOpponentClose(List<Card2> opponentClose) {
+    public void setOpponentClose(List<Card> opponentClose) {
         this.opponentClose = opponentClose;
     }
 
@@ -283,11 +282,11 @@ public class GameState implements Serializable {
         this.opponentWeatherClose = opponentWeatherClose;
     }
 
-    public List<Card2> getOpponentRanged() {
+    public List<Card> getOpponentRanged() {
         return opponentRanged;
     }
 
-    public void setOpponentRanged(List<Card2> opponentRanged) {
+    public void setOpponentRanged(List<Card> opponentRanged) {
         this.opponentRanged = opponentRanged;
     }
 
@@ -299,11 +298,11 @@ public class GameState implements Serializable {
         this.opponentWeatherRanged = opponentWeatherRanged;
     }
 
-    public Card2 getMyLeader() {
+    public Card getMyLeader() {
         return myLeader;
     }
 
-    public void setMyLeader(Card2 myLeader) {
+    public void setMyLeader(Card myLeader) {
         this.myLeader = myLeader;
     }
 
@@ -315,11 +314,11 @@ public class GameState implements Serializable {
         this.usedMyLeader = usedMyLeader;
     }
 
-    public Card2 getOpponentLeader() {
+    public Card getOpponentLeader() {
         return opponentLeader;
     }
 
-    public void setOpponentLeader(Card2 opponentLeader) {
+    public void setOpponentLeader(Card opponentLeader) {
         this.opponentLeader = opponentLeader;
     }
 

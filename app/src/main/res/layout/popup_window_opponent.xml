@@ -36,7 +36,7 @@
                 android:contentDescription="@string/ImageViewDeckStackOpponentLeft" />
 
             <TextView
-                android:id="@+id/stack_right"
+                android:id="@+id/tvOpponentGrave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|center"
@@ -80,7 +80,7 @@
                 android:contentDescription="@string/ImageViewDeckStackOpponentRight" />
 
             <TextView
-                android:id="@+id/stack_rightOpponent"
+                android:id="@+id/tvOpponentMonsters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|center"
