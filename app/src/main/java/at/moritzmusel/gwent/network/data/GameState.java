@@ -1,13 +1,28 @@
 package at.moritzmusel.gwent.network.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import at.moritzmusel.gwent.model.Card;
 
-public class GameState {
+public class GameState implements Serializable {
+    //TODO last parameter @board should be the game info storage type
+    public static GameState UNITIALIZED = new GameState(0, 0, 0, false);
+    private final int localPlayer;
+    private final int playerTurn;
+    private final int playerWon;
+    private final boolean isOver;
 
-    String myDeck; // = filename
+    public GameState(int localPlayer, int playerTurn, int playerWon, boolean isOver){
+        this.localPlayer = localPlayer;
+        this.playerTurn = playerTurn;
+        this.playerWon = playerWon;
+        this.isOver = isOver;
+    }
+
+    String myDeck;
     String opponentDeck;
     List<Card> myHand;
     List<Card> opponentHand;
@@ -313,5 +328,34 @@ public class GameState {
 
     public void setUsedOpponentLeader(Boolean usedOpponentLeader) {
         this.usedOpponentLeader = usedOpponentLeader;
+    }
+
+    @Override
+    public String toString() {
+        return "GameState{" +
+                "localPlayer=" + localPlayer +
+                ", playerTurn=" + playerTurn +
+                ", playerWon=" + playerWon +
+                ", isOver=" + isOver +
+                ", myDeck='" + myDeck + '\'' +
+                ", opponentDeck='" + opponentDeck + '\'' +
+                ", myHand=" + myHand +
+                ", opponentHand=" + opponentHand +
+                ", myGrave=" + myGrave +
+                ", opponentGrave=" + opponentGrave +
+                ", weather=" + weather +
+                ", myClose=" + myClose +
+                ", myWeatherClose=" + myWeatherClose +
+                ", myRanged=" + myRanged +
+                ", myWeatherRanged=" + myWeatherRanged +
+                ", opponentClose=" + opponentClose +
+                ", opponentWeatherClose=" + opponentWeatherClose +
+                ", opponentRanged=" + opponentRanged +
+                ", opponentWeatherRanged=" + opponentWeatherRanged +
+                ", myLeader=" + myLeader +
+                ", usedMyLeader=" + usedMyLeader +
+                ", opponentLeader=" + opponentLeader +
+                ", usedOpponentLeader=" + usedOpponentLeader +
+                '}';
     }
 }

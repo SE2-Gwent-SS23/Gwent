@@ -1,14 +1,12 @@
-package at.moritzmusel.gwent.network.viewmodel;
+package at.moritzmusel.gwent.network.CHAOS;
 
 import static at.moritzmusel.gwent.network.Utils.Logger.d;
 import static at.moritzmusel.gwent.network.Utils.Logger.e;
 import static at.moritzmusel.gwent.network.Utils.Logger.i;
-
+import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
 import com.google.android.gms.nearby.connection.AdvertisingOptions;
 import com.google.android.gms.nearby.connection.ConnectionInfo;
 import com.google.android.gms.nearby.connection.ConnectionLifecycleCallback;
@@ -22,49 +20,61 @@ import com.google.android.gms.nearby.connection.Payload;
 import com.google.android.gms.nearby.connection.PayloadCallback;
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate;
 import com.google.android.gms.nearby.connection.Strategy;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.Collections;
-import java.util.Objects;
 import java.util.UUID;
-
 import at.moritzmusel.gwent.BuildConfig;
-import at.moritzmusel.gwent.network.model.GameState;
+import at.moritzmusel.gwent.network.Utils.Utils;
+import at.moritzmusel.gwent.network.data.GameState;
 import at.moritzmusel.gwent.network.model.GwentGame;
 
-
-public class GwentViewModel extends ViewModel {
-    private static String TAG = "GwentViewModel";
+public class Network {
+    private static String TAG = "Network";
     private static Strategy STRATEGY = Strategy.P2P_POINT_TO_POINT;
 
+    //Current Gamestate
+    private MutableLiveData<GameState> currentState = new MutableLiveData(GameState.UNITIALIZED);
+    public LiveData<GameState> getCurrentState(){
+        return currentState;
+    }
+
+    //Nearby connections infos
     private ConnectionsClient connectionsClient;
     private String localUsername = UUID.randomUUID().toString();
     private int localPlayer = 0;
     private int opponentPlayer = 0;
     private String opponentEndpointId = "";
-    private GwentGame game;
 
-    private MutableLiveData<GameState> iniState = new MutableLiveData(GameState.UNITIALIZED);
-    private LiveData<GameState> state = iniState;
+    private static GwentGame game;
+
+    private Context context;
+
+    //Listener for update on connection state
+    private TriggerValueChange onConnectionSuccessfullTrigger = new TriggerValueChange();
+
+    public Network(ConnectionsClient connectionsClient, Context context, TriggerValueChangeListener onConnectionSuccessfullTrigger){
+        this.connectionsClient = connectionsClient;
+        this.context = context;
+        this.onConnectionSuccessfullTrigger.setListener(onConnectionSuccessfullTrigger);
+    }
 
     //Listener for in/out going payloads, eg. send/receive data (gamestate)
-    private PayloadCallback payloadCallback = new PayloadCallback() {
+    private final PayloadCallback payloadCallback = new PayloadCallback() {
         @Override
         public void onPayloadReceived(@NonNull String s, @NonNull Payload payload) {
-            //TODO logic for receive
             i(TAG, "onPayloadReceive");
+            currentState.postValue((GameState)Utils.byteArrayToObject(payload.asBytes()));
         }
 
         @Override
         public void onPayloadTransferUpdate(@NonNull String s, @NonNull PayloadTransferUpdate payloadTransferUpdate) {
             //TODO logic for send
+            // send data
+            connectionsClient.sendPayload("", dataToPayload(currentState.getValue()));
             i(TAG, "onPayloadSend");
         }
     };
+
     //Lifecycle
-    private ConnectionLifecycleCallback connectionLifecycleCallback = new ConnectionLifecycleCallback() {
+    private final ConnectionLifecycleCallback connectionLifecycleCallback = new ConnectionLifecycleCallback() {
         @Override
         public void onConnectionInitiated(@NonNull String s, @NonNull ConnectionInfo connectionInfo) {
             d(TAG, "onConnectionInitiated");
@@ -83,16 +93,19 @@ public class GwentViewModel extends ViewModel {
                     opponentEndpointId = s;
                     d(TAG, "opponentEndpointId: " + opponentEndpointId);
                     newGame();
-                    //TODO NAVIGATE TO GAME VIEW HERE
+                    onConnectionSuccessfullTrigger.setValue(true);
                     break;
                 case ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED:
                     d(TAG, "ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED");
+                    onConnectionSuccessfullTrigger.setValue(false);
                     break;
                 case ConnectionsStatusCodes.STATUS_ERROR:
                     d(TAG, "ConnectionsStatusCodes.STATUS_ERROR");
+                    onConnectionSuccessfullTrigger.setValue(false);
                     break;
                 default:
                     d(TAG, "Unknown status code ${resolution.status.statusCode}");
+                    onConnectionSuccessfullTrigger.setValue(false);
                     break;
             }
         }
@@ -104,7 +117,7 @@ public class GwentViewModel extends ViewModel {
         }
     };
     //
-    private EndpointDiscoveryCallback endpointDiscoveryCallback = new EndpointDiscoveryCallback() {
+    private final EndpointDiscoveryCallback endpointDiscoveryCallback = new EndpointDiscoveryCallback() {
         @Override
         public void onEndpointFound(@NonNull String s, @NonNull DiscoveredEndpointInfo discoveredEndpointInfo) {
             d(TAG, "onEndpointFound");
@@ -126,13 +139,8 @@ public class GwentViewModel extends ViewModel {
         }
     };
 
-    public GwentViewModel(ConnectionsClient connectionsClient) {
-        this.connectionsClient = connectionsClient;
-    }
-
     public void startHosting() {
         d(TAG, "Start advertising...");
-        //TODO HOSTING VIEW HERE
         AdvertisingOptions advertisingOptions = new AdvertisingOptions.Builder().setStrategy(STRATEGY).build();
 
         connectionsClient.startAdvertising(localUsername, BuildConfig.APPLICATION_ID, connectionLifecycleCallback, advertisingOptions)
@@ -143,15 +151,14 @@ public class GwentViewModel extends ViewModel {
                 })
                 .addOnFailureListener(command -> {
                     d(TAG, "Unable to start advertising");
+                    e(TAG, command.getMessage());
                     //TODO NAVIGATE BACK TO HOMESCREEN
                 });
     }
 
-    private void startDiscovering() {
+    public void startDiscovering() {
         d(TAG, "Start discovering...");
-        //TODO NAVIGATE TO JOIN LOBBY SCREEN HERE
         DiscoveryOptions discoveryOptions = new DiscoveryOptions.Builder().setStrategy(STRATEGY).build();
-
         connectionsClient.startDiscovery(
                 BuildConfig.APPLICATION_ID,
                 endpointDiscoveryCallback,
@@ -162,7 +169,6 @@ public class GwentViewModel extends ViewModel {
             opponentPlayer = 1;
         }).addOnFailureListener(command -> {
             d(TAG, "Unable to start discovering");
-            //TODO NAVIGATE BACK TO HOMESCREEN
         });
     }
 
@@ -170,26 +176,26 @@ public class GwentViewModel extends ViewModel {
         d(TAG, "Starting new game");
         game = new GwentGame();
         //TODO CHANGE INIT GAME LOGIC
-        iniState.setValue(new GameState(localPlayer, game.playerTurn, game.playerWon, game.isOver, Collections.singletonList(game.board)));
+        currentState.setValue(new GameState(localPlayer, game.playerTurn, game.playerWon, game.isOver));
     }
 
     //TODO pass correct data/gamestate into play function
-    public void play(int[] position) {
+    public void play(GameState gameState) {
         if (game.playerTurn != localPlayer) return;
-        play(localPlayer, position);
-        sendPosition(position);
+        play(localPlayer, gameState);
+        sendGameState(gameState);
     }
 
     //TODO pass correct data/gamestate into play function
-    private void play(int player, int[] position) {
+    private void play(int player, GameState gameState) {
         d(TAG, "Player " + player);
-        game.play(player, position);
-        iniState.setValue(new GameState(localPlayer, game.playerTurn, game.playerWon, game.isOver, Collections.singletonList(game.board)));
+        game.play(player, gameState);
+        currentState.setValue(new GameState(localPlayer, game.playerTurn, game.playerWon, game.isOver));
     }
 
-    private void sendPosition(int[] position) {
-        d(TAG, "Sending [${position.first},${position.second}] to $opponentEndpointId");
-        connectionsClient.sendPayload(opponentEndpointId, Objects.requireNonNull(dataToPayload(position)));
+    private void sendGameState(GameState gameState) {
+        d(TAG, "Sending to " +opponentEndpointId + " " +gameState.toString());
+        connectionsClient.sendPayload(opponentEndpointId, dataToPayload(gameState));
     }
 
     private void stopClient() {
@@ -208,21 +214,11 @@ public class GwentViewModel extends ViewModel {
     }
 
     //converts the data/gamestate into a Payload object
-    private Payload dataToPayload(Object o) {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-             ObjectOutputStream oos = new ObjectOutputStream(bos)) {
-            oos.writeObject(o);
-            oos.flush();
-            return Payload.fromBytes(bos.toByteArray());
-        } catch (IOException e) {
-            e(TAG, "Error in dataToPayload method.");
-        }
-        return Payload.fromBytes(new byte[0]);
+    private Payload dataToPayload(GameState gameState) {
+        return Payload.fromBytes(Utils.objectToByteArray(gameState));
     }
 
-    @Override
-    protected void onCleared() {
-        stopClient();
-        super.onCleared();
+    public GwentGame getGame() {
+        return game;
     }
 }
