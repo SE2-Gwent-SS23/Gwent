@@ -12,22 +12,30 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
+import at.moritzmusel.gwent.network.data.GameState;
 
 public class RedrawActivity extends AppCompatActivity {
     private static List<Card> sPlayerCards; //prototyp
     private static GameViewActivity sGameViewAdapter;//prototyp
     private List<Card> mPlayerCards;
     private List<List<Card>> mRedrawCards;
+    private static GameState gameState;
+    private static List<Card> allCardsList;
     TextView mRedrawDropView;
     TextView mRedrawCountView;
     int mRedrawCount = 0;
+    SecureRandom mRandom = new SecureRandom();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,11 +50,22 @@ public class RedrawActivity extends AppCompatActivity {
         mRedrawDropView.setOnDragListener(listener);
 
         mRedrawCards = halveList(mPlayerCards);
-        GameViewActivity.setCards(findViewById(R.id.redrawUserCards1), mRedrawCards.get(0), getApplicationContext(), this, listener);
-        GameViewActivity.setCards(findViewById(R.id.redrawUserCards2), mRedrawCards.get(1), getApplicationContext(), this, listener);
+        try {
+            GameViewActivity.setCards(findViewById(R.id.redrawUserCards1), true, mRedrawCards.get(0), getApplicationContext(), this, listener, gameState);
+            GameViewActivity.setCards(findViewById(R.id.redrawUserCards2), true, mRedrawCards.get(1), getApplicationContext(), this, listener, gameState);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        //findViewById(R.id.redrawUserCards1).setOnDragListener(new RedrawDragListener());
+        //findViewById(R.id.btnEndRedraw).setOnDragListener(new RedrawDragListener());
     }
 
-    public static void showRedraw(GameViewActivity gameView, List<Card> playerCards) {
+    public static void showRedraw(GameViewActivity gameView, List<Card> playerCards, GameState gameState) {
+        RedrawActivity.gameState = gameState;
         new CountDownTimer(1500, 1500) {
             @Override
             public void onTick(long l) {
@@ -79,8 +98,8 @@ public class RedrawActivity extends AppCompatActivity {
 
     public List<List<Card>> halveList(List<Card> list) {
         int marker = list.size() / 2;
-        List<Card> firstHalf = new ArrayList<Card>();
-        List<Card> secondHalf = new ArrayList<Card>();
+        List<Card> firstHalf = new ArrayList<>();
+        List<Card> secondHalf = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {
             if (i < marker) {
@@ -89,7 +108,7 @@ public class RedrawActivity extends AppCompatActivity {
                 secondHalf.add(list.get(i));
             }
         }
-        List<List<Card>> result = new ArrayList<List<Card>>();
+        List<List<Card>> result = new ArrayList<>();
         result.add(firstHalf);
         result.add(secondHalf);
 
@@ -114,11 +133,22 @@ public class RedrawActivity extends AppCompatActivity {
     }
 
     private Card drawRandomCard() {
-        //213Cards, ToDo
-        Random rand = new Random();
-        int img = rand.nextInt(214);
-        int pts = rand.nextInt(7);
-        return new Card(pts + 1, img, false, true);
+        int img = mRandom.nextInt(214);
+        int pts = mRandom.nextInt(7);
+        allCardsList = GameViewActivity.getAllCardsList();
+        SecureRandom random = new SecureRandom();
+        int zz;
+
+        zz = random.nextInt(allCardsList.size());
+        Card card = allCardsList.get(zz);
+        while (card.getCount() == 0) {
+            zz = random.nextInt(allCardsList.size());
+            card = allCardsList.get(zz);
+        }
+
+        allCardsList.get(zz).setCount(card.getCount() - 1);
+        GameViewActivity.updateAllCardsList(allCardsList);
+        return card;
     }
 
 }

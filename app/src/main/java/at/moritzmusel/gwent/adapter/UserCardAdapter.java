@@ -2,11 +2,9 @@ package at.moritzmusel.gwent.adapter;
 
 import android.content.ClipData;
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,22 +16,31 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 import at.moritzmusel.gwent.R;
+import at.moritzmusel.gwent.model.Ability;
 import at.moritzmusel.gwent.model.Card;
+import at.moritzmusel.gwent.model.Type;
+import at.moritzmusel.gwent.network.data.GameState;
 import at.moritzmusel.gwent.ui.DragListener;
 
 public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHolder> implements View.OnTouchListener {
 
     private List<Card> list;
     private Context context;
+    private GameState gameState;
+    private Boolean isMyHand;
 
-    public UserCardAdapter(List<Card> list, Context context) {
+    public UserCardAdapter(List<Card> list, Boolean isMyHand, Context context, GameState gameState) {
         this.list = list;
         this.context = context;
+        this.isMyHand = isMyHand;
+        this.gameState = gameState;
     }
 
     @NonNull
@@ -47,49 +54,50 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull UserCardAdapter.ViewHolder holder, int position) {
         Card card = this.list.get(position);
-        String cardNumber = card.getNumber().toString();
+        String cardNumber = card.getStrength()+"";
         holder.textView.setText(cardNumber);
         holder.frameLayout.setTag(position);
-        setImageFromAsset(card.getImage(), holder.imageView);
-        if(card.isDecoyCard() != null && card.isDecoyCard()) {
+        try {
+            String fileName = card.getType().toString() +"_"+card.getFilename() + ".jpg";
+            setImageFromAsset(context.getAssets().open(fileName), holder.imageView);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        if(card.getAbility() == Ability.decoy) {
             holder.frameLayout.performClick();
             holder.frameLayout.setOnTouchListener(this);
-            holder.frameLayout.setOnDragListener(new DragListener());
+            try {
+                holder.frameLayout.setOnDragListener(new DragListener(this.context, this.gameState));
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             // calculate points ...
-        } else if(card.isUserCard() != null && card.isUserCard()) {
+        } else if(this.isMyHand) {
             holder.frameLayout.performClick();
             holder.frameLayout.setOnTouchListener(this);
-            holder.frameLayout.setOnDragListener(new DragListener());
+            try {
+                holder.frameLayout.setOnDragListener(new DragListener(this.context, this.gameState));
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     /**
      * Card is currently randomly chosen.
      *
-     * @param cardImageId
      * @param image
      */
-    public void setImageFromAsset(Integer cardImageId, ImageView image) {
-        AssetManager manager = context.getAssets();
-        try {
-            String[] file = manager.list("");
-            setImageWithInputStream(cardImageId, image, manager, file);
-        } catch (IOException e) {
-            Log.e("Error", e.getLocalizedMessage());
-        }
-    }
-
-    private void setImageWithInputStream(Integer cardImageId, ImageView image, AssetManager manager, String [] file) {
-        InputStream imgStream;
-        try {
-            imgStream = manager.open(file[cardImageId]);
-            Drawable d = Drawable.createFromStream(imgStream, null);
-            Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
-            Drawable dr = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, 150, 200, true));
-            image.setImageDrawable(dr);
-        } catch (IOException e) {
-            Log.e("Error", e.getLocalizedMessage());
-        }
+    public void setImageFromAsset(InputStream imgStream, ImageView image) {
+        Drawable d = Drawable.createFromStream(imgStream, null);
+        Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
+        Drawable dr = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, 150, 200, true));
+        image.setImageDrawable(dr);
     }
 
     @Override
@@ -109,8 +117,8 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         return false;
     }
 
-    public DragListener getDragInstance() {
-         return new DragListener();
+    public DragListener getDragInstance() throws JSONException, IOException {
+        return new DragListener(this.context, this.gameState);
     }
 
     public void updateList(List<Card> list) {
