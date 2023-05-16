@@ -42,6 +42,7 @@ public class Network {
     private int localPlayer = 0;
     private int opponentPlayer = 0;
     private String opponentEndpointId = "";
+
     private static GwentGame game;
 
     private Context context;
@@ -215,5 +216,9 @@ public class Network {
     //converts the data/gamestate into a Payload object
     private Payload dataToPayload(GameState gameState) {
         return Payload.fromBytes(Utils.objectToByteArray(gameState));
+    }
+
+    public GwentGame getGame() {
+        return game;
     }
 }
