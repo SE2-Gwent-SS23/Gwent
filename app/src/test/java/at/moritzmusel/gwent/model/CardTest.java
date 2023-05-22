@@ -26,4 +26,10 @@ public class CardTest {
         Card newCard = new Card("Schirru", scoiatael, null, 8, scorch_s, "schirru", 1, "Time to look death in the face.");
         assertEquals(card1.toString(), newCard.toString());
     }
+
+    @Test
+    void testGetName() {
+        Card newCard = new Card("Schirru", scoiatael, null, 8, scorch_s, "schirru", 1, "Time to look death in the face.");
+        assertEquals(card1.getName(), newCard.getName());
+    }
 }

@@ -12,13 +12,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardGenerator {
+    private static CardGenerator cardGeneratorInstance;
 
     private List<Card> allCardsList;
     private Context context;
 
+    public CardGenerator() {
+
+    }
+
     public CardGenerator(Context context) {
         this.allCardsList = new ArrayList<>();
         this.context = context;
+    }
+
+    public static CardGenerator getInstance() {
+        if (cardGeneratorInstance == null) {
+            cardGeneratorInstance = new CardGenerator();
+        }
+        return cardGeneratorInstance;
     }
 
     public String loadCardJSONFromAsset() throws IOException {
