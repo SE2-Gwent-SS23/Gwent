@@ -18,7 +18,6 @@ public class CardGenerator {
     private Context context;
 
     public CardGenerator() {
-
     }
 
     public CardGenerator(Context context) {

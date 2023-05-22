@@ -1,14 +1,21 @@
 package at.moritzmusel.gwent.model;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+
+import static at.moritzmusel.gwent.model.Ability.scorch_s;
+import static at.moritzmusel.gwent.model.Type.scoiatael;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.io.IOException;
+
+import at.moritzmusel.gwent.ui.GameViewActivity;
 
 public class CardGeneratorTest {
 
@@ -23,7 +30,8 @@ public class CardGeneratorTest {
 
     @Test
     void testCreateNewCardListWithJSONObject() throws JSONException, IOException {
-        String jsonString = "\"cards\": [\n" +
+        String jsonString = "{\n" +
+                "  \"cards\": [\n" +
                 "    {\n" +
                 "      \"name\": \"Mysterious Elf\",\n" +
                 "      \"type\": \"neutral\",\n" +
@@ -53,10 +61,12 @@ public class CardGeneratorTest {
                 "      \"filename\": \"frost\",\n" +
                 "      \"count\": \"3\",\n" +
                 "      \"flavor_txt\": \"Best part about frost - bodies of the fallen don't rot so quickly.\"\n" +
-                "    } }";
+                "    }\n" +
+                "  ]\n" +
+                "}";
 
         jsonObject = new JSONObject(jsonString);
         cardGenerator.fillAllCardsIntoList(jsonObject);
-        assertEquals(3,cardGenerator.getAllCardsList().size());
+        assertEquals(3 ,cardGenerator.getAllCardsList().size());
     }
 }

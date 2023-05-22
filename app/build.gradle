@@ -39,6 +39,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     testOptions {
+        unitTests.returnDefaultValues = true
         unitTests.all {
             useJUnitPlatform()
             finalizedBy jacocoTestReport
@@ -79,12 +80,15 @@ dependencies {
     testImplementation 'androidx.test:rules:1.5.0'
     testImplementation 'androidx.test.ext:junit:1.1.5'
     testImplementation 'org.mockito:mockito-inline:3.12.4'
+    testImplementation 'org.json:json:20180813'
 
     androidTestImplementation 'androidx.test:core:1.5.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation 'org.mockito:mockito-android:4.11.0'
     androidTestImplementation 'org.testng:testng:6.9.6'
+    androidTestImplementation 'org.junit.jupiter:junit-jupiter'
+    androidTestImplementation 'org.junit.jupiter:junit-jupiter'
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
 

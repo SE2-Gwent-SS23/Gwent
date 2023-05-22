@@ -484,4 +484,8 @@ public class GameViewActivity extends AppCompatActivity {
         tvOpponentGrave = popupView.findViewById(R.id.tvOpponentGrave);
         tvOpponentGrave.setText(gameState.getOpponentGrave().size() + "");
     }
+
+    public static Context getContext() {
+        return context;
+    }
 }
