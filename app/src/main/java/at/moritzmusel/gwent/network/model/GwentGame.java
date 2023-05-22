@@ -3,15 +3,17 @@ package at.moritzmusel.gwent.network.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.moritzmusel.gwent.network.data.GameState;
+
 public class GwentGame {
     //TODO change logic
-    private static int players = 2;
-    private static int boardSize = 2;
-    private static int winningCount = 2;
+    private static final int players = 2;
+    private static final int boardSize = 2;
+    private static final int winningCount = 2;
     public int playerTurn = 1;
     public int playerWon = 0;
     public boolean isOver = false;
-    public List<Integer> board = new ArrayList<>(boardSize);
+    public List<GameState> gameStates = new ArrayList<>();
 
     public GwentGame() {
     }
@@ -29,7 +31,7 @@ public class GwentGame {
     }
 
     //TODO change 2nd parameter and implement body
-    public void play(int player, int[] position) {
+    public void play(int player, GameState gameState) {
         if (player < 1 || player > players) throw new IllegalArgumentException("Invalid player");
         if (player != playerTurn) throw new IllegalArgumentException("Wrong turn");
         if (isOver) throw new IllegalArgumentException("Game over");

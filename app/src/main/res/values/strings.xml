@@ -44,7 +44,8 @@
     <string name="error_missing_permissions">Missing permissions!</string>
     <string name="ipPlaceholder">192.168.72.10</string>
     <string name="pwPlaceholder">AX89A</string>
-
+    <string name="lobby">Lobby</string>
+    <string name="info">Info</string>
 
 
     <string-array name="pref_upload_quality_entries">

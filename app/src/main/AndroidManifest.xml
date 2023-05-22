@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" /> <!-- Optional: only required for FILE payloads -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
         android:allowBackup="true"
@@ -51,6 +52,7 @@
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -73,23 +75,13 @@
         <activity
             android:name=".ui.GameViewActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan" />
-        <!-- DEBUGGING ACTIVITIES -->
+            android:windowSoftInputMode="adjustPan" /> <!-- DEBUGGING ACTIVITIES -->
         <activity
             android:name=".ui.RedrawActivity"
             android:label=""
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Dialog"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".network.Activities.HostActivity"
-            android:exported="true"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-
-        <!-- END -->
     </application>
+
 </manifest>
