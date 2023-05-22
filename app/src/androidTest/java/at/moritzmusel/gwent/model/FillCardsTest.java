@@ -14,7 +14,7 @@ import java.util.List;
 
 public class FillCardsTest {
     private static CardGenerator cardGenerator;
-    private static List<Card> cardList;
+
 
     private Card card1;
     private Card card2;
@@ -24,7 +24,6 @@ public class FillCardsTest {
         Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         System.out.println(targetContext);
         cardGenerator = new CardGenerator(targetContext);
-        // loadCardJSONFromAsset();
         JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
         cardGenerator.fillAllCardsIntoList(jsonObject);
         assertEquals(214, cardGenerator.getAllCardsList().size());

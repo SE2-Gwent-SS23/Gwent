@@ -176,9 +176,6 @@ public class GameViewActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        //gwentViewModel.newGame();
-        //gwentViewModel.play(gameState);
-
         sessionType = getIntent().getExtras().getString("lobby_type");
 
         context = getApplicationContext();
