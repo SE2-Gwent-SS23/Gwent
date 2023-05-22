@@ -33,6 +33,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            testCoverageEnabled = true
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -41,12 +44,20 @@ android {
     testOptions {
         unitTests.all {
             useJUnitPlatform()
-            finalizedBy jacocoTestReport
+            finalizedBy unitTest
         }
     }
     lintOptions {
         abortOnError false
     }
+}
+
+jacoco {
+    toolVersion = '0.8.9'
+}
+
+gradle.projectsEvaluated {
+    connectedDebugAndroidTest.finalizedBy(androidTest)
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
@@ -65,6 +76,16 @@ task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
     executionData.from = files("${buildDir}/jacoco/testDebugUnitTest.exec")
 }
 
+task unitTest(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
+    finalizedBy jacocoTestReport
+}
+task androidTest(type: JacocoReport, dependsOn: 'connectedDebugAndroidTest') {
+    finalizedBy jacocoTestReport
+}
+task testAll(type: JacocoReport, dependsOn: ['connectedDebugAndroidTest', 'testDebugUnitTest']) {
+    finalizedBy jacocoTestReport
+}
+
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
@@ -72,11 +93,20 @@ dependencies {
     implementation 'androidx.test:monitor:1.5.0'
     implementation 'org.mockito:mockito-core:5.3.1'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    testImplementation 'org.testng:testng:6.9.6'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'androidx.test:runner:1.5.2'
+    testImplementation 'androidx.test:rules:1.5.0'
+    testImplementation 'androidx.test.ext:junit:1.1.5'
+    testImplementation 'org.mockito:mockito-inline:3.12.4'
 
+    androidTestImplementation 'androidx.test:core:1.5.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'org.mockito:mockito-android:4.11.0'
+
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
 
     //nearby connections
     implementation 'com.google.android.gms:play-services-location:21.0.1'

@@ -1,7 +1,5 @@
 package at.moritzmusel.gwent.ui;
 
-import static at.moritzmusel.gwent.ui.GameViewActivity.updateUI;
-
 import android.content.Context;
 import android.view.DragEvent;
 import android.view.View;
@@ -17,14 +15,12 @@ import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
 import at.moritzmusel.gwent.network.data.GameState;
-import at.moritzmusel.gwent.network.viewmodel.GwentViewModel;
 
 public class DragListener implements View.OnDragListener {
 
     private boolean isDropped = false;
     private GameState gameState;
     private Context context;
-    private GwentViewModel gwentViewModel;
 
     /**
      * Constructor
@@ -32,7 +28,6 @@ public class DragListener implements View.OnDragListener {
     public DragListener(Context context, GameState gameState) throws JSONException, IOException {
         this.context = context;
         this.gameState = gameState;
-        //this.gwentViewModel = new GwentViewModel(...);
     }
 
     @Override
