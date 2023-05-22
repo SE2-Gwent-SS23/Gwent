@@ -23,8 +23,7 @@
     <string name="valueOfThree">3</string>
     <string name="valueOfFour">4</string>
     <string name="valueOfTen">10</string>
-    <string name="card_placeholder">Card
-        holder</string>
+    <string name="card_placeholder">Cardholder</string>
     <string name="WhiteFrostImageView">White Forst ImageView</string>
     <string name="ImageViewSquare">ImageViewSquare</string>
     <string name="ImageViewNaturesGift">ImageView Natures Gift</string>
