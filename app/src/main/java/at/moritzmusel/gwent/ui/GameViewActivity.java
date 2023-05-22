@@ -220,7 +220,7 @@ public class GameViewActivity extends AppCompatActivity {
         mAccelLast = SensorManager.GRAVITY_EARTH;
 
         //NETWORKING
-        /*onConnectionSuccessfullTrigger = value -> {
+        onConnectionSuccessfullTrigger = value -> {
             if((Boolean) value){
                 if (lobbyDialog.isShowing()) {
                     lobbyDialog.dismiss();
@@ -238,9 +238,7 @@ public class GameViewActivity extends AppCompatActivity {
 
         network.getCurrentState().observeForever(gameState -> {
             i(TAG + " From Network:", gameState.toString());
-        });*/
-
-        RedrawActivity.showRedraw(GameViewActivity.this, this.myHand, gameState);
+        });
     }
 
 
