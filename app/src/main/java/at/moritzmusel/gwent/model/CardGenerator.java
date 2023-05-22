@@ -77,12 +77,10 @@ public class CardGenerator {
             newCard.setCount(count);
             newCard.setFilename(filename);
             newCard.setFlavor_txt(flavor_txt);
-            System.out.println(obj.optString("type"));
             newCard.changeType(obj.optString("type"));
             newCard.changeRow(obj.optString("row"));
             newCard.changeAbility(obj.optString("ability"));
             allCardsList.add(newCard);
-            System.out.println(newCard);
         }
     }
 

@@ -241,10 +241,6 @@ public class GameViewActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
     private void initGameState() throws JSONException, IOException {
 
         SecureRandom random = new SecureRandom();
