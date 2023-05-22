@@ -1,6 +1,7 @@
 package at.moritzmusel.gwent.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -10,7 +11,6 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.List;
 
 public class FillCardsTest {
     private static CardGenerator cardGenerator;

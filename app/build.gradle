@@ -33,9 +33,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug {
-            testCoverageEnabled = true
-        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -44,20 +41,12 @@ android {
     testOptions {
         unitTests.all {
             useJUnitPlatform()
-            finalizedBy unitTest
+            finalizedBy jacocoTestReport
         }
     }
     lintOptions {
         abortOnError false
     }
-}
-
-jacoco {
-    toolVersion = '0.8.9'
-}
-
-gradle.projectsEvaluated {
-    connectedDebugAndroidTest.finalizedBy(androidTest)
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
@@ -74,16 +63,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
     sourceDirectories.from = files([mainSrc])
     classDirectories.from = files([debugTree])
     executionData.from = files("${buildDir}/jacoco/testDebugUnitTest.exec")
-}
-
-task unitTest(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
-    finalizedBy jacocoTestReport
-}
-task androidTest(type: JacocoReport, dependsOn: 'connectedDebugAndroidTest') {
-    finalizedBy jacocoTestReport
-}
-task testAll(type: JacocoReport, dependsOn: ['connectedDebugAndroidTest', 'testDebugUnitTest']) {
-    finalizedBy jacocoTestReport
 }
 
 dependencies {
@@ -105,6 +84,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation 'org.mockito:mockito-android:4.11.0'
+    androidTestImplementation 'org.testng:testng:6.9.6'
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
 
