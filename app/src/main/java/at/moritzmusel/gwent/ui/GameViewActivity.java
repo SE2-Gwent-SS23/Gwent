@@ -159,7 +159,7 @@ public class GameViewActivity extends AppCompatActivity {
         tvMyGrave = findViewById(R.id.tvMyGrave);
 
         context = this.getApplicationContext();
-        gameState = new GameState();
+        gameState = new GameState(1,1,1,false);
         // Fill all Cards
         try {
             this.allCardsList = new ArrayList<>();
@@ -223,7 +223,7 @@ public class GameViewActivity extends AppCompatActivity {
             if((Boolean) value){
                 if (lobbyDialog.isShowing()) {
                     lobbyDialog.dismiss();
-                    RedrawActivity.showRedraw(GameViewActivity.this, userCards);
+                    RedrawActivity.showRedraw(GameViewActivity.this, this.myHand, gameState);
                 }
             }else {
                 startActivity(new Intent(this, MainMenuActivity.class));
