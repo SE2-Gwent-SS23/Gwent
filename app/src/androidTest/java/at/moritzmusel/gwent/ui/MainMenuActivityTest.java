@@ -1,4 +1,4 @@
-package at.moritzmusel.gwent;
+package at.moritzmusel.gwent.ui;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -9,6 +9,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import androidx.test.espresso.Root;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.hamcrest.Matcher;
@@ -17,6 +18,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import at.moritzmusel.gwent.MainActivity;
+import at.moritzmusel.gwent.R;
+
 
 public class MainMenuActivityTest {
     @Rule
@@ -24,7 +28,7 @@ public class MainMenuActivityTest {
 
     @Before
     public void setUp() throws Exception {
-        onView(withId(R.id.imageViewWelcomeScreen)).perform((click()));
+        onView(ViewMatchers.withId(R.id.imageViewWelcomeScreen)).perform((click()));
     }
 
     @After

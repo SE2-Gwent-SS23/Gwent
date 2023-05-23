@@ -68,6 +68,7 @@ import java.util.Objects;
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
+import at.moritzmusel.gwent.model.CardGenerator;
 import at.moritzmusel.gwent.network.CHAOS.Network;
 import at.moritzmusel.gwent.network.CHAOS.NetworkInstance;
 import at.moritzmusel.gwent.network.CHAOS.TriggerValueChangeListener;
@@ -150,20 +151,23 @@ public class GameViewActivity extends AppCompatActivity {
     private Boolean usedMyLeader;
     private Card opponentLeader;
     private Boolean usedOpponentLeader;
+    private CardGenerator cardGenerator;
 
     @SuppressLint({"ClickableViewAccessibility", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_view);
+        this.cardGenerator = new CardGenerator(this.getApplicationContext());
         tvMyGrave = findViewById(R.id.tvMyGrave);
 
         context = this.getApplicationContext();
-        gameState = new GameState();
+        gameState = new GameState(1,1,1,false);
         // Fill all Cards
         try {
             this.allCardsList = new ArrayList<>();
-            fillAllCardsIntoList();
+            JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
+            cardGenerator.fillAllCardsIntoList(jsonObject);
             // Init Game State
             initGameState();
         } catch (JSONException e) {
@@ -171,9 +175,6 @@ public class GameViewActivity extends AppCompatActivity {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        //gwentViewModel.newGame();
-        //gwentViewModel.play(gameState);
 
         sessionType = getIntent().getExtras().getString("lobby_type");
 
@@ -223,7 +224,7 @@ public class GameViewActivity extends AppCompatActivity {
             if((Boolean) value){
                 if (lobbyDialog.isShowing()) {
                     lobbyDialog.dismiss();
-                    RedrawActivity.showRedraw(GameViewActivity.this, userCards);
+                    RedrawActivity.showRedraw(GameViewActivity.this, this.myHand, gameState);
                 }
             }else {
                 startActivity(new Intent(this, MainMenuActivity.class));
@@ -238,60 +239,6 @@ public class GameViewActivity extends AppCompatActivity {
         network.getCurrentState().observeForever(gameState -> {
             i(TAG + " From Network:", gameState.toString());
         });
-    }
-
-    private void fillAllCardsIntoList() throws JSONException, IOException {
-        String name;
-        int strength;
-        int count;
-        String flavor_txt;
-        String filename;
-        JSONObject jsonObject = new JSONObject(loadCardJSONFromAsset());
-        JSONArray jsonArray = jsonObject.optJSONArray("cards");
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject obj = jsonArray.getJSONObject(i);
-            name = obj.optString("name");
-            strength = Integer.parseInt(obj.optString("strength"));
-            filename = obj.optString("filename");
-            count = Integer.parseInt(obj.optString("count"));
-            flavor_txt = obj.optString("flavor_txt");
-
-            Card newCard = new Card();
-            newCard.setName(name);
-            newCard.setStrength(strength);
-            newCard.setCount(count);
-            newCard.setFilename(filename);
-            newCard.setFlavor_txt(flavor_txt);
-            System.out.println(obj.optString("type"));
-            newCard.changeType(obj.optString("type"));
-            newCard.changeRow(obj.optString("row"));
-            newCard.changeAbility(obj.optString("ability"));
-            allCardsList.add(newCard);
-
-        }
-    }
-
-    private String loadCardJSONFromAsset() throws IOException {
-        String jsonString = null;
-        InputStream is = null;
-        try {
-            is = context.getAssets().open("cards.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-
-            while (is.read(buffer) > 0) {
-                jsonString = new String(buffer, "UTF-8");
-            }
-            if (is != null) is.close();
-        } catch (IOException e) {
-            System.out.println(e.getLocalizedMessage());
-            return null;
-        } finally {
-            if (is != null) is.close();
-        }
-
-        return jsonString;
     }
 
     private void initGameState() throws JSONException, IOException {
@@ -530,5 +477,9 @@ public class GameViewActivity extends AppCompatActivity {
         tvOpponentMonster.setText(gameState.getOpponentHand().size() + "");
         tvOpponentGrave = popupView.findViewById(R.id.tvOpponentGrave);
         tvOpponentGrave.setText(gameState.getOpponentGrave().size() + "");
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }

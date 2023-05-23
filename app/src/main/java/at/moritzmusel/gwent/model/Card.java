@@ -26,11 +26,6 @@ public class Card {
 
     }
 
-    /*Card card = new Card();
-    card.fill("mysterious_elf", context);*/
-
-
-
     public void applyWeather() {
         this.strength = 1;
     }
