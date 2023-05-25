@@ -1,6 +1,5 @@
 package at.moritzmusel.gwent.ui;
 
-import static at.moritzmusel.gwent.network.Utils.Logger.e;
 import static at.moritzmusel.gwent.network.Utils.Logger.i;
 
 import android.Manifest;
@@ -9,11 +8,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -23,20 +20,19 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,20 +41,16 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.nearby.Nearby;
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -160,14 +152,15 @@ public class GameViewActivity extends AppCompatActivity {
         setContentView(R.layout.game_view);
         this.cardGenerator = new CardGenerator(this.getApplicationContext());
         tvMyGrave = findViewById(R.id.tvMyGrave);
-
         context = this.getApplicationContext();
         gameState = new GameState(1,1,1,false);
-        // Fill all Cards
+
+        /* Fill all Cards */
         try {
             this.allCardsList = new ArrayList<>();
             JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
             cardGenerator.fillAllCardsIntoList(jsonObject);
+            this.allCardsList = cardGenerator.getAllCardsList();
             // Init Game State
             initGameState();
         } catch (JSONException e) {
@@ -178,9 +171,34 @@ public class GameViewActivity extends AppCompatActivity {
 
         sessionType = getIntent().getExtras().getString("lobby_type");
 
-        context = getApplicationContext();
-
+        /* Setting responsive bounds of the game lanes */
+        RecyclerView rvOpponentOne = findViewById(R.id.recyclerViewCardOpponentLaneOne);
+        RecyclerView rvOpponentTwo = findViewById(R.id.recyclerViewCardOpponentLaneTwo);
+        RecyclerView rvUserOne = findViewById(R.id.recyclerViewCardUserLaneOne);
+        RecyclerView rvUserTwo = findViewById(R.id.recyclerViewCardUserLaneTwo);
+        RecyclerView rvUser = findViewById(R.id.recyclerViewUserCardStack);
         buttonOpponentCards = findViewById(R.id.buttonOpponentCards);
+
+        // Creating and initializing variable for display metrics
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+
+        // On below line we are getting metrics for display using window manager.
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        // on below line we are getting height and width using display metrics.
+        int deviceheight = displayMetrics.heightPixels;
+        int devicewidth = displayMetrics.widthPixels;
+
+        // Setting bounds for lanes
+        rvOpponentOne.getLayoutParams().width = devicewidth/2;
+        rvOpponentOne.getLayoutParams().height = deviceheight/6;
+        rvOpponentTwo.getLayoutParams().width = devicewidth/2;
+        rvOpponentTwo.getLayoutParams().height = deviceheight/6;
+        rvUserOne.getLayoutParams().width = devicewidth/2;
+        rvUserOne.getLayoutParams().height = deviceheight/6;
+        rvUserTwo.getLayoutParams().width = devicewidth/2;
+        rvUserTwo.getLayoutParams().height = deviceheight/6;
+        rvUser.getLayoutParams().height = deviceheight/6;
 
         buttonOpponentCards.setOnTouchListener(new OnSwipeTouchListener(this, findViewById(R.id.buttonOpponentCards)) {
             @Override
@@ -294,6 +312,9 @@ public class GameViewActivity extends AppCompatActivity {
         gameState.setOpponentClose(this.opponentClose);
         gameState.setOpponentGrave(this.opponentGrave);
         gameState.setOpponentRanged(this.opponentRanged);
+
+        // Responsive RecyclerView
+
         updateUI();
 
     }

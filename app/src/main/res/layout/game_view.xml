@@ -7,8 +7,8 @@
 
     <Button
         android:id="@+id/buttonOpponentCards"
-        android:layout_width="62dp"
-        android:layout_height="38dp"
+        android:layout_width="82dp"
+        android:layout_height="40dp"
         android:background="@drawable/ic_baseline_keyboard_arrow_down_24"
         android:backgroundTint="@color/white"
         android:fontFamily="serif"
@@ -18,47 +18,47 @@
         app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.434" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <GridLayout
         android:id="@+id/gridLayout"
-        android:layout_width="341dp"
-        android:layout_height="288dp"
-        android:layout_marginStart="250dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="200dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:columnCount="1"
         android:rowCount="4"
+        android:gravity="center"
+        android:layout_marginTop="35dp"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewCardOpponentLaneOne"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@drawable/card_lanes_opponent"
             android:orientation="horizontal" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewCardOpponentLaneTwo"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@drawable/card_lanes_opponent"
             android:orientation="horizontal" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewCardUserLaneOne"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@drawable/card_rows_border"
             android:orientation="horizontal" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewCardUserLaneTwo"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@drawable/card_rows_border"
             android:orientation="horizontal" />
     </GridLayout>

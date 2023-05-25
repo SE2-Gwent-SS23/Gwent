@@ -1,5 +1,6 @@
 package at.moritzmusel.gwent.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,7 +26,6 @@ import java.util.List;
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.model.Ability;
 import at.moritzmusel.gwent.model.Card;
-import at.moritzmusel.gwent.model.Type;
 import at.moritzmusel.gwent.network.data.GameState;
 import at.moritzmusel.gwent.ui.DragListener;
 
@@ -51,8 +51,9 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         return new ViewHolder(listItem);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
-    public void onBindViewHolder(@NonNull UserCardAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Card card = this.list.get(position);
         String cardNumber = card.getStrength()+"";
         holder.textView.setText(cardNumber);
