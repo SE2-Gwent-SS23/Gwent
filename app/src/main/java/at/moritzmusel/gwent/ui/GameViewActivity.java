@@ -144,6 +144,7 @@ public class GameViewActivity extends AppCompatActivity {
     private Card opponentLeader;
     private Boolean usedOpponentLeader;
     private CardGenerator cardGenerator;
+    private static int deviceheight;
 
     @SuppressLint({"ClickableViewAccessibility", "MissingInflatedId"})
     @Override
@@ -186,7 +187,7 @@ public class GameViewActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         // on below line we are getting height and width using display metrics.
-        int deviceheight = displayMetrics.heightPixels;
+        this.deviceheight = displayMetrics.heightPixels;
         int devicewidth = displayMetrics.widthPixels;
 
         // Setting bounds for lanes
@@ -313,8 +314,6 @@ public class GameViewActivity extends AppCompatActivity {
         gameState.setOpponentGrave(this.opponentGrave);
         gameState.setOpponentRanged(this.opponentRanged);
 
-        // Responsive RecyclerView
-
         updateUI();
 
     }
@@ -328,7 +327,7 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     public static void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, View.OnDragListener dragListener, GameState gameState) throws JSONException, IOException {
-        UserCardAdapter adapterLanes = new UserCardAdapter(cards, isMyHand, context, gameState);
+        UserCardAdapter adapterLanes = new UserCardAdapter(cards, isMyHand, context, deviceheight/6, gameState);
         view.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(parentActivity, LinearLayoutManager.HORIZONTAL, false);
         view.setLayoutManager(linearLayoutManagerUser);

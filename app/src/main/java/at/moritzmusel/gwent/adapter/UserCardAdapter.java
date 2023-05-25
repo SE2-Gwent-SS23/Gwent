@@ -35,12 +35,14 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
     private Context context;
     private GameState gameState;
     private Boolean isMyHand;
+    private int rvHeight;
 
-    public UserCardAdapter(List<Card> list, Boolean isMyHand, Context context, GameState gameState) {
+    public UserCardAdapter(List<Card> list, Boolean isMyHand, Context context, int rvHeight, GameState gameState) {
         this.list = list;
         this.context = context;
         this.isMyHand = isMyHand;
         this.gameState = gameState;
+        this.rvHeight = rvHeight;
     }
 
     @NonNull
@@ -97,7 +99,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
     public void setImageFromAsset(InputStream imgStream, ImageView image) {
         Drawable d = Drawable.createFromStream(imgStream, null);
         Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
-        Drawable dr = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, 150, 200, true));
+        Drawable dr = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, rvHeight-rvHeight/3, rvHeight, true));
         image.setImageDrawable(dr);
     }
 
