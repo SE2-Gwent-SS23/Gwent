@@ -1,5 +1,6 @@
 package at.moritzmusel.gwent.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,7 +26,6 @@ import java.util.List;
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.model.Ability;
 import at.moritzmusel.gwent.model.Card;
-import at.moritzmusel.gwent.model.Type;
 import at.moritzmusel.gwent.network.data.GameState;
 import at.moritzmusel.gwent.ui.DragListener;
 
@@ -35,12 +35,14 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
     private Context context;
     private GameState gameState;
     private Boolean isMyHand;
+    private int rvHeight;
 
-    public UserCardAdapter(List<Card> list, Boolean isMyHand, Context context, GameState gameState) {
+    public UserCardAdapter(List<Card> list, Boolean isMyHand, Context context, int rvHeight, GameState gameState) {
         this.list = list;
         this.context = context;
         this.isMyHand = isMyHand;
         this.gameState = gameState;
+        this.rvHeight = rvHeight;
     }
 
     @NonNull
@@ -51,8 +53,9 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         return new ViewHolder(listItem);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
-    public void onBindViewHolder(@NonNull UserCardAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Card card = this.list.get(position);
         String cardNumber = card.getStrength()+"";
         holder.textView.setText(cardNumber);
@@ -96,7 +99,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
     public void setImageFromAsset(InputStream imgStream, ImageView image) {
         Drawable d = Drawable.createFromStream(imgStream, null);
         Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
-        Drawable dr = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, 150, 200, true));
+        Drawable dr = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, rvHeight-rvHeight/3, rvHeight, true));
         image.setImageDrawable(dr);
     }
 
