@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.IOException;
-
 import at.moritzmusel.gwent.R;
 
 public class SelectNameActivity extends AppCompatActivity {

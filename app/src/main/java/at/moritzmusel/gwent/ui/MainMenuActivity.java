@@ -10,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-
 import at.moritzmusel.gwent.R;
 
 public class MainMenuActivity extends AppCompatActivity {
