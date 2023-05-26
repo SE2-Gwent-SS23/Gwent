@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import at.moritzmusel.gwent.R;
 
 public class MainMenuActivity extends AppCompatActivity {
@@ -24,7 +26,11 @@ public class MainMenuActivity extends AppCompatActivity {
         ImageView quitImg = findViewById(R.id.imageView_quit);
         TextView playerName = findViewById(R.id.textView_username);
 
-        playerName.setText(SaveStringToFileClass.getSavedData(getBaseContext(), getString(R.string.playerName_fileName)));
+        try {
+            playerName.setText(SaveStringToFileClass.getSavedData(getBaseContext(), getString(R.string.playerName_fileName)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         startImg.setOnClickListener(view -> {
             // Initializing the popup menu and giving the reference as current context

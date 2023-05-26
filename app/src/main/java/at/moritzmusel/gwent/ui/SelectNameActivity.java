@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
+
 import at.moritzmusel.gwent.R;
 
 public class SelectNameActivity extends AppCompatActivity {
@@ -22,7 +24,12 @@ public class SelectNameActivity extends AppCompatActivity {
         error.setVisibility(View.INVISIBLE);
 
         Intent loadingIntent = new Intent(SelectNameActivity.this, LoadingActivity.class);
-        String storedName = "" + SaveStringToFileClass.getSavedData(getBaseContext(), getString(R.string.playerName_fileName));
+        String storedName = null;
+        try {
+            storedName = "" + SaveStringToFileClass.getSavedData(getBaseContext(), getString(R.string.playerName_fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         if (storedName.length() > 0) {
             startActivity(loadingIntent);
@@ -32,7 +39,11 @@ public class SelectNameActivity extends AppCompatActivity {
             String userInput = name.getText().toString();
 
             if (userInput.length() > 0) {
-                SaveStringToFileClass.saveData(getBaseContext(),getString(R.string.playerName_fileName),userInput);
+                try {
+                    SaveStringToFileClass.saveData(getBaseContext(),getString(R.string.playerName_fileName),userInput);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 startActivity(loadingIntent);
             }else {
                 error.setVisibility(View.VISIBLE);

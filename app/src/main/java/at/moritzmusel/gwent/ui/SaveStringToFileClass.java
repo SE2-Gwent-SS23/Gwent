@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class SaveStringToFileClass {
-    public static void saveData(Context context, String filename, String data) {
-        FileOutputStream fileOutputStream;
+    public static void saveData(Context context, String filename, String data) throws IOException {
+        FileOutputStream fileOutputStream = null;
 
         try {
             fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
@@ -18,12 +18,14 @@ public class SaveStringToFileClass {
             fileOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            fileOutputStream.close();
         }
     }
 
-    public static String getSavedData(Context context, String filename) {
+    public static String getSavedData(Context context, String filename) throws IOException {
 
-        FileInputStream fileInputStream;
+        FileInputStream fileInputStream = null;
         try {
             fileInputStream = context.openFileInput(filename);
             Scanner scanner = new Scanner(fileInputStream);
@@ -36,6 +38,8 @@ public class SaveStringToFileClass {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } finally {
+            fileInputStream.close();
         }
         return null;
     }
