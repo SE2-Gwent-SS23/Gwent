@@ -9,25 +9,21 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class SaveStringToFileClass {
-    public static void saveData(Context context, String filename, String data) throws IOException {
-        FileOutputStream fileOutputStream = null;
+    public static void saveData(Context context, String filename, String data) {
 
         try {
-            fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+            FileOutputStream fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
             fileOutputStream.write(data.getBytes());
             fileOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            fileOutputStream.close();
         }
     }
 
-    public static String getSavedData(Context context, String filename) throws IOException {
+    public static String getSavedData(Context context, String filename) {
 
-        FileInputStream fileInputStream = null;
         try {
-            fileInputStream = context.openFileInput(filename);
+            FileInputStream fileInputStream = context.openFileInput(filename);
             Scanner scanner = new Scanner(fileInputStream);
             scanner.useDelimiter("\\A");
 
@@ -38,8 +34,6 @@ public class SaveStringToFileClass {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } finally {
-            fileInputStream.close();
         }
         return null;
     }

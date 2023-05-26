@@ -25,11 +25,7 @@ public class SelectNameActivity extends AppCompatActivity {
 
         Intent loadingIntent = new Intent(SelectNameActivity.this, LoadingActivity.class);
         String storedName = null;
-        try {
-            storedName = "" + SaveStringToFileClass.getSavedData(getBaseContext(), getString(R.string.playerName_fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        storedName = "" + SaveStringToFileClass.getSavedData(getBaseContext(), getString(R.string.playerName_fileName));
 
         if (storedName.length() > 0) {
             startActivity(loadingIntent);
@@ -39,13 +35,9 @@ public class SelectNameActivity extends AppCompatActivity {
             String userInput = name.getText().toString();
 
             if (userInput.length() > 0) {
-                try {
-                    SaveStringToFileClass.saveData(getBaseContext(),getString(R.string.playerName_fileName),userInput);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                SaveStringToFileClass.saveData(getBaseContext(), getString(R.string.playerName_fileName), userInput);
                 startActivity(loadingIntent);
-            }else {
+            } else {
                 error.setVisibility(View.VISIBLE);
             }
         });

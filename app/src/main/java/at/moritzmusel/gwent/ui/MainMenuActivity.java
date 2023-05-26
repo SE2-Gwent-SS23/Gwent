@@ -26,11 +26,7 @@ public class MainMenuActivity extends AppCompatActivity {
         ImageView quitImg = findViewById(R.id.imageView_quit);
         TextView playerName = findViewById(R.id.textView_username);
 
-        try {
-            playerName.setText(SaveStringToFileClass.getSavedData(getBaseContext(), getString(R.string.playerName_fileName)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        playerName.setText(SaveStringToFileClass.getSavedData(getBaseContext(), getString(R.string.playerName_fileName)));
 
         startImg.setOnClickListener(view -> {
             // Initializing the popup menu and giving the reference as current context
@@ -46,11 +42,11 @@ public class MainMenuActivity extends AppCompatActivity {
 
                     if (menuItem.getTitle().equals("Host")) {
                         Intent i = new Intent(MainMenuActivity.this, GameViewActivity.class);
-                        i.putExtra("lobby_type","create");
+                        i.putExtra("lobby_type", "create");
                         startActivity(i);
                     } else if (menuItem.getTitle().equals("Join")) {
                         Intent i = new Intent(MainMenuActivity.this, GameViewActivity.class);
-                        i.putExtra("lobby_type","join");
+                        i.putExtra("lobby_type", "join");
                         startActivity(i);
                     } else {
                         Toast.makeText(MainMenuActivity.this, "Error", Toast.LENGTH_SHORT).show();
