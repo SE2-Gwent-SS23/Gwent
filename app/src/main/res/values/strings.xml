@@ -44,6 +44,7 @@
     <string name="btn_text_join">Join</string>
     <string name="lobby">Lobby</string>
     <string name="info">Info</string>
+    <string name="playerName_fileName">nameFile</string>
 
 
     <string-array name="pref_upload_quality_entries">
