@@ -67,6 +67,6 @@ public class CardGeneratorTest {
 
         jsonObject = new JSONObject(jsonString);
         cardGenerator.fillAllCardsIntoList(jsonObject);
-        assertEquals(3 ,cardGenerator.getAllCardsList().size());
+        assertEquals(3, cardGenerator.getAllCardsList().size());
     }
 }

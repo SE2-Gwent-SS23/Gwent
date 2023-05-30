@@ -22,6 +22,8 @@ public class DragListener implements View.OnDragListener {
     private GameState gameState;
     private Context context;
 
+    private int positionTarget;
+
     /**
      * Constructor
      */
@@ -34,70 +36,76 @@ public class DragListener implements View.OnDragListener {
     public boolean onDrag(View view, DragEvent event) {
         if (event.getAction() == DragEvent.ACTION_DROP) {
             isDropped = true;
-            int positionTarget = -1;
-
+            positionTarget = -1;
             View viewSource = (View) event.getLocalState();
-            int viewId = view.getId();
-            final int rvOpponentOne = R.id.recyclerViewCardOpponentLaneOne;
-            final int rvOpponentTwo = R.id.recyclerViewCardOpponentLaneTwo;
-            final int rvUserOne = R.id.recyclerViewCardUserLaneOne;
-            final int rvUserTwo = R.id.recyclerViewCardUserLaneTwo;
-            final int rvUser = R.id.recyclerViewUserCardStack;
-
-            RecyclerView target;
-            switch (viewId) {
-                case rvOpponentOne:
-                case rvOpponentTwo:
-                    positionTarget = 1;
-                    target = view.getRootView().findViewById(rvUser);
-                    break;
-                case rvUserOne:
-                    target = view.getRootView().findViewById(rvUserOne);
-                    break;
-                case rvUserTwo:
-                    target = view.getRootView().findViewById(rvUserTwo);
-                    break;
-                case rvUser:
-                    target = view.getRootView().findViewById(rvUser);
-                    break;
-                default:
-                    target = view.getRootView().findViewById(rvUser);
-                    positionTarget = 1;
-                    break;
-            }
-
-            if (viewSource != null) {
-                RecyclerView source = (RecyclerView) viewSource.getParent();
-
-                UserCardAdapter adapterSource = (UserCardAdapter) source.getAdapter();
-                int positionSource = (int) viewSource.getTag();
-
-                Card list = adapterSource.getList().get(positionSource);
-                List<Card> listSource = adapterSource.getList();
-
-                listSource.remove(positionSource);
-                adapterSource.updateList(listSource);
-                adapterSource.notifyDataSetChanged();
-
-                UserCardAdapter adapterTarget = (UserCardAdapter) target.getAdapter();
-                List<Card> customListTarget = adapterTarget.getList();
-
-                if (positionTarget >= 0) {
-                    customListTarget.add(positionSource, list);
-                } else {
-                    customListTarget.add(list);
-                }
-                adapterTarget.updateList(customListTarget);
-                adapterTarget.notifyDataSetChanged();
-
-                // this.gwentViewModel.play(gameSate); GameState schicken
-                GameViewActivity.updateUI();
-            }
+            RecyclerView target = chooseTargetRV(view);
+            doActionOnDragAdapterTarget(viewSource, target);
+            GameViewActivity.updateUI();
         }
 
         if (!isDropped && event.getLocalState() != null) {
             ((View) event.getLocalState()).setVisibility(View.VISIBLE);
         }
         return true;
+    }
+
+    private RecyclerView chooseTargetRV(View view) {
+        RecyclerView target;
+        int viewId = view.getId();
+        final int rvOpponentOne = R.id.recyclerViewCardOpponentLaneOne;
+        final int rvOpponentTwo = R.id.recyclerViewCardOpponentLaneTwo;
+        final int rvUserOne = R.id.recyclerViewCardUserLaneOne;
+        final int rvUserTwo = R.id.recyclerViewCardUserLaneTwo;
+        final int rvUser = R.id.recyclerViewUserCardStack;
+        switch (viewId) {
+            case rvOpponentOne:
+            case rvOpponentTwo:
+                positionTarget = 1;
+                target = view.getRootView().findViewById(rvUser);
+                break;
+            case rvUserOne:
+                target = view.getRootView().findViewById(rvUserOne);
+                break;
+            case rvUserTwo:
+                target = view.getRootView().findViewById(rvUserTwo);
+                break;
+            case rvUser:
+                target = view.getRootView().findViewById(rvUser);
+                break;
+            default:
+                target = view.getRootView().findViewById(rvUser);
+                positionTarget = 1;
+                break;
+        }
+        return target;
+    }
+
+    private void doActionOnDragAdapterTarget(View viewSource, RecyclerView target){
+        if (viewSource != null) {
+            RecyclerView source = (RecyclerView) viewSource.getParent();
+
+            UserCardAdapter adapterSource = (UserCardAdapter) source.getAdapter();
+            int positionSource = (int) viewSource.getTag();
+
+            Card list = adapterSource.getList().get(positionSource);
+            List<Card> listSource = adapterSource.getList();
+
+            listSource.remove(positionSource);
+            adapterSource.updateList(listSource);
+            adapterSource.notifyDataSetChanged();
+
+            UserCardAdapter adapterTarget = (UserCardAdapter) target.getAdapter();
+            List<Card> customListTarget = adapterTarget.getList();
+
+            if (positionTarget >= 0) {
+                customListTarget.add(positionSource, list);
+            } else {
+                customListTarget.add(list);
+            }
+            adapterTarget.updateList(customListTarget);
+            adapterTarget.notifyDataSetChanged();
+
+            // this.gwentViewModel.play(gameSate); GameState schicken
+        }
     }
 }
