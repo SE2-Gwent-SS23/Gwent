@@ -7,6 +7,7 @@ import java.util.List;
 
 import at.moritzmusel.gwent.model.Card;
 
+// FIXME remove unused methods for brevity
 public class GameState implements Serializable {
     //TODO last parameter @board should be the game info storage type
     public static GameState UNITIALIZED = new GameState(0, 0, 0, false);

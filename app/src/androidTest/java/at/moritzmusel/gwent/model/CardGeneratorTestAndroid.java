@@ -26,6 +26,7 @@ public class CardGeneratorTestAndroid {
         assertEquals(214, cardGenerator.getAllCardsList().size());
     }
 
+    // FIXME what is this test doing?
     @Test
     void testLoadCardJSONFromAsset() throws IOException {
         String jsonStringAllCards = "{\n" +

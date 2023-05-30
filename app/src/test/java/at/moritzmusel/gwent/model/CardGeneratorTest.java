@@ -28,6 +28,7 @@ public class CardGeneratorTest {
         cardGenerator = CardGenerator.getInstance();
     }
 
+    // FIXME assert the content
     @Test
     void testCreateNewCardListWithJSONObject() throws JSONException, IOException {
         String jsonString = "{\n" +

@@ -25,6 +25,7 @@ import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
 import at.moritzmusel.gwent.network.data.GameState;
 
+// FIXME split logic from activity
 public class RedrawActivity extends AppCompatActivity {
     private static List<Card> sPlayerCards; //prototyp
     private static GameViewActivity sGameViewAdapter;//prototyp

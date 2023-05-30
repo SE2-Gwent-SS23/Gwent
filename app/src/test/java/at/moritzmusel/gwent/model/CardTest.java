@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+// FIXME test actual logic (change* methods), not generated methods
 public class CardTest {
     private static List<Card> cardList;
     private Card card1;

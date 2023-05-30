@@ -146,6 +146,7 @@ public class GameViewActivity extends AppCompatActivity {
     private CardGenerator cardGenerator;
     private static int deviceheight;
 
+    // FIXME refactor way too long method
     @SuppressLint({"ClickableViewAccessibility", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,6 +261,7 @@ public class GameViewActivity extends AppCompatActivity {
         });
     }
 
+    // FIXME remove logic from UI
     private void initGameState() throws JSONException, IOException {
 
         SecureRandom random = new SecureRandom();
@@ -477,6 +479,7 @@ public class GameViewActivity extends AppCompatActivity {
 
     }
 
+    // FIXME remove leaky getter/setter
     public static List<Card> getAllCardsList() {
         return allCardsList;
     }

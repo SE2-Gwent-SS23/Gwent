@@ -30,6 +30,7 @@ public class DragListener implements View.OnDragListener {
         this.gameState = gameState;
     }
 
+    // FIXME refactor too long method
     @Override
     public boolean onDrag(View view, DragEvent event) {
         if (event.getAction() == DragEvent.ACTION_DROP) {
