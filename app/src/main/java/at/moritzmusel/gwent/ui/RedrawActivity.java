@@ -43,6 +43,7 @@ public class RedrawActivity extends AppCompatActivity {
         setContentView(R.layout.popup_window_redraw);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         // mPlayerCards = sPlayerCards; //b.getSerializable("cards");
+        this.allCardsList = gameState.getAllCards();
 
         //init 10 myHandcards
         int zz = 0;
