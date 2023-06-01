@@ -115,6 +115,10 @@ public class RedrawActivity extends AppCompatActivity {
         //GameViewActivity.setCards(userHandCards,
         // TODO übergabe an GameState !!!!!!!(check if it is mPlayerCards)!!!!!!!
         gameState.setMyHand(this.mPlayerCards);
+        for(Card card: gameState.getMyHand()){
+            System.out.println(card.toString());
+        }
+        System.out.println(gameState.toString());
         finish();
     }
 
