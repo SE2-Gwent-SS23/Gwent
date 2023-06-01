@@ -77,19 +77,18 @@ public class GameViewActivity extends AppCompatActivity {
     private Dialog lobbyDialog;    
     private static Context context;
 
-    //variables for shake sensor
+    // variables for shake sensor
     private SensorManager mSensorManager;
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
 
-    //Network stuff
+    // network variables
     private Network network;
     private String sessionType = "";
     private final String[] REQUIRED_PERMISSIONS;
     private static ActivityResultLauncher<String[]> requestMultiplePermissions;
     private TriggerValueChangeListener onConnectionSuccessfullTrigger;
-
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             REQUIRED_PERMISSIONS = new String[]{
@@ -131,13 +130,13 @@ public class GameViewActivity extends AppCompatActivity {
     private List<Card> myGrave;
     private List<Card> opponentGrave;
     private List<Card> weather;
-    private List<Card> myClose; // 3. Reihe
+    private List<Card> myClose; // 3. lane
     private Boolean myWeatherClose;
-    private List<Card> myRanged; // 4. Reihe
+    private List<Card> myRanged; // 4. lane
     private Boolean myWeatherRanged;
-    private List<Card> opponentClose; // 2. Reihe
+    private List<Card> opponentClose; // 2. lane
     private Boolean opponentWeatherClose;
-    private List<Card> opponentRanged; // 1. Reihe
+    private List<Card> opponentRanged; // 1. lane
     private Boolean opponentWeatherRanged;
     private Card myLeader;
     private Boolean usedMyLeader;
@@ -156,12 +155,11 @@ public class GameViewActivity extends AppCompatActivity {
         context = this.getApplicationContext();
         gameState = new GameState(1,1,1,false);
 
-        /* Fill all Cards */
+        /* Fill all Cards -> outsource to Network-Part for general generation */
         try {
             this.allCardsList = new ArrayList<>();
             JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
-            cardGenerator.fillAllCardsIntoList(jsonObject);
-            this.allCardsList = cardGenerator.getAllCardsList();
+            this.allCardsList = cardGenerator.fillAllCardsIntoList(jsonObject);
             // Init Game State
             initGameState();
         } catch (JSONException e) {
@@ -170,36 +168,8 @@ public class GameViewActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        sessionType = getIntent().getExtras().getString("lobby_type");
-
-        /* Setting responsive bounds of the game lanes */
-        RecyclerView rvOpponentOne = findViewById(R.id.recyclerViewCardOpponentLaneOne);
-        RecyclerView rvOpponentTwo = findViewById(R.id.recyclerViewCardOpponentLaneTwo);
-        RecyclerView rvUserOne = findViewById(R.id.recyclerViewCardUserLaneOne);
-        RecyclerView rvUserTwo = findViewById(R.id.recyclerViewCardUserLaneTwo);
-        RecyclerView rvUser = findViewById(R.id.recyclerViewUserCardStack);
-        buttonOpponentCards = findViewById(R.id.buttonOpponentCards);
-
-        // Creating and initializing variable for display metrics
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-
-        // On below line we are getting metrics for display using window manager.
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-        // on below line we are getting height and width using display metrics.
-        this.deviceheight = displayMetrics.heightPixels;
-        int devicewidth = displayMetrics.widthPixels;
-
-        // Setting bounds for lanes
-        rvOpponentOne.getLayoutParams().width = devicewidth/2;
-        rvOpponentOne.getLayoutParams().height = deviceheight/6;
-        rvOpponentTwo.getLayoutParams().width = devicewidth/2;
-        rvOpponentTwo.getLayoutParams().height = deviceheight/6;
-        rvUserOne.getLayoutParams().width = devicewidth/2;
-        rvUserOne.getLayoutParams().height = deviceheight/6;
-        rvUserTwo.getLayoutParams().width = devicewidth/2;
-        rvUserTwo.getLayoutParams().height = deviceheight/6;
-        rvUser.getLayoutParams().height = deviceheight/6;
+        //sessionType = getIntent().getExtras().getString("lobby_type");
+        settingResponsiveGameBoard();
 
         buttonOpponentCards.setOnTouchListener(new OnSwipeTouchListener(this, findViewById(R.id.buttonOpponentCards)) {
             @Override
@@ -231,14 +201,11 @@ public class GameViewActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        //shake sensor initialisation
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-        mAccel = 10f;
-        mAccelCurrent = SensorManager.GRAVITY_EARTH;
-        mAccelLast = SensorManager.GRAVITY_EARTH;
+        initShakeSensor();
+        //doNetworking();
+    }
 
-        //NETWORKING
+    private void doNetworking() {
         onConnectionSuccessfullTrigger = value -> {
             if((Boolean) value){
                 if (lobbyDialog.isShowing()) {
@@ -260,6 +227,46 @@ public class GameViewActivity extends AppCompatActivity {
         });
     }
 
+    private void initShakeSensor() {
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        mAccel = 10f;
+        mAccelCurrent = SensorManager.GRAVITY_EARTH;
+        mAccelLast = SensorManager.GRAVITY_EARTH;
+    }
+
+    private void settingResponsiveGameBoard() {
+        /* Setting responsive bounds of the game lanes */
+        RecyclerView rvOpponentOne = findViewById(R.id.recyclerViewCardOpponentLaneOne);
+        RecyclerView rvOpponentTwo = findViewById(R.id.recyclerViewCardOpponentLaneTwo);
+        RecyclerView rvUserOne = findViewById(R.id.recyclerViewCardUserLaneOne);
+        RecyclerView rvUserTwo = findViewById(R.id.recyclerViewCardUserLaneTwo);
+        RecyclerView rvUser = findViewById(R.id.recyclerViewUserCardStack);
+        buttonOpponentCards = findViewById(R.id.buttonOpponentCards);
+
+        // Creating and initializing variable for display metrics
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+
+        // On below line we are getting metrics for display using window manager.
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        // on below line we are getting height and width using display metrics.
+        this.deviceheight = displayMetrics.heightPixels;
+        int devicewidth = displayMetrics.widthPixels;
+
+        // Setting bounds for lanes
+        rvOpponentOne.getLayoutParams().width = devicewidth/2;
+        rvOpponentOne.getLayoutParams().height = deviceheight/6;
+        rvOpponentTwo.getLayoutParams().width = devicewidth/2;
+        rvOpponentTwo.getLayoutParams().height = deviceheight/6;
+        rvUserOne.getLayoutParams().width = devicewidth/2;
+        rvUserOne.getLayoutParams().height = deviceheight/6;
+        rvUserTwo.getLayoutParams().width = devicewidth/2;
+        rvUserTwo.getLayoutParams().height = deviceheight/6;
+        rvUser.getLayoutParams().height = deviceheight/6;
+    }
+
+    /* TODO: Outsource to Network-Part */
     private void initGameState() throws JSONException, IOException {
 
         SecureRandom random = new SecureRandom();
@@ -477,6 +484,7 @@ public class GameViewActivity extends AppCompatActivity {
 
     }
 
+    /* TODO: delete method and get your needed list from GameState object */
     public static List<Card> getAllCardsList() {
         return allCardsList;
     }
