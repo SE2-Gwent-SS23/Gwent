@@ -24,9 +24,6 @@ public class DragListener implements View.OnDragListener {
 
     private int positionTarget;
 
-    /**
-     * Constructor
-     */
     public DragListener(Context context, GameState gameState) throws JSONException, IOException {
         this.context = context;
         this.gameState = gameState;
@@ -40,7 +37,7 @@ public class DragListener implements View.OnDragListener {
             View viewSource = (View) event.getLocalState();
             RecyclerView target = chooseTargetRV(view);
             doActionOnDragAdapterTarget(viewSource, target);
-            GameViewActivity.updateUI(this.gameState);
+            //GameViewActivity.updateUI(this.gameState);
         }
 
         if (!isDropped && event.getLocalState() != null) {

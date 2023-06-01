@@ -25,11 +25,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -48,10 +46,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.nearby.Nearby;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +56,6 @@ import java.util.Objects;
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
-import at.moritzmusel.gwent.model.CardGenerator;
 import at.moritzmusel.gwent.network.CHAOS.Network;
 import at.moritzmusel.gwent.network.CHAOS.NetworkInstance;
 import at.moritzmusel.gwent.network.CHAOS.TriggerValueChangeListener;
@@ -121,19 +116,16 @@ public class GameViewActivity extends AppCompatActivity {
     // end
 
     private static GameState gameState;
-    private static List<Card> allCardsList;
     private static int deviceheight;
-
-    public static void setGameState(GameState gameState) {
-        GameViewActivity.gameState = gameState;
-    }
 
     @SuppressLint({"ClickableViewAccessibility", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_view);
+        this.context = this.getApplicationContext();
         this.gameState = new GameState(0, 0, 0, false);
+
         try {
             this.gameState.initGameState();
         } catch (JSONException e) {
@@ -141,16 +133,17 @@ public class GameViewActivity extends AppCompatActivity {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         this.gameState.initAllCards(this.getApplicationContext());
 
-       //adding views to list
+        //adding views to list
         this.recyclerViews = new ArrayList<RecyclerView>();
         this.recyclerViews.add(findViewById(R.id.recyclerViewCardOpponentLaneOne));
         this.recyclerViews.add(findViewById(R.id.recyclerViewCardOpponentLaneTwo));
         this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneOne));
         this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneTwo));
         this.recyclerViews.add(findViewById(R.id.recyclerViewUserCardStack));
-        context = this.getApplicationContext();
+
 
         //sessionType = getIntent().getExtras().getString("lobby_type");
         settingResponsiveGameBoard();
@@ -173,27 +166,33 @@ public class GameViewActivity extends AppCompatActivity {
             }
         });
 
-        RedrawActivity redrawActivity = new RedrawActivity();
-        redrawActivity.showRedraw(GameViewActivity.this, this.gameState);
-        this.gameState = redrawActivity.getGameState();
-        System.out.println("GameState TESTSTST: "+this.gameState.toString());
-
-
-        try {
-            setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
-            setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
-            setUserCards(this.gameState.getMyHand());
-            System.out.println("getMyhand test");
-            setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
-            setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Intent redrawActivityIntent = new Intent(GameViewActivity.this, RedrawActivity.class);
+        redrawActivityIntent.putExtra("gameState", this.gameState);
+        startActivityForResult(redrawActivityIntent, 123);
 
         initShakeSensor();
         //doNetworking();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 123 && resultCode == RESULT_OK) {
+            if (data != null && data.hasExtra("gameState")) {
+                this.gameState = (GameState) data.getSerializableExtra("gameState");
+                try {
+                    setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
+                    setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
+                    setUserCards(this.gameState.getMyHand());
+                    setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
+                    setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 
     private void doNetworking() {
@@ -201,7 +200,9 @@ public class GameViewActivity extends AppCompatActivity {
             if ((Boolean) value) {
                 if (lobbyDialog.isShowing()) {
                     lobbyDialog.dismiss();
-                    RedrawActivity.showRedraw(GameViewActivity.this, gameState);
+                    Intent redrawActivityIntent = new Intent(GameViewActivity.this, RedrawActivity.class);
+                    redrawActivityIntent.putExtra("gameState", this.gameState);
+                    startActivityForResult(redrawActivityIntent, 123);
                 }
             } else {
                 startActivity(new Intent(this, MainMenuActivity.class));
@@ -256,9 +257,6 @@ public class GameViewActivity extends AppCompatActivity {
         rvUserTwo.getLayoutParams().height = deviceheight / 6;
         rvUser.getLayoutParams().height = deviceheight / 6;
     }
-
-    /* TODO: Outsource to Network-Part */
-
 
     public void setCards(int recyclerViewUserCardStack, Boolean isMyHand, List<Card> cards) throws JSONException, IOException {
         setCards(findViewById(recyclerViewUserCardStack), isMyHand, cards, getApplicationContext(), GameViewActivity.this, gameState);
@@ -370,12 +368,9 @@ public class GameViewActivity extends AppCompatActivity {
         GameState gs = network.getCurrentState().getValue();
         gs.setMyHand(new ArrayList<>());
         network.play(gs);
-        //
     }
 
     private void showLobbyPopup() {
-
-
         TextView lobbyText = lobbyDialog.findViewById(R.id.lobby_text);
         TextView infoText = lobbyDialog.findViewById(R.id.info_text);
 
@@ -417,15 +412,6 @@ public class GameViewActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-    }
-
-    /* TODO: delete method and get your needed list from GameState object */
-    public static List<Card> getAllCardsList() {
-        return allCardsList;
-    }
-
-    public static void updateAllCardsList(List<Card> list) {
-        allCardsList = list;
     }
 
     public static void updateUI(GameState gameState) {
@@ -480,7 +466,6 @@ public class GameViewActivity extends AppCompatActivity {
         return (new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //your code goes here
                 try {
                     enableDisableYourTurn(false);
                 } catch (JSONException e) {
@@ -490,7 +475,6 @@ public class GameViewActivity extends AppCompatActivity {
                 }
             }
         }
-
         );
     }
 }

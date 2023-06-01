@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,17 +18,15 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
-import at.moritzmusel.gwent.model.CardGenerator;
 import at.moritzmusel.gwent.network.data.GameState;
 
 public class RedrawActivity extends AppCompatActivity {
     private static List<Card> mPlayerCards;
     private List<List<Card>> mRedrawCards;
-    private static GameState gameState;
+    private GameState gameState;
     private List<Card> allCardsList;
     TextView mRedrawDropView;
     TextView mRedrawCountView;
@@ -41,8 +38,11 @@ public class RedrawActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_window_redraw);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        this.mPlayerCards = new ArrayList<Card>();
-        this.allCardsList = RedrawActivity.gameState.getAllCards();
+        Intent intent = getIntent();
+        gameState = (GameState) intent.getSerializableExtra("gameState");
+        System.out.println("Redraw: "+gameState.toString());
+
+        this.allCardsList = gameState.getAllCards();
 
         //init 10 myHandcards
         int zz = 0;
@@ -54,10 +54,10 @@ public class RedrawActivity extends AppCompatActivity {
                 card = this.allCardsList.get(zz);
             }
 
-            RedrawActivity.gameState.addToMyHand(card);
+            gameState.addToMyHand(card);
             this.allCardsList.get(i).setCount(card.getCount() - 1);
         }
-        mPlayerCards = RedrawActivity.gameState.getMyHand();
+        mPlayerCards = gameState.getMyHand();
 
         mRedrawCountView = findViewById(R.id.txtRedrawCount);
         mRedrawDropView = findViewById(R.id.txtRedrawDrop);
@@ -75,21 +75,6 @@ public class RedrawActivity extends AppCompatActivity {
         }
     }
 
-    public static void showRedraw(GameViewActivity gameView, GameState gameState) {
-        RedrawActivity.gameState = gameState;
-
-        new CountDownTimer(1500, 1500) {
-            @Override
-            public void onTick(long l) {
-            }
-
-            @Override
-            public void onFinish() {
-                gameView.startActivity(new Intent(gameView, RedrawActivity.class));
-            }
-        }.start();
-    }
-
     public void onClickCloseRedraw(View view) {
         for (int i = 0; i < mRedrawCards.size(); i++) {
             for (int j = 0; j < mRedrawCards.get(i).size(); j++) {
@@ -98,11 +83,15 @@ public class RedrawActivity extends AppCompatActivity {
         }
 
         // TODO übergabe an GameState !!!!!!!(check if it is mPlayerCards)!!!!!!!
-        RedrawActivity.gameState.setMyHand(this.mPlayerCards);
+        gameState.setMyHand(this.mPlayerCards);
         for(Card card: mPlayerCards){
             System.out.println(card.toString());
         }
-        System.out.println(RedrawActivity.gameState.toString());
+        System.out.println(gameState.toString());
+        // Sending the modified object back to the GameViewActivity
+        Intent intent = new Intent();
+        intent.putExtra("gameState", gameState);
+        setResult(RESULT_OK, intent);
         finish();
     }
 
@@ -142,7 +131,7 @@ public class RedrawActivity extends AppCompatActivity {
     }
 
     private Card drawRandomCard() {
-        this.allCardsList = RedrawActivity.gameState.getAllCards();
+        this.allCardsList = gameState.getAllCards();
         /* TODO: get list from gamestate object */
         SecureRandom random = new SecureRandom();
         int zz = random.nextInt(allCardsList.size());
@@ -153,17 +142,7 @@ public class RedrawActivity extends AppCompatActivity {
         }
 
         allCardsList.get(zz).setCount(card.getCount() - 1);
-        GameViewActivity.updateAllCardsList(allCardsList);
         return card;
-    }
-
-    public static GameState getGameState() {
-        RedrawActivity.gameState.setMyHand(mPlayerCards);
-        return RedrawActivity.gameState;
-    }
-
-    public GameState getGameStateNonStatic() {
-        return gameState;
     }
 }
 
