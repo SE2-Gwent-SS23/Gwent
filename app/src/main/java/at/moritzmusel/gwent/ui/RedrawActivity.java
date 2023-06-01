@@ -26,8 +26,6 @@ import at.moritzmusel.gwent.model.Card;
 import at.moritzmusel.gwent.network.data.GameState;
 
 public class RedrawActivity extends AppCompatActivity {
-    private static List<Card> sPlayerCards; //prototyp
-    private static GameViewActivity sGameViewAdapter;//prototyp
     private List<Card> mPlayerCards;
     private List<List<Card>> mRedrawCards;
     private static GameState gameState;
@@ -74,10 +72,6 @@ public class RedrawActivity extends AppCompatActivity {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
-        //findViewById(R.id.redrawUserCards1).setOnDragListener(new RedrawDragListener());
-        //findViewById(R.id.btnEndRedraw).setOnDragListener(new RedrawDragListener());
     }
 
     public static void showRedraw(GameViewActivity gameView, List<Card> playerCards, GameState gameState) {
@@ -89,31 +83,18 @@ public class RedrawActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-//                Intent intent = new Intent(gameView, RedrawActivity.class);
-//                Bundle b = new Bundle();
-//                b.putSerializable("cards", playerCards); //todo: checken wie man list übergeben kann
-//                intent.putExtras(b);
-//                gameView.startActivity(intent);
-                sPlayerCards = playerCards; //workaround
-                sGameViewAdapter = gameView;
                 gameView.startActivity(new Intent(gameView, RedrawActivity.class));
             }
         }.start();
     }
 
     public void onClickCloseRedraw(View view) {
-        //mPlayerCards.set(0, new Card(6, 10, false, true));
-        //sPlayerCards.set(0, new Card(7,22,false, true));
-
         for (int i = 0; i < mRedrawCards.size(); i++) {
             for (int j = 0; j < mRedrawCards.get(i).size(); j++) {
                 mPlayerCards.set((j + i * 5), mRedrawCards.get(i).get(j));
             }
         }
-        sGameViewAdapter.refreshUserHandCards();
 
-        //RecyclerView userHandCards = findViewById(R.id.recyclerViewUserCardStack);
-        //GameViewActivity.setCards(userHandCards,
         // TODO übergabe an GameState !!!!!!!(check if it is mPlayerCards)!!!!!!!
         gameState.setMyHand(this.mPlayerCards);
         for(Card card: gameState.getMyHand()){
@@ -146,7 +127,6 @@ public class RedrawActivity extends AppCompatActivity {
         if (mRedrawCount <= 2) {
             UserCardAdapter adapter = (UserCardAdapter) ((RecyclerView) cardView.getParent()).getAdapter();
             int cardPos = (int) cardView.getTag();
-            //Card card = adapter.getList().get(cardPos);
             List<Card> listSource = adapter.getList();
             listSource.set(cardPos, drawRandomCard());
             adapter.updateList(listSource);
@@ -160,17 +140,10 @@ public class RedrawActivity extends AppCompatActivity {
     }
 
     private Card drawRandomCard() {
-        int img = mRandom.nextInt(214);
-        int pts = mRandom.nextInt(7);
         this.allCardsList = gameState.getAllCards();
         /* TODO: get list from gamestate object */
-
-
-        allCardsList = GameViewActivity.getAllCardsList();
         SecureRandom random = new SecureRandom();
-        int zz;
-
-        zz = random.nextInt(allCardsList.size());
+        int zz = random.nextInt(allCardsList.size());
         Card card = allCardsList.get(zz);
         while (card.getCount() == 0) {
             zz = random.nextInt(allCardsList.size());
@@ -181,6 +154,5 @@ public class RedrawActivity extends AppCompatActivity {
         GameViewActivity.updateAllCardsList(allCardsList);
         return card;
     }
-
 }
 
