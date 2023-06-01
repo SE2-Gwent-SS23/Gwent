@@ -84,8 +84,4 @@ public class CardGenerator {
         }
         return allCardsList;
     }
-
-    public List<Card> getAllCardsList() {
-        return allCardsList;
-    }
 }
