@@ -40,8 +40,6 @@ public class RedrawActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         Intent intent = getIntent();
         gameState = (GameState) intent.getSerializableExtra("gameState");
-        System.out.println("Redraw: "+gameState.toString());
-
         this.allCardsList = gameState.getAllCards();
 
         //init 10 myHandcards
@@ -82,12 +80,8 @@ public class RedrawActivity extends AppCompatActivity {
             }
         }
 
-        // TODO übergabe an GameState !!!!!!!(check if it is mPlayerCards)!!!!!!!
         gameState.setMyHand(this.mPlayerCards);
-        for(Card card: mPlayerCards){
-            System.out.println(card.toString());
-        }
-        System.out.println(gameState.toString());
+
         // Sending the modified object back to the GameViewActivity
         Intent intent = new Intent();
         intent.putExtra("gameState", gameState);

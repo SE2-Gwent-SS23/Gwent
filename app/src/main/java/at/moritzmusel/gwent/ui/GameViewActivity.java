@@ -166,10 +166,6 @@ public class GameViewActivity extends AppCompatActivity {
             }
         });
 
-        Intent redrawActivityIntent = new Intent(GameViewActivity.this, RedrawActivity.class);
-        redrawActivityIntent.putExtra("gameState", this.gameState);
-        startActivityForResult(redrawActivityIntent, 123);
-
         initShakeSensor();
         doNetworking();
     }
