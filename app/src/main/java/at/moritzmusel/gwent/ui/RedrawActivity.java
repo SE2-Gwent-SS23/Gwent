@@ -31,7 +31,7 @@ public class RedrawActivity extends AppCompatActivity {
     private List<Card> mPlayerCards;
     private List<List<Card>> mRedrawCards;
     private static GameState gameState;
-    private static List<Card> allCardsList;
+    private List<Card> allCardsList;
     TextView mRedrawDropView;
     TextView mRedrawCountView;
     int mRedrawCount = 0;
@@ -42,7 +42,22 @@ public class RedrawActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_window_redraw);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mPlayerCards = sPlayerCards; //b.getSerializable("cards");
+        // mPlayerCards = sPlayerCards; //b.getSerializable("cards");
+
+        //init 10 myHandcards
+        int zz = 0;
+        for (int i = 0; i < 10; i++) {
+            zz = mRandom.nextInt(this.allCardsList.size());
+            Card card = this.allCardsList.get(zz);
+            while (card.getCount() == 0) {
+                zz = mRandom.nextInt(this.allCardsList.size());
+                card = this.allCardsList.get(zz);
+            }
+
+            gameState.addToMyHand(card);
+            this.allCardsList.get(i).setCount(card.getCount() - 1);
+        }
+        mPlayerCards = gameState.getMyHand();
 
         mRedrawCountView = findViewById(R.id.txtRedrawCount);
         mRedrawDropView = findViewById(R.id.txtRedrawDrop);
@@ -98,7 +113,8 @@ public class RedrawActivity extends AppCompatActivity {
 
         //RecyclerView userHandCards = findViewById(R.id.recyclerViewUserCardStack);
         //GameViewActivity.setCards(userHandCards,
-
+        // TODO übergabe an GameState !!!!!!!(check if it is mPlayerCards)!!!!!!!
+        gameState.setMyHand(this.mPlayerCards);
         finish();
     }
 
@@ -141,7 +157,10 @@ public class RedrawActivity extends AppCompatActivity {
     private Card drawRandomCard() {
         int img = mRandom.nextInt(214);
         int pts = mRandom.nextInt(7);
+        this.allCardsList = gameState.getAllCards();
         /* TODO: get list from gamestate object */
+
+
         allCardsList = GameViewActivity.getAllCardsList();
         SecureRandom random = new SecureRandom();
         int zz;

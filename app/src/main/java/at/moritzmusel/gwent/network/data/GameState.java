@@ -81,20 +81,7 @@ public class GameState implements Serializable {
         // myHand
         this.myHand = new ArrayList<>();
         this.allCards = new ArrayList<>();
-        /*
-        for (int i = 0; i < 10; i++) {
-            zz = random.nextInt(this.allCardsList.size());
-            Card card = this.allCardsList.get(zz);
-            while (card.getCount() == 0) {
-                zz = random.nextInt(this.allCardsList.size());
-                card = this.allCardsList.get(zz);
-            }
 
-            this.myHand.add(card);
-            this.allCardsList.get(i).setCount(card.getCount() - 1);
-        }
-
-         */
 
         // Ranged
         this.myRanged = new ArrayList<>();
@@ -384,6 +371,9 @@ public class GameState implements Serializable {
 
     public void setUsedOpponentLeader(Boolean usedOpponentLeader) {
         this.usedOpponentLeader = usedOpponentLeader;
+    }
+    public List<Card> getAllCards(){
+        return this.allCards;
     }
 
     @Override
