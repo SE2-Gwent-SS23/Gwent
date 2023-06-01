@@ -68,13 +68,14 @@ import at.moritzmusel.gwent.network.data.GameState;
 
 
 public class GameViewActivity extends AppCompatActivity {
+    private List<RecyclerView> recyclerViews;
     private static final String TAG = "GameViewActivity";
     private Button buttonOpponentCards;
     private static TextView tvMyGrave;
     private static TextView tvOpponentMonster;
     private static TextView tvOpponentGrave;
     private PopupWindow popupWindow;
-    private Dialog lobbyDialog;    
+    private Dialog lobbyDialog;
     private static Context context;
 
     // variables for shake sensor
@@ -89,6 +90,7 @@ public class GameViewActivity extends AppCompatActivity {
     private final String[] REQUIRED_PERMISSIONS;
     private static ActivityResultLauncher<String[]> requestMultiplePermissions;
     private TriggerValueChangeListener onConnectionSuccessfullTrigger;
+
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             REQUIRED_PERMISSIONS = new String[]{
@@ -111,15 +113,14 @@ public class GameViewActivity extends AppCompatActivity {
                         Log.e(TAG, "Missing permissions");
                         Toast.makeText(this, "Required permissions needed. Go to settings!", Toast.LENGTH_LONG).show();
                         finish();
-                    }
-                    else recreate();
+                    } else recreate();
                 });
 
         Log.i(TAG, Arrays.toString(REQUIRED_PERMISSIONS));
     }
     // end
 
-    private static GameState gameState;
+    private GameState gameState;
     private static List<Card> allCardsList;
 
     // GameState Attributes
@@ -150,23 +151,43 @@ public class GameViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_view);
-        this.cardGenerator = new CardGenerator(this.getApplicationContext());
-        tvMyGrave = findViewById(R.id.tvMyGrave);
-        context = this.getApplicationContext();
-        gameState = new GameState(1,1,1,false);
-
-        /* Fill all Cards -> outsource to Network-Part for general generation */
+        this.gameState = new GameState(0, 0, 0, false);
         try {
-            this.allCardsList = new ArrayList<>();
-            JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
-            this.allCardsList = cardGenerator.fillAllCardsIntoList(jsonObject);
-            // Init Game State
-            initGameState();
+            this.gameState.initGameState();
         } catch (JSONException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        this.gameState.initAllCards(this.getApplicationContext());
+       //adding views to list
+        this.recyclerViews = new ArrayList<RecyclerView>();
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardOpponentLaneOne));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardOpponentLaneTwo));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneOne));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneTwo));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewUserCardStack));
+        /*
+        this.cardGenerator = new CardGenerator(this.getApplicationContext());
+        tvMyGrave = findViewById(R.id.tvMyGrave);
+        context = this.getApplicationContext();
+        gameState = new GameState(1,1,1,false);
+
+         */
+
+        /* Fill all Cards -> outsource to Network-Part for general generation */
+        /*
+        try {
+            this.allCardsList = new ArrayList<>();
+            JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
+            this.allCardsList = cardGenerator.fillAllCardsIntoList(jsonObject);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+         */
 
         //sessionType = getIntent().getExtras().getString("lobby_type");
         settingResponsiveGameBoard();
@@ -207,12 +228,12 @@ public class GameViewActivity extends AppCompatActivity {
 
     private void doNetworking() {
         onConnectionSuccessfullTrigger = value -> {
-            if((Boolean) value){
+            if ((Boolean) value) {
                 if (lobbyDialog.isShowing()) {
                     lobbyDialog.dismiss();
                     RedrawActivity.showRedraw(GameViewActivity.this, this.myHand, gameState);
                 }
-            }else {
+            } else {
                 startActivity(new Intent(this, MainMenuActivity.class));
                 Toast.makeText(this, "Error creating/hosting lobby.", Toast.LENGTH_LONG).show();
             }
@@ -255,75 +276,19 @@ public class GameViewActivity extends AppCompatActivity {
         int devicewidth = displayMetrics.widthPixels;
 
         // Setting bounds for lanes
-        rvOpponentOne.getLayoutParams().width = devicewidth/2;
-        rvOpponentOne.getLayoutParams().height = deviceheight/6;
-        rvOpponentTwo.getLayoutParams().width = devicewidth/2;
-        rvOpponentTwo.getLayoutParams().height = deviceheight/6;
-        rvUserOne.getLayoutParams().width = devicewidth/2;
-        rvUserOne.getLayoutParams().height = deviceheight/6;
-        rvUserTwo.getLayoutParams().width = devicewidth/2;
-        rvUserTwo.getLayoutParams().height = deviceheight/6;
-        rvUser.getLayoutParams().height = deviceheight/6;
+        rvOpponentOne.getLayoutParams().width = devicewidth / 2;
+        rvOpponentOne.getLayoutParams().height = deviceheight / 6;
+        rvOpponentTwo.getLayoutParams().width = devicewidth / 2;
+        rvOpponentTwo.getLayoutParams().height = deviceheight / 6;
+        rvUserOne.getLayoutParams().width = devicewidth / 2;
+        rvUserOne.getLayoutParams().height = deviceheight / 6;
+        rvUserTwo.getLayoutParams().width = devicewidth / 2;
+        rvUserTwo.getLayoutParams().height = deviceheight / 6;
+        rvUser.getLayoutParams().height = deviceheight / 6;
     }
 
     /* TODO: Outsource to Network-Part */
-    private void initGameState() throws JSONException, IOException {
 
-        SecureRandom random = new SecureRandom();
-        int zz;
-
-        // myHand
-        this.myHand = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            zz = random.nextInt(this.allCardsList.size());
-            Card card = this.allCardsList.get(zz);
-            while (card.getCount() == 0) {
-                zz = random.nextInt(this.allCardsList.size());
-                card = this.allCardsList.get(zz);
-            }
-
-            this.myHand.add(card);
-            this.allCardsList.get(i).setCount(card.getCount() - 1);
-        }
-
-        // Ranged
-        this.myRanged = new ArrayList<>();
-        this.opponentRanged = new ArrayList<>();
-
-        // Close
-        this.myClose = new ArrayList<>();
-        this.opponentClose = new ArrayList<>();
-
-        // opponentHand
-        this.opponentHand = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            zz = random.nextInt(this.allCardsList.size());
-            Card card = this.allCardsList.get(zz);
-            while (card.getCount() == 0) {
-                zz = random.nextInt(this.allCardsList.size());
-                card = this.allCardsList.get(zz);
-            }
-
-            this.opponentHand.add(card);
-            this.allCardsList.get(i).setCount(card.getCount() - 1);
-        }
-
-        // Grave
-        this.myGrave = new ArrayList<>();
-        this.opponentGrave = new ArrayList<>();
-
-        gameState.setMyHand(this.myHand);
-        gameState.setMyClose(this.myClose);
-        gameState.setMyGrave(this.myGrave);
-        gameState.setMyRanged(this.myRanged);
-        gameState.setOpponentHand(this.opponentHand);
-        gameState.setOpponentClose(this.opponentClose);
-        gameState.setOpponentGrave(this.opponentGrave);
-        gameState.setOpponentRanged(this.opponentRanged);
-
-        updateUI();
-
-    }
 
     public void setCards(int recyclerViewUserCardStack, Boolean isMyHand, List<Card> cards) throws JSONException, IOException {
         setCards(findViewById(recyclerViewUserCardStack), isMyHand, cards, getApplicationContext(), GameViewActivity.this, gameState);
@@ -334,7 +299,7 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     public static void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, View.OnDragListener dragListener, GameState gameState) throws JSONException, IOException {
-        UserCardAdapter adapterLanes = new UserCardAdapter(cards, isMyHand, context, deviceheight/6, gameState);
+        UserCardAdapter adapterLanes = new UserCardAdapter(cards, isMyHand, context, deviceheight / 6, gameState);
         view.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(parentActivity, LinearLayoutManager.HORIZONTAL, false);
         view.setLayoutManager(linearLayoutManagerUser);
@@ -452,11 +417,11 @@ public class GameViewActivity extends AppCompatActivity {
         }
         lobbyDialog.show();
 
-        if(sessionType.equals("join")){
+        if (sessionType.equals("join")) {
             lobbyText.setText("Join Lobby");
             infoText.setText("Searching for a game...");
             network.startDiscovering();
-        }else if(sessionType.equals("create")){
+        } else if (sessionType.equals("create")) {
             lobbyText.setText("Create Lobby");
             infoText.setText("Creating game. Looking for opponents...");
             network.startHosting();
@@ -466,7 +431,7 @@ public class GameViewActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(!hasPermissions(this, REQUIRED_PERMISSIONS)){
+        if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
             Log.i(TAG, "requestMultiplePermissions called");
             requestMultiplePermissions.launch(REQUIRED_PERMISSIONS);
         }
@@ -493,7 +458,7 @@ public class GameViewActivity extends AppCompatActivity {
         allCardsList = list;
     }
 
-    public static void updateUI() {
+    public static void updateUI(GameState gameState) {
         tvMyGrave.setText(gameState.getMyGrave().size() + "");
 
         // inflate the layout of the popup window
@@ -509,5 +474,53 @@ public class GameViewActivity extends AppCompatActivity {
 
     public static Context getContext() {
         return context;
+    }
+
+    /**
+     * Change Boolean "yourTurn" to enables and disables the "End Turn" button (false to disable)
+     * Also disables all relevant DragListeners.
+     */
+    public void enableDisableYourTurn(boolean yourTurn) throws JSONException, IOException {
+        ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
+        if (!yourTurn) {
+
+            for (RecyclerView view : this.recyclerViews) {
+                view.setOnDragListener(null);
+            }
+            endTurn.setOnClickListener(null);
+
+            /* why is it not removing the animation?
+            opponentRangedView.setItemAnimator(null);
+            opponentCloseView.setItemAnimator(null);
+            myCloseView.setItemAnimator(null);
+            myRangedView.setItemAnimator(null);
+            myHandView.setItemAnimator(null);
+
+             */
+        } else {
+            for (RecyclerView view : this.recyclerViews) {
+                view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
+            }
+
+            endTurn.setOnClickListener(clickEndTurn());
+        }
+    }
+
+    private View.OnClickListener clickEndTurn() {
+        return (new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //your code goes here
+                try {
+                    enableDisableYourTurn(false);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        );
     }
 }

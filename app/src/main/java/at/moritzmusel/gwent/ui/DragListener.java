@@ -40,7 +40,7 @@ public class DragListener implements View.OnDragListener {
             View viewSource = (View) event.getLocalState();
             RecyclerView target = chooseTargetRV(view);
             doActionOnDragAdapterTarget(viewSource, target);
-            GameViewActivity.updateUI();
+            GameViewActivity.updateUI(this.gameState);
         }
 
         if (!isDropped && event.getLocalState() != null) {
