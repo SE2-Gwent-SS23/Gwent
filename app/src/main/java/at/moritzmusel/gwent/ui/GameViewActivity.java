@@ -167,10 +167,11 @@ public class GameViewActivity extends AppCompatActivity {
         this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneOne));
         this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneTwo));
         this.recyclerViews.add(findViewById(R.id.recyclerViewUserCardStack));
+        context = this.getApplicationContext();
         /*
         this.cardGenerator = new CardGenerator(this.getApplicationContext());
         tvMyGrave = findViewById(R.id.tvMyGrave);
-        context = this.getApplicationContext();
+
         gameState = new GameState(1,1,1,false);
 
          */
@@ -211,11 +212,11 @@ public class GameViewActivity extends AppCompatActivity {
         });
 
         try {
-            setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.opponentRanged);
-            setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.opponentClose);
-            setUserCards(this.myHand);
-            setCards(R.id.recyclerViewCardUserLaneOne, false, this.myClose);
-            setCards(R.id.recyclerViewCardUserLaneTwo, false, this.myRanged);
+            setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
+            setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
+            setUserCards(this.gameState.getMyHand());
+            setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
+            setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
         } catch (JSONException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
