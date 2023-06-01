@@ -120,9 +120,13 @@ public class GameViewActivity extends AppCompatActivity {
     }
     // end
 
-    private GameState gameState;
+    private static GameState gameState;
     private static List<Card> allCardsList;
     private static int deviceheight;
+
+    public static void setGameState(GameState gameState) {
+        GameViewActivity.gameState = gameState;
+    }
 
     @SuppressLint({"ClickableViewAccessibility", "MissingInflatedId"})
     @Override
@@ -169,12 +173,17 @@ public class GameViewActivity extends AppCompatActivity {
             }
         });
 
-        RedrawActivity.showRedraw(GameViewActivity.this, this.gameState);
+        RedrawActivity redrawActivity = new RedrawActivity();
+        redrawActivity.showRedraw(GameViewActivity.this, this.gameState);
+        this.gameState = redrawActivity.getGameState();
+        System.out.println("GameState TESTSTST: "+this.gameState.toString());
+
 
         try {
             setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
             setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
             setUserCards(this.gameState.getMyHand());
+            System.out.println("getMyhand test");
             setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
             setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
         } catch (JSONException e) {

@@ -23,10 +23,11 @@ import java.util.List;
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
+import at.moritzmusel.gwent.model.CardGenerator;
 import at.moritzmusel.gwent.network.data.GameState;
 
 public class RedrawActivity extends AppCompatActivity {
-    private List<Card> mPlayerCards;
+    private static List<Card> mPlayerCards;
     private List<List<Card>> mRedrawCards;
     private static GameState gameState;
     private List<Card> allCardsList;
@@ -40,7 +41,8 @@ public class RedrawActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_window_redraw);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        this.allCardsList = gameState.getAllCards();
+        this.mPlayerCards = new ArrayList<Card>();
+        this.allCardsList = RedrawActivity.gameState.getAllCards();
 
         //init 10 myHandcards
         int zz = 0;
@@ -52,10 +54,10 @@ public class RedrawActivity extends AppCompatActivity {
                 card = this.allCardsList.get(zz);
             }
 
-            gameState.addToMyHand(card);
+            RedrawActivity.gameState.addToMyHand(card);
             this.allCardsList.get(i).setCount(card.getCount() - 1);
         }
-        mPlayerCards = gameState.getMyHand();
+        mPlayerCards = RedrawActivity.gameState.getMyHand();
 
         mRedrawCountView = findViewById(R.id.txtRedrawCount);
         mRedrawDropView = findViewById(R.id.txtRedrawDrop);
@@ -75,6 +77,7 @@ public class RedrawActivity extends AppCompatActivity {
 
     public static void showRedraw(GameViewActivity gameView, GameState gameState) {
         RedrawActivity.gameState = gameState;
+
         new CountDownTimer(1500, 1500) {
             @Override
             public void onTick(long l) {
@@ -95,11 +98,11 @@ public class RedrawActivity extends AppCompatActivity {
         }
 
         // TODO übergabe an GameState !!!!!!!(check if it is mPlayerCards)!!!!!!!
-        gameState.setMyHand(this.mPlayerCards);
-        for(Card card: gameState.getMyHand()){
+        RedrawActivity.gameState.setMyHand(this.mPlayerCards);
+        for(Card card: mPlayerCards){
             System.out.println(card.toString());
         }
-        System.out.println(gameState.toString());
+        System.out.println(RedrawActivity.gameState.toString());
         finish();
     }
 
@@ -139,7 +142,7 @@ public class RedrawActivity extends AppCompatActivity {
     }
 
     private Card drawRandomCard() {
-        this.allCardsList = gameState.getAllCards();
+        this.allCardsList = RedrawActivity.gameState.getAllCards();
         /* TODO: get list from gamestate object */
         SecureRandom random = new SecureRandom();
         int zz = random.nextInt(allCardsList.size());
@@ -152,6 +155,15 @@ public class RedrawActivity extends AppCompatActivity {
         allCardsList.get(zz).setCount(card.getCount() - 1);
         GameViewActivity.updateAllCardsList(allCardsList);
         return card;
+    }
+
+    public static GameState getGameState() {
+        RedrawActivity.gameState.setMyHand(mPlayerCards);
+        return RedrawActivity.gameState;
+    }
+
+    public GameState getGameStateNonStatic() {
+        return gameState;
     }
 }
 
