@@ -145,7 +145,7 @@ public class GameViewActivity extends AppCompatActivity {
         this.recyclerViews.add(findViewById(R.id.recyclerViewUserCardStack));
 
 
-        //sessionType = getIntent().getExtras().getString("lobby_type");
+        sessionType = getIntent().getExtras().getString("lobby_type");
         settingResponsiveGameBoard();
 
         buttonOpponentCards.setOnTouchListener(new OnSwipeTouchListener(this, findViewById(R.id.buttonOpponentCards)) {
@@ -171,7 +171,7 @@ public class GameViewActivity extends AppCompatActivity {
         startActivityForResult(redrawActivityIntent, 123);
 
         initShakeSensor();
-        //doNetworking();
+        doNetworking();
     }
 
     @Override
