@@ -22,7 +22,6 @@ public class CardGeneratorTestAndroid {
         Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         cardGenerator = new CardGenerator(targetContext);
         JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
-        cardGenerator.fillAllCardsIntoList(jsonObject);
-        assertEquals(214, cardGenerator.getAllCardsList().size());
+        assertEquals(214, cardGenerator.fillAllCardsIntoList(jsonObject).size());
     }
 }

@@ -159,8 +159,7 @@ public class GameViewActivity extends AppCompatActivity {
         try {
             this.allCardsList = new ArrayList<>();
             JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
-            cardGenerator.fillAllCardsIntoList(jsonObject);
-            this.allCardsList = cardGenerator.getAllCardsList();
+            this.allCardsList = cardGenerator.fillAllCardsIntoList(jsonObject);
             // Init Game State
             initGameState();
         } catch (JSONException e) {

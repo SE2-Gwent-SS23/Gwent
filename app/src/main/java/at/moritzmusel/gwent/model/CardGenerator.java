@@ -54,7 +54,7 @@ public class CardGenerator {
         return jsonString;
     }
 
-    public void fillAllCardsIntoList(JSONObject jsonObject) throws JSONException, IOException {
+    public List<Card> fillAllCardsIntoList(JSONObject jsonObject) throws JSONException, IOException {
         this.allCardsList = new ArrayList<>();
         String name;
         int strength;
@@ -82,6 +82,7 @@ public class CardGenerator {
             newCard.changeAbility(obj.optString("ability"));
             allCardsList.add(newCard);
         }
+        return allCardsList;
     }
 
     public List<Card> getAllCardsList() {
