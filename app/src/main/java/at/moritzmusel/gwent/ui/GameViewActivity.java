@@ -122,28 +122,6 @@ public class GameViewActivity extends AppCompatActivity {
 
     private GameState gameState;
     private static List<Card> allCardsList;
-
-    // GameState Attributes
-    private String myDeck; // = filename
-    private String opponentDeck;
-    private List<Card> myHand;
-    private List<Card> opponentHand;
-    private List<Card> myGrave;
-    private List<Card> opponentGrave;
-    private List<Card> weather;
-    private List<Card> myClose; // 3. lane
-    private Boolean myWeatherClose;
-    private List<Card> myRanged; // 4. lane
-    private Boolean myWeatherRanged;
-    private List<Card> opponentClose; // 2. lane
-    private Boolean opponentWeatherClose;
-    private List<Card> opponentRanged; // 1. lane
-    private Boolean opponentWeatherRanged;
-    private Card myLeader;
-    private Boolean usedMyLeader;
-    private Card opponentLeader;
-    private Boolean usedOpponentLeader;
-    private CardGenerator cardGenerator;
     private static int deviceheight;
 
     @SuppressLint({"ClickableViewAccessibility", "MissingInflatedId"})
@@ -160,6 +138,7 @@ public class GameViewActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
         this.gameState.initAllCards(this.getApplicationContext());
+
        //adding views to list
         this.recyclerViews = new ArrayList<RecyclerView>();
         this.recyclerViews.add(findViewById(R.id.recyclerViewCardOpponentLaneOne));
@@ -168,27 +147,6 @@ public class GameViewActivity extends AppCompatActivity {
         this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneTwo));
         this.recyclerViews.add(findViewById(R.id.recyclerViewUserCardStack));
         context = this.getApplicationContext();
-        /*
-        this.cardGenerator = new CardGenerator(this.getApplicationContext());
-        tvMyGrave = findViewById(R.id.tvMyGrave);
-
-        gameState = new GameState(1,1,1,false);
-
-         */
-
-        /* Fill all Cards -> outsource to Network-Part for general generation */
-        /*
-        try {
-            this.allCardsList = new ArrayList<>();
-            JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
-            this.allCardsList = cardGenerator.fillAllCardsIntoList(jsonObject);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-         */
 
         //sessionType = getIntent().getExtras().getString("lobby_type");
         settingResponsiveGameBoard();
@@ -211,6 +169,8 @@ public class GameViewActivity extends AppCompatActivity {
             }
         });
 
+        RedrawActivity.showRedraw(GameViewActivity.this, this.gameState);
+
         try {
             setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
             setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
@@ -232,7 +192,7 @@ public class GameViewActivity extends AppCompatActivity {
             if ((Boolean) value) {
                 if (lobbyDialog.isShowing()) {
                     lobbyDialog.dismiss();
-                    RedrawActivity.showRedraw(GameViewActivity.this, this.myHand, gameState);
+                    RedrawActivity.showRedraw(GameViewActivity.this, gameState);
                 }
             } else {
                 startActivity(new Intent(this, MainMenuActivity.class));

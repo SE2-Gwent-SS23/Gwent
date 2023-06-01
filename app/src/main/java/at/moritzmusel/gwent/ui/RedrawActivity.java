@@ -40,7 +40,6 @@ public class RedrawActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_window_redraw);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        // mPlayerCards = sPlayerCards; //b.getSerializable("cards");
         this.allCardsList = gameState.getAllCards();
 
         //init 10 myHandcards
@@ -74,7 +73,7 @@ public class RedrawActivity extends AppCompatActivity {
         }
     }
 
-    public static void showRedraw(GameViewActivity gameView, List<Card> playerCards, GameState gameState) {
+    public static void showRedraw(GameViewActivity gameView, GameState gameState) {
         RedrawActivity.gameState = gameState;
         new CountDownTimer(1500, 1500) {
             @Override
