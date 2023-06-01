@@ -485,6 +485,7 @@ public class GameViewActivity extends AppCompatActivity {
 
     }
 
+    /* TODO: delete method and get your needed list from GameState object */
     public static List<Card> getAllCardsList() {
         return allCardsList;
     }
