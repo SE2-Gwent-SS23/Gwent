@@ -73,6 +73,9 @@ public class GameViewActivity extends AppCompatActivity {
     private Dialog lobbyDialog;
     private static Context context;
 
+    private static GameState gameState;
+    private static int deviceHeight;
+
     // variables for shake sensor
     private SensorManager mSensorManager;
     private float mAccel;
@@ -115,8 +118,6 @@ public class GameViewActivity extends AppCompatActivity {
     }
     // end
 
-    private static GameState gameState;
-    private static int deviceheight;
 
     @SuppressLint({"ClickableViewAccessibility", "MissingInflatedId"})
     @Override
@@ -136,14 +137,8 @@ public class GameViewActivity extends AppCompatActivity {
 
         this.gameState.initAllCards(this.getApplicationContext());
 
-        //adding views to list
-        this.recyclerViews = new ArrayList<RecyclerView>();
-        this.recyclerViews.add(findViewById(R.id.recyclerViewCardOpponentLaneOne));
-        this.recyclerViews.add(findViewById(R.id.recyclerViewCardOpponentLaneTwo));
-        this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneOne));
-        this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneTwo));
-        this.recyclerViews.add(findViewById(R.id.recyclerViewUserCardStack));
-
+        // adding views to list
+        initRecyclerViewsToList();
 
         sessionType = getIntent().getExtras().getString("lobby_type");
         settingResponsiveGameBoard();
@@ -168,6 +163,15 @@ public class GameViewActivity extends AppCompatActivity {
 
         initShakeSensor();
         doNetworking();
+    }
+
+    private void initRecyclerViewsToList() {
+        this.recyclerViews = new ArrayList<>();
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardOpponentLaneOne));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardOpponentLaneTwo));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneOne));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneTwo));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewUserCardStack));
     }
 
     @Override
@@ -239,19 +243,19 @@ public class GameViewActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         // on below line we are getting height and width using display metrics.
-        this.deviceheight = displayMetrics.heightPixels;
-        int devicewidth = displayMetrics.widthPixels;
+        this.deviceHeight = displayMetrics.heightPixels;
+        int deviceWidth = displayMetrics.widthPixels;
 
         // Setting bounds for lanes
-        rvOpponentOne.getLayoutParams().width = devicewidth / 2;
-        rvOpponentOne.getLayoutParams().height = deviceheight / 6;
-        rvOpponentTwo.getLayoutParams().width = devicewidth / 2;
-        rvOpponentTwo.getLayoutParams().height = deviceheight / 6;
-        rvUserOne.getLayoutParams().width = devicewidth / 2;
-        rvUserOne.getLayoutParams().height = deviceheight / 6;
-        rvUserTwo.getLayoutParams().width = devicewidth / 2;
-        rvUserTwo.getLayoutParams().height = deviceheight / 6;
-        rvUser.getLayoutParams().height = deviceheight / 6;
+        rvOpponentOne.getLayoutParams().width = deviceWidth / 2;
+        rvOpponentOne.getLayoutParams().height = deviceHeight / 6;
+        rvOpponentTwo.getLayoutParams().width = deviceWidth / 2;
+        rvOpponentTwo.getLayoutParams().height = deviceHeight / 6;
+        rvUserOne.getLayoutParams().width = deviceWidth / 2;
+        rvUserOne.getLayoutParams().height = deviceHeight / 6;
+        rvUserTwo.getLayoutParams().width = deviceWidth / 2;
+        rvUserTwo.getLayoutParams().height = deviceHeight / 6;
+        rvUser.getLayoutParams().height = deviceHeight / 6;
     }
 
     public void setCards(int recyclerViewUserCardStack, Boolean isMyHand, List<Card> cards) throws JSONException, IOException {
@@ -263,7 +267,7 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     public static void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, View.OnDragListener dragListener, GameState gameState) throws JSONException, IOException {
-        UserCardAdapter adapterLanes = new UserCardAdapter(cards, isMyHand, context, deviceheight / 6, gameState);
+        UserCardAdapter adapterLanes = new UserCardAdapter(cards, isMyHand, context, deviceHeight / 6, gameState);
         view.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(parentActivity, LinearLayoutManager.HORIZONTAL, false);
         view.setLayoutManager(linearLayoutManagerUser);
