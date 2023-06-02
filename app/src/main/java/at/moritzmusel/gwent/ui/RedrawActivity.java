@@ -21,40 +21,36 @@ import java.util.List;
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
+import at.moritzmusel.gwent.model.CardGenerator;
+import at.moritzmusel.gwent.model.RedrawObjectGenerator;
+import at.moritzmusel.gwent.model.ReturnCard;
 import at.moritzmusel.gwent.network.data.GameState;
 
 public class RedrawActivity extends AppCompatActivity {
     private static List<Card> mPlayerCards;
     private List<List<Card>> mRedrawCards;
     private GameState gameState;
-    private List<Card> allCardsList;
-    TextView mRedrawDropView;
-    TextView mRedrawCountView;
-    int mRedrawCount = 0;
-    SecureRandom mRandom = new SecureRandom();
+    private TextView mRedrawDropView;
+    private TextView mRedrawCountView;
+    private int mRedrawCount = 0;
+    private CardGenerator cardGenerator;
+    private RedrawObjectGenerator redrawObjectGenerator;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_window_redraw);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        // receiving the gameState from GameViewActivity
         Intent intent = getIntent();
-        gameState = (GameState) intent.getSerializableExtra("gameState");
-        this.allCardsList = gameState.getAllCards();
+        this.gameState = (GameState) intent.getSerializableExtra("gameState");
 
-        //init 10 myHandcards
-        int zz = 0;
-        for (int i = 0; i < 10; i++) {
-            zz = mRandom.nextInt(this.allCardsList.size());
-            Card card = this.allCardsList.get(zz);
-            while (card.getCount() == 0) {
-                zz = mRandom.nextInt(this.allCardsList.size());
-                card = this.allCardsList.get(zz);
-            }
+        this.redrawObjectGenerator = new RedrawObjectGenerator();
+        this.cardGenerator = new CardGenerator();
+        this.gameState = cardGenerator.initMyHandCards(gameState);
 
-            gameState.addToMyHand(card);
-            this.allCardsList.get(i).setCount(card.getCount() - 1);
-        }
         mPlayerCards = gameState.getMyHand();
 
         mRedrawCountView = findViewById(R.id.txtRedrawCount);
@@ -62,7 +58,7 @@ public class RedrawActivity extends AppCompatActivity {
         RedrawDragListener listener = new RedrawDragListener(this, mRedrawDropView);
         mRedrawDropView.setOnDragListener(listener);
 
-        mRedrawCards = halveList(mPlayerCards);
+        mRedrawCards = redrawObjectGenerator.halveList(mPlayerCards);
         try {
             GameViewActivity.setCards(findViewById(R.id.redrawUserCards1), true, mRedrawCards.get(0), getApplicationContext(), this, listener, gameState);
             GameViewActivity.setCards(findViewById(R.id.redrawUserCards2), true, mRedrawCards.get(1), getApplicationContext(), this, listener, gameState);
@@ -89,31 +85,14 @@ public class RedrawActivity extends AppCompatActivity {
         finish();
     }
 
-    public List<List<Card>> halveList(List<Card> list) {
-        int marker = list.size() / 2;
-        List<Card> firstHalf = new ArrayList<>();
-        List<Card> secondHalf = new ArrayList<>();
-
-        for (int i = 0; i < list.size(); i++) {
-            if (i < marker) {
-                firstHalf.add(list.get(i));
-            } else {
-                secondHalf.add(list.get(i));
-            }
-        }
-        List<List<Card>> result = new ArrayList<>();
-        result.add(firstHalf);
-        result.add(secondHalf);
-
-        return result;
-    }
-
     public void replaceCard(View cardView) {
         if (mRedrawCount <= 2) {
             UserCardAdapter adapter = (UserCardAdapter) ((RecyclerView) cardView.getParent()).getAdapter();
             int cardPos = (int) cardView.getTag();
             List<Card> listSource = adapter.getList();
-            listSource.set(cardPos, drawRandomCard());
+            ReturnCard returnCard = redrawObjectGenerator.drawRandomCard(gameState);
+            listSource.set(cardPos, returnCard.getCard());
+            this.gameState = returnCard.getGameState();
             adapter.updateList(listSource);
             adapter.notifyDataSetChanged();
             mRedrawCount++;
@@ -122,21 +101,6 @@ public class RedrawActivity extends AppCompatActivity {
         if (mRedrawCount == 3) {
             mRedrawDropView.setText("Bitte auf Fertig tippen");
         }
-    }
-
-    private Card drawRandomCard() {
-        this.allCardsList = gameState.getAllCards();
-        /* TODO: get list from gamestate object */
-        SecureRandom random = new SecureRandom();
-        int zz = random.nextInt(allCardsList.size());
-        Card card = allCardsList.get(zz);
-        while (card.getCount() == 0) {
-            zz = random.nextInt(allCardsList.size());
-            card = allCardsList.get(zz);
-        }
-
-        allCardsList.get(zz).setCount(card.getCount() - 1);
-        return card;
     }
 }
 
