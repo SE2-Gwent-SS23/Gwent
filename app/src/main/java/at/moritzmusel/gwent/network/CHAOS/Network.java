@@ -193,7 +193,7 @@ public class Network {
         currentState.setValue(new GameState(localPlayer, game.playerTurn, game.playerWon, game.isOver));
     }
 
-    private void sendGameState(GameState gameState) {
+    public void sendGameState(GameState gameState) {
         d(TAG, "Sending to " +opponentEndpointId + " " +gameState.toString());
         connectionsClient.sendPayload(opponentEndpointId, dataToPayload(gameState));
     }

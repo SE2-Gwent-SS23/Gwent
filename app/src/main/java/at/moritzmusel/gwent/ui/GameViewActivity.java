@@ -52,17 +52,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
 import at.moritzmusel.gwent.network.CHAOS.Network;
 import at.moritzmusel.gwent.network.CHAOS.NetworkInstance;
+import at.moritzmusel.gwent.network.CHAOS.TriggerValueChange;
 import at.moritzmusel.gwent.network.CHAOS.TriggerValueChangeListener;
 import at.moritzmusel.gwent.network.data.GameState;
 
 
 public class GameViewActivity extends AppCompatActivity {
+    private TriggerValueChange waitingCallback = new TriggerValueChange();
     private List<RecyclerView> recyclerViews;
     private static final String TAG = "GameViewActivity";
     private Button buttonOpponentCards;
@@ -73,7 +77,7 @@ public class GameViewActivity extends AppCompatActivity {
     private Dialog lobbyDialog;
     private static Context context;
 
-    private static GameState gameState;
+    private GameState gameState;
     private static int deviceHeight;
 
     // variables for shake sensor
@@ -180,6 +184,26 @@ public class GameViewActivity extends AppCompatActivity {
         if (requestCode == 123 && resultCode == RESULT_OK) {
             if (data != null && data.hasExtra("gameState")) {
                 this.gameState = (GameState) data.getSerializableExtra("gameState");
+                // send/receive gamestate here to receive hand
+                // call to send
+                network.sendGameState(gameState);
+                //call to receive
+                Toast.makeText(this, "Waiting for opponent hand.", Toast.LENGTH_LONG).show();
+                CountDownLatch countDownLatch = new CountDownLatch(1);
+                AtomicReference<GameState> g = null;
+                waitingCallback.setListener(value -> {
+                    if(value instanceof GameState){
+                        g.set((GameState) value);
+                        countDownLatch.countDown();
+                    }
+                });
+                try {
+                    countDownLatch.wait();
+                    this.gameState.setOpponentHand(g.get().getMyHand());
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
                 try {
                     setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
                     setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
@@ -215,6 +239,7 @@ public class GameViewActivity extends AppCompatActivity {
         showLobbyPopup();
 
         network.getCurrentState().observeForever(gameState -> {
+            this.waitingCallback.setValue(gameState);
             i(TAG + " From Network:", gameState.toString());
         });
     }
