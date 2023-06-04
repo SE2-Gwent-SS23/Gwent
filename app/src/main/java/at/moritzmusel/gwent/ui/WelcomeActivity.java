@@ -22,8 +22,8 @@ public class WelcomeActivity extends AppCompatActivity {
         backgroundImg.setBackgroundColor(Color.rgb(255, 255, 255));
         backgroundImg.setOnClickListener(view -> {
             // Starting Load Screen when Welcome Screen is clicked
-            Intent welcomeToLoadingIntent = new Intent(WelcomeActivity.this, LoadingActivity.class);
-            startActivity(welcomeToLoadingIntent);
+            Intent intent = new Intent(WelcomeActivity.this, SelectNameActivity.class);
+            startActivity(intent);
         });
     }
 }

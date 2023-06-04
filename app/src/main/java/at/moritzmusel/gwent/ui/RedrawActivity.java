@@ -134,6 +134,7 @@ public class RedrawActivity extends AppCompatActivity {
     private Card drawRandomCard() {
         int img = mRandom.nextInt(214);
         int pts = mRandom.nextInt(7);
+        /* TODO: get list from gamestate object */
         allCardsList = GameViewActivity.getAllCardsList();
         SecureRandom random = new SecureRandom();
         int zz;

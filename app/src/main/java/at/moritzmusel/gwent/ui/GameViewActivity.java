@@ -1,6 +1,5 @@
 package at.moritzmusel.gwent.ui;
 
-import static at.moritzmusel.gwent.network.Utils.Logger.e;
 import static at.moritzmusel.gwent.network.Utils.Logger.i;
 
 import android.Manifest;
@@ -9,11 +8,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -23,20 +20,19 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,20 +41,16 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.nearby.Nearby;
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,6 +60,7 @@ import java.util.Objects;
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
+import at.moritzmusel.gwent.model.CardGenerator;
 import at.moritzmusel.gwent.network.CHAOS.Network;
 import at.moritzmusel.gwent.network.CHAOS.NetworkInstance;
 import at.moritzmusel.gwent.network.CHAOS.TriggerValueChangeListener;
@@ -84,19 +77,18 @@ public class GameViewActivity extends AppCompatActivity {
     private Dialog lobbyDialog;    
     private static Context context;
 
-    //variables for shake sensor
+    // variables for shake sensor
     private SensorManager mSensorManager;
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
 
-    //Network stuff
+    // network variables
     private Network network;
     private String sessionType = "";
     private final String[] REQUIRED_PERMISSIONS;
     private static ActivityResultLauncher<String[]> requestMultiplePermissions;
     private TriggerValueChangeListener onConnectionSuccessfullTrigger;
-
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             REQUIRED_PERMISSIONS = new String[]{
@@ -138,32 +130,36 @@ public class GameViewActivity extends AppCompatActivity {
     private List<Card> myGrave;
     private List<Card> opponentGrave;
     private List<Card> weather;
-    private List<Card> myClose; // 3. Reihe
+    private List<Card> myClose; // 3. lane
     private Boolean myWeatherClose;
-    private List<Card> myRanged; // 4. Reihe
+    private List<Card> myRanged; // 4. lane
     private Boolean myWeatherRanged;
-    private List<Card> opponentClose; // 2. Reihe
+    private List<Card> opponentClose; // 2. lane
     private Boolean opponentWeatherClose;
-    private List<Card> opponentRanged; // 1. Reihe
+    private List<Card> opponentRanged; // 1. lane
     private Boolean opponentWeatherRanged;
     private Card myLeader;
     private Boolean usedMyLeader;
     private Card opponentLeader;
     private Boolean usedOpponentLeader;
+    private CardGenerator cardGenerator;
+    private static int deviceheight;
 
     @SuppressLint({"ClickableViewAccessibility", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_view);
+        this.cardGenerator = new CardGenerator(this.getApplicationContext());
         tvMyGrave = findViewById(R.id.tvMyGrave);
-
         context = this.getApplicationContext();
-        gameState = new GameState();
-        // Fill all Cards
+        gameState = new GameState(1,1,1,false);
+
+        /* Fill all Cards -> outsource to Network-Part for general generation */
         try {
             this.allCardsList = new ArrayList<>();
-            fillAllCardsIntoList();
+            JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
+            this.allCardsList = cardGenerator.fillAllCardsIntoList(jsonObject);
             // Init Game State
             initGameState();
         } catch (JSONException e) {
@@ -172,14 +168,8 @@ public class GameViewActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        //gwentViewModel.newGame();
-        //gwentViewModel.play(gameState);
-
-        sessionType = getIntent().getExtras().getString("lobby_type");
-
-        context = getApplicationContext();
-
-        buttonOpponentCards = findViewById(R.id.buttonOpponentCards);
+        //sessionType = getIntent().getExtras().getString("lobby_type");
+        settingResponsiveGameBoard();
 
         buttonOpponentCards.setOnTouchListener(new OnSwipeTouchListener(this, findViewById(R.id.buttonOpponentCards)) {
             @Override
@@ -211,19 +201,16 @@ public class GameViewActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        //shake sensor initialisation
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-        mAccel = 10f;
-        mAccelCurrent = SensorManager.GRAVITY_EARTH;
-        mAccelLast = SensorManager.GRAVITY_EARTH;
+        initShakeSensor();
+        //doNetworking();
+    }
 
-        //NETWORKING
+    private void doNetworking() {
         onConnectionSuccessfullTrigger = value -> {
             if((Boolean) value){
                 if (lobbyDialog.isShowing()) {
                     lobbyDialog.dismiss();
-                    RedrawActivity.showRedraw(GameViewActivity.this, userCards);
+                    RedrawActivity.showRedraw(GameViewActivity.this, this.myHand, gameState);
                 }
             }else {
                 startActivity(new Intent(this, MainMenuActivity.class));
@@ -240,60 +227,46 @@ public class GameViewActivity extends AppCompatActivity {
         });
     }
 
-    private void fillAllCardsIntoList() throws JSONException, IOException {
-        String name;
-        int strength;
-        int count;
-        String flavor_txt;
-        String filename;
-        JSONObject jsonObject = new JSONObject(loadCardJSONFromAsset());
-        JSONArray jsonArray = jsonObject.optJSONArray("cards");
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject obj = jsonArray.getJSONObject(i);
-            name = obj.optString("name");
-            strength = Integer.parseInt(obj.optString("strength"));
-            filename = obj.optString("filename");
-            count = Integer.parseInt(obj.optString("count"));
-            flavor_txt = obj.optString("flavor_txt");
-
-            Card newCard = new Card();
-            newCard.setName(name);
-            newCard.setStrength(strength);
-            newCard.setCount(count);
-            newCard.setFilename(filename);
-            newCard.setFlavor_txt(flavor_txt);
-            System.out.println(obj.optString("type"));
-            newCard.changeType(obj.optString("type"));
-            newCard.changeRow(obj.optString("row"));
-            newCard.changeAbility(obj.optString("ability"));
-            allCardsList.add(newCard);
-
-        }
+    private void initShakeSensor() {
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        mAccel = 10f;
+        mAccelCurrent = SensorManager.GRAVITY_EARTH;
+        mAccelLast = SensorManager.GRAVITY_EARTH;
     }
 
-    private String loadCardJSONFromAsset() throws IOException {
-        String jsonString = null;
-        InputStream is = null;
-        try {
-            is = context.getAssets().open("cards.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
+    private void settingResponsiveGameBoard() {
+        /* Setting responsive bounds of the game lanes */
+        RecyclerView rvOpponentOne = findViewById(R.id.recyclerViewCardOpponentLaneOne);
+        RecyclerView rvOpponentTwo = findViewById(R.id.recyclerViewCardOpponentLaneTwo);
+        RecyclerView rvUserOne = findViewById(R.id.recyclerViewCardUserLaneOne);
+        RecyclerView rvUserTwo = findViewById(R.id.recyclerViewCardUserLaneTwo);
+        RecyclerView rvUser = findViewById(R.id.recyclerViewUserCardStack);
+        buttonOpponentCards = findViewById(R.id.buttonOpponentCards);
 
-            while (is.read(buffer) > 0) {
-                jsonString = new String(buffer, "UTF-8");
-            }
-            if (is != null) is.close();
-        } catch (IOException e) {
-            System.out.println(e.getLocalizedMessage());
-            return null;
-        } finally {
-            if (is != null) is.close();
-        }
+        // Creating and initializing variable for display metrics
+        DisplayMetrics displayMetrics = new DisplayMetrics();
 
-        return jsonString;
+        // On below line we are getting metrics for display using window manager.
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        // on below line we are getting height and width using display metrics.
+        this.deviceheight = displayMetrics.heightPixels;
+        int devicewidth = displayMetrics.widthPixels;
+
+        // Setting bounds for lanes
+        rvOpponentOne.getLayoutParams().width = devicewidth/2;
+        rvOpponentOne.getLayoutParams().height = deviceheight/6;
+        rvOpponentTwo.getLayoutParams().width = devicewidth/2;
+        rvOpponentTwo.getLayoutParams().height = deviceheight/6;
+        rvUserOne.getLayoutParams().width = devicewidth/2;
+        rvUserOne.getLayoutParams().height = deviceheight/6;
+        rvUserTwo.getLayoutParams().width = devicewidth/2;
+        rvUserTwo.getLayoutParams().height = deviceheight/6;
+        rvUser.getLayoutParams().height = deviceheight/6;
     }
 
+    /* TODO: Outsource to Network-Part */
     private void initGameState() throws JSONException, IOException {
 
         SecureRandom random = new SecureRandom();
@@ -347,6 +320,7 @@ public class GameViewActivity extends AppCompatActivity {
         gameState.setOpponentClose(this.opponentClose);
         gameState.setOpponentGrave(this.opponentGrave);
         gameState.setOpponentRanged(this.opponentRanged);
+
         updateUI();
 
     }
@@ -360,7 +334,7 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     public static void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, View.OnDragListener dragListener, GameState gameState) throws JSONException, IOException {
-        UserCardAdapter adapterLanes = new UserCardAdapter(cards, isMyHand, context, gameState);
+        UserCardAdapter adapterLanes = new UserCardAdapter(cards, isMyHand, context, deviceheight/6, gameState);
         view.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(parentActivity, LinearLayoutManager.HORIZONTAL, false);
         view.setLayoutManager(linearLayoutManagerUser);
@@ -511,6 +485,7 @@ public class GameViewActivity extends AppCompatActivity {
 
     }
 
+    /* TODO: delete method and get your needed list from GameState object */
     public static List<Card> getAllCardsList() {
         return allCardsList;
     }
@@ -531,5 +506,9 @@ public class GameViewActivity extends AppCompatActivity {
         tvOpponentMonster.setText(gameState.getOpponentHand().size() + "");
         tvOpponentGrave = popupView.findViewById(R.id.tvOpponentGrave);
         tvOpponentGrave.setText(gameState.getOpponentGrave().size() + "");
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }
