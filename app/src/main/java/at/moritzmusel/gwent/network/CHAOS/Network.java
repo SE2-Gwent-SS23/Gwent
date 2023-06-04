@@ -66,9 +66,7 @@ public class Network {
 
         @Override
         public void onPayloadTransferUpdate(@NonNull String s, @NonNull PayloadTransferUpdate payloadTransferUpdate) {
-            //TODO logic for send
-            // send data
-            connectionsClient.sendPayload("", dataToPayload(currentState.getValue()));
+            connectionsClient.sendPayload(s, dataToPayload(currentState.getValue()));
             i(TAG, "onPayloadSend");
         }
     };

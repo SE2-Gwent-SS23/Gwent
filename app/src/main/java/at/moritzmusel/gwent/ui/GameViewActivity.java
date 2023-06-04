@@ -66,7 +66,6 @@ import at.moritzmusel.gwent.network.data.GameState;
 
 
 public class GameViewActivity extends AppCompatActivity {
-    private TriggerValueChange waitingCallback = new TriggerValueChange();
     private List<RecyclerView> recyclerViews;
     private static final String TAG = "GameViewActivity";
     private Button buttonOpponentCards;
@@ -92,6 +91,7 @@ public class GameViewActivity extends AppCompatActivity {
     private final String[] REQUIRED_PERMISSIONS;
     private static ActivityResultLauncher<String[]> requestMultiplePermissions;
     private TriggerValueChangeListener onConnectionSuccessfullTrigger;
+    private TriggerValueChange waitingCallback = new TriggerValueChange();
 
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -119,6 +119,25 @@ public class GameViewActivity extends AppCompatActivity {
                 });
 
         Log.i(TAG, Arrays.toString(REQUIRED_PERMISSIONS));
+
+        waitingCallback.setListener(value -> {
+            GameState g = (GameState) value;
+            if(g.getMyHand() != null){
+                try {
+                    setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
+                    setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
+                    setUserCards(this.gameState.getMyHand());
+                    setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
+                    setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
+                    i("Callback", this.gameState.toString());
+                    this.gameState.setOpponentHand(g.getMyHand());
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
     // end
 
@@ -128,6 +147,9 @@ public class GameViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_view);
+
+        i("HALLO WELT", "HALLO");
+
         this.context = this.getApplicationContext();
         this.gameState = new GameState(0, 0, 0, false);
 
@@ -189,32 +211,6 @@ public class GameViewActivity extends AppCompatActivity {
                 network.sendGameState(gameState);
                 //call to receive
                 Toast.makeText(this, "Waiting for opponent hand.", Toast.LENGTH_LONG).show();
-                CountDownLatch countDownLatch = new CountDownLatch(1);
-                AtomicReference<GameState> g = null;
-                waitingCallback.setListener(value -> {
-                    if(value instanceof GameState){
-                        g.set((GameState) value);
-                        countDownLatch.countDown();
-                    }
-                });
-                try {
-                    countDownLatch.wait();
-                    this.gameState.setOpponentHand(g.get().getMyHand());
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-
-                try {
-                    setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
-                    setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
-                    setUserCards(this.gameState.getMyHand());
-                    setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
-                    setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
             }
         }
     }
@@ -292,6 +288,7 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     public static void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, View.OnDragListener dragListener, GameState gameState) throws JSONException, IOException {
+        Log.i("WirLiebenSe2", "WirLiebenSe2");
         UserCardAdapter adapterLanes = new UserCardAdapter(cards, isMyHand, context, deviceHeight / 6, gameState);
         view.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(parentActivity, LinearLayoutManager.HORIZONTAL, false);
