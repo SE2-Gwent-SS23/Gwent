@@ -156,9 +156,7 @@ public class Utils {
             }
 
         } catch (SocketException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            ip += "Something Wrong! " + e.toString() + "\n";
+            throw new RuntimeException();
         }
         return ip;
     }
