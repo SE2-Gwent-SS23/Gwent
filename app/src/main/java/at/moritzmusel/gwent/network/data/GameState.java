@@ -34,6 +34,7 @@ public class GameState implements Serializable {
     private List<Card> myRanged; // 4. Reihe
     private List<Card> opponentClose; // 2. Reihe
     private List<Card> opponentRanged; // 1. Reihe
+    private boolean redrawPhase = true;
 
     private Card myLeader;
     private Boolean usedMyLeader;
@@ -374,6 +375,14 @@ public class GameState implements Serializable {
     }
     public List<Card> getAllCards(){
         return this.allCards;
+    }
+
+    public boolean isRedrawPhase() {
+        return redrawPhase;
+    }
+
+    public void setRedrawPhase(boolean redrawPhase) {
+        this.redrawPhase = redrawPhase;
     }
 
     @Override

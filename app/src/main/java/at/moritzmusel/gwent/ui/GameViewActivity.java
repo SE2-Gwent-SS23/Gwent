@@ -122,6 +122,7 @@ public class GameViewActivity extends AppCompatActivity {
 
         waitingCallback.setListener(value -> {
             GameState g = (GameState) value;
+
             if(g.getMyHand() != null){
                 try {
                     setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
@@ -208,7 +209,12 @@ public class GameViewActivity extends AppCompatActivity {
                 this.gameState = (GameState) data.getSerializableExtra("gameState");
                 // send/receive gamestate here to receive hand
                 // call to send
-                network.sendGameState(gameState);
+                //Merge gamestate
+
+                GameState gs = network.getCurrentState().getValue();
+                gs.setMyHand(gameState.getMyHand());
+                waitingCallback.setValue(gs);
+                network.sendGameState(gs);
                 //call to receive
                 Toast.makeText(this, "Waiting for opponent hand.", Toast.LENGTH_LONG).show();
             }
@@ -460,8 +466,8 @@ public class GameViewActivity extends AppCompatActivity {
      */
     public void enableDisableYourTurn(boolean yourTurn) throws JSONException, IOException {
         ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
+        //endTurn.setColorFilter(Color.GRAY);
         if (!yourTurn) {
-
             for (RecyclerView view : this.recyclerViews) {
                 view.setOnDragListener(null);
             }

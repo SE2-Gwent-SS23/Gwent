@@ -60,14 +60,20 @@ public class Network {
     private final PayloadCallback payloadCallback = new PayloadCallback() {
         @Override
         public void onPayloadReceived(@NonNull String s, @NonNull Payload payload) {
-            i(TAG, "onPayloadReceive");
-            currentState.postValue((GameState)Utils.byteArrayToObject(payload.asBytes()));
+            GameState opponentGS = (GameState)Utils.byteArrayToObject(payload.asBytes());
+            GameState currGamestate = getCurrentState().getValue();
+            if(opponentGS.isRedrawPhase()){
+                currGamestate.setRedrawPhase(false);
+                //fill newGamestate with local gamestate
+                currGamestate.setOpponentHand(opponentGS.getMyHand());
+                currentState.postValue(currGamestate);
+            }
+            i(TAG, Utils.byteArrayToObject(payload.asBytes()).toString());
         }
 
         @Override
         public void onPayloadTransferUpdate(@NonNull String s, @NonNull PayloadTransferUpdate payloadTransferUpdate) {
-            connectionsClient.sendPayload(s, dataToPayload(currentState.getValue()));
-            i(TAG, "onPayloadSend");
+            i(TAG,"onPayloadSend");
         }
     };
 
