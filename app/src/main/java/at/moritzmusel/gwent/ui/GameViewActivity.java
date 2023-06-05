@@ -47,6 +47,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.nearby.Nearby;
 
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -135,7 +136,7 @@ public class GameViewActivity extends AppCompatActivity {
                     setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
                     setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
                     i("Callback", this.gameState.toString());
-
+                    updateUI(gameState);
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
@@ -463,18 +464,33 @@ public class GameViewActivity extends AppCompatActivity {
 
     }
 
-    public static void updateUI(GameState gameState) {
+    public  void updateUI(GameState gameState) {
         tvMyGrave.setText(gameState.getMyGrave().size() + "");
 
         // inflate the layout of the popup window
+        /*
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_window_opponent, null);
         LinearLayout llOpponent = popupView.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
+
 
         tvOpponentMonster = popupView.findViewById(R.id.tvOpponentMonsters);
         tvOpponentMonster.setText(gameState.getOpponentHand().size() + "");
         tvOpponentGrave = popupView.findViewById(R.id.tvOpponentGrave);
         tvOpponentGrave.setText(gameState.getOpponentGrave().size() + "");
+
+         */
+        TextView opponentCardsInHand = findViewById(R.id.tvNumberOfOpponent);
+        TextView myCardsInHand = findViewById(R.id.tvNumberOf);
+
+        TextView opponentPoints = findViewById(R.id.tvWhiteFrost);
+        TextView myPoints = findViewById(R.id.tvNaturesGift);
+
+        opponentCardsInHand.setText(this.gameState.getOpponentHand().size() + "/10");
+        myCardsInHand.setText(this.gameState.getMyHand() + "/10");
+        opponentPoints.setText(this.gameState.calculateOpponentPoints());
+        myPoints.setText(this.gameState.calculateMyPoints());
+
     }
 
     public static Context getContext() {
