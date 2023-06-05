@@ -171,6 +171,8 @@ public class GameViewActivity extends AppCompatActivity {
         this.context = this.getApplicationContext();
         this.gameState = new GameState(0, 0, 0, false);
 
+        this.tvMyGrave = findViewById(R.id.tvMyGrave);
+
         try {
             this.gameState.initGameState();
         } catch (JSONException e) {
@@ -487,9 +489,9 @@ public class GameViewActivity extends AppCompatActivity {
         TextView myPoints = findViewById(R.id.tvNaturesGift);
 
         opponentCardsInHand.setText(this.gameState.getOpponentHand().size() + "/10");
-        myCardsInHand.setText(this.gameState.getMyHand() + "/10");
-        opponentPoints.setText(this.gameState.calculateOpponentPoints());
-        myPoints.setText(this.gameState.calculateMyPoints());
+        myCardsInHand.setText(this.gameState.getMyHand().size() + "/10");
+        opponentPoints.setText(Integer.toString(this.gameState.calculateOpponentPoints()));
+        myPoints.setText(Integer.toString(this.gameState.calculateMyPoints()));
 
     }
 
