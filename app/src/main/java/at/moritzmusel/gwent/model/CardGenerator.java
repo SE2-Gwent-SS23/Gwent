@@ -8,14 +8,19 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+
+import at.moritzmusel.gwent.network.data.GameState;
 
 public class CardGenerator {
     private static CardGenerator cardGeneratorInstance;
 
     private List<Card> allCardsList;
     private Context context;
+
+    private SecureRandom mRandom = new SecureRandom();
 
     public CardGenerator() {
     }
@@ -83,5 +88,26 @@ public class CardGenerator {
             allCardsList.add(newCard);
         }
         return allCardsList;
+    }
+
+    /**
+     * Init 10 myHand cards
+     * @param gameState
+     * @return the adapted gameState object
+     */
+    public GameState initMyHandCards(GameState gameState) {
+        int zz;
+        for (int i = 0; i < 10; i++) {
+            zz = mRandom.nextInt(gameState.getAllCards().size());
+            Card card = gameState.getAllCards().get(zz);
+            while (card.getCount() == 0) {
+                zz = mRandom.nextInt(gameState.getAllCards().size());
+                card = gameState.getAllCards().get(zz);
+            }
+
+            gameState.addToMyHand(card);
+            gameState.getAllCards().get(i).setCount(card.getCount() - 1);
+        }
+        return gameState;
     }
 }

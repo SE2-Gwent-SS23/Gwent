@@ -1,7 +1,9 @@
 package at.moritzmusel.gwent.model;
 
 
-public class Card {
+import java.io.Serializable;
+
+public class Card implements Serializable {
     String name;
     Type type;
     Row row;

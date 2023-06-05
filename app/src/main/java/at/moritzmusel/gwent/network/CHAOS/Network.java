@@ -31,7 +31,7 @@ public class Network {
     private static Strategy STRATEGY = Strategy.P2P_POINT_TO_POINT;
 
     //Current Gamestate
-    private MutableLiveData<GameState> currentState = new MutableLiveData(GameState.UNITIALIZED);
+    public MutableLiveData<GameState> currentState = new MutableLiveData(GameState.UNITIALIZED);
     public LiveData<GameState> getCurrentState(){
         return currentState;
     }
@@ -60,16 +60,28 @@ public class Network {
     private final PayloadCallback payloadCallback = new PayloadCallback() {
         @Override
         public void onPayloadReceived(@NonNull String s, @NonNull Payload payload) {
-            i(TAG, "onPayloadReceive");
-            currentState.postValue((GameState)Utils.byteArrayToObject(payload.asBytes()));
+            GameState opponentGS = (GameState)Utils.byteArrayToObject(payload.asBytes());
+            GameState currGamestate = getCurrentState().getValue();
+            if(opponentGS.isRedrawPhase()){
+                currGamestate.setRedrawPhase(false);
+                currGamestate.setOpponentHand(opponentGS.getMyHand());
+            }
+
+            currGamestate.setOpponentHand(opponentGS.getMyHand());
+            currGamestate.setOpponentClose(opponentGS.getMyClose());
+            currGamestate.setOpponentRanged(opponentGS.getMyRanged());
+            currGamestate.setOpponentDeck(opponentGS.getMyDeck());
+            currGamestate.setOpponentGrave(opponentGS.getMyGrave());
+            currGamestate.setOpponentLeader(opponentGS.getMyLeader());
+            currGamestate.setUsedOpponentLeader(opponentGS.getUsedMyLeader());
+
+            currentState.postValue(currGamestate);
+            i(TAG, Utils.byteArrayToObject(payload.asBytes()).toString());
         }
 
         @Override
         public void onPayloadTransferUpdate(@NonNull String s, @NonNull PayloadTransferUpdate payloadTransferUpdate) {
-            //TODO logic for send
-            // send data
-            connectionsClient.sendPayload("", dataToPayload(currentState.getValue()));
-            i(TAG, "onPayloadSend");
+            i(TAG,"onPayloadSend");
         }
     };
 
@@ -193,7 +205,7 @@ public class Network {
         currentState.setValue(new GameState(localPlayer, game.playerTurn, game.playerWon, game.isOver));
     }
 
-    private void sendGameState(GameState gameState) {
+    public void sendGameState(GameState gameState) {
         d(TAG, "Sending to " +opponentEndpointId + " " +gameState.toString());
         connectionsClient.sendPayload(opponentEndpointId, dataToPayload(gameState));
     }

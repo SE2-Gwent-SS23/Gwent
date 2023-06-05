@@ -25,11 +25,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -48,10 +46,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.nearby.Nearby;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,22 +56,27 @@ import java.util.Objects;
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
-import at.moritzmusel.gwent.model.CardGenerator;
 import at.moritzmusel.gwent.network.CHAOS.Network;
 import at.moritzmusel.gwent.network.CHAOS.NetworkInstance;
+import at.moritzmusel.gwent.network.CHAOS.TriggerValueChange;
 import at.moritzmusel.gwent.network.CHAOS.TriggerValueChangeListener;
 import at.moritzmusel.gwent.network.data.GameState;
 
 
 public class GameViewActivity extends AppCompatActivity {
+    private List<RecyclerView> recyclerViews;
     private static final String TAG = "GameViewActivity";
     private Button buttonOpponentCards;
     private static TextView tvMyGrave;
     private static TextView tvOpponentMonster;
     private static TextView tvOpponentGrave;
     private PopupWindow popupWindow;
-    private Dialog lobbyDialog;    
+    private Dialog lobbyDialog;
     private static Context context;
+
+    private GameState gameState;
+    private static int deviceHeight;
+    private int buttonHelp = 0;
 
     // variables for shake sensor
     private SensorManager mSensorManager;
@@ -89,6 +90,9 @@ public class GameViewActivity extends AppCompatActivity {
     private final String[] REQUIRED_PERMISSIONS;
     private static ActivityResultLauncher<String[]> requestMultiplePermissions;
     private TriggerValueChangeListener onConnectionSuccessfullTrigger;
+    private TriggerValueChange waitingCallback = new TriggerValueChange();
+    public static TriggerValueChange gameStateUpdate = new TriggerValueChange();
+
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             REQUIRED_PERMISSIONS = new String[]{
@@ -111,108 +115,129 @@ public class GameViewActivity extends AppCompatActivity {
                         Log.e(TAG, "Missing permissions");
                         Toast.makeText(this, "Required permissions needed. Go to settings!", Toast.LENGTH_LONG).show();
                         finish();
-                    }
-                    else recreate();
+                    } else recreate();
                 });
 
         Log.i(TAG, Arrays.toString(REQUIRED_PERMISSIONS));
+
+        waitingCallback.setListener(value -> {
+            GameState g = (GameState) value;
+
+            if (g.getOpponentHand() != null) {
+                try {
+                    //setCards here
+                    setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
+                    setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
+                    setUserCards(this.gameState.getMyHand());
+                    setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
+                    setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
+                    i("Callback", this.gameState.toString());
+                    updateUI(gameState);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        gameStateUpdate.setListener((value -> {
+            this.gameState = (GameState) value;
+            network.currentState.setValue(this.gameState);
+            try {
+                enableDisableYourTurn(false);
+            } catch (JSONException e) {
+                System.out.println(e);
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+            network.sendGameState((GameState) value);
+        }));
     }
     // end
 
-    private static GameState gameState;
-    private static List<Card> allCardsList;
-
-    // GameState Attributes
-    private String myDeck; // = filename
-    private String opponentDeck;
-    private List<Card> myHand;
-    private List<Card> opponentHand;
-    private List<Card> myGrave;
-    private List<Card> opponentGrave;
-    private List<Card> weather;
-    private List<Card> myClose; // 3. lane
-    private Boolean myWeatherClose;
-    private List<Card> myRanged; // 4. lane
-    private Boolean myWeatherRanged;
-    private List<Card> opponentClose; // 2. lane
-    private Boolean opponentWeatherClose;
-    private List<Card> opponentRanged; // 1. lane
-    private Boolean opponentWeatherRanged;
-    private Card myLeader;
-    private Boolean usedMyLeader;
-    private Card opponentLeader;
-    private Boolean usedOpponentLeader;
-    private CardGenerator cardGenerator;
-    private static int deviceheight;
 
     @SuppressLint({"ClickableViewAccessibility", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_view);
-        this.cardGenerator = new CardGenerator(this.getApplicationContext());
-        tvMyGrave = findViewById(R.id.tvMyGrave);
-        context = this.getApplicationContext();
-        gameState = new GameState(1,1,1,false);
 
-        /* Fill all Cards -> outsource to Network-Part for general generation */
+        this.context = this.getApplicationContext();
+        this.gameState = new GameState(0, 0, 0, false);
+
+        this.tvMyGrave = findViewById(R.id.tvMyGrave);
+
         try {
-            this.allCardsList = new ArrayList<>();
-            JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
-            this.allCardsList = cardGenerator.fillAllCardsIntoList(jsonObject);
-            // Init Game State
-            initGameState();
+            this.gameState.initGameState();
         } catch (JSONException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        //sessionType = getIntent().getExtras().getString("lobby_type");
+        this.gameState.initAllCards(this.getApplicationContext());
+
+        // adding views to list
+        initRecyclerViewsToList();
+
+        sessionType = getIntent().getExtras().getString("lobby_type");
         settingResponsiveGameBoard();
 
-        buttonOpponentCards.setOnTouchListener(new OnSwipeTouchListener(this, findViewById(R.id.buttonOpponentCards)) {
-            @Override
-            void onSwipeTop() {
-                buttonOpponentCards.performClick();
-                buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_down_24));
-                popupWindow.dismiss();
-                super.onSwipeTop();
-            }
+        initClickOpponentCardsListener();
+        initShakeSensor();
+        doNetworking();
+    }
 
-            @Override
-            void onSwipeBottom() {
-                buttonOpponentCards.performClick();
+    private void initClickOpponentCardsListener() {
+        buttonOpponentCards.setOnClickListener(view -> {
+            if((buttonHelp++)%2==0) {
                 buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_up_24));
                 onButtonShowPopupWindowClick(getWindow().getDecorView().getRootView());
-                super.onSwipeBottom();
+            } else {
+                buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_down_24));
+                popupWindow.dismiss();
             }
         });
+    }
 
-        try {
-            setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.opponentRanged);
-            setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.opponentClose);
-            setUserCards(this.myHand);
-            setCards(R.id.recyclerViewCardUserLaneOne, false, this.myClose);
-            setCards(R.id.recyclerViewCardUserLaneTwo, false, this.myRanged);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    private void initRecyclerViewsToList() {
+        this.recyclerViews = new ArrayList<>();
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardOpponentLaneOne));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardOpponentLaneTwo));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneOne));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewCardUserLaneTwo));
+        this.recyclerViews.add(findViewById(R.id.recyclerViewUserCardStack));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 123 && resultCode == RESULT_OK) {
+            if (data != null && data.hasExtra("gameState")) {
+                this.gameState = (GameState) data.getSerializableExtra("gameState");
+                // send/receive gamestate here to receive hand
+                // call to send
+                // merge gamestate
+                GameState gs = network.getCurrentState().getValue();
+                gs.setMyHand(gameState.getMyHand());
+                waitingCallback.setValue(gs);
+                network.sendGameState(gs);
+                //call to receive
+                Toast.makeText(this, "Waiting for opponent hand.", Toast.LENGTH_LONG).show();
+            }
         }
-
-        initShakeSensor();
-        //doNetworking();
     }
 
     private void doNetworking() {
         onConnectionSuccessfullTrigger = value -> {
-            if((Boolean) value){
+            if ((Boolean) value) {
                 if (lobbyDialog.isShowing()) {
                     lobbyDialog.dismiss();
-                    RedrawActivity.showRedraw(GameViewActivity.this, this.myHand, gameState);
+                    Intent redrawActivityIntent = new Intent(GameViewActivity.this, RedrawActivity.class);
+                    redrawActivityIntent.putExtra("gameState", this.gameState);
+                    startActivityForResult(redrawActivityIntent, 123);
                 }
-            }else {
+            } else {
                 startActivity(new Intent(this, MainMenuActivity.class));
                 Toast.makeText(this, "Error creating/hosting lobby.", Toast.LENGTH_LONG).show();
             }
@@ -223,6 +248,7 @@ public class GameViewActivity extends AppCompatActivity {
         showLobbyPopup();
 
         network.getCurrentState().observeForever(gameState -> {
+            this.waitingCallback.setValue(gameState);
             i(TAG + " From Network:", gameState.toString());
         });
     }
@@ -251,78 +277,19 @@ public class GameViewActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         // on below line we are getting height and width using display metrics.
-        this.deviceheight = displayMetrics.heightPixels;
-        int devicewidth = displayMetrics.widthPixels;
+        this.deviceHeight = displayMetrics.heightPixels;
+        int deviceWidth = displayMetrics.widthPixels;
 
         // Setting bounds for lanes
-        rvOpponentOne.getLayoutParams().width = devicewidth/2;
-        rvOpponentOne.getLayoutParams().height = deviceheight/6;
-        rvOpponentTwo.getLayoutParams().width = devicewidth/2;
-        rvOpponentTwo.getLayoutParams().height = deviceheight/6;
-        rvUserOne.getLayoutParams().width = devicewidth/2;
-        rvUserOne.getLayoutParams().height = deviceheight/6;
-        rvUserTwo.getLayoutParams().width = devicewidth/2;
-        rvUserTwo.getLayoutParams().height = deviceheight/6;
-        rvUser.getLayoutParams().height = deviceheight/6;
-    }
-
-    /* TODO: Outsource to Network-Part */
-    private void initGameState() throws JSONException, IOException {
-
-        SecureRandom random = new SecureRandom();
-        int zz;
-
-        // myHand
-        this.myHand = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            zz = random.nextInt(this.allCardsList.size());
-            Card card = this.allCardsList.get(zz);
-            while (card.getCount() == 0) {
-                zz = random.nextInt(this.allCardsList.size());
-                card = this.allCardsList.get(zz);
-            }
-
-            this.myHand.add(card);
-            this.allCardsList.get(i).setCount(card.getCount() - 1);
-        }
-
-        // Ranged
-        this.myRanged = new ArrayList<>();
-        this.opponentRanged = new ArrayList<>();
-
-        // Close
-        this.myClose = new ArrayList<>();
-        this.opponentClose = new ArrayList<>();
-
-        // opponentHand
-        this.opponentHand = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            zz = random.nextInt(this.allCardsList.size());
-            Card card = this.allCardsList.get(zz);
-            while (card.getCount() == 0) {
-                zz = random.nextInt(this.allCardsList.size());
-                card = this.allCardsList.get(zz);
-            }
-
-            this.opponentHand.add(card);
-            this.allCardsList.get(i).setCount(card.getCount() - 1);
-        }
-
-        // Grave
-        this.myGrave = new ArrayList<>();
-        this.opponentGrave = new ArrayList<>();
-
-        gameState.setMyHand(this.myHand);
-        gameState.setMyClose(this.myClose);
-        gameState.setMyGrave(this.myGrave);
-        gameState.setMyRanged(this.myRanged);
-        gameState.setOpponentHand(this.opponentHand);
-        gameState.setOpponentClose(this.opponentClose);
-        gameState.setOpponentGrave(this.opponentGrave);
-        gameState.setOpponentRanged(this.opponentRanged);
-
-        updateUI();
-
+        rvOpponentOne.getLayoutParams().width = deviceWidth / 2;
+        rvOpponentOne.getLayoutParams().height = deviceHeight / 6;
+        rvOpponentTwo.getLayoutParams().width = deviceWidth / 2;
+        rvOpponentTwo.getLayoutParams().height = deviceHeight / 6;
+        rvUserOne.getLayoutParams().width = deviceWidth / 2;
+        rvUserOne.getLayoutParams().height = deviceHeight / 6;
+        rvUserTwo.getLayoutParams().width = deviceWidth / 2;
+        rvUserTwo.getLayoutParams().height = deviceHeight / 6;
+        rvUser.getLayoutParams().height = deviceHeight / 6;
     }
 
     public void setCards(int recyclerViewUserCardStack, Boolean isMyHand, List<Card> cards) throws JSONException, IOException {
@@ -334,7 +301,7 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     public static void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, View.OnDragListener dragListener, GameState gameState) throws JSONException, IOException {
-        UserCardAdapter adapterLanes = new UserCardAdapter(cards, isMyHand, context, deviceheight/6, gameState);
+        UserCardAdapter adapterLanes = new UserCardAdapter(cards, isMyHand, context, deviceHeight / 6, gameState);
         view.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(parentActivity, LinearLayoutManager.HORIZONTAL, false);
         view.setLayoutManager(linearLayoutManagerUser);
@@ -428,19 +395,7 @@ public class GameViewActivity extends AppCompatActivity {
     }
     //END shake sensor listener
 
-    public void refreshUserHandCards() {
-        UserCardAdapter adapter = (UserCardAdapter) ((RecyclerView) findViewById(R.id.recyclerViewUserCardStack)).getAdapter();
-        adapter.notifyDataSetChanged();
-        // Kein plan ob das hierher kommt???
-        GameState gs = network.getCurrentState().getValue();
-        gs.setMyHand(new ArrayList<>());
-        network.play(gs);
-        //
-    }
-
     private void showLobbyPopup() {
-
-
         TextView lobbyText = lobbyDialog.findViewById(R.id.lobby_text);
         TextView infoText = lobbyDialog.findViewById(R.id.info_text);
 
@@ -452,11 +407,11 @@ public class GameViewActivity extends AppCompatActivity {
         }
         lobbyDialog.show();
 
-        if(sessionType.equals("join")){
+        if (sessionType.equals("join")) {
             lobbyText.setText("Join Lobby");
             infoText.setText("Searching for a game...");
             network.startDiscovering();
-        }else if(sessionType.equals("create")){
+        } else if (sessionType.equals("create")) {
             lobbyText.setText("Create Lobby");
             infoText.setText("Creating game. Looking for opponents...");
             network.startHosting();
@@ -466,7 +421,7 @@ public class GameViewActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(!hasPermissions(this, REQUIRED_PERMISSIONS)){
+        if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
             Log.i(TAG, "requestMultiplePermissions called");
             requestMultiplePermissions.launch(REQUIRED_PERMISSIONS);
         }
@@ -484,30 +439,80 @@ public class GameViewActivity extends AppCompatActivity {
 
     }
 
-    /* TODO: delete method and get your needed list from GameState object */
-    public static List<Card> getAllCardsList() {
-        return allCardsList;
-    }
-
-    public static void updateAllCardsList(List<Card> list) {
-        allCardsList = list;
-    }
-
-    public static void updateUI() {
+    public  void updateUI(GameState gameState) {
         tvMyGrave.setText(gameState.getMyGrave().size() + "");
 
         // inflate the layout of the popup window
+        /*
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_window_opponent, null);
         LinearLayout llOpponent = popupView.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
+
 
         tvOpponentMonster = popupView.findViewById(R.id.tvOpponentMonsters);
         tvOpponentMonster.setText(gameState.getOpponentHand().size() + "");
         tvOpponentGrave = popupView.findViewById(R.id.tvOpponentGrave);
         tvOpponentGrave.setText(gameState.getOpponentGrave().size() + "");
+
+         */
+        TextView opponentCardsInHand = findViewById(R.id.tvNumberOfOpponent);
+        TextView myCardsInHand = findViewById(R.id.tvNumberOf);
+
+        TextView opponentPoints = findViewById(R.id.tvWhiteFrost);
+        TextView myPoints = findViewById(R.id.tvNaturesGift);
+
+        opponentCardsInHand.setText(this.gameState.getOpponentHand().size() + "/10");
+        myCardsInHand.setText(this.gameState.getMyHand().size() + "/10");
+        opponentPoints.setText(Integer.toString(this.gameState.calculateOpponentPoints()));
+        myPoints.setText(Integer.toString(this.gameState.calculateMyPoints()));
+
     }
 
     public static Context getContext() {
         return context;
+    }
+
+    /**
+     * Change Boolean "yourTurn" to enables and disables the "End Turn" button (false to disable)
+     * Also disables all relevant DragListeners.
+     */
+    public void enableDisableYourTurn(boolean yourTurn) throws JSONException, IOException {
+         ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
+        // endTurn.setColorFilter(Color.GRAY);
+        if (!yourTurn) {
+            for (RecyclerView view : this.recyclerViews) {
+                view.setOnDragListener(null);
+            }
+             endTurn.setOnClickListener(null);
+
+            /* why is it not removing the animation?
+            opponentRangedView.setItemAnimator(null);
+            opponentCloseView.setItemAnimator(null);
+            myCloseView.setItemAnimator(null);
+            myRangedView.setItemAnimator(null);
+            myHandView.setItemAnimator(null);
+
+             */
+        } else {
+            for (RecyclerView view : this.recyclerViews) {
+                view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
+
+            }
+
+             endTurn.setOnClickListener(clickEndTurn());
+        }
+    }
+
+    private View.OnClickListener clickEndTurn() {
+        return (view -> {
+            try {
+                enableDisableYourTurn(false);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            // change drawable of endturn to greyed out
+        });
     }
 }

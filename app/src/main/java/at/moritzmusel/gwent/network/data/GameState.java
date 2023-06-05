@@ -1,11 +1,20 @@
 package at.moritzmusel.gwent.network.data;
 
+import android.content.Context;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.io.Serializable;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import at.moritzmusel.gwent.model.Card;
+import at.moritzmusel.gwent.model.CardGenerator;
 
 public class GameState implements Serializable {
     //TODO last parameter @board should be the game info storage type
@@ -14,34 +23,99 @@ public class GameState implements Serializable {
     private final int playerTurn;
     private final int playerWon;
     private final boolean isOver;
+    private String myDeck;
+    private String opponentDeck;
+    private List<Card> myHand;
+    private List<Card> opponentHand;
+    private List<Card> myGrave;
+    private List<Card> opponentGrave;
+    private List<Card> weather;
+    private List<Card> myClose; // 3. Reihe
+    private List<Card> myRanged; // 4. Reihe
+    private List<Card> opponentClose; // 2. Reihe
+    private List<Card> opponentRanged; // 1. Reihe
+    private boolean redrawPhase = true;
 
-    public GameState(int localPlayer, int playerTurn, int playerWon, boolean isOver){
+    private Card myLeader;
+    private Boolean usedMyLeader;
+    private Card opponentLeader;
+    private Boolean usedOpponentLeader;
+    private boolean[] myRoundCounter;
+    private boolean[] opponentRoundCounter;
+    private List<Card> allCards;
+
+    public GameState(int localPlayer, int playerTurn, int playerWon, boolean isOver) {
         this.localPlayer = localPlayer;
         this.playerTurn = playerTurn;
         this.playerWon = playerWon;
         this.isOver = isOver;
     }
 
-    String myDeck;
-    String opponentDeck;
-    List<Card> myHand;
-    List<Card> opponentHand;
-    List<Card> myGrave;
-    List<Card> opponentGrave;
-    List<Card> weather;
-    List<Card> myClose; // 3. Reihe
-    Boolean myWeatherClose;
-    List<Card> myRanged; // 4. Reihe
-    Boolean myWeatherRanged;
-    List<Card> opponentClose; // 2. Reihe
-    Boolean opponentWeatherClose;
-    List<Card> opponentRanged; // 1. Reihe
-    Boolean opponentWeatherRanged;
+    public boolean determineWinner(Boolean[] array) {
+        int counter = 0;
+        for (boolean b : array) {
+            if (b) {
+                counter++;
+            }
+        }
+        if (counter >= 2) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-    Card myLeader;
-    Boolean usedMyLeader;
-    Card opponentLeader;
-    Boolean usedOpponentLeader;
+
+    public void initGameState() throws JSONException, IOException {
+
+        SecureRandom random = new SecureRandom();
+        int zz;
+        this.myDeck = new String();
+        this.opponentDeck = new String();
+        this.weather = new ArrayList<>();
+        this.myLeader = new Card();
+        this.opponentLeader = new Card();
+        this.usedMyLeader = false;
+        this.usedOpponentLeader = false;
+        this.myRoundCounter = new boolean[]{false, false, false};
+        this.opponentRoundCounter = new boolean[]{false, false, false};
+        // myHand
+        this.myHand = new ArrayList<>();
+        this.allCards = new ArrayList<>();
+
+
+        // Ranged
+        this.myRanged = new ArrayList<>();
+        this.opponentRanged = new ArrayList<>();
+
+        // Close
+        this.myClose = new ArrayList<>();
+        this.opponentClose = new ArrayList<>();
+
+        // opponentHand
+        this.opponentHand = new ArrayList<>();
+
+
+        // Grave
+        this.myGrave = new ArrayList<>();
+        this.opponentGrave = new ArrayList<>();
+
+
+    }
+
+    public void initAllCards(Context context){
+        CardGenerator cardGenerator = new CardGenerator(context);
+        try {
+            JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
+            this.allCards = cardGenerator.fillAllCardsIntoList(jsonObject);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
     public int calculateMyPoints() {
         int sum = 0;
@@ -86,22 +160,20 @@ public class GameState implements Serializable {
         this.myRanged = new ArrayList<>(tempOpponentRanged);
 
         String tempOpponentDeck = this.opponentDeck;
-        Boolean tempOpponentWeatherClose = this.opponentWeatherClose;
-        Boolean tempOpponentWeatherRanged = this.opponentWeatherRanged;
         Card tempOpponentLeader = this.opponentLeader;
         Boolean tempUsedOpponentLeader = this.usedOpponentLeader;
 
         this.opponentDeck = this.myDeck;
-        this.opponentWeatherClose = this.myWeatherClose;
-        this.opponentWeatherRanged = this.myWeatherRanged;
         this.opponentLeader = this.myLeader;
         this.usedOpponentLeader = this.usedMyLeader;
 
         this.myDeck = tempOpponentDeck;
-        this.myWeatherClose = tempOpponentWeatherClose;
-        this.myWeatherRanged = tempOpponentWeatherRanged;
         this.myLeader = tempOpponentLeader;
         this.usedMyLeader = tempUsedOpponentLeader;
+
+        boolean[] tempRoundCounter = this.myRoundCounter;
+        this.myRoundCounter = this.opponentRoundCounter;
+        this.opponentRoundCounter = tempRoundCounter;
 
     }
 
@@ -242,13 +314,6 @@ public class GameState implements Serializable {
         this.myClose = myClose;
     }
 
-    public Boolean getMyWeatherClose() {
-        return myWeatherClose;
-    }
-
-    public void setMyWeatherClose(Boolean myWeatherClose) {
-        this.myWeatherClose = myWeatherClose;
-    }
 
     public List<Card> getMyRanged() {
         return myRanged;
@@ -258,13 +323,6 @@ public class GameState implements Serializable {
         this.myRanged = myRanged;
     }
 
-    public Boolean getMyWeatherRanged() {
-        return myWeatherRanged;
-    }
-
-    public void setMyWeatherRanged(Boolean myWeatherRanged) {
-        this.myWeatherRanged = myWeatherRanged;
-    }
 
     public List<Card> getOpponentClose() {
         return opponentClose;
@@ -274,13 +332,6 @@ public class GameState implements Serializable {
         this.opponentClose = opponentClose;
     }
 
-    public Boolean getOpponentWeatherClose() {
-        return opponentWeatherClose;
-    }
-
-    public void setOpponentWeatherClose(Boolean opponentWeatherClose) {
-        this.opponentWeatherClose = opponentWeatherClose;
-    }
 
     public List<Card> getOpponentRanged() {
         return opponentRanged;
@@ -290,13 +341,6 @@ public class GameState implements Serializable {
         this.opponentRanged = opponentRanged;
     }
 
-    public Boolean getOpponentWeatherRanged() {
-        return opponentWeatherRanged;
-    }
-
-    public void setOpponentWeatherRanged(Boolean opponentWeatherRanged) {
-        this.opponentWeatherRanged = opponentWeatherRanged;
-    }
 
     public Card getMyLeader() {
         return myLeader;
@@ -329,6 +373,17 @@ public class GameState implements Serializable {
     public void setUsedOpponentLeader(Boolean usedOpponentLeader) {
         this.usedOpponentLeader = usedOpponentLeader;
     }
+    public List<Card> getAllCards(){
+        return this.allCards;
+    }
+
+    public boolean isRedrawPhase() {
+        return redrawPhase;
+    }
+
+    public void setRedrawPhase(boolean redrawPhase) {
+        this.redrawPhase = redrawPhase;
+    }
 
     @Override
     public String toString() {
@@ -345,17 +400,16 @@ public class GameState implements Serializable {
                 ", opponentGrave=" + opponentGrave +
                 ", weather=" + weather +
                 ", myClose=" + myClose +
-                ", myWeatherClose=" + myWeatherClose +
                 ", myRanged=" + myRanged +
-                ", myWeatherRanged=" + myWeatherRanged +
                 ", opponentClose=" + opponentClose +
-                ", opponentWeatherClose=" + opponentWeatherClose +
                 ", opponentRanged=" + opponentRanged +
-                ", opponentWeatherRanged=" + opponentWeatherRanged +
                 ", myLeader=" + myLeader +
                 ", usedMyLeader=" + usedMyLeader +
                 ", opponentLeader=" + opponentLeader +
                 ", usedOpponentLeader=" + usedOpponentLeader +
+                ", myRoundCounter=" + myRoundCounter +
+                ", opponentRoundCounter=" + opponentRoundCounter +
                 '}';
     }
+
 }
