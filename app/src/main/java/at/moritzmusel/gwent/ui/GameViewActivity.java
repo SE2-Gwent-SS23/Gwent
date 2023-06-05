@@ -38,7 +38,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,15 +46,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.nearby.Nearby;
 
 import org.json.JSONException;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
 
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.adapter.UserCardAdapter;
@@ -77,10 +73,10 @@ public class GameViewActivity extends AppCompatActivity {
     private PopupWindow popupWindow;
     private Dialog lobbyDialog;
     private static Context context;
-    private ConstraintLayout rootGameView;
 
     private GameState gameState;
     private static int deviceHeight;
+    private int buttonHelp = 0;
 
     // variables for shake sensor
     private SensorManager mSensorManager;
@@ -166,8 +162,6 @@ public class GameViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_view);
 
-        i("HALLO WELT", "HALLO");
-
         this.context = this.getApplicationContext();
         this.gameState = new GameState(0, 0, 0, false);
 
@@ -189,29 +183,19 @@ public class GameViewActivity extends AppCompatActivity {
         sessionType = getIntent().getExtras().getString("lobby_type");
         settingResponsiveGameBoard();
 
-        initSwipeOpponentCardsListener();
-
+        initClickOpponentCardsListener();
         initShakeSensor();
         doNetworking();
     }
 
-    private void initSwipeOpponentCardsListener() {
-        rootGameView = findViewById(R.id.rootGameView);
-        rootGameView.setOnTouchListener(new OnSwipeTouchListener(this, findViewById(R.id.buttonOpponentCards)) {
-            @Override
-            void onSwipeTop() {
-                rootGameView.performClick();
-                buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_down_24));
-                popupWindow.dismiss();
-                super.onSwipeTop();
-            }
-
-            @Override
-            void onSwipeBottom() {
-                rootGameView.performClick();
+    private void initClickOpponentCardsListener() {
+        buttonOpponentCards.setOnClickListener(view -> {
+            if((buttonHelp++)%2==0) {
                 buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_up_24));
                 onButtonShowPopupWindowClick(getWindow().getDecorView().getRootView());
-                super.onSwipeBottom();
+            } else {
+                buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_down_24));
+                popupWindow.dismiss();
             }
         });
     }
@@ -233,8 +217,7 @@ public class GameViewActivity extends AppCompatActivity {
                 this.gameState = (GameState) data.getSerializableExtra("gameState");
                 // send/receive gamestate here to receive hand
                 // call to send
-                //Merge gamestate
-
+                // merge gamestate
                 GameState gs = network.getCurrentState().getValue();
                 gs.setMyHand(gameState.getMyHand());
                 waitingCallback.setValue(gs);
@@ -318,7 +301,6 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     public static void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, View.OnDragListener dragListener, GameState gameState) throws JSONException, IOException {
-        Log.i("WirLiebenSe2", "WirLiebenSe2");
         UserCardAdapter adapterLanes = new UserCardAdapter(cards, isMyHand, context, deviceHeight / 6, gameState);
         view.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(parentActivity, LinearLayoutManager.HORIZONTAL, false);
@@ -412,15 +394,6 @@ public class GameViewActivity extends AppCompatActivity {
         super.onPause();
     }
     //END shake sensor listener
-
-    public void refreshUserHandCards() {
-        UserCardAdapter adapter = (UserCardAdapter) ((RecyclerView) findViewById(R.id.recyclerViewUserCardStack)).getAdapter();
-        adapter.notifyDataSetChanged();
-        // Kein plan ob das hierher kommt???
-        GameState gs = network.getCurrentState().getValue();
-        gs.setMyHand(new ArrayList<>());
-        network.play(gs);
-    }
 
     private void showLobbyPopup() {
         TextView lobbyText = lobbyDialog.findViewById(R.id.lobby_text);
@@ -540,7 +513,6 @@ public class GameViewActivity extends AppCompatActivity {
                 throw new RuntimeException(e);
             }
             // change drawable of endturn to greyed out
-        }
-        );
+        });
     }
 }
