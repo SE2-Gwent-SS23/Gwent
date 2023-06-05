@@ -68,7 +68,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
             try {
                 setImageFromAsset(context.getAssets().open(placeholder), holder.imageView);
             } catch (IOException ex) {
-                ex.printStackTrace();
+                System.out.println(ex);
             }
         }
 

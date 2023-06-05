@@ -146,9 +146,9 @@ public class GameViewActivity extends AppCompatActivity {
             try {
                 enableDisableYourTurn(false);
             } catch (JSONException e) {
-                e.printStackTrace();
+                System.out.println(e);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e);
             }
             network.sendGameState((GameState) value);
         }));
