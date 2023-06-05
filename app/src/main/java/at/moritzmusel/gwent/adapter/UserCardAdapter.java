@@ -60,11 +60,16 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         String cardNumber = card.getStrength()+"";
         holder.textView.setText(cardNumber);
         holder.frameLayout.setTag(position);
+        String placeholder = "neutral_cow.jpg";
         try {
             String fileName = card.getType().toString() +"_"+card.getFilename() + ".jpg";
             setImageFromAsset(context.getAssets().open(fileName), holder.imageView);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            try {
+                setImageFromAsset(context.getAssets().open(placeholder), holder.imageView);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
 
         if(card.getAbility() == Ability.decoy) {
