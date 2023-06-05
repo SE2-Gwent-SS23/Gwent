@@ -112,11 +112,9 @@ public class DragListener implements View.OnDragListener {
             // update gamestate
             if (lane == 1) {
                 this.gameState.removeFromMyHand(list);
-              //  this.gameState.addToMyClose(list);
                 GameViewActivity.gameStateUpdate.setValue(this.gameState);
             } else if (lane == 2) {
                 this.gameState.removeFromMyHand(list);
-              //  this.gameState.addToMyRanged(list);
                 GameViewActivity.gameStateUpdate.setValue(this.gameState);
             }
             // disable functionality

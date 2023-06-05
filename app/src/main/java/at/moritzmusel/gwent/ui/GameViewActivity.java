@@ -125,16 +125,27 @@ public class GameViewActivity extends AppCompatActivity {
 
         waitingCallback.setListener(value -> {
             GameState g = (GameState) value;
+            g.swapPlayer();
 
-            if (g.getMyHand() != null) {
+            if (g.getOpponentHand() != null) {
                 try {
+                    //merge gameState
+                    this.gameState.setOpponentHand(g.getOpponentHand());
+                    this.gameState.setOpponentClose(g.getOpponentClose());
+                    this.gameState.setOpponentRanged(g.getOpponentRanged());
+                    this.gameState.setOpponentDeck(g.getOpponentDeck());
+                    this.gameState.setOpponentGrave(g.getOpponentGrave());
+                    this.gameState.setOpponentLeader(g.getOpponentLeader());
+                    this.gameState.setUsedOpponentLeader(g.getUsedOpponentLeader());
+
+                    //setCards here
                     setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
                     setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
                     setUserCards(this.gameState.getMyHand());
                     setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
                     setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
                     i("Callback", this.gameState.toString());
-                    this.gameState.setOpponentHand(g.getMyHand());
+
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
