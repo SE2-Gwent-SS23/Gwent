@@ -94,6 +94,7 @@ public class GameViewActivity extends AppCompatActivity {
     private static ActivityResultLauncher<String[]> requestMultiplePermissions;
     private TriggerValueChangeListener onConnectionSuccessfullTrigger;
     private TriggerValueChange waitingCallback = new TriggerValueChange();
+    public static TriggerValueChange gameStateUpdate = new TriggerValueChange();
 
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -125,7 +126,7 @@ public class GameViewActivity extends AppCompatActivity {
         waitingCallback.setListener(value -> {
             GameState g = (GameState) value;
 
-            if(g.getMyHand() != null){
+            if (g.getMyHand() != null) {
                 try {
                     setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
                     setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
@@ -141,6 +142,11 @@ public class GameViewActivity extends AppCompatActivity {
                 }
             }
         });
+        gameStateUpdate.setListener((value -> {
+            this.gameState = (GameState) value;
+            enableDisableYourTurn(false);
+            network.sendGameState((GameState) value);
+        }));
     }
     // end
 
@@ -472,13 +478,13 @@ public class GameViewActivity extends AppCompatActivity {
      * Also disables all relevant DragListeners.
      */
     public void enableDisableYourTurn(boolean yourTurn) throws JSONException, IOException {
-        ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
-        //endTurn.setColorFilter(Color.GRAY);
+         ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
+        // endTurn.setColorFilter(Color.GRAY);
         if (!yourTurn) {
             for (RecyclerView view : this.recyclerViews) {
                 view.setOnDragListener(null);
             }
-            endTurn.setOnClickListener(null);
+             endTurn.setOnClickListener(null);
 
             /* why is it not removing the animation?
             opponentRangedView.setItemAnimator(null);
@@ -491,24 +497,23 @@ public class GameViewActivity extends AppCompatActivity {
         } else {
             for (RecyclerView view : this.recyclerViews) {
                 view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
+
             }
 
-            endTurn.setOnClickListener(clickEndTurn());
+             endTurn.setOnClickListener(clickEndTurn());
         }
     }
 
     private View.OnClickListener clickEndTurn() {
-        return (new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    enableDisableYourTurn(false);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+        return (view -> {
+            try {
+                enableDisableYourTurn(false);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+            // change drawable of endturn to greyed out
         }
         );
     }

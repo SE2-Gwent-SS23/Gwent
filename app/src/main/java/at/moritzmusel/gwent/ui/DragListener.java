@@ -23,6 +23,7 @@ public class DragListener implements View.OnDragListener {
     private Context context;
 
     private int positionTarget;
+    private int lane = 0;
 
     public DragListener(Context context, GameState gameState) throws JSONException, IOException {
         this.context = context;
@@ -59,25 +60,30 @@ public class DragListener implements View.OnDragListener {
             case rvOpponentTwo:
                 positionTarget = 1;
                 target = view.getRootView().findViewById(rvUser);
+                this.lane = 0;
                 break;
             case rvUserOne:
                 target = view.getRootView().findViewById(rvUserOne);
+                this.lane = 1;
                 break;
             case rvUserTwo:
                 target = view.getRootView().findViewById(rvUserTwo);
+                this.lane = 2;
                 break;
             case rvUser:
                 target = view.getRootView().findViewById(rvUser);
+                this.lane = 0;
                 break;
             default:
                 target = view.getRootView().findViewById(rvUser);
+                this.lane = 0;
                 positionTarget = 1;
                 break;
         }
         return target;
     }
 
-    private void doActionOnDragAdapterTarget(View viewSource, RecyclerView target){
+    private void doActionOnDragAdapterTarget(View viewSource, RecyclerView target) {
         if (viewSource != null) {
             RecyclerView source = (RecyclerView) viewSource.getParent();
 
@@ -103,6 +109,23 @@ public class DragListener implements View.OnDragListener {
             adapterTarget.notifyDataSetChanged();
 
             // this.gwentViewModel.play(gameSate); GameState schicken
+            // update gamestate
+            if (lane == 1) {
+                this.gameState.removeFromMyHand(list);
+                this.gameState.addToMyClose(list);
+                GameViewActivity.gameStateUpdate.setValue(this.gameState);
+            } else if (lane == 2) {
+                this.gameState.removeFromMyHand(list);
+                this.gameState.addToMyRanged(list);
+                GameViewActivity.gameStateUpdate.setValue(this.gameState);
+            }
+            // disable functionality
+
+            // send to server
         }
+    }
+
+    public GameState getGameState() {
+        return gameState;
     }
 }
