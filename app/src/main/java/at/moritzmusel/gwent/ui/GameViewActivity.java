@@ -38,6 +38,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -75,6 +76,7 @@ public class GameViewActivity extends AppCompatActivity {
     private PopupWindow popupWindow;
     private Dialog lobbyDialog;
     private static Context context;
+    private ConstraintLayout rootGameView;
 
     private GameState gameState;
     private static int deviceHeight;
@@ -170,10 +172,18 @@ public class GameViewActivity extends AppCompatActivity {
         sessionType = getIntent().getExtras().getString("lobby_type");
         settingResponsiveGameBoard();
 
-        buttonOpponentCards.setOnTouchListener(new OnSwipeTouchListener(this, findViewById(R.id.buttonOpponentCards)) {
+        initSwipeOpponentCardsListener();
+
+        initShakeSensor();
+        doNetworking();
+    }
+
+    private void initSwipeOpponentCardsListener() {
+        rootGameView = findViewById(R.id.rootGameView);
+        rootGameView.setOnTouchListener(new OnSwipeTouchListener(this, findViewById(R.id.buttonOpponentCards)) {
             @Override
             void onSwipeTop() {
-                buttonOpponentCards.performClick();
+                rootGameView.performClick();
                 buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_down_24));
                 popupWindow.dismiss();
                 super.onSwipeTop();
@@ -181,15 +191,12 @@ public class GameViewActivity extends AppCompatActivity {
 
             @Override
             void onSwipeBottom() {
-                buttonOpponentCards.performClick();
+                rootGameView.performClick();
                 buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_up_24));
                 onButtonShowPopupWindowClick(getWindow().getDecorView().getRootView());
                 super.onSwipeBottom();
             }
         });
-
-        initShakeSensor();
-        doNetworking();
     }
 
     private void initRecyclerViewsToList() {
