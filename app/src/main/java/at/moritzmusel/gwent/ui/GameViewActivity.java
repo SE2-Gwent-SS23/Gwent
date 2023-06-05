@@ -125,19 +125,9 @@ public class GameViewActivity extends AppCompatActivity {
 
         waitingCallback.setListener(value -> {
             GameState g = (GameState) value;
-            g.swapPlayer();
 
             if (g.getOpponentHand() != null) {
                 try {
-                    //merge gameState
-                    this.gameState.setOpponentHand(g.getOpponentHand());
-                    this.gameState.setOpponentClose(g.getOpponentClose());
-                    this.gameState.setOpponentRanged(g.getOpponentRanged());
-                    this.gameState.setOpponentDeck(g.getOpponentDeck());
-                    this.gameState.setOpponentGrave(g.getOpponentGrave());
-                    this.gameState.setOpponentLeader(g.getOpponentLeader());
-                    this.gameState.setUsedOpponentLeader(g.getUsedOpponentLeader());
-
                     //setCards here
                     setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
                     setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
@@ -155,7 +145,14 @@ public class GameViewActivity extends AppCompatActivity {
         });
         gameStateUpdate.setListener((value -> {
             this.gameState = (GameState) value;
-            enableDisableYourTurn(false);
+            network.currentState.setValue(this.gameState);
+            try {
+                enableDisableYourTurn(false);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             network.sendGameState((GameState) value);
         }));
     }

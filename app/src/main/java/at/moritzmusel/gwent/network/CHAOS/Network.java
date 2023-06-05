@@ -31,7 +31,7 @@ public class Network {
     private static Strategy STRATEGY = Strategy.P2P_POINT_TO_POINT;
 
     //Current Gamestate
-    private MutableLiveData<GameState> currentState = new MutableLiveData(GameState.UNITIALIZED);
+    public MutableLiveData<GameState> currentState = new MutableLiveData(GameState.UNITIALIZED);
     public LiveData<GameState> getCurrentState(){
         return currentState;
     }
@@ -64,10 +64,18 @@ public class Network {
             GameState currGamestate = getCurrentState().getValue();
             if(opponentGS.isRedrawPhase()){
                 currGamestate.setRedrawPhase(false);
-                //fill newGamestate with local gamestate
                 currGamestate.setOpponentHand(opponentGS.getMyHand());
-                currentState.postValue(currGamestate);
             }
+
+            currGamestate.setOpponentHand(opponentGS.getMyHand());
+            currGamestate.setOpponentClose(opponentGS.getMyClose());
+            currGamestate.setOpponentRanged(opponentGS.getMyRanged());
+            currGamestate.setOpponentDeck(opponentGS.getMyDeck());
+            currGamestate.setOpponentGrave(opponentGS.getMyGrave());
+            currGamestate.setOpponentLeader(opponentGS.getMyLeader());
+            currGamestate.setUsedOpponentLeader(opponentGS.getUsedMyLeader());
+
+            currentState.postValue(currGamestate);
             i(TAG, Utils.byteArrayToObject(payload.asBytes()).toString());
         }
 
