@@ -45,7 +45,7 @@ public class CardTest {
 
     @Test
     void testChangeAbility() {
-        Card newCard = new Card("Schirru", scoiatael, null, 8, scorch_s, "schirru", 1, "Time to look death in the face.");
+        Card newCard = new Card("Schirru", scoiatael, null, 1, scorch_s, "schirru", 1, "Time to look death in the face.");
         newCard.changeAbility("scorch_s");
         assertEquals(scorch_s, newCard.getAbility());
     }
