@@ -52,7 +52,7 @@ public class RedrawObjectGeneratorTest {
     }
 
     @Test
-    public void testDrawRandomCard() {
+    void testDrawRandomCard() {
         GameState gameState = new GameState(0, 0, 0, false);
         List<Card> cards = new ArrayList<>();
         cards.add(new Card("Name 1", skellige, null, 8, fog, "name1", 1, "Time to look death in the face."));

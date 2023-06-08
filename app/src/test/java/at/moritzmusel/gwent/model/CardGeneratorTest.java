@@ -42,7 +42,7 @@ public class CardGeneratorTest {
     }
 
     @Test
-    public void testGetInstance() {
+    void testGetInstance() {
         CardGenerator cardGeneratorInstance1 = CardGenerator.getInstance();
         CardGenerator cardGeneratorInstance2 = CardGenerator.getInstance();
 
@@ -52,7 +52,7 @@ public class CardGeneratorTest {
     }
 
     @Test
-    public void testLoadCardJSONFromAssetException() throws IOException {
+    void testLoadCardJSONFromAssetException() throws IOException {
         when(assetManager.open("cards.json")).thenThrow(new IOException("File not found"));
         String jsonString = cardGenerator.loadCardJSONFromAsset();
 
@@ -60,7 +60,7 @@ public class CardGeneratorTest {
     }
 
     @Test
-    public void testFillAllCardsIntoList() throws JSONException, IOException {
+    void testFillAllCardsIntoList() throws JSONException, IOException {
         jsonObject.put("cards", jsonArray);
 
         String name = "Decoy";
@@ -96,7 +96,7 @@ public class CardGeneratorTest {
     }
 
     @Test
-    public void testInitMyHandCards() {
+    void testInitMyHandCards() {
         GameState gameState = new GameState(0, 0, 0, false);
         List<Card> myHand = new ArrayList<>();
         Card card1 = new Card();
@@ -112,5 +112,4 @@ public class CardGeneratorTest {
         assertEquals(card1, myHand.get(0));
         assertEquals(card2, myHand.get(1));
     }
-
 }
