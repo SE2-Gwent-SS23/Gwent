@@ -48,10 +48,10 @@ public class GameState implements Serializable {
     private int roundTracker;
 
 
-    public int calculateMyWins(int[] array) {
+    public int calculateMyWins(int[] opponentArray) {
         int wins = 0;
-        for (int i = 0; roundTracker > i; i++) {
-            if (this.myRoundCounter[i] > array[i]) {
+        for (int i = 0; this.myRoundCounter.length > i; i++) {
+            if (this.myRoundCounter[i] > opponentArray[i]) {
                 wins++;
             }
         }
@@ -217,6 +217,10 @@ public class GameState implements Serializable {
         this.myRoundCounter = this.opponentRoundCounter;
         this.opponentRoundCounter = tempRoundCounter;
 
+    }
+
+    public void incrementRoundTracker(){
+        this.roundTracker++;
     }
 
 
@@ -452,8 +456,8 @@ public class GameState implements Serializable {
         this.myRoundCounter = myRoundCounter;
     }
 
-    public void setMyRoundCounterByRound(int counter) {
-        this.myRoundCounter[this.roundTracker] = counter;
+    public void setMyRoundCounterByRound(int points) {
+        this.myRoundCounter[this.roundTracker] = points;
     }
 
 
@@ -463,7 +467,6 @@ public class GameState implements Serializable {
 
     public void setOpponentRoundCounter(int[] opponentRoundCounter) {
         this.opponentRoundCounter = opponentRoundCounter;
-        this.roundTracker++;
     }
 
     public void setOpponentRoundCounterByRound(int counter) {
