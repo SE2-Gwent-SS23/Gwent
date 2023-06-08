@@ -11,6 +11,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -132,6 +136,7 @@ public class GameViewActivity extends AppCompatActivity {
                     setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
                     setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
                     i("Callback", this.gameState.toString());
+                    enableDisableYourTurn(true);
                     updateUI(gameState);
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
@@ -478,12 +483,17 @@ public class GameViewActivity extends AppCompatActivity {
      */
     public void enableDisableYourTurn(boolean yourTurn) throws JSONException, IOException {
          ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
-        // endTurn.setColorFilter(Color.GRAY);
+        // Create a color filter with a color matrix
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setSaturation(0); // 0 means grayscale
+        ColorFilter colorFilter = new ColorMatrixColorFilter(matrix);
+
         if (!yourTurn) {
             for (RecyclerView view : this.recyclerViews) {
                 view.setOnDragListener(null);
             }
-             endTurn.setOnClickListener(null);
+            endTurn.setOnClickListener(null);
+            endTurn.setColorFilter(colorFilter);
 
             /* why is it not removing the animation?
             opponentRangedView.setItemAnimator(null);
@@ -491,15 +501,14 @@ public class GameViewActivity extends AppCompatActivity {
             myCloseView.setItemAnimator(null);
             myRangedView.setItemAnimator(null);
             myHandView.setItemAnimator(null);
-
              */
         } else {
             for (RecyclerView view : this.recyclerViews) {
                 view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
-
             }
-
-             endTurn.setOnClickListener(clickEndTurn());
+            endTurn.setOnClickListener(clickEndTurn());
+            endTurn.setColorFilter(null);
+            endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
         }
     }
 
@@ -512,7 +521,6 @@ public class GameViewActivity extends AppCompatActivity {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            // change drawable of endturn to greyed out
         });
     }
 }
