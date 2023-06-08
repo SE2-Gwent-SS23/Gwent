@@ -377,6 +377,10 @@ public class GameState implements Serializable {
         return this.allCards;
     }
 
+    public void setAllCards(List<Card> cards) {
+        this.allCards = cards;
+    }
+
     public boolean isRedrawPhase() {
         return redrawPhase;
     }
@@ -411,5 +415,4 @@ public class GameState implements Serializable {
                 ", opponentRoundCounter=" + opponentRoundCounter +
                 '}';
     }
-
 }
