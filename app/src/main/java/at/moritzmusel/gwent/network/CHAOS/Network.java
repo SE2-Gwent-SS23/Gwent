@@ -72,7 +72,7 @@ public class Network {
             currGamestate.setOpponentLeader(opponentGS.getMyLeader());
             currGamestate.setUsedOpponentLeader(opponentGS.getUsedMyLeader());
             currGamestate.setOpponentRoundCounter(opponentGS.getMyRoundCounter());
-            currGamestate.setOpponentPassed(opponentGS.isOpponentPassed());
+            currGamestate.setOpponentPassed(opponentGS.isMyPassed());
 
             currentState.postValue(currGamestate);
             i(TAG, Utils.byteArrayToObject(payload.asBytes()).toString());

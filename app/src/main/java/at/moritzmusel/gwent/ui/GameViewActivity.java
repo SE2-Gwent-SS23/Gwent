@@ -147,14 +147,17 @@ public class GameViewActivity extends AppCompatActivity {
                         //send Gamestate
                         network.sendGameState(this.gameState);
                     }
+                    //why here
                     if (this.gameState.isMyPassed() && g.isOpponentPassed()) {
+                        this.gameState.setMyPassed(false);
+                        this.gameState.setOpponentPassed(false);
                         int myPoints = this.gameState.calculateMyPoints();
                         int opponentPoints = this.gameState.calculateOpponentPoints();
                         int roundTrackerReal = this.gameState.getRoundTracker() + 1;
 
                         this.gameState.setMyRoundCounterByRound(myPoints);
                         g.setMyRoundCounterByRound(opponentPoints);
-                        //a
+                        //why in draw
                         if (myPoints > opponentPoints) {
                             Toast.makeText(this, "You are the winner of round: " + roundTrackerReal, Toast.LENGTH_LONG).show();
 
