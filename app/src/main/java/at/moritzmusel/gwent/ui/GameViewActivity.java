@@ -169,10 +169,16 @@ public class GameViewActivity extends AppCompatActivity {
                         //increment roundTracker
                         this.gameState.incrementRoundTracker();
                         // overall winner
-                        if (this.gameState.calculateMyWins(g.getMyRoundCounter()) > 1) {
+                        //not working
+                        if (this.gameState.calculateMyWins(this.gameState.getOpponentRoundCounter()) > 1) {
                             Toast.makeText(this, "You won the game!", Toast.LENGTH_LONG).show();
                         }
-
+                        //leerräumen
+                        this.gameState.sendToMyGrave();
+                        this.gameState.sendToOpponentGrave();
+                        //spielfeld in den grave
+                        //punkte (von karten, hand, grave)
+                        updateUI(this.gameState);
 
                         //else {
                         //draw

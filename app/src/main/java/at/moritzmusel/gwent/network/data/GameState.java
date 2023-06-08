@@ -47,6 +47,18 @@ public class GameState implements Serializable {
     private boolean opponentPassed;
     private int roundTracker;
 
+public void sendToMyGrave(){
+    this.myGrave.addAll(this.myClose);
+    this.myGrave.addAll(this.myRanged);
+    this.myClose.clear();
+    this.myRanged.clear();
+}
+    public void sendToOpponentGrave(){
+        this.opponentGrave.addAll(this.opponentClose);
+        this.opponentGrave.addAll(this.opponentRanged);
+        this.opponentClose.clear();
+        this.opponentRanged.clear();
+    }
 
     public int calculateMyWins(int[] opponentArray) {
         int wins = 0;
