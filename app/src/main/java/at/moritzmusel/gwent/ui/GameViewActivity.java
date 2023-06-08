@@ -149,7 +149,7 @@ public class GameViewActivity extends AppCompatActivity {
                     }
                     if (this.gameState.isMyPassed() && g.isOpponentPassed()) {
                         int myPoints = this.gameState.calculateMyPoints();
-                        int opponentPoints = g.calculateMyPoints();
+                        int opponentPoints = this.gameState.calculateOpponentPoints();
                         int roundTrackerReal = this.gameState.getRoundTracker() + 1;
 
                         this.gameState.setMyRoundCounterByRound(myPoints);
@@ -191,6 +191,10 @@ public class GameViewActivity extends AppCompatActivity {
             network.currentState.setValue(this.gameState);
             try {
                 enableDisableYourTurn(false);
+                //FIX: Wenn Spieler "End Turn" clickt müssen wir Gamestate update triggern und übers netzwerk senden.
+                GameState curr = gameState;
+                //curr.isMyPassed();
+                //gameStateUpdate.setValue(curr);
             } catch (JSONException e) {
                 System.out.println(e);
             } catch (IOException e) {
@@ -567,7 +571,6 @@ public class GameViewActivity extends AppCompatActivity {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            // change drawable of endturn to greyed out
         });
     }
 }
