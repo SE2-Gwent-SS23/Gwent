@@ -74,6 +74,8 @@ public class Network {
             currGamestate.setOpponentGrave(opponentGS.getMyGrave());
             currGamestate.setOpponentLeader(opponentGS.getMyLeader());
             currGamestate.setUsedOpponentLeader(opponentGS.getUsedMyLeader());
+            currGamestate.setOpponentRoundCounter(opponentGS.getMyRoundCounter());
+            currGamestate.setOpponentPassed(opponentGS.isOpponentPassed());
 
             currentState.postValue(currGamestate);
             i(TAG, Utils.byteArrayToObject(payload.asBytes()).toString());

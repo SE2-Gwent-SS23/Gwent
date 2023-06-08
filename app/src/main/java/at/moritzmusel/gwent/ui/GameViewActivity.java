@@ -125,6 +125,7 @@ public class GameViewActivity extends AppCompatActivity {
 
             if (g.getOpponentHand() != null) {
                 try {
+
                     //setCards here
                     setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
                     setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
@@ -133,6 +134,46 @@ public class GameViewActivity extends AppCompatActivity {
                     setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
                     i("Callback", this.gameState.toString());
                     updateUI(gameState);
+
+                    //round ending
+                    this.gameState.hasCards();
+                    if (this.gameState.isMyPassed()) {
+                        //disable functunality
+                        enableDisableYourTurn(false);
+                        //send Gamestate
+                        network.sendGameState(this.gameState);
+                    }
+                    if (this.gameState.isMyPassed() && g.isOpponentPassed()) {
+                        int myPoints = this.gameState.calculateMyPoints();
+                        int opponentPoints = g.calculateMyPoints();
+                        int roundTracker = this.gameState.getRoundTracker();
+
+                        this.gameState.setMyRoundCounterByRound(myPoints);
+                        g.setMyRoundCounterByRound(opponentPoints);
+                        //a
+                        if (myPoints > opponentPoints) {
+                            Toast.makeText(this, "You are the winner of round: " + roundTracker, Toast.LENGTH_LONG).show();
+
+                        } else if (myPoints < opponentPoints) {
+                            Toast.makeText(this, "You lost round: " + roundTracker, Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(this, "Round: " + roundTracker + " is a draw.", Toast.LENGTH_LONG).show();
+                        }
+
+                        // overall winner
+                        if (this.gameState.calculateMyWins(g.getMyRoundCounter()) > 1) {
+                            Toast.makeText(this, "You won the game!", Toast.LENGTH_LONG).show();
+                        }
+
+
+                        //else {
+                        //draw
+                        //  }
+                        //  if(this.gameState.determineWinner(this))
+                        //add to roundcounter
+                        // check if overall Winner
+                        // richtige ausgabe
+                    }
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
@@ -184,13 +225,14 @@ public class GameViewActivity extends AppCompatActivity {
         settingResponsiveGameBoard();
 
         initClickOpponentCardsListener();
+        findViewById(R.id.iv_buttonGamePassWaitEndTurn).setOnClickListener(clickEndTurn());
         initShakeSensor();
         doNetworking();
     }
 
     private void initClickOpponentCardsListener() {
         buttonOpponentCards.setOnClickListener(view -> {
-            if((buttonHelp++)%2==0) {
+            if ((buttonHelp++) % 2 == 0) {
                 buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_up_24));
                 onButtonShowPopupWindowClick(getWindow().getDecorView().getRootView());
             } else {
@@ -439,7 +481,7 @@ public class GameViewActivity extends AppCompatActivity {
 
     }
 
-    public  void updateUI(GameState gameState) {
+    public void updateUI(GameState gameState) {
         tvMyGrave.setText(gameState.getMyGrave().size() + "");
 
         // inflate the layout of the popup window
@@ -477,13 +519,11 @@ public class GameViewActivity extends AppCompatActivity {
      * Also disables all relevant DragListeners.
      */
     public void enableDisableYourTurn(boolean yourTurn) throws JSONException, IOException {
-         ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
         // endTurn.setColorFilter(Color.GRAY);
         if (!yourTurn) {
             for (RecyclerView view : this.recyclerViews) {
                 view.setOnDragListener(null);
             }
-             endTurn.setOnClickListener(null);
 
             /* why is it not removing the animation?
             opponentRangedView.setItemAnimator(null);
@@ -499,7 +539,6 @@ public class GameViewActivity extends AppCompatActivity {
 
             }
 
-             endTurn.setOnClickListener(clickEndTurn());
         }
     }
 
@@ -507,6 +546,8 @@ public class GameViewActivity extends AppCompatActivity {
         return (view -> {
             try {
                 enableDisableYourTurn(false);
+                this.gameState.setMyPassed(true);
+                network.sendGameState(this.gameState);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             } catch (IOException e) {
