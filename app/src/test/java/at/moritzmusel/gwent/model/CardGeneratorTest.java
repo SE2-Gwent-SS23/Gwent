@@ -21,7 +21,7 @@ import java.util.List;
 
 import at.moritzmusel.gwent.network.data.GameState;
 
-public class CardGeneratorTest {
+class CardGeneratorTest {
     private JSONObject jsonObject;
     private JSONArray jsonArray;
     private List<Card> cardList;

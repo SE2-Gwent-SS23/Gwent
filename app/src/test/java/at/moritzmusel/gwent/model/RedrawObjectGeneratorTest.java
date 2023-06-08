@@ -24,7 +24,7 @@ import java.util.List;
 
 import at.moritzmusel.gwent.network.data.GameState;
 
-public class RedrawObjectGeneratorTest {
+class RedrawObjectGeneratorTest {
 
     private RedrawObjectGenerator redrawObjectGenerator;
 
