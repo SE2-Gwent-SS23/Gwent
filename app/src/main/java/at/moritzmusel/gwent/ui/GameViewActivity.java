@@ -11,6 +11,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -125,7 +129,6 @@ public class GameViewActivity extends AppCompatActivity {
 
             if (g.getOpponentHand() != null) {
                 try {
-
                     //setCards here
                     setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
                     setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
@@ -133,6 +136,7 @@ public class GameViewActivity extends AppCompatActivity {
                     setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
                     setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
                     i("Callback", this.gameState.toString());
+                    enableDisableYourTurn(true);
                     updateUI(gameState);
 
                     //round ending
@@ -481,7 +485,7 @@ public class GameViewActivity extends AppCompatActivity {
 
     }
 
-    public void updateUI(GameState gameState) {
+    public  void updateUI(GameState gameState) {
         tvMyGrave.setText(gameState.getMyGrave().size() + "");
 
         // inflate the layout of the popup window
@@ -519,11 +523,18 @@ public class GameViewActivity extends AppCompatActivity {
      * Also disables all relevant DragListeners.
      */
     public void enableDisableYourTurn(boolean yourTurn) throws JSONException, IOException {
-        // endTurn.setColorFilter(Color.GRAY);
+         ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
+        // Create a color filter with a color matrix
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setSaturation(0); // 0 means grayscale
+        ColorFilter colorFilter = new ColorMatrixColorFilter(matrix);
+
         if (!yourTurn) {
             for (RecyclerView view : this.recyclerViews) {
                 view.setOnDragListener(null);
             }
+            endTurn.setOnClickListener(null);
+            endTurn.setColorFilter(colorFilter);
 
             /* why is it not removing the animation?
             opponentRangedView.setItemAnimator(null);
@@ -538,7 +549,9 @@ public class GameViewActivity extends AppCompatActivity {
                 view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
 
             }
-
+            endTurn.setOnClickListener(clickEndTurn());
+            endTurn.setColorFilter(null);
+            endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
         }
     }
 
