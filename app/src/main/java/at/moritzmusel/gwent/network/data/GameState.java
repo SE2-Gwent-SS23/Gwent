@@ -47,13 +47,14 @@ public class GameState implements Serializable {
     private boolean opponentPassed;
     private int roundTracker;
 
-public void sendToMyGrave(){
-    this.myGrave.addAll(this.myClose);
-    this.myGrave.addAll(this.myRanged);
-    this.myClose.clear();
-    this.myRanged.clear();
-}
-    public void sendToOpponentGrave(){
+    public void sendToMyGrave() {
+        this.myGrave.addAll(this.myClose);
+        this.myGrave.addAll(this.myRanged);
+        this.myClose.clear();
+        this.myRanged.clear();
+    }
+
+    public void sendToOpponentGrave() {
         this.opponentGrave.addAll(this.opponentClose);
         this.opponentGrave.addAll(this.opponentRanged);
         this.opponentClose.clear();
@@ -72,9 +73,7 @@ public void sendToMyGrave(){
 
 
     public void hasCards() {
-        if (this.opponentHand.size() == 0) {
-            this.opponentPassed = true;
-        } else if (this.myHand.size() == 0) {
+        if (this.myHand.size() == 0) {
             this.myPassed = true;
         }
     }
@@ -231,7 +230,7 @@ public void sendToMyGrave(){
 
     }
 
-    public void incrementRoundTracker(){
+    public void incrementRoundTracker() {
         this.roundTracker++;
     }
 

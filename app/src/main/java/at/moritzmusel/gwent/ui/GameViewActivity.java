@@ -146,48 +146,49 @@ public class GameViewActivity extends AppCompatActivity {
                         enableDisableYourTurn(false);
                         //send Gamestate
                         network.sendGameState(this.gameState);
-                    }
-                    //why here
-                    if (this.gameState.isMyPassed() && this.gameState.isOpponentPassed()) {
-                        this.gameState.setMyPassed(false);
-                        this.gameState.setOpponentPassed(false);
-                        int myPoints = this.gameState.calculateMyPoints();
-                        int opponentPoints = this.gameState.calculateOpponentPoints();
-                        int roundTrackerReal = this.gameState.getRoundTracker() + 1;
 
-                        this.gameState.setMyRoundCounterByRound(myPoints);
-                        this.gameState.setOpponentRoundCounterByRound(opponentPoints);
-                        //why in draw
-                        if (myPoints > opponentPoints) {
-                            Toast.makeText(this, "You are the winner of round: " + roundTrackerReal, Toast.LENGTH_LONG).show();
+                        //why here
+                        if (this.gameState.isOpponentPassed()) {
+                            this.gameState.setMyPassed(false);
+                            this.gameState.setOpponentPassed(false);
+                            int myPoints = this.gameState.calculateMyPoints();
+                            int opponentPoints = this.gameState.calculateOpponentPoints();
+                            int roundTrackerReal = this.gameState.getRoundTracker() + 1;
 
-                        } else if (myPoints < opponentPoints) {
-                            Toast.makeText(this, "You lost round: " + roundTrackerReal, Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(this, "Round: " + roundTrackerReal + " is a draw.", Toast.LENGTH_LONG).show();
+                            this.gameState.setMyRoundCounterByRound(myPoints);
+                            this.gameState.setOpponentRoundCounterByRound(opponentPoints);
+                            //why in draw
+                            if (myPoints > opponentPoints) {
+                                Toast.makeText(this, "You are the winner of round: " + roundTrackerReal, Toast.LENGTH_LONG).show();
+
+                            } else if (myPoints < opponentPoints) {
+                                Toast.makeText(this, "You lost round: " + roundTrackerReal, Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(this, "Round: " + roundTrackerReal + " is a draw.", Toast.LENGTH_LONG).show();
+                            }
+                            //increment roundTracker
+                            this.gameState.incrementRoundTracker();
+                            // overall winner
+                            //not working
+                            if (this.gameState.calculateMyWins(this.gameState.getOpponentRoundCounter()) > 1) {
+                                Toast.makeText(this, "You won the game!", Toast.LENGTH_LONG).show();
+                            }
+                            //leerräumen
+                            this.gameState.sendToMyGrave();
+                            this.gameState.sendToOpponentGrave();
+                            network.sendGameState(this.gameState);
+                            //spielfeld in den grave
+                            //punkte (von karten, hand, grave)
+                            updateUI(this.gameState);
+
+                            //else {
+                            //draw
+                            //  }
+                            //  if(this.gameState.determineWinner(this))
+                            //add to roundcounter
+                            // check if overall Winner
+                            // richtige ausgabe
                         }
-                        //increment roundTracker
-                        this.gameState.incrementRoundTracker();
-                        // overall winner
-                        //not working
-                        if (this.gameState.calculateMyWins(this.gameState.getOpponentRoundCounter()) > 1) {
-                            Toast.makeText(this, "You won the game!", Toast.LENGTH_LONG).show();
-                        }
-                        //leerräumen
-                        this.gameState.sendToMyGrave();
-                        this.gameState.sendToOpponentGrave();
-                        network.sendGameState(this.gameState);
-                        //spielfeld in den grave
-                        //punkte (von karten, hand, grave)
-                        updateUI(this.gameState);
-
-                        //else {
-                        //draw
-                        //  }
-                        //  if(this.gameState.determineWinner(this))
-                        //add to roundcounter
-                        // check if overall Winner
-                        // richtige ausgabe
                     }
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
