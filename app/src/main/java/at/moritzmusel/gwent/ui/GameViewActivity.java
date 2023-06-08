@@ -201,11 +201,9 @@ public class GameViewActivity extends AppCompatActivity {
             this.gameState = (GameState) value;
             network.currentState.setValue(this.gameState);
             try {
-                enableDisableYourTurn(false);
-                //FIX: Wenn Spieler "End Turn" clickt müssen wir Gamestate update triggern und übers netzwerk senden.
-                GameState curr = gameState;
-                //curr.isMyPassed();
-                //gameStateUpdate.setValue(curr);
+                if(!this.gameState.isOpponentPassed()){
+                    enableDisableYourTurn(false);
+                }
             } catch (JSONException e) {
                 System.out.println(e);
             } catch (IOException e) {
