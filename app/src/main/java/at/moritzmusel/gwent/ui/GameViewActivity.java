@@ -148,7 +148,7 @@ public class GameViewActivity extends AppCompatActivity {
                         network.sendGameState(this.gameState);
                     }
                     //why here
-                    if (this.gameState.isMyPassed() && g.isOpponentPassed()) {
+                    if (this.gameState.isMyPassed() && this.gameState.isOpponentPassed()) {
                         this.gameState.setMyPassed(false);
                         this.gameState.setOpponentPassed(false);
                         int myPoints = this.gameState.calculateMyPoints();
@@ -156,7 +156,7 @@ public class GameViewActivity extends AppCompatActivity {
                         int roundTrackerReal = this.gameState.getRoundTracker() + 1;
 
                         this.gameState.setMyRoundCounterByRound(myPoints);
-                        g.setMyRoundCounterByRound(opponentPoints);
+                        this.gameState.setOpponentRoundCounterByRound(opponentPoints);
                         //why in draw
                         if (myPoints > opponentPoints) {
                             Toast.makeText(this, "You are the winner of round: " + roundTrackerReal, Toast.LENGTH_LONG).show();
@@ -176,6 +176,7 @@ public class GameViewActivity extends AppCompatActivity {
                         //leerräumen
                         this.gameState.sendToMyGrave();
                         this.gameState.sendToOpponentGrave();
+                        network.sendGameState(this.gameState);
                         //spielfeld in den grave
                         //punkte (von karten, hand, grave)
                         updateUI(this.gameState);
