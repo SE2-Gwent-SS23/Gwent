@@ -123,7 +123,7 @@ public class Network {
         @Override
         public void onDisconnected(@NonNull String s) {
             d(TAG, "onDisconnected");
-            goToHome();
+            stopClient();
         }
     };
     //
@@ -195,11 +195,6 @@ public class Network {
         localPlayer = 0;
         opponentPlayer = 0;
         opponentEndpointId = "";
-    }
-
-    public void goToHome() {
-        stopClient();
-        //TODO NAVIGATE TO HOME SCREEN
     }
 
     //converts the data/gamestate into a Payload object

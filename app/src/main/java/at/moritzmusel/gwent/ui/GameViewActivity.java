@@ -157,6 +157,7 @@ public class GameViewActivity extends AppCompatActivity {
 
                             this.gameState.setMyRoundCounterByRound(myPoints);
                             this.gameState.setOpponentRoundCounterByRound(opponentPoints);
+
                             //why in draw
                             if (myPoints > opponentPoints) {
                                 Toast.makeText(this, "You are the winner of round: " + roundTrackerReal, Toast.LENGTH_LONG).show();
@@ -168,26 +169,32 @@ public class GameViewActivity extends AppCompatActivity {
                             }
                             //increment roundTracker
                             this.gameState.incrementRoundTracker();
-                            // overall winner
-                            //not working
-                            if (this.gameState.calculateMyWins(this.gameState.getOpponentRoundCounter()) > 1) {
-                                Toast.makeText(this, "You won the game!", Toast.LENGTH_LONG).show();
-                            }
+
+                            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
+
                             //leerräumen
                             this.gameState.sendToMyGrave();
                             this.gameState.sendToOpponentGrave();
+
                             network.sendGameState(this.gameState);
-                            //spielfeld in den grave
-                            //punkte (von karten, hand, grave)
                             updateUI(this.gameState);
 
-                            //else {
-                            //draw
-                            //  }
-                            //  if(this.gameState.determineWinner(this))
-                            //add to roundcounter
-                            // check if overall Winner
-                            // richtige ausgabe
+                            if (this.gameState.calculateMyWins(this.gameState.getOpponentRoundCounter()) > 1) {
+                                Toast.makeText(this, "You won the game!", Toast.LENGTH_LONG).show();
+                                //TODO: GAME ENDING SCREEN @PATRIZIA
+                                // overall winner
+                                //not working
+                                //spielfeld in den grave
+                                //punkte (von karten, hand, grave)
+                                //else {
+                                //draw
+                                //  }
+                                //  if(this.gameState.determineWinner(this))
+
+                                //add to roundcounter
+                                // check if overall Winner
+                                // richtige ausgabe
+                            }
                         }
                     }
                 } catch (JSONException e) {
@@ -197,12 +204,15 @@ public class GameViewActivity extends AppCompatActivity {
                 }
             }
         });
-        gameStateUpdate.setListener((value -> {
+        gameStateUpdate.setListener(value -> {
             this.gameState = (GameState) value;
             network.currentState.setValue(this.gameState);
             try {
                 if(!this.gameState.isOpponentPassed()){
                     enableDisableYourTurn(false);
+                }else{
+                    for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
+                    for (RecyclerView view : this.recyclerViews) view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
                 }
             } catch (JSONException e) {
                 System.out.println(e);
@@ -210,7 +220,7 @@ public class GameViewActivity extends AppCompatActivity {
                 System.out.println(e);
             }
             network.sendGameState((GameState) value);
-        }));
+        });
     }
     // end
 
@@ -496,7 +506,10 @@ public class GameViewActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
+        if(isFinishing())
+        {
+            //network.
+        }
     }
 
     public void updateUI(GameState gameState) {
@@ -538,31 +551,16 @@ public class GameViewActivity extends AppCompatActivity {
      */
     public void enableDisableYourTurn(boolean yourTurn) throws JSONException, IOException {
         ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
-        // Create a color filter with a color matrix
         ColorMatrix matrix = new ColorMatrix();
         matrix.setSaturation(0); // 0 means grayscale
         ColorFilter colorFilter = new ColorMatrixColorFilter(matrix);
 
         if (!yourTurn) {
-            for (RecyclerView view : this.recyclerViews) {
-                view.setOnDragListener(null);
-            }
+            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
             endTurn.setOnClickListener(null);
             endTurn.setColorFilter(colorFilter);
-
-            /* why is it not removing the animation?
-            opponentRangedView.setItemAnimator(null);
-            opponentCloseView.setItemAnimator(null);
-            myCloseView.setItemAnimator(null);
-            myRangedView.setItemAnimator(null);
-            myHandView.setItemAnimator(null);
-
-             */
         } else {
-            for (RecyclerView view : this.recyclerViews) {
-                view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
-
-            }
+            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
             endTurn.setOnClickListener(clickEndTurn());
             endTurn.setColorFilter(null);
             endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
