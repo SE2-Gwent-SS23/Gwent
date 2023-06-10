@@ -8,6 +8,7 @@ import android.view.View;
 public class DoubleTapDetector implements View.OnTouchListener {
 
     private GestureDetector gestureDetector;
+    private View clickedView;
 
     public DoubleTapDetector(Context context) {
         gestureDetector = new GestureDetector(context, new GestureListener());
@@ -15,6 +16,7 @@ public class DoubleTapDetector implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
+        clickedView = view;
         return gestureDetector.onTouchEvent(motionEvent);
     }
 
