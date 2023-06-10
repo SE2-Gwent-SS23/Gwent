@@ -22,8 +22,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -349,6 +351,9 @@ public class GameViewActivity extends AppCompatActivity {
             }
             setImageFromAssetForOpponent(im);
             llOpponent.addView(im);
+
+            //add double tap listener to enemy cards for cheating
+            im.setOnTouchListener((View v, MotionEvent event) -> doubleTapDetector.onTouchEvent(event));
         }
 
         // important: before getting the size of pop-up we should assign default measurements for the view
@@ -360,35 +365,6 @@ public class GameViewActivity extends AppCompatActivity {
         // show the popup window
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
-
-    //shake sensor listener
-    private final SensorEventListener mSensorListener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            float x = event.values[0];
-            float y = event.values[1];
-            float z = event.values[2];
-            mAccelLast = mAccelCurrent;
-            mAccelCurrent = (float) Math.sqrt(x * x + y * y + z * z);
-            float delta = mAccelCurrent - mAccelLast;
-            mAccel = mAccel * 0.9f + delta;
-            if (mAccel > 12) {
-                Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
-                //get current gamestate
-                GameState gs = network.getCurrentState().getValue();
-                //remove weather
-                gs.applySun();
-                //updateUI
-                waitingCallback.setValue(gs);
-                //send gamestate
-                network.sendGameState(gs);
-            }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        }
-    };
 
     @Override
     protected void onResume() {
@@ -523,4 +499,47 @@ public class GameViewActivity extends AppCompatActivity {
             // change drawable of endturn to greyed out
         });
     }
+
+    //shake sensor listener
+    private final SensorEventListener mSensorListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            mAccelLast = mAccelCurrent;
+            mAccelCurrent = (float) Math.sqrt(x * x + y * y + z * z);
+            float delta = mAccelCurrent - mAccelLast;
+            mAccel = mAccel * 0.9f + delta;
+            if (mAccel > 12) {
+                Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
+                //get current gamestate
+                GameState gs = network.getCurrentState().getValue();
+                //remove weather
+                gs.applySun();
+                //updateUI
+                waitingCallback.setValue(gs);
+                //send gamestate
+                network.sendGameState(gs);
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }
+    };
+
+    private final GestureDetector doubleTapDetector = new GestureDetector(getBaseContext(), new GestureDetector.SimpleOnGestureListener() {
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            //TODO decrease value of card
+            return true;
+        }
+    });
 }
