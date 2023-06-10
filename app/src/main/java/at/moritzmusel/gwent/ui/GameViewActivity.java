@@ -374,6 +374,14 @@ public class GameViewActivity extends AppCompatActivity {
             mAccel = mAccel * 0.9f + delta;
             if (mAccel > 12) {
                 Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
+                //get current gamestate
+                GameState gs = network.getCurrentState().getValue();
+                //remove weather
+                gs.applySun();
+                //updateUI
+                waitingCallback.setValue(gs);
+                //send gamestate
+                network.sendGameState(gs);
             }
         }
 
