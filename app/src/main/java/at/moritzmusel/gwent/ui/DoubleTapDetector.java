@@ -1,0 +1,30 @@
+package at.moritzmusel.gwent.ui;
+
+import android.content.Context;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+
+public class DoubleTapDetector implements View.OnTouchListener {
+
+    private GestureDetector gestureDetector;
+
+    public DoubleTapDetector(Context context) {
+        gestureDetector = new GestureDetector(context, new GestureListener());
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        return gestureDetector.onTouchEvent(motionEvent);
+    }
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            // This method will be called when a double tap is detected
+            // TODO Handle the double tap event here
+            return true;
+        }
+    }
+}

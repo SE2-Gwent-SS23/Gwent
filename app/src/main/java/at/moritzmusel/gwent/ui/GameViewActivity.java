@@ -353,7 +353,7 @@ public class GameViewActivity extends AppCompatActivity {
             llOpponent.addView(im);
 
             //add double tap listener to enemy cards for cheating
-            im.setOnTouchListener((View v, MotionEvent event) -> doubleTapDetector.onTouchEvent(event));
+            im.setOnTouchListener(new DoubleTapDetector(this));
         }
 
         // important: before getting the size of pop-up we should assign default measurements for the view
@@ -528,18 +528,4 @@ public class GameViewActivity extends AppCompatActivity {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
     };
-
-    private final GestureDetector doubleTapDetector = new GestureDetector(getBaseContext(), new GestureDetector.SimpleOnGestureListener() {
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return true;
-        }
-
-        @Override
-        public boolean onDoubleTap(MotionEvent e) {
-            //TODO decrease value of card
-            return true;
-        }
-    });
 }
