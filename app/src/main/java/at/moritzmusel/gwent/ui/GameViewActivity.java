@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -81,6 +82,11 @@ public class GameViewActivity extends AppCompatActivity {
     private GameState gameState;
     private static int deviceHeight;
     private int buttonHelp = 0;
+
+    // popup opponent window
+    private LayoutInflater inflaterOpponent;
+    private View popupViewOpponent;
+    private LinearLayout llOpponent;
 
     // variables for shake sensor
     private SensorManager mSensorManager;
@@ -170,7 +176,8 @@ public class GameViewActivity extends AppCompatActivity {
                             //increment roundTracker
                             this.gameState.incrementRoundTracker();
 
-                            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
+                            for (RecyclerView view : this.recyclerViews)
+                                view.setOnDragListener(null);
 
                             //leerräumen
                             this.gameState.sendToMyGrave();
@@ -200,11 +207,12 @@ public class GameViewActivity extends AppCompatActivity {
             this.gameState = (GameState) value;
             network.currentState.setValue(this.gameState);
             try {
-                if(!this.gameState.isOpponentPassed()){
+                if (!this.gameState.isOpponentPassed()) {
                     enableDisableYourTurn(false);
-                }else{
+                } else {
                     for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
-                    for (RecyclerView view : this.recyclerViews) view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
+                    for (RecyclerView view : this.recyclerViews)
+                        view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
                 }
             } catch (JSONException e) {
                 System.out.println(e);
@@ -394,9 +402,9 @@ public class GameViewActivity extends AppCompatActivity {
      */
     public void onButtonShowPopupWindowClick(View view) {
         // inflate the layout of the popup window
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.popup_window_opponent, null);
-        LinearLayout llOpponent = popupView.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
+        inflaterOpponent = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        popupViewOpponent = inflaterOpponent.inflate(R.layout.popup_window_opponent, null);
+        llOpponent = popupViewOpponent.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
 
         int size = gameState.getOpponentHand().size();
 
@@ -414,10 +422,10 @@ public class GameViewActivity extends AppCompatActivity {
         }
 
         // important: before getting the size of pop-up we should assign default measurements for the view
-        popupView.measure(0, 0);
+        popupViewOpponent.measure(0, 0);
 
         // create the popup window
-        popupWindow = new PopupWindow(popupView, popupView.getMeasuredWidth(), popupView.getMeasuredHeight(), false);
+        popupWindow = new PopupWindow(popupViewOpponent, popupViewOpponent.getMeasuredWidth(), popupViewOpponent.getMeasuredHeight(), false);
 
         // show the popup window
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
@@ -498,8 +506,7 @@ public class GameViewActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(isFinishing())
-        {
+        if (isFinishing()) {
             //network.
         }
     }
@@ -507,19 +514,16 @@ public class GameViewActivity extends AppCompatActivity {
     public void updateUI(GameState gameState) {
         tvMyGrave.setText(gameState.getMyGrave().size() + "");
 
-        // inflate the layout of the popup window
-        /*
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.popup_window_opponent, null);
-        LinearLayout llOpponent = popupView.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
+        // Inflate the popupOpponent layout & create the PopupWindow object
+        View popupView = getLayoutInflater().inflate(R.layout.popup_window_opponent, null);
+        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
-
-        tvOpponentMonster = popupView.findViewById(R.id.tvOpponentMonsters);
+        // Modify the data in the PopupWindowOpponent
+        tvOpponentMonster = popupWindow.getContentView().findViewById(R.id.tvOpponentMonsters);
         tvOpponentMonster.setText(gameState.getOpponentHand().size() + "");
-        tvOpponentGrave = popupView.findViewById(R.id.tvOpponentGrave);
+        tvOpponentGrave = popupWindow.getContentView().findViewById(R.id.tvOpponentGrave);
         tvOpponentGrave.setText(gameState.getOpponentGrave().size() + "");
 
-         */
         TextView opponentCardsInHand = findViewById(R.id.tvNumberOfOpponent);
         TextView myCardsInHand = findViewById(R.id.tvNumberOf);
 
@@ -530,7 +534,6 @@ public class GameViewActivity extends AppCompatActivity {
         myCardsInHand.setText(this.gameState.getMyHand().size() + "/10");
         opponentPoints.setText(Integer.toString(this.gameState.calculateOpponentPoints()));
         myPoints.setText(Integer.toString(this.gameState.calculateMyPoints()));
-
     }
 
     public static Context getContext() {
@@ -552,7 +555,8 @@ public class GameViewActivity extends AppCompatActivity {
             endTurn.setOnClickListener(null);
             endTurn.setColorFilter(colorFilter);
         } else {
-            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
+            for (RecyclerView view : this.recyclerViews)
+                view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
             endTurn.setOnClickListener(clickEndTurn());
             endTurn.setColorFilter(null);
             endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
