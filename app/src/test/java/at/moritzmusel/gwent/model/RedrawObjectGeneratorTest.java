@@ -48,7 +48,7 @@ class RedrawObjectGeneratorTest {
                 Arrays.asList(  new Card("Name 3", weather, null, 5, bond, "name3.jpg", 2, "Text 3"),
                                 new Card("Name 4", special, null, 3, fog, "name4.jpg", 4, "Text 4")));
 
-        assertEquals(expectedResultListOfList.toString(), redrawObjectGenerator.halfList(newList).toString());
+        assertEquals(expectedResultListOfList.toString(), redrawObjectGenerator.halveList(newList).toString());
     }
 
     @Test

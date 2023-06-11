@@ -58,7 +58,7 @@ public class RedrawActivity extends AppCompatActivity {
         RedrawDragListener listener = new RedrawDragListener(this, mRedrawDropView);
         mRedrawDropView.setOnDragListener(listener);
 
-        mRedrawCards = redrawObjectGenerator.halfList(mPlayerCards);
+        mRedrawCards = redrawObjectGenerator.halveList(mPlayerCards);
         try {
             GameViewActivity.setCards(findViewById(R.id.redrawUserCards1), true, mRedrawCards.get(0), getApplicationContext(), this, listener, gameState);
             GameViewActivity.setCards(findViewById(R.id.redrawUserCards2), true, mRedrawCards.get(1), getApplicationContext(), this, listener, gameState);

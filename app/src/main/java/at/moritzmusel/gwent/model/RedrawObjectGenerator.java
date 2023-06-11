@@ -11,7 +11,7 @@ public class RedrawObjectGenerator {
     public RedrawObjectGenerator() {
     }
 
-    public List<List<Card>> halfList(List<Card> list) {
+    public List<List<Card>> halveList(List<Card> list) {
         int marker = list.size() / 2;
         List<Card> firstHalf = new ArrayList<>();
         List<Card> secondHalf = new ArrayList<>();
