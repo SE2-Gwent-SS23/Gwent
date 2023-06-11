@@ -25,8 +25,10 @@ public class GameEndScreenActivity extends AppCompatActivity {
         TextView textViewVictoryOrLost = findViewById(R.id.textViewVictoryOrLost);
         if (this.gameState.calculateMyWins(this.gameState.getOpponentRoundCounter()) > 1) {
             textViewVictoryOrLost.setText("Victory");
-        } else {
+        } else if(this.gameState.calculateMyWins(this.gameState.getOpponentRoundCounter()) <= 1) {
             textViewVictoryOrLost.setText("Lost");
+        } else {
+            textViewVictoryOrLost.setText("Draw");
         }
 
         TextView tvRoundOneUser = findViewById(R.id.tvRoundOneUser);
