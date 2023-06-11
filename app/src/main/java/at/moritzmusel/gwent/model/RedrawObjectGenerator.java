@@ -34,7 +34,7 @@ public class RedrawObjectGenerator {
         SecureRandom random = new SecureRandom();
         int zz = 0;
         Card card = null;
-        if(gameState.getAllCards().size() != 0) {
+        if(!gameState.getAllCards().isEmpty()) {
             zz = random.nextInt(gameState.getAllCards().size());
             card = gameState.getAllCards().get(zz);
 
