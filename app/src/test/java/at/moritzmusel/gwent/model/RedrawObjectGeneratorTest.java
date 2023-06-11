@@ -1,7 +1,9 @@
 package at.moritzmusel.gwent.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static at.moritzmusel.gwent.model.Ability.bond;
@@ -72,5 +74,23 @@ class RedrawObjectGeneratorTest {
         int initialCount = drawnCard.getCount();
         int updatedCount = gameState.getAllCards().stream().filter(card -> card.equals(drawnCard)).mapToInt(Card::getCount).findFirst().orElse(0);
         assertEquals(initialCount, updatedCount);
+    }
+
+    @Test
+    void testDrawRandomCountCardCountZero() {
+        GameState gameState = new GameState(0, 0, 0, false);
+        List<Card> cards = new ArrayList<>();
+        gameState.setAllCards(cards);
+
+        RedrawObjectGenerator redrawObjectGenerator = new RedrawObjectGenerator();
+        ReturnCard returnCard = redrawObjectGenerator.drawRandomCard(gameState);
+
+        assertNotNull(returnCard);
+
+        List<Card> allCards = gameState.getAllCards();
+        assertFalse(allCards.contains(returnCard.getCard()));
+
+        Card drawnCard = returnCard.getCard();
+        assertNull(drawnCard);
     }
 }
