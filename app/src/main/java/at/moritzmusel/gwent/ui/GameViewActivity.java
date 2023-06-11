@@ -11,6 +11,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -132,7 +136,67 @@ public class GameViewActivity extends AppCompatActivity {
                     setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
                     setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
                     i("Callback", this.gameState.toString());
+                    enableDisableYourTurn(true);
                     updateUI(gameState);
+
+                    //round ending
+                    this.gameState.hasCards();
+                    if (this.gameState.isMyPassed()) {
+                        //disable functunality
+                        enableDisableYourTurn(false);
+                        //send Gamestate
+                        network.sendGameState(this.gameState);
+
+                        //why here
+                        if (this.gameState.isOpponentPassed()) {
+                            this.gameState.setMyPassed(false);
+                            this.gameState.setOpponentPassed(false);
+                            int myPoints = this.gameState.calculateMyPoints();
+                            int opponentPoints = this.gameState.calculateOpponentPoints();
+                            int roundTrackerReal = this.gameState.getRoundTracker() + 1;
+
+                            this.gameState.setMyRoundCounterByRound(myPoints);
+                            this.gameState.setOpponentRoundCounterByRound(opponentPoints);
+
+                            //why in draw
+                            if (myPoints > opponentPoints) {
+                                Toast.makeText(this, "You are the winner of round: " + roundTrackerReal, Toast.LENGTH_LONG).show();
+
+                            } else if (myPoints < opponentPoints) {
+                                Toast.makeText(this, "You lost round: " + roundTrackerReal, Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(this, "Round: " + roundTrackerReal + " is a draw.", Toast.LENGTH_LONG).show();
+                            }
+                            //increment roundTracker
+                            this.gameState.incrementRoundTracker();
+
+                            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
+
+                            //leerräumen
+                            this.gameState.sendToMyGrave();
+                            this.gameState.sendToOpponentGrave();
+
+                            network.sendGameState(this.gameState);
+                            updateUI(this.gameState);
+
+                            if (this.gameState.calculateMyWins(this.gameState.getOpponentRoundCounter()) > 1) {
+                                Toast.makeText(this, "You won the game!", Toast.LENGTH_LONG).show();
+                                //TODO: GAME ENDING SCREEN @PATRIZIA
+                                // overall winner
+                                //not working
+                                //spielfeld in den grave
+                                //punkte (von karten, hand, grave)
+                                //else {
+                                //draw
+                                //  }
+                                //  if(this.gameState.determineWinner(this))
+
+                                //add to roundcounter
+                                // check if overall Winner
+                                // richtige ausgabe
+                            }
+                        }
+                    }
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
@@ -140,18 +204,23 @@ public class GameViewActivity extends AppCompatActivity {
                 }
             }
         });
-        gameStateUpdate.setListener((value -> {
+        gameStateUpdate.setListener(value -> {
             this.gameState = (GameState) value;
             network.currentState.setValue(this.gameState);
             try {
-                enableDisableYourTurn(false);
+                if(!this.gameState.isOpponentPassed()){
+                    enableDisableYourTurn(false);
+                }else{
+                    for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
+                    for (RecyclerView view : this.recyclerViews) view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
+                }
             } catch (JSONException e) {
                 System.out.println(e);
             } catch (IOException e) {
                 System.out.println(e);
             }
             network.sendGameState((GameState) value);
-        }));
+        });
     }
     // end
 
@@ -184,13 +253,14 @@ public class GameViewActivity extends AppCompatActivity {
         settingResponsiveGameBoard();
 
         initClickOpponentCardsListener();
+        findViewById(R.id.iv_buttonGamePassWaitEndTurn).setOnClickListener(clickEndTurn());
         initShakeSensor();
         doNetworking();
     }
 
     private void initClickOpponentCardsListener() {
         buttonOpponentCards.setOnClickListener(view -> {
-            if((buttonHelp++)%2==0) {
+            if ((buttonHelp++) % 2 == 0) {
                 buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_up_24));
                 onButtonShowPopupWindowClick(getWindow().getDecorView().getRootView());
             } else {
@@ -436,10 +506,13 @@ public class GameViewActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
+        if(isFinishing())
+        {
+            //network.
+        }
     }
 
-    public  void updateUI(GameState gameState) {
+    public void updateUI(GameState gameState) {
         tvMyGrave.setText(gameState.getMyGrave().size() + "");
 
         // inflate the layout of the popup window
@@ -477,29 +550,20 @@ public class GameViewActivity extends AppCompatActivity {
      * Also disables all relevant DragListeners.
      */
     public void enableDisableYourTurn(boolean yourTurn) throws JSONException, IOException {
-         ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
-        // endTurn.setColorFilter(Color.GRAY);
+        ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setSaturation(0); // 0 means grayscale
+        ColorFilter colorFilter = new ColorMatrixColorFilter(matrix);
+
         if (!yourTurn) {
-            for (RecyclerView view : this.recyclerViews) {
-                view.setOnDragListener(null);
-            }
-             endTurn.setOnClickListener(null);
-
-            /* why is it not removing the animation?
-            opponentRangedView.setItemAnimator(null);
-            opponentCloseView.setItemAnimator(null);
-            myCloseView.setItemAnimator(null);
-            myRangedView.setItemAnimator(null);
-            myHandView.setItemAnimator(null);
-
-             */
+            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
+            endTurn.setOnClickListener(null);
+            endTurn.setColorFilter(colorFilter);
         } else {
-            for (RecyclerView view : this.recyclerViews) {
-                view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
-
-            }
-
-             endTurn.setOnClickListener(clickEndTurn());
+            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
+            endTurn.setOnClickListener(clickEndTurn());
+            endTurn.setColorFilter(null);
+            endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
         }
     }
 
@@ -507,12 +571,13 @@ public class GameViewActivity extends AppCompatActivity {
         return (view -> {
             try {
                 enableDisableYourTurn(false);
+                this.gameState.setMyPassed(true);
+                network.sendGameState(this.gameState);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            // change drawable of endturn to greyed out
         });
     }
 }
