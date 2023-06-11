@@ -183,17 +183,9 @@ public class GameViewActivity extends AppCompatActivity {
                                 Toast.makeText(this, "You won the game!", Toast.LENGTH_LONG).show();
                                 //TODO: GAME ENDING SCREEN @PATRIZIA
                                 // overall winner
-                                //not working
-                                //spielfeld in den grave
-                                //punkte (von karten, hand, grave)
-                                //else {
-                                //draw
-                                //  }
-                                //  if(this.gameState.determineWinner(this))
-
-                                //add to roundcounter
-                                // check if overall Winner
-                                // richtige ausgabe
+                                Intent endScreenActivityIntent = new Intent(GameViewActivity.this, GameEndScreenActivity.class);
+                                endScreenActivityIntent.putExtra("gameStateEnd", this.gameState);
+                                startActivity(endScreenActivityIntent);
                             }
                         }
                     }
