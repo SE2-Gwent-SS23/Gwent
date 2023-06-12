@@ -188,12 +188,11 @@ public class GameViewActivity extends AppCompatActivity {
 
                             if (this.gameState.calculateMyWins(this.gameState.getOpponentRoundCounter()) > 1) {
                                 Toast.makeText(this, "You won the game!", Toast.LENGTH_LONG).show();
-                                //TODO: GAME ENDING SCREEN @PATRIZIA
-                                // overall winner
-                                Intent endScreenActivityIntent = new Intent(GameViewActivity.this, GameEndScreenActivity.class);
-                                endScreenActivityIntent.putExtra("gameStateEnd", this.gameState);
-                                startActivity(endScreenActivityIntent);
                             }
+
+                            Intent endScreenActivityIntent = new Intent(GameViewActivity.this, GameEndScreenActivity.class);
+                            endScreenActivityIntent.putExtra("gameStateEnd", this.gameState);
+                            startActivity(endScreenActivityIntent);
                         }
                     }
                 } catch (JSONException e) {
