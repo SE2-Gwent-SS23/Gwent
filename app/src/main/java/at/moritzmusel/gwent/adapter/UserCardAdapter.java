@@ -1,7 +1,5 @@
 package at.moritzmusel.gwent.adapter;
 
-import static android.webkit.ConsoleMessage.MessageLevel.LOG;
-
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
@@ -33,7 +31,7 @@ import at.moritzmusel.gwent.network.data.GameState;
 import at.moritzmusel.gwent.ui.DragListener;
 
 public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHolder> implements View.OnTouchListener {
-
+    private static final String TAG = "GameViewActivity";
     private List<Card> list;
     private Context context;
     private GameState gameState;
@@ -71,19 +69,19 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
             try {
                 setImageFromAsset(context.getAssets().open(placeholder), holder.imageView);
             } catch (IOException ex) {
-                Log.e("Error", ex.toString());
+                Log.e(TAG, ex.toString());
             }
         }
 
-        if(card.getAbility() == Ability.DECOY || this.isMyHand ) {
+        if(card.getAbility() == Ability.DECOY || this.isMyHand == true ) {
             holder.frameLayout.performClick();
             holder.frameLayout.setOnTouchListener(this);
             try {
                 holder.frameLayout.setOnDragListener(new DragListener(this.context, this.gameState));
             } catch (JSONException e) {
-                Log.e("Error", e.toString());
+                Log.e(TAG, e.toString());
             } catch (IOException e) {
-                Log.e("Error", e.toString());
+                Log.e(TAG, e.toString());
             }
         }
     }
