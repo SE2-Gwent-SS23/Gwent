@@ -8,11 +8,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.SimpleTimeZone;
 
 import at.moritzmusel.gwent.model.Card;
 import at.moritzmusel.gwent.model.CardGenerator;

@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
 
 public class Utils {
     private static final String TAG = "GameViewActivity";
@@ -34,7 +35,7 @@ public class Utils {
      * @return  array of NULL if error was found
      */
     public static byte[] getUTF8Bytes(String str) {
-        try { return str.getBytes("UTF-8"); } catch (Exception ex) { return new byte[0]; }
+        try { return str.getBytes(StandardCharsets.UTF_8); } catch (Exception ex) { return new byte[0]; }
     }
 
     /**
