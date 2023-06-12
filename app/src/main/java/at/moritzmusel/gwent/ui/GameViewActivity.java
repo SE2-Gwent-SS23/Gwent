@@ -73,9 +73,9 @@ public class GameViewActivity extends AppCompatActivity {
     private List<RecyclerView> recyclerViews;
     private static final String TAG = "GameViewActivity";
     private Button buttonOpponentCards;
-    private static TextView tvMyGrave;
-    private static TextView tvOpponentMonster;
-    private static TextView tvOpponentGrave;
+    private TextView tvMyGrave;
+    private TextView tvOpponentMonster;
+    private TextView tvOpponentGrave;
     private PopupWindow popupWindow;
     private Dialog lobbyDialog;
 
@@ -362,7 +362,7 @@ public class GameViewActivity extends AppCompatActivity {
         setCards(findViewById(recyclerViewUserCardStack), isMyHand, cards, getApplicationContext(), GameViewActivity.this, gameState);
     }
 
-    public static void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, GameState gameState) throws JSONException, IOException {
+    public void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, GameState gameState) throws JSONException, IOException {
         setCards(view, isMyHand, cards, context, parentActivity, null, gameState);
     }
 
