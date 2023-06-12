@@ -26,8 +26,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -405,6 +407,7 @@ public class GameViewActivity extends AppCompatActivity {
 
         for (int i = 0; i < size; i++) {
             ImageView im = new ImageView(view.getContext());
+            im.setId(i);
             if (i == 0) {
                 im.setPadding(10, 10, 0, 10);
             } else if (i == size - 1) {
@@ -414,6 +417,9 @@ public class GameViewActivity extends AppCompatActivity {
             }
             setImageFromAssetForOpponent(im);
             llOpponent.addView(im);
+
+            //add double tap listener to enemy cards for cheating
+            im.setOnTouchListener(new DoubleTapDetector(this));
         }
 
         // important: before getting the size of pop-up we should assign default measurements for the view
@@ -425,28 +431,6 @@ public class GameViewActivity extends AppCompatActivity {
         // show the popup window
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
-
-    //shake sensor listener
-    private final SensorEventListener mSensorListener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            float x = event.values[0];
-            float y = event.values[1];
-            float z = event.values[2];
-            mAccelLast = mAccelCurrent;
-            mAccelCurrent = (float) Math.sqrt(x * x + y * y + z * z);
-            float delta = mAccelCurrent - mAccelLast;
-            mAccel = mAccel * 0.9f + delta;
-            if (mAccel > 12) {
-                Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {
-            throw new UnsupportedOperationException();
-        }
-    };
 
     @Override
     protected void onResume() {
@@ -542,6 +526,7 @@ public class GameViewActivity extends AppCompatActivity {
      */
     public void enableDisableYourTurn(boolean yourTurn) throws JSONException, IOException {
         ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
+        Button cheatingButton = findViewById(R.id.button_cheat);
         ColorMatrix matrix = new ColorMatrix();
         matrix.setSaturation(0); // 0 means grayscale
         ColorFilter colorFilter = new ColorMatrixColorFilter(matrix);
@@ -550,12 +535,15 @@ public class GameViewActivity extends AppCompatActivity {
             for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
             endTurn.setOnClickListener(null);
             endTurn.setColorFilter(colorFilter);
+            cheatingButton.setVisibility(View.INVISIBLE);
+            cheatingButton.setOnClickListener(null);
         } else {
-            for (RecyclerView view : this.recyclerViews)
-                view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
+            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
             endTurn.setOnClickListener(clickEndTurn());
             endTurn.setColorFilter(null);
             endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
+            cheatingButton.setVisibility(View.VISIBLE);
+            cheatingButton.setOnClickListener(clickListenerCheatingButton());
         }
     }
 
@@ -569,6 +557,56 @@ public class GameViewActivity extends AppCompatActivity {
                 Log.e(TAG, e.getLocalizedMessage());
             } catch (IOException e) {
                 Log.e(TAG, e.getLocalizedMessage());
+            }
+        });
+    }
+
+    //shake sensor listener
+    private final SensorEventListener mSensorListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            mAccelLast = mAccelCurrent;
+            mAccelCurrent = (float) Math.sqrt(x * x + y * y + z * z);
+            float delta = mAccelCurrent - mAccelLast;
+            mAccel = mAccel * 0.9f + delta;
+            if (mAccel > 12) {
+                Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
+
+                //TODO not sure if this is the correct way to update gamestate
+                gameState.applySun();
+                gameState.setCheated(true);
+/*
+                //get current gamestate
+                GameState gs = network.getCurrentState().getValue();
+                //set cheated
+                gs.setCheated(true);
+                //remove weather
+                gs.applySun();
+                //updateUI
+                waitingCallback.setValue(gs);
+ */
+            }
+        }
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+            throw new UnsupportedOperationException();
+        }
+    };
+
+    //TODO set cheated to false when your turn ends
+    private View.OnClickListener clickListenerCheatingButton() {
+        return (view -> {
+            GameState gs = network.getCurrentState().getValue();
+            if (gs.isCheated()) {
+                //gs.setCheated(false);
+                Toast.makeText(getApplicationContext(), "cheating detected!", Toast.LENGTH_SHORT).show();
+                //TODO punish enemy
+            }else{
+                Toast.makeText(getApplicationContext(), "no cheating detected, you are wrong!", Toast.LENGTH_SHORT).show();
+                //TODO punish you
             }
         });
     }

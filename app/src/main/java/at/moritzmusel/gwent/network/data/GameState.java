@@ -34,6 +34,7 @@ public class GameState implements Serializable {
     private List<Card> opponentClose; // 2. Reihe
     private List<Card> opponentRanged; // 1. Reihe
     private boolean redrawPhase = true;
+    private boolean cheated = false;
 
     private Card myLeader;
     private Boolean usedMyLeader;
@@ -107,9 +108,10 @@ public class GameState implements Serializable {
         this.opponentLeader = new Card();
         this.usedMyLeader = false;
         this.usedOpponentLeader = false;
-
         this.myRoundCounter = new int[]{0, 0, 0};
         this.opponentRoundCounter = new int[]{0, 0, 0};
+        this.cheated = false;
+
         // myHand
         this.myHand = new ArrayList<>();
         this.allCards = new ArrayList<>();
@@ -456,7 +458,6 @@ public class GameState implements Serializable {
         this.myRoundCounter[this.roundTracker] = points;
     }
 
-
     public int[] getOpponentRoundCounter() {
         return opponentRoundCounter;
     }
@@ -477,6 +478,13 @@ public class GameState implements Serializable {
         this.roundTracker = roundTracker;
     }
 
+    public boolean isCheated() {
+        return cheated;
+    }
+
+    public void setCheated(boolean cheated) {
+        this.cheated = cheated;
+    }
 
     @Override
     public String toString() {
