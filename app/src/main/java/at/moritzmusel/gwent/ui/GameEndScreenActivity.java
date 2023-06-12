@@ -32,21 +32,21 @@ public class GameEndScreenActivity extends AppCompatActivity {
         }
 
         TextView tvRoundOneUser = findViewById(R.id.tvRoundOneUser);
-        tvRoundOneUser.setText(this.gameState.getMyRoundCounter()[0]);
+        tvRoundOneUser.setText(String.valueOf(this.gameState.getMyRoundCounter()[0]));
 
         TextView tvRoundTwoUser = findViewById(R.id.tvRoundTwoUser);
-        tvRoundTwoUser.setText(this.gameState.getMyRoundCounter()[1]);
+        tvRoundTwoUser.setText(String.valueOf(this.gameState.getMyRoundCounter()[1]));
 
         TextView tvRoundThreeUser = findViewById(R.id.tvRoundThreeUser);
-        tvRoundThreeUser.setText(this.gameState.getMyRoundCounter()[2]);
+        tvRoundThreeUser.setText(String.valueOf(this.gameState.getMyRoundCounter()[2]));
 
         TextView tvRoundOneOpponent = findViewById(R.id.tvRoundOneOpponent);
-        tvRoundOneOpponent.setText(this.gameState.getOpponentRoundCounter()[0]);
+        tvRoundOneOpponent.setText(String.valueOf(this.gameState.getOpponentRoundCounter()[0]));
 
         TextView tvRoundTwoOpponent = findViewById(R.id.tvRoundTwoOpponent);
-        tvRoundTwoOpponent.setText(this.gameState.getOpponentRoundCounter()[1]);
+        tvRoundTwoOpponent.setText( String.valueOf(this.gameState.getOpponentRoundCounter()[1]));
 
         TextView tvRoundThreeOpponent = findViewById(R.id.tvRoundThreeOpponent);
-        tvRoundThreeOpponent.setText(this.gameState.getOpponentRoundCounter()[2]);
+        tvRoundThreeOpponent.setText(String.valueOf(this.gameState.getOpponentRoundCounter()[2]));
     }
 }
