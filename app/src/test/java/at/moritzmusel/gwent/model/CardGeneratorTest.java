@@ -86,7 +86,7 @@ class CardGeneratorTest {
         newCard.changeType("REALMS");
         newCard.setStrength(strength);
         newCard.setCount(count);
-        newCard.setFlavor_txt(flavor_txt);
+        newCard.setFlavorTxt(flavor_txt);
         newCard.setFilename(filename);
         newCard.changeRow("NONE");
         newCard.changeAbility("RAIN");
