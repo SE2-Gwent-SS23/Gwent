@@ -35,6 +35,7 @@ public class GameState implements Serializable {
     private List<Card> opponentClose; // 2. Reihe
     private List<Card> opponentRanged; // 1. Reihe
     private boolean redrawPhase = true;
+    private boolean cheated = false;
 
     private Card myLeader;
     private Boolean usedMyLeader;
@@ -103,7 +104,7 @@ public class GameState implements Serializable {
 
     }
 
-    public void initAllCards(Context context){
+    public void initAllCards(Context context) {
         CardGenerator cardGenerator = new CardGenerator(context);
         try {
             JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
@@ -114,7 +115,6 @@ public class GameState implements Serializable {
             throw new RuntimeException(e);
         }
     }
-
 
 
     public int calculateMyPoints() {
@@ -373,7 +373,8 @@ public class GameState implements Serializable {
     public void setUsedOpponentLeader(Boolean usedOpponentLeader) {
         this.usedOpponentLeader = usedOpponentLeader;
     }
-    public List<Card> getAllCards(){
+
+    public List<Card> getAllCards() {
         return this.allCards;
     }
 
@@ -383,6 +384,14 @@ public class GameState implements Serializable {
 
     public void setRedrawPhase(boolean redrawPhase) {
         this.redrawPhase = redrawPhase;
+    }
+
+    public boolean isCheated() {
+        return cheated;
+    }
+
+    public void setCheated(boolean cheated) {
+        this.cheated = cheated;
     }
 
     @Override
@@ -411,5 +420,4 @@ public class GameState implements Serializable {
                 ", opponentRoundCounter=" + opponentRoundCounter +
                 '}';
     }
-
 }

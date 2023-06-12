@@ -462,12 +462,14 @@ public class GameViewActivity extends AppCompatActivity {
      */
     public void enableDisableYourTurn(boolean yourTurn) throws JSONException, IOException {
          ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
+         Button cheating = findViewById(R.id.button_cheat);
         // endTurn.setColorFilter(Color.GRAY);
         if (!yourTurn) {
             for (RecyclerView view : this.recyclerViews) {
                 view.setOnDragListener(null);
             }
-             endTurn.setOnClickListener(null);
+            cheating.setOnClickListener(null);
+            endTurn.setOnClickListener(null);
 
             /* why is it not removing the animation?
             opponentRangedView.setItemAnimator(null);
@@ -480,10 +482,9 @@ public class GameViewActivity extends AppCompatActivity {
         } else {
             for (RecyclerView view : this.recyclerViews) {
                 view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
-
             }
-
-             endTurn.setOnClickListener(clickEndTurn());
+            cheating.setOnClickListener(clickListenerCheatingButton());
+            endTurn.setOnClickListener(clickEndTurn());
         }
     }
 
@@ -515,6 +516,8 @@ public class GameViewActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
                 //get current gamestate
                 GameState gs = network.getCurrentState().getValue();
+                //set cheated
+                gs.setCheated(true);
                 //remove weather
                 gs.applySun();
                 //updateUI
@@ -528,4 +531,19 @@ public class GameViewActivity extends AppCompatActivity {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
     };
+
+    //TODO set cheated to false when your turn ends
+    private View.OnClickListener clickListenerCheatingButton() {
+        return (view -> {
+            GameState gs = network.getCurrentState().getValue();
+            if (gs.isCheated()) {
+                gs.setCheated(false);
+                Toast.makeText(getApplicationContext(), "cheating detected!", Toast.LENGTH_SHORT).show();
+                //TODO punish enemy
+            }else{
+                Toast.makeText(getApplicationContext(), "no cheating detected, you are wrong!", Toast.LENGTH_SHORT).show();
+                //TODO punish you
+            }
+        });
+    }
 }
