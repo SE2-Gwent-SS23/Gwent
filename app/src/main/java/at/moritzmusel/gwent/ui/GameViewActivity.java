@@ -590,6 +590,9 @@ public class GameViewActivity extends AppCompatActivity {
  */
             }
         }
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }
     };
 
     //TODO set cheated to false when your turn ends
