@@ -1,11 +1,14 @@
 package at.moritzmusel.gwent.adapter;
 
+import static android.webkit.ConsoleMessage.MessageLevel.LOG;
+
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -68,30 +71,19 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
             try {
                 setImageFromAsset(context.getAssets().open(placeholder), holder.imageView);
             } catch (IOException ex) {
-                System.out.println(ex);
+                Log.e("Error", ex.toString());
             }
         }
 
-        if(card.getAbility() == Ability.DECOY) {
+        if(card.getAbility() == Ability.DECOY || this.isMyHand ) {
             holder.frameLayout.performClick();
             holder.frameLayout.setOnTouchListener(this);
             try {
                 holder.frameLayout.setOnDragListener(new DragListener(this.context, this.gameState));
             } catch (JSONException e) {
-                throw new RuntimeException(e);
+                Log.e("Error", e.toString());
             } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            // calculate points ...
-        } else if(this.isMyHand) {
-            holder.frameLayout.performClick();
-            holder.frameLayout.setOnTouchListener(this);
-            try {
-                holder.frameLayout.setOnDragListener(new DragListener(this.context, this.gameState));
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                Log.e("Error", e.toString());
             }
         }
     }
