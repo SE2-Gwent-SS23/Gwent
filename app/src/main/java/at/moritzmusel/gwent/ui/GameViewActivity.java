@@ -195,9 +195,9 @@ public class GameViewActivity extends AppCompatActivity {
                         }
                     }
                 } catch (JSONException e) {
-                    throw new RuntimeException(e);
+                    Log.e(TAG, e.getLocalizedMessage());
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    Log.e(TAG, e.getLocalizedMessage());
                 }
             }
         });
@@ -213,9 +213,9 @@ public class GameViewActivity extends AppCompatActivity {
                         view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
                 }
             } catch (JSONException e) {
-                System.out.println(e);
+                Log.e(TAG, e.getLocalizedMessage());
             } catch (IOException e) {
-                System.out.println(e);
+                Log.e(TAG, e.getLocalizedMessage());
             }
             network.sendGameState((GameState) value);
         });
@@ -236,9 +236,9 @@ public class GameViewActivity extends AppCompatActivity {
         try {
             this.gameState.initGameState();
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            Log.e(TAG, e.getLocalizedMessage());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Log.e(TAG, e.getLocalizedMessage());
         }
 
         this.gameState.initAllCards(this.getApplicationContext());
