@@ -462,13 +462,14 @@ public class GameViewActivity extends AppCompatActivity {
      */
     public void enableDisableYourTurn(boolean yourTurn) throws JSONException, IOException {
          ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
-         Button cheating = findViewById(R.id.button_cheat);
+        Button cheatingButton = findViewById(R.id.button_cheat);
         // endTurn.setColorFilter(Color.GRAY);
         if (!yourTurn) {
             for (RecyclerView view : this.recyclerViews) {
                 view.setOnDragListener(null);
             }
-            cheating.setOnClickListener(null);
+            cheatingButton.setVisibility(View.INVISIBLE);
+            cheatingButton.setOnClickListener(null);
             endTurn.setOnClickListener(null);
 
             /* why is it not removing the animation?
@@ -483,7 +484,8 @@ public class GameViewActivity extends AppCompatActivity {
             for (RecyclerView view : this.recyclerViews) {
                 view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
             }
-            cheating.setOnClickListener(clickListenerCheatingButton());
+            cheatingButton.setVisibility(View.VISIBLE);
+            cheatingButton.setOnClickListener(clickListenerCheatingButton());
             endTurn.setOnClickListener(clickEndTurn());
         }
     }
@@ -514,6 +516,9 @@ public class GameViewActivity extends AppCompatActivity {
             mAccel = mAccel * 0.9f + delta;
             if (mAccel > 12) {
                 Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
+
+                //TODO not sure if this is the correct way to update gamestate
+
                 //get current gamestate
                 GameState gs = network.getCurrentState().getValue();
                 //set cheated
@@ -537,7 +542,7 @@ public class GameViewActivity extends AppCompatActivity {
         return (view -> {
             GameState gs = network.getCurrentState().getValue();
             if (gs.isCheated()) {
-                gs.setCheated(false);
+                //gs.setCheated(false);
                 Toast.makeText(getApplicationContext(), "cheating detected!", Toast.LENGTH_SHORT).show();
                 //TODO punish enemy
             }else{
