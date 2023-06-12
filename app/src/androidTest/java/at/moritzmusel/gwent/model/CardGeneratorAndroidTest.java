@@ -12,9 +12,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import at.moritzmusel.gwent.ui.GameViewActivity;
-
-public class CardGeneratorTestAndroid {
+public class CardGeneratorAndroidTest {
     private static CardGenerator cardGenerator;
 
     @Test

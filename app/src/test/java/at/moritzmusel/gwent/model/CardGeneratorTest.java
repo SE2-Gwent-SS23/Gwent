@@ -63,7 +63,7 @@ class CardGeneratorTest {
     void testFillAllCardsIntoList() throws JSONException, IOException {
         jsonObject.put("cards", jsonArray);
 
-        String name = "Decoy";
+        String name = "DECOY";
         int strength = 5;
         int count = 2;
         String flavor_txt = "Test text";
@@ -86,7 +86,7 @@ class CardGeneratorTest {
         newCard.changeType("REALMS");
         newCard.setStrength(strength);
         newCard.setCount(count);
-        newCard.setFlavor_txt(flavor_txt);
+        newCard.setFlavorTxt(flavor_txt);
         newCard.setFilename(filename);
         newCard.changeRow("NONE");
         newCard.changeAbility("RAIN");

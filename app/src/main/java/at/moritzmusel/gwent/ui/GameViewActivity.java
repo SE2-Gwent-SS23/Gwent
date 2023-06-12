@@ -69,15 +69,15 @@ import at.moritzmusel.gwent.network.data.GameState;
 
 
 public class GameViewActivity extends AppCompatActivity {
+    private static String gamestateExtra = "gameState";
     private List<RecyclerView> recyclerViews;
     private static final String TAG = "GameViewActivity";
     private Button buttonOpponentCards;
-    private static TextView tvMyGrave;
-    private static TextView tvOpponentMonster;
-    private static TextView tvOpponentGrave;
+    private TextView tvMyGrave;
+    private TextView tvOpponentMonster;
+    private TextView tvOpponentGrave;
     private PopupWindow popupWindow;
     private Dialog lobbyDialog;
-    private static Context context;
 
     private GameState gameState;
     private static int deviceHeight;
@@ -230,7 +230,6 @@ public class GameViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_view);
 
-        this.context = this.getApplicationContext();
         this.gameState = new GameState(0, 0, 0, false);
 
         this.tvMyGrave = findViewById(R.id.tvMyGrave);
@@ -281,19 +280,17 @@ public class GameViewActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 123 && resultCode == RESULT_OK) {
-            if (data != null && data.hasExtra("gameState")) {
-                this.gameState = (GameState) data.getSerializableExtra("gameState");
-                // send/receive gamestate here to receive hand
-                // call to send
-                // merge gamestate
-                GameState gs = network.getCurrentState().getValue();
-                gs.setMyHand(gameState.getMyHand());
-                waitingCallback.setValue(gs);
-                network.sendGameState(gs);
-                //call to receive
-                Toast.makeText(this, "Waiting for opponent hand.", Toast.LENGTH_LONG).show();
-            }
+        if (requestCode == 123 && resultCode == RESULT_OK && data != null && data.hasExtra(gamestateExtra)) {
+            this.gameState = (GameState) data.getSerializableExtra(gamestateExtra);
+            // send/receive gamestate here to receive hand
+            // call to send
+            // merge gamestate
+            GameState gs = network.getCurrentState().getValue();
+            gs.setMyHand(gameState.getMyHand());
+            waitingCallback.setValue(gs);
+            network.sendGameState(gs);
+            //call to receive
+            Toast.makeText(this, "Waiting for opponent hand.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -303,7 +300,7 @@ public class GameViewActivity extends AppCompatActivity {
                 if (lobbyDialog.isShowing()) {
                     lobbyDialog.dismiss();
                     Intent redrawActivityIntent = new Intent(GameViewActivity.this, RedrawActivity.class);
-                    redrawActivityIntent.putExtra("gameState", this.gameState);
+                    redrawActivityIntent.putExtra(gamestateExtra, this.gameState);
                     startActivityForResult(redrawActivityIntent, 123);
                 }
             } else {
@@ -365,7 +362,7 @@ public class GameViewActivity extends AppCompatActivity {
         setCards(findViewById(recyclerViewUserCardStack), isMyHand, cards, getApplicationContext(), GameViewActivity.this, gameState);
     }
 
-    public static void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, GameState gameState) throws JSONException, IOException {
+    public void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, GameState gameState) throws JSONException, IOException {
         setCards(view, isMyHand, cards, context, parentActivity, null, gameState);
     }
 
@@ -388,7 +385,7 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     private void setImageFromAssetForOpponent(ImageView image) {
-        Bitmap bitmap = ((BitmapDrawable) AppCompatResources.getDrawable(this.context, R.drawable.card_deck_back_opponent_right)).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) AppCompatResources.getDrawable(this.getApplicationContext(), R.drawable.card_deck_back_opponent_right)).getBitmap();
         Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 50, 70, true));
         image.setImageDrawable(dr);
     }
@@ -535,8 +532,8 @@ public class GameViewActivity extends AppCompatActivity {
         myPoints.setText(Integer.toString(this.gameState.calculateMyPoints()));
     }
 
-    public static Context getContext() {
-        return context;
+    public Context getContext() {
+        return this.getApplicationContext();
     }
 
     /**

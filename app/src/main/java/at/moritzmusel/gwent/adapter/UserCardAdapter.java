@@ -62,7 +62,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         holder.frameLayout.setTag(position);
         String placeholder = "neutral_cow.jpg";
         try {
-            String fileName = card.getType().toString() +"_"+card.getFilename() + ".jpg";
+            String fileName = card.getType().toString().toLowerCase() +"_"+card.getFilename().toLowerCase() + ".jpg";
             setImageFromAsset(context.getAssets().open(fileName), holder.imageView);
         } catch (IOException e) {
             try {
@@ -72,7 +72,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
             }
         }
 
-        if(card.getAbility() == Ability.decoy) {
+        if(card.getAbility() == Ability.DECOY) {
             holder.frameLayout.performClick();
             holder.frameLayout.setOnTouchListener(this);
             try {
