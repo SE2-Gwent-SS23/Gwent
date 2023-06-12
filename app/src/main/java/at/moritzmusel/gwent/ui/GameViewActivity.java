@@ -468,7 +468,7 @@ public class GameViewActivity extends AppCompatActivity {
         // Set dialog window attributes
         Window window = lobbyDialog.getWindow();
         if (window != null) {
-            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+            window.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
             window.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
         }
         lobbyDialog.show();
