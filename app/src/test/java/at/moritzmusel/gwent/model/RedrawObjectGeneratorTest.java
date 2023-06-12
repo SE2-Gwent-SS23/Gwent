@@ -11,11 +11,6 @@ import static at.moritzmusel.gwent.model.Ability.MUSTER;
 import static at.moritzmusel.gwent.model.Type.SKELLIGE;
 import static at.moritzmusel.gwent.model.Type.SPECIAL;
 import static at.moritzmusel.gwent.model.Type.WEATHER;
-
-import android.content.Context;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

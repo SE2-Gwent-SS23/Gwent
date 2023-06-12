@@ -63,7 +63,7 @@ class CardGeneratorTest {
     void testFillAllCardsIntoList() throws JSONException, IOException {
         jsonObject.put("cards", jsonArray);
 
-        String name = "Decoy";
+        String name = "DECOY";
         int strength = 5;
         int count = 2;
         String flavor_txt = "Test text";

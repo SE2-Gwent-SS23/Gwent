@@ -80,8 +80,8 @@ public class CardGenerator {
             newCard.setName(name.toUpperCase());
             newCard.setStrength(strength);
             newCard.setCount(count);
-            newCard.setFilename(filename.toUpperCase());
-            newCard.setFlavorTxt(flavorTxt.toUpperCase());
+            newCard.setFilename(filename);
+            newCard.setFlavorTxt(flavorTxt);
             newCard.changeType(obj.optString("type").toUpperCase());
             newCard.changeRow(obj.optString("row").toUpperCase());
             newCard.changeAbility(obj.optString("ability").toUpperCase());
