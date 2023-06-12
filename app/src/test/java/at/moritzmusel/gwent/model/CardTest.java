@@ -32,21 +32,21 @@ public class CardTest {
     @Test
     void testChangeType() {
         Card newCard = new Card("Schirru", SCOIATAEL, null, 8, SCORCH_S, "schirru", 1, "Time to look death in the face.");
-        newCard.changeType("monsters");
+        newCard.changeType("MONSTERS");
         assertEquals(Type.MONSTERS, newCard.getType());
     }
 
     @Test
     void testChangeRow() {
         Card newCard = new Card("Schirru", SCOIATAEL, null, 8, SCORCH_S, "schirru", 1, "Time to look death in the face.");
-        newCard.changeRow("close");
+        newCard.changeRow("CLOSE");
         assertEquals(Row.CLOSE, newCard.getRow());
     }
 
     @Test
     void testChangeAbility() {
         Card newCard = new Card("Schirru", SCOIATAEL, null, 8, SCORCH_S, "schirru", 1, "Time to look death in the face.");
-        newCard.changeAbility("scorch_s");
+        newCard.changeAbility("SCORCH_S");
         assertEquals(SCORCH_S, newCard.getAbility());
     }
 
