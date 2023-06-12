@@ -68,6 +68,7 @@ import at.moritzmusel.gwent.network.data.GameState;
 
 
 public class GameViewActivity extends AppCompatActivity {
+    private static String gamestate = "gameState";
     private List<RecyclerView> recyclerViews;
     private static final String TAG = "GameViewActivity";
     private Button buttonOpponentCards;
@@ -281,8 +282,8 @@ public class GameViewActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 123 && resultCode == RESULT_OK) {
-            if (data != null && data.hasExtra("gameState")) {
-                this.gameState = (GameState) data.getSerializableExtra("gameState");
+            if (data != null && data.hasExtra(gamestate)) {
+                this.gameState = (GameState) data.getSerializableExtra(gamestate);
                 // send/receive gamestate here to receive hand
                 // call to send
                 // merge gamestate
@@ -302,7 +303,7 @@ public class GameViewActivity extends AppCompatActivity {
                 if (lobbyDialog.isShowing()) {
                     lobbyDialog.dismiss();
                     Intent redrawActivityIntent = new Intent(GameViewActivity.this, RedrawActivity.class);
-                    redrawActivityIntent.putExtra("gameState", this.gameState);
+                    redrawActivityIntent.putExtra(gamestate, this.gameState);
                     startActivityForResult(redrawActivityIntent, 123);
                 }
             } else {

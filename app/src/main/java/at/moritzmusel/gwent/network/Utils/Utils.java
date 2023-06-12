@@ -53,9 +53,10 @@ public class Utils {
      */
     public static String loadFileAsString(String filename) throws IOException {
         final int BUFLEN=1024;
-        BufferedInputStream is = new BufferedInputStream(new FileInputStream(filename), BUFLEN);
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream(BUFLEN);
+        try (
+                BufferedInputStream is = new BufferedInputStream(new FileInputStream(filename), BUFLEN);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream(BUFLEN);
+                ){
             byte[] bytes = new byte[BUFLEN];
             boolean isUTF8=false;
             int read,count=0;
@@ -69,16 +70,14 @@ public class Utils {
                 count+=read;
             }
             return isUTF8 ? new String(baos.toByteArray(), "UTF-8") : new String(baos.toByteArray());
-        } finally {
-            try{ is.close(); } catch(Exception ignored){}
         }
     }
+    /*
 
-    /**
      * Returns MAC address of the given interface name.
      * @param interfaceName eth0, wlan0 or NULL=use first interface 
      * @return  mac address or empty string
-     */
+
     public static String getMACAddress(String interfaceName) {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -95,19 +94,19 @@ public class Utils {
             }
         } catch (Exception ignored) { } // for now eat exceptions
         return "";
-        /*try {
+        try {
             // this is so Linux hack
             return loadFileAsString("/sys/class/net/" +interfaceName + "/address").toUpperCase().trim();
         } catch (IOException ex) {
             return null;
-        }*/
+        }
     }
 
-    /**
+
      * Get IP address from first non-localhost interface
      * @param useIPv4   true=return ipv4, false=return ipv6
      * @return  address or empty string
-     */
+
     public static String getIPAddress(boolean useIPv4) {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -169,7 +168,7 @@ public class Utils {
             return capitalize(manufacturer) + " " + model;
         }
     }
-
+    */
 
     private static String capitalize(String s) {
         if (s == null || s.length() == 0) {
