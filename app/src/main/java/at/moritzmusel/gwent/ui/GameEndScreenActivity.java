@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import at.moritzmusel.gwent.MainActivity;
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.network.data.GameState;
 

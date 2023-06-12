@@ -62,7 +62,7 @@ public class Utils {
                 }
                 count+=read;
             }
-            return isUTF8 ? new String(baos.toByteArray(), "UTF-8") : new String(baos.toByteArray());
+            return isUTF8 ? new String(baos.toByteArray(), StandardCharsets.UTF_8) : new String(baos.toByteArray());
         }
     }
 
