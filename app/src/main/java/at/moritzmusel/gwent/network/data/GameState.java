@@ -80,6 +80,8 @@ public class GameState implements Serializable {
         this.usedOpponentLeader = false;
         this.myRoundCounter = new boolean[]{false, false, false};
         this.opponentRoundCounter = new boolean[]{false, false, false};
+        this.cheated = false;
+
         // myHand
         this.myHand = new ArrayList<>();
         this.allCards = new ArrayList<>();

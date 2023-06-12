@@ -342,6 +342,7 @@ public class GameViewActivity extends AppCompatActivity {
 
         for (int i = 0; i < size; i++) {
             ImageView im = new ImageView(view.getContext());
+            im.setId(i);
             if (i == 0) {
                 im.setPadding(10, 10, 0, 10);
             } else if (i == size - 1) {
@@ -472,7 +473,7 @@ public class GameViewActivity extends AppCompatActivity {
             cheatingButton.setOnClickListener(null);
             endTurn.setOnClickListener(null);
 
-            /* why is it not removing the animation?
+            /* why is it not removing the animation?f
             opponentRangedView.setItemAnimator(null);
             opponentCloseView.setItemAnimator(null);
             myCloseView.setItemAnimator(null);
@@ -518,7 +519,9 @@ public class GameViewActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
 
                 //TODO not sure if this is the correct way to update gamestate
-
+                gameState.applySun();
+                gameState.setCheated(true);
+/*
                 //get current gamestate
                 GameState gs = network.getCurrentState().getValue();
                 //set cheated
@@ -527,8 +530,7 @@ public class GameViewActivity extends AppCompatActivity {
                 gs.applySun();
                 //updateUI
                 waitingCallback.setValue(gs);
-                //send gamestate
-                network.sendGameState(gs);
+ */
             }
         }
 

@@ -28,6 +28,8 @@ public class DoubleTapDetector implements View.OnTouchListener {
             // This method will be called when a double tap is detected
             // TODO Handle the double tap event here
             Toast.makeText(clickedView.getContext(), "Double-tap event detected", Toast.LENGTH_SHORT).show();
+            clickedView.getId();
+
             return true;
         }
     }
