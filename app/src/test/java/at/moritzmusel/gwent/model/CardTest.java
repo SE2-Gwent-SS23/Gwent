@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardTest {
+class CardTest {
     private static List<Card> cardList;
     private Card card1;
     private Card card2;
