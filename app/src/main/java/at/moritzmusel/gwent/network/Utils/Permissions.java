@@ -103,18 +103,6 @@ public class Permissions {
                     activity.finish();
                     return;
                 }
-                /*
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    callbackFunction.run();
-                    Log.i("CreateDebugActivity", "Permissions success");
-                } else {
-                    // Location permission denied, handle accordingly
-                    Log.e("CreateDebugActivity", "Permissions denied");
-                    Toast.makeText(activity, R.string.error_missing_permissions, Toast.LENGTH_LONG).show();
-                    activity.finish();
-                    return;
-                }
-                */
                 i++;
             }
             activity.recreate();

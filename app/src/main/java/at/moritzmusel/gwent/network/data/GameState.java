@@ -1,17 +1,15 @@
 package at.moritzmusel.gwent.network.data;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.SimpleTimeZone;
 
 import at.moritzmusel.gwent.model.Card;
 import at.moritzmusel.gwent.model.CardGenerator;
@@ -19,6 +17,7 @@ import at.moritzmusel.gwent.model.CardGenerator;
 public class GameState implements Serializable {
     //TODO last parameter @board should be the game info storage type
     public static GameState UNITIALIZED = new GameState(0, 0, 0, false);
+    private static final String TAG = "GameViewActivity";
     private final int localPlayer;
     private final int playerTurn;
     private final int playerWon;
@@ -101,11 +100,8 @@ public class GameState implements Serializable {
 
 
     public void initGameState() throws JSONException, IOException {
-
-        SecureRandom random = new SecureRandom();
-        int zz;
-        this.myDeck = new String();
-        this.opponentDeck = new String();
+        this.myDeck = "";
+        this.opponentDeck = "";
         this.weather = new ArrayList<>();
         this.myLeader = new Card();
         this.opponentLeader = new Card();
@@ -148,9 +144,9 @@ public class GameState implements Serializable {
             JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
             this.allCards = cardGenerator.fillAllCardsIntoList(jsonObject);
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            Log.e(TAG, e.toString());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Log.e(TAG, e.toString());
         }
     }
 
@@ -180,21 +176,6 @@ public class GameState implements Serializable {
     public void applySun() {
         this.weather.clear();
     }
-/*
-    public boolean determineWinner(boolean[] array) {
-        int sum = 0;
-        for (boolean b : array) {
-            if (b) {
-                sum++;
-            }
-        }
-        if (sum >= 2) {
-            return true;
-        }
-        return false;
-    }
-
- */
 
     public void swapPlayer() {
         List<Card> tempOpponentHand = new ArrayList<>(this.opponentHand);

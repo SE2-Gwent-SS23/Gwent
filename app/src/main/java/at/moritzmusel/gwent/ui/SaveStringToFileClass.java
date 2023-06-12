@@ -1,6 +1,7 @@
 package at.moritzmusel.gwent.ui;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,12 +9,14 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class SaveStringToFileClass {
+
+    private static final String TAG = "GameViewActivity";
     public static void saveData(Context context, String filename, String data) {
 
         try (FileOutputStream fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE)) {
             fileOutputStream.write(data.getBytes());
         } catch (IOException e) {
-            //e.printStackTrace();
+            Log.e(TAG, e.toString());
         }
     }
 
@@ -30,7 +33,7 @@ public class SaveStringToFileClass {
             return streamString;
 
         }  catch (IOException e) {
-            //e.printStackTrace();
+            Log.e(TAG, e.toString());
         }
         return null;
     }

@@ -1,6 +1,6 @@
 package at.moritzmusel.gwent.network.Utils;
 
-import android.os.Build;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -9,17 +9,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.security.SecureRandom;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Random;
-//import org.apache.http.conn.util.InetAddressUtils;
+import java.nio.charset.StandardCharsets;
 
 public class Utils {
+    private static final String TAG = "GameViewActivity";
 
     /**
      * Convert byte array to hex string
@@ -42,7 +35,7 @@ public class Utils {
      * @return  array of NULL if error was found
      */
     public static byte[] getUTF8Bytes(String str) {
-        try { return str.getBytes("UTF-8"); } catch (Exception ex) { return null; }
+        try { return str.getBytes(StandardCharsets.UTF_8); } catch (Exception ex) { return new byte[0]; }
     }
 
     /**
@@ -69,7 +62,7 @@ public class Utils {
                 }
                 count+=read;
             }
-            return isUTF8 ? new String(baos.toByteArray(), "UTF-8") : new String(baos.toByteArray());
+            return isUTF8 ? new String(baos.toByteArray(), StandardCharsets.UTF_8) : new String(baos.toByteArray());
         }
     }
 
@@ -82,7 +75,7 @@ public class Utils {
             oos.flush();
             byteArray = bos.toByteArray();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
         return byteArray;
     }
@@ -94,20 +87,10 @@ public class Utils {
             ObjectInputStream ois = new ObjectInputStream(bis);
             object = (Object) ois.readObject();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            Log.e(TAG, e.getMessage());
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            Log.e(TAG, e.getMessage());
         }
         return object;
     }
-    /*
-
-     * Generate 4 digit pin
-     * @return Return a 4 digit integer.
-
-    public static int generatePassword(){
-        SecureRandom random = new SecureRandom();
-        return Integer.parseInt(String.format("%04d", (random.nextInt(9000) + 1000)));
-    }
-    */
 }

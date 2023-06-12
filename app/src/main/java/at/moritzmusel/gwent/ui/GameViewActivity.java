@@ -31,7 +31,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -313,9 +312,9 @@ public class GameViewActivity extends AppCompatActivity {
         lobbyDialog.setContentView(R.layout.lobby_window);
         showLobbyPopup();
 
-        network.getCurrentState().observeForever(gameState -> {
-            this.waitingCallback.setValue(gameState);
-            i(TAG + " From Network:", gameState.toString());
+        network.getCurrentState().observeForever(gameStateObject -> {
+            this.waitingCallback.setValue(gameStateObject);
+            i(TAG + " From Network:", gameStateObject.toString());
         });
     }
 
@@ -468,7 +467,7 @@ public class GameViewActivity extends AppCompatActivity {
         // Set dialog window attributes
         Window window = lobbyDialog.getWindow();
         if (window != null) {
-            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+            window.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
             window.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
         }
         lobbyDialog.show();
@@ -512,12 +511,12 @@ public class GameViewActivity extends AppCompatActivity {
 
         // Inflate the popupOpponent layout & create the PopupWindow object
         View popupView = getLayoutInflater().inflate(R.layout.popup_window_opponent, null);
-        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        PopupWindow popupWindowOpp = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
         // Modify the data in the PopupWindowOpponent
-        tvOpponentMonster = popupWindow.getContentView().findViewById(R.id.tvOpponentMonsters);
+        tvOpponentMonster = popupWindowOpp.getContentView().findViewById(R.id.tvOpponentMonsters);
         tvOpponentMonster.setText(gameState.getOpponentHand().size() + "");
-        tvOpponentGrave = popupWindow.getContentView().findViewById(R.id.tvOpponentGrave);
+        tvOpponentGrave = popupWindowOpp.getContentView().findViewById(R.id.tvOpponentGrave);
         tvOpponentGrave.setText(gameState.getOpponentGrave().size() + "");
 
         TextView opponentCardsInHand = findViewById(R.id.tvNumberOfOpponent);
@@ -566,9 +565,9 @@ public class GameViewActivity extends AppCompatActivity {
                 this.gameState.setMyPassed(true);
                 network.sendGameState(this.gameState);
             } catch (JSONException e) {
-                throw new RuntimeException(e);
+                Log.e(TAG, e.getLocalizedMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                Log.e(TAG, e.getLocalizedMessage());
             }
         });
     }
