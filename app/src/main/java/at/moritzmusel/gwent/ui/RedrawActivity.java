@@ -69,7 +69,7 @@ public class RedrawActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickCloseRedraw() {
+    public void onClickCloseRedraw(View view) {
         for (int i = 0; i < mRedrawCards.size(); i++) {
             for (int j = 0; j < mRedrawCards.get(i).size(); j++) {
                 mPlayerCards.set((j + i * 5), mRedrawCards.get(i).get(j));
