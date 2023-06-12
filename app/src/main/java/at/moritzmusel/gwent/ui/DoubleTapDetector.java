@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 public class DoubleTapDetector implements View.OnTouchListener {
 
@@ -26,6 +27,7 @@ public class DoubleTapDetector implements View.OnTouchListener {
         public boolean onDoubleTap(MotionEvent e) {
             // This method will be called when a double tap is detected
             // TODO Handle the double tap event here
+            Toast.makeText(clickedView.getContext(), "Double-tap event detected", Toast.LENGTH_SHORT).show();
             return true;
         }
     }
