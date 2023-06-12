@@ -27,7 +27,7 @@ import at.moritzmusel.gwent.model.ReturnCard;
 import at.moritzmusel.gwent.network.data.GameState;
 
 public class RedrawActivity extends AppCompatActivity {
-    private static List<Card> mPlayerCards;
+    private List<Card> mPlayerCards;
     private List<List<Card>> mRedrawCards;
     private GameState gameState;
     private TextView mRedrawDropView;
@@ -47,7 +47,7 @@ public class RedrawActivity extends AppCompatActivity {
         Intent intent = getIntent();
         this.gameState = (GameState) intent.getSerializableExtra("gameState");
 
-        this.redrawObjectGenerator = new RedrawObjectGenerator();
+        this.redrawObjectGenerator = RedrawObjectGenerator.getInstance();
         this.cardGenerator = new CardGenerator();
         this.gameState = cardGenerator.initMyHandCards(gameState);
 

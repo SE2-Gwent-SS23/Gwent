@@ -8,7 +8,13 @@ import at.moritzmusel.gwent.network.data.GameState;
 
 public class RedrawObjectGenerator {
 
-    public RedrawObjectGenerator() {
+    private static RedrawObjectGenerator redrawObjectGeneratorInstance;
+
+    public static RedrawObjectGenerator getInstance() {
+        if (redrawObjectGeneratorInstance == null) {
+            redrawObjectGeneratorInstance = new RedrawObjectGenerator();
+        }
+        return redrawObjectGeneratorInstance;
     }
 
     public List<List<Card>> halveList(List<Card> list) {

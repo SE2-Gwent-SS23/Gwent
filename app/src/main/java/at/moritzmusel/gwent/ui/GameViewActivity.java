@@ -76,7 +76,6 @@ public class GameViewActivity extends AppCompatActivity {
     private static TextView tvOpponentGrave;
     private PopupWindow popupWindow;
     private Dialog lobbyDialog;
-    private static Context context;
 
     private GameState gameState;
     private static int deviceHeight;
@@ -231,7 +230,6 @@ public class GameViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_view);
 
-        this.context = this.getApplicationContext();
         this.gameState = new GameState(0, 0, 0, false);
 
         this.tvMyGrave = findViewById(R.id.tvMyGrave);
@@ -389,7 +387,7 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     private void setImageFromAssetForOpponent(ImageView image) {
-        Bitmap bitmap = ((BitmapDrawable) AppCompatResources.getDrawable(this.context, R.drawable.card_deck_back_opponent_right)).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) AppCompatResources.getDrawable(this.getApplicationContext(), R.drawable.card_deck_back_opponent_right)).getBitmap();
         Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 50, 70, true));
         image.setImageDrawable(dr);
     }
@@ -541,8 +539,8 @@ public class GameViewActivity extends AppCompatActivity {
 
     }
 
-    public static Context getContext() {
-        return context;
+    public Context getContext() {
+        return this.getApplicationContext();
     }
 
     /**
