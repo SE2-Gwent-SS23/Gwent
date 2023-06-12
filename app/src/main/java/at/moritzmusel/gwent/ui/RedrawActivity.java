@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class RedrawActivity extends AppCompatActivity {
     private int mRedrawCount = 0;
     private CardGenerator cardGenerator;
     private RedrawObjectGenerator redrawObjectGenerator;
+    private static final String TAG = "GameViewActivity";
 
 
     @Override
@@ -63,13 +65,13 @@ public class RedrawActivity extends AppCompatActivity {
             GameViewActivity.setCards(findViewById(R.id.redrawUserCards1), true, mRedrawCards.get(0), getApplicationContext(), this, listener, gameState);
             GameViewActivity.setCards(findViewById(R.id.redrawUserCards2), true, mRedrawCards.get(1), getApplicationContext(), this, listener, gameState);
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            Log.e(TAG, e.getLocalizedMessage());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Log.e(TAG, e.getLocalizedMessage());
         }
     }
 
-    public void onClickCloseRedraw(View view) {
+    public void onClickCloseRedraw() {
         for (int i = 0; i < mRedrawCards.size(); i++) {
             for (int j = 0; j < mRedrawCards.get(i).size(); j++) {
                 mPlayerCards.set((j + i * 5), mRedrawCards.get(i).get(j));

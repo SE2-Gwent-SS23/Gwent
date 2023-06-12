@@ -1,6 +1,7 @@
 package at.moritzmusel.gwent.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,9 +49,9 @@ public class CardGenerator {
             while (is.read(buffer) > 0) {
                 jsonString = new String(buffer, "UTF-8");
             }
-            if (is != null) is.close();
+            is.close();
         } catch (IOException e) {
-            System.out.println(e.getLocalizedMessage());
+            Log.e("Error", e.getLocalizedMessage());
             return null;
         } finally {
             if (is != null) is.close();
