@@ -8,6 +8,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import static com.google.android.gms.tasks.Tasks.await;
+
 import androidx.test.espresso.Root;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -18,6 +20,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.time.Duration;
+
 import at.moritzmusel.gwent.MainActivity;
 import at.moritzmusel.gwent.R;
 
@@ -27,23 +31,17 @@ public class MainMenuActivityTest {
     public ActivityScenarioRule<MainActivity> activityRule = new ActivityScenarioRule<>(MainActivity.class);
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         onView(ViewMatchers.withId(R.id.imageViewWelcomeScreen)).perform((click()));
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
     @Test
     public void test_navigate_MainActivity() {
         //loading
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         onView(withId(R.id.imageView_play)).check(matches(isDisplayed()));
         onView(withId(R.id.imageView_settings)).check(matches(isDisplayed()));
         onView(withId(R.id.imageView_quit)).check(matches((isDisplayed())));
@@ -54,25 +52,10 @@ public class MainMenuActivityTest {
     @Test
     public void test_popup_menu() {
         //loading
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         onView(withId(R.id.imageView_play)).perform(click());
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         onView(withText("Host")).inRoot(isPopupWindow()).perform(click());
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         //check if Activity changed
         onView(withId(R.id.iv_profile_pic_opponent)).check(matches(isDisplayed()));

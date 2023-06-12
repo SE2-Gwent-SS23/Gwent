@@ -1,17 +1,15 @@
 package at.moritzmusel.gwent.network.data;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.SimpleTimeZone;
 
 import at.moritzmusel.gwent.model.Card;
 import at.moritzmusel.gwent.model.CardGenerator;
@@ -19,6 +17,7 @@ import at.moritzmusel.gwent.model.CardGenerator;
 public class GameState implements Serializable {
     //TODO last parameter @board should be the game info storage type
     public static GameState UNITIALIZED = new GameState(0, 0, 0, false);
+    private static final String TAG = "GameViewActivity";
     private final int localPlayer;
     private final int playerTurn;
     private final int playerWon;
@@ -41,9 +40,43 @@ public class GameState implements Serializable {
     private Boolean usedMyLeader;
     private Card opponentLeader;
     private Boolean usedOpponentLeader;
-    private boolean[] myRoundCounter;
-    private boolean[] opponentRoundCounter;
+    private int[] myRoundCounter;
+    private int[] opponentRoundCounter;
     private List<Card> allCards;
+    private boolean myPassed;
+    private boolean opponentPassed;
+    private int roundTracker;
+
+    public void sendToMyGrave() {
+        this.myGrave.addAll(this.myClose);
+        this.myGrave.addAll(this.myRanged);
+        this.myClose.clear();
+        this.myRanged.clear();
+    }
+
+    public void sendToOpponentGrave() {
+        this.opponentGrave.addAll(this.opponentClose);
+        this.opponentGrave.addAll(this.opponentRanged);
+        this.opponentClose.clear();
+        this.opponentRanged.clear();
+    }
+
+    public int calculateMyWins(int[] opponentArray) {
+        int wins = 0;
+        for (int i = 0; this.myRoundCounter.length > i; i++) {
+            if (this.myRoundCounter[i] > opponentArray[i]) {
+                wins++;
+            }
+        }
+        return wins;
+    }
+
+
+    public void hasCards() {
+        if (this.myHand.size() == 0) {
+            this.myPassed = true;
+        }
+    }
 
     public GameState(int localPlayer, int playerTurn, int playerWon, boolean isOver) {
         this.localPlayer = localPlayer;
@@ -68,18 +101,15 @@ public class GameState implements Serializable {
 
 
     public void initGameState() throws JSONException, IOException {
-
-        SecureRandom random = new SecureRandom();
-        int zz;
-        this.myDeck = new String();
-        this.opponentDeck = new String();
+        this.myDeck = "";
+        this.opponentDeck = "";
         this.weather = new ArrayList<>();
         this.myLeader = new Card();
         this.opponentLeader = new Card();
         this.usedMyLeader = false;
         this.usedOpponentLeader = false;
-        this.myRoundCounter = new boolean[]{false, false, false};
-        this.opponentRoundCounter = new boolean[]{false, false, false};
+        this.myRoundCounter = new int[]{0, 0, 0};
+        this.opponentRoundCounter = new int[]{0, 0, 0};
         this.cheated = false;
 
         // myHand
@@ -103,6 +133,10 @@ public class GameState implements Serializable {
         this.myGrave = new ArrayList<>();
         this.opponentGrave = new ArrayList<>();
 
+        //passing
+        this.myPassed = false;
+        this.opponentPassed = false;
+        this.roundTracker = 0;
 
     }
 
@@ -112,9 +146,9 @@ public class GameState implements Serializable {
             JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
             this.allCards = cardGenerator.fillAllCardsIntoList(jsonObject);
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            Log.e(TAG, e.toString());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Log.e(TAG, e.toString());
         }
     }
 
@@ -173,10 +207,14 @@ public class GameState implements Serializable {
         this.myLeader = tempOpponentLeader;
         this.usedMyLeader = tempUsedOpponentLeader;
 
-        boolean[] tempRoundCounter = this.myRoundCounter;
+        int[] tempRoundCounter = this.myRoundCounter;
         this.myRoundCounter = this.opponentRoundCounter;
         this.opponentRoundCounter = tempRoundCounter;
 
+    }
+
+    public void incrementRoundTracker() {
+        this.roundTracker++;
     }
 
 
@@ -380,12 +418,64 @@ public class GameState implements Serializable {
         return this.allCards;
     }
 
+    public void setAllCards(List<Card> cards) {
+        this.allCards = cards;
+    }
+
     public boolean isRedrawPhase() {
         return redrawPhase;
     }
 
     public void setRedrawPhase(boolean redrawPhase) {
         this.redrawPhase = redrawPhase;
+    }
+
+    public boolean isMyPassed() {
+        return myPassed;
+    }
+
+    public boolean isOpponentPassed() {
+        return opponentPassed;
+    }
+
+    public void setMyPassed(boolean myPassed) {
+        this.myPassed = myPassed;
+    }
+
+    public void setOpponentPassed(boolean opponentPassed) {
+        this.opponentPassed = opponentPassed;
+    }
+
+    public int[] getMyRoundCounter() {
+        return myRoundCounter;
+    }
+
+    public void setMyRoundCounter(int[] myRoundCounter) {
+        this.myRoundCounter = myRoundCounter;
+    }
+
+    public void setMyRoundCounterByRound(int points) {
+        this.myRoundCounter[this.roundTracker] = points;
+    }
+
+    public int[] getOpponentRoundCounter() {
+        return opponentRoundCounter;
+    }
+
+    public void setOpponentRoundCounter(int[] opponentRoundCounter) {
+        this.opponentRoundCounter = opponentRoundCounter;
+    }
+
+    public void setOpponentRoundCounterByRound(int counter) {
+        this.opponentRoundCounter[this.roundTracker] = counter;
+    }
+
+    public int getRoundTracker() {
+        return roundTracker;
+    }
+
+    public void setRoundTracker(int roundTracker) {
+        this.roundTracker = roundTracker;
     }
 
     public boolean isCheated() {

@@ -11,6 +11,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -27,8 +31,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -66,19 +70,24 @@ import at.moritzmusel.gwent.network.data.GameState;
 
 
 public class GameViewActivity extends AppCompatActivity {
+    private static String gamestateExtra = "gameState";
     private List<RecyclerView> recyclerViews;
     private static final String TAG = "GameViewActivity";
     private Button buttonOpponentCards;
-    private static TextView tvMyGrave;
-    private static TextView tvOpponentMonster;
-    private static TextView tvOpponentGrave;
+    private TextView tvMyGrave;
+    private TextView tvOpponentMonster;
+    private TextView tvOpponentGrave;
     private PopupWindow popupWindow;
     private Dialog lobbyDialog;
-    private static Context context;
 
     private GameState gameState;
     private static int deviceHeight;
     private int buttonHelp = 0;
+
+    // popup opponent window
+    private LayoutInflater inflaterOpponent;
+    private View popupViewOpponent;
+    private LinearLayout llOpponent;
 
     // variables for shake sensor
     private SensorManager mSensorManager;
@@ -134,7 +143,59 @@ public class GameViewActivity extends AppCompatActivity {
                     setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
                     setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
                     i("Callback", this.gameState.toString());
+                    enableDisableYourTurn(true);
                     updateUI(gameState);
+
+                    //round ending
+                    this.gameState.hasCards();
+                    if (this.gameState.isMyPassed()) {
+                        //disable functunality
+                        enableDisableYourTurn(false);
+                        //send Gamestate
+                        network.sendGameState(this.gameState);
+
+                        //why here
+                        if (this.gameState.isOpponentPassed()) {
+                            this.gameState.setMyPassed(false);
+                            this.gameState.setOpponentPassed(false);
+                            int myPoints = this.gameState.calculateMyPoints();
+                            int opponentPoints = this.gameState.calculateOpponentPoints();
+                            int roundTrackerReal = this.gameState.getRoundTracker() + 1;
+
+                            this.gameState.setMyRoundCounterByRound(myPoints);
+                            this.gameState.setOpponentRoundCounterByRound(opponentPoints);
+
+                            //why in draw
+                            if (myPoints > opponentPoints) {
+                                Toast.makeText(this, "You are the winner of round: " + roundTrackerReal, Toast.LENGTH_LONG).show();
+
+                            } else if (myPoints < opponentPoints) {
+                                Toast.makeText(this, "You lost round: " + roundTrackerReal, Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(this, "Round: " + roundTrackerReal + " is a draw.", Toast.LENGTH_LONG).show();
+                            }
+                            //increment roundTracker
+                            this.gameState.incrementRoundTracker();
+
+                            for (RecyclerView view : this.recyclerViews)
+                                view.setOnDragListener(null);
+
+                            //leerräumen
+                            this.gameState.sendToMyGrave();
+                            this.gameState.sendToOpponentGrave();
+
+                            network.sendGameState(this.gameState);
+                            updateUI(this.gameState);
+
+                            if (this.gameState.calculateMyWins(this.gameState.getOpponentRoundCounter()) > 1) {
+                                Toast.makeText(this, "You won the game!", Toast.LENGTH_LONG).show();
+                            }
+
+                            Intent endScreenActivityIntent = new Intent(GameViewActivity.this, GameEndScreenActivity.class);
+                            endScreenActivityIntent.putExtra("gameStateEnd", this.gameState);
+                            startActivity(endScreenActivityIntent);
+                        }
+                    }
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
@@ -142,18 +203,24 @@ public class GameViewActivity extends AppCompatActivity {
                 }
             }
         });
-        gameStateUpdate.setListener((value -> {
+        gameStateUpdate.setListener(value -> {
             this.gameState = (GameState) value;
             network.currentState.setValue(this.gameState);
             try {
-                enableDisableYourTurn(false);
+                if (!this.gameState.isOpponentPassed()) {
+                    enableDisableYourTurn(false);
+                } else {
+                    for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
+                    for (RecyclerView view : this.recyclerViews)
+                        view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
+                }
             } catch (JSONException e) {
                 System.out.println(e);
             } catch (IOException e) {
                 System.out.println(e);
             }
             network.sendGameState((GameState) value);
-        }));
+        });
     }
     // end
 
@@ -164,7 +231,6 @@ public class GameViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_view);
 
-        this.context = this.getApplicationContext();
         this.gameState = new GameState(0, 0, 0, false);
 
         this.tvMyGrave = findViewById(R.id.tvMyGrave);
@@ -186,13 +252,14 @@ public class GameViewActivity extends AppCompatActivity {
         settingResponsiveGameBoard();
 
         initClickOpponentCardsListener();
+        findViewById(R.id.iv_buttonGamePassWaitEndTurn).setOnClickListener(clickEndTurn());
         initShakeSensor();
         doNetworking();
     }
 
     private void initClickOpponentCardsListener() {
         buttonOpponentCards.setOnClickListener(view -> {
-            if((buttonHelp++)%2==0) {
+            if ((buttonHelp++) % 2 == 0) {
                 buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_up_24));
                 onButtonShowPopupWindowClick(getWindow().getDecorView().getRootView());
             } else {
@@ -214,19 +281,17 @@ public class GameViewActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 123 && resultCode == RESULT_OK) {
-            if (data != null && data.hasExtra("gameState")) {
-                this.gameState = (GameState) data.getSerializableExtra("gameState");
-                // send/receive gamestate here to receive hand
-                // call to send
-                // merge gamestate
-                GameState gs = network.getCurrentState().getValue();
-                gs.setMyHand(gameState.getMyHand());
-                waitingCallback.setValue(gs);
-                network.sendGameState(gs);
-                //call to receive
-                Toast.makeText(this, "Waiting for opponent hand.", Toast.LENGTH_LONG).show();
-            }
+        if (requestCode == 123 && resultCode == RESULT_OK && data != null && data.hasExtra(gamestateExtra)) {
+            this.gameState = (GameState) data.getSerializableExtra(gamestateExtra);
+            // send/receive gamestate here to receive hand
+            // call to send
+            // merge gamestate
+            GameState gs = network.getCurrentState().getValue();
+            gs.setMyHand(gameState.getMyHand());
+            waitingCallback.setValue(gs);
+            network.sendGameState(gs);
+            //call to receive
+            Toast.makeText(this, "Waiting for opponent hand.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -236,7 +301,7 @@ public class GameViewActivity extends AppCompatActivity {
                 if (lobbyDialog.isShowing()) {
                     lobbyDialog.dismiss();
                     Intent redrawActivityIntent = new Intent(GameViewActivity.this, RedrawActivity.class);
-                    redrawActivityIntent.putExtra("gameState", this.gameState);
+                    redrawActivityIntent.putExtra(gamestateExtra, this.gameState);
                     startActivityForResult(redrawActivityIntent, 123);
                 }
             } else {
@@ -249,9 +314,9 @@ public class GameViewActivity extends AppCompatActivity {
         lobbyDialog.setContentView(R.layout.lobby_window);
         showLobbyPopup();
 
-        network.getCurrentState().observeForever(gameState -> {
-            this.waitingCallback.setValue(gameState);
-            i(TAG + " From Network:", gameState.toString());
+        network.getCurrentState().observeForever(gameStateObject -> {
+            this.waitingCallback.setValue(gameStateObject);
+            i(TAG + " From Network:", gameStateObject.toString());
         });
     }
 
@@ -298,7 +363,7 @@ public class GameViewActivity extends AppCompatActivity {
         setCards(findViewById(recyclerViewUserCardStack), isMyHand, cards, getApplicationContext(), GameViewActivity.this, gameState);
     }
 
-    public static void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, GameState gameState) throws JSONException, IOException {
+    public void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, GameState gameState) throws JSONException, IOException {
         setCards(view, isMyHand, cards, context, parentActivity, null, gameState);
     }
 
@@ -321,7 +386,7 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     private void setImageFromAssetForOpponent(ImageView image) {
-        Bitmap bitmap = ((BitmapDrawable) AppCompatResources.getDrawable(this.context, R.drawable.card_deck_back_opponent_right)).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) AppCompatResources.getDrawable(this.getApplicationContext(), R.drawable.card_deck_back_opponent_right)).getBitmap();
         Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 50, 70, true));
         image.setImageDrawable(dr);
     }
@@ -334,9 +399,9 @@ public class GameViewActivity extends AppCompatActivity {
      */
     public void onButtonShowPopupWindowClick(View view) {
         // inflate the layout of the popup window
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.popup_window_opponent, null);
-        LinearLayout llOpponent = popupView.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
+        inflaterOpponent = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        popupViewOpponent = inflaterOpponent.inflate(R.layout.popup_window_opponent, null);
+        llOpponent = popupViewOpponent.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
 
         int size = gameState.getOpponentHand().size();
 
@@ -358,10 +423,10 @@ public class GameViewActivity extends AppCompatActivity {
         }
 
         // important: before getting the size of pop-up we should assign default measurements for the view
-        popupView.measure(0, 0);
+        popupViewOpponent.measure(0, 0);
 
         // create the popup window
-        popupWindow = new PopupWindow(popupView, popupView.getMeasuredWidth(), popupView.getMeasuredHeight(), false);
+        popupWindow = new PopupWindow(popupViewOpponent, popupViewOpponent.getMeasuredWidth(), popupViewOpponent.getMeasuredHeight(), false);
 
         // show the popup window
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
@@ -387,7 +452,7 @@ public class GameViewActivity extends AppCompatActivity {
         // Set dialog window attributes
         Window window = lobbyDialog.getWindow();
         if (window != null) {
-            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+            window.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
             window.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
         }
         lobbyDialog.show();
@@ -421,25 +486,24 @@ public class GameViewActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
+        if (isFinishing()) {
+            //network.
+        }
     }
 
-    public  void updateUI(GameState gameState) {
+    public void updateUI(GameState gameState) {
         tvMyGrave.setText(gameState.getMyGrave().size() + "");
 
-        // inflate the layout of the popup window
-        /*
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.popup_window_opponent, null);
-        LinearLayout llOpponent = popupView.findViewById(R.id.linearLayoutMainCardsDeckOpponent);
+        // Inflate the popupOpponent layout & create the PopupWindow object
+        View popupView = getLayoutInflater().inflate(R.layout.popup_window_opponent, null);
+        PopupWindow popupWindowOpp = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
-
-        tvOpponentMonster = popupView.findViewById(R.id.tvOpponentMonsters);
+        // Modify the data in the PopupWindowOpponent
+        tvOpponentMonster = popupWindowOpp.getContentView().findViewById(R.id.tvOpponentMonsters);
         tvOpponentMonster.setText(gameState.getOpponentHand().size() + "");
-        tvOpponentGrave = popupView.findViewById(R.id.tvOpponentGrave);
+        tvOpponentGrave = popupWindowOpp.getContentView().findViewById(R.id.tvOpponentGrave);
         tvOpponentGrave.setText(gameState.getOpponentGrave().size() + "");
 
-         */
         TextView opponentCardsInHand = findViewById(R.id.tvNumberOfOpponent);
         TextView myCardsInHand = findViewById(R.id.tvNumberOf);
 
@@ -450,11 +514,10 @@ public class GameViewActivity extends AppCompatActivity {
         myCardsInHand.setText(this.gameState.getMyHand().size() + "/10");
         opponentPoints.setText(Integer.toString(this.gameState.calculateOpponentPoints()));
         myPoints.setText(Integer.toString(this.gameState.calculateMyPoints()));
-
     }
 
-    public static Context getContext() {
-        return context;
+    public Context getContext() {
+        return this.getApplicationContext();
     }
 
     /**
@@ -462,32 +525,25 @@ public class GameViewActivity extends AppCompatActivity {
      * Also disables all relevant DragListeners.
      */
     public void enableDisableYourTurn(boolean yourTurn) throws JSONException, IOException {
-         ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
+        ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
         Button cheatingButton = findViewById(R.id.button_cheat);
-        // endTurn.setColorFilter(Color.GRAY);
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setSaturation(0); // 0 means grayscale
+        ColorFilter colorFilter = new ColorMatrixColorFilter(matrix);
+
         if (!yourTurn) {
-            for (RecyclerView view : this.recyclerViews) {
-                view.setOnDragListener(null);
-            }
+            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
+            endTurn.setOnClickListener(null);
+            endTurn.setColorFilter(colorFilter);
             cheatingButton.setVisibility(View.INVISIBLE);
             cheatingButton.setOnClickListener(null);
-            endTurn.setOnClickListener(null);
-
-            /* why is it not removing the animation?f
-            opponentRangedView.setItemAnimator(null);
-            opponentCloseView.setItemAnimator(null);
-            myCloseView.setItemAnimator(null);
-            myRangedView.setItemAnimator(null);
-            myHandView.setItemAnimator(null);
-
-             */
         } else {
-            for (RecyclerView view : this.recyclerViews) {
-                view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
-            }
+            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
+            endTurn.setOnClickListener(clickEndTurn());
+            endTurn.setColorFilter(null);
+            endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
             cheatingButton.setVisibility(View.VISIBLE);
             cheatingButton.setOnClickListener(clickListenerCheatingButton());
-            endTurn.setOnClickListener(clickEndTurn());
         }
     }
 
@@ -495,12 +551,13 @@ public class GameViewActivity extends AppCompatActivity {
         return (view -> {
             try {
                 enableDisableYourTurn(false);
+                this.gameState.setMyPassed(true);
+                network.sendGameState(this.gameState);
             } catch (JSONException e) {
-                throw new RuntimeException(e);
+                Log.e(TAG, e.getLocalizedMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                Log.e(TAG, e.getLocalizedMessage());
             }
-            // change drawable of endturn to greyed out
         });
     }
 
@@ -532,10 +589,6 @@ public class GameViewActivity extends AppCompatActivity {
                 waitingCallback.setValue(gs);
  */
             }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
     };
 

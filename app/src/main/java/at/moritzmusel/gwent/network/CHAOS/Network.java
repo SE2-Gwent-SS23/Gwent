@@ -24,7 +24,6 @@ import java.util.UUID;
 import at.moritzmusel.gwent.BuildConfig;
 import at.moritzmusel.gwent.network.Utils.Utils;
 import at.moritzmusel.gwent.network.data.GameState;
-import at.moritzmusel.gwent.network.model.GwentGame;
 
 public class Network {
     private static String TAG = "Network";
@@ -42,8 +41,6 @@ public class Network {
     private int localPlayer = 0;
     private int opponentPlayer = 0;
     private String opponentEndpointId = "";
-
-    private static GwentGame game;
 
     private Context context;
 
@@ -74,6 +71,8 @@ public class Network {
             currGamestate.setOpponentGrave(opponentGS.getMyGrave());
             currGamestate.setOpponentLeader(opponentGS.getMyLeader());
             currGamestate.setUsedOpponentLeader(opponentGS.getUsedMyLeader());
+            currGamestate.setOpponentRoundCounter(opponentGS.getMyRoundCounter());
+            currGamestate.setOpponentPassed(opponentGS.isMyPassed());
 
             currentState.postValue(currGamestate);
             i(TAG, Utils.byteArrayToObject(payload.asBytes()).toString());
@@ -104,7 +103,6 @@ public class Network {
                     connectionsClient.stopDiscovery();
                     opponentEndpointId = s;
                     d(TAG, "opponentEndpointId: " + opponentEndpointId);
-                    newGame();
                     onConnectionSuccessfullTrigger.setValue(true);
                     break;
                 case ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED:
@@ -125,7 +123,7 @@ public class Network {
         @Override
         public void onDisconnected(@NonNull String s) {
             d(TAG, "onDisconnected");
-            goToHome();
+            stopClient();
         }
     };
     //
@@ -184,27 +182,6 @@ public class Network {
         });
     }
 
-    public void newGame() {
-        d(TAG, "Starting new game");
-        game = new GwentGame();
-        //TODO CHANGE INIT GAME LOGIC
-        currentState.setValue(new GameState(localPlayer, game.playerTurn, game.playerWon, game.isOver));
-    }
-
-    //TODO pass correct data/gamestate into play function
-    public void play(GameState gameState) {
-        if (game.playerTurn != localPlayer) return;
-        play(localPlayer, gameState);
-        sendGameState(gameState);
-    }
-
-    //TODO pass correct data/gamestate into play function
-    private void play(int player, GameState gameState) {
-        d(TAG, "Player " + player);
-        game.play(player, gameState);
-        currentState.setValue(new GameState(localPlayer, game.playerTurn, game.playerWon, game.isOver));
-    }
-
     public void sendGameState(GameState gameState) {
         d(TAG, "Sending to " +opponentEndpointId + " " +gameState.toString());
         connectionsClient.sendPayload(opponentEndpointId, dataToPayload(gameState));
@@ -220,17 +197,8 @@ public class Network {
         opponentEndpointId = "";
     }
 
-    public void goToHome() {
-        stopClient();
-        //TODO NAVIGATE TO HOME SCREEN
-    }
-
     //converts the data/gamestate into a Payload object
     private Payload dataToPayload(GameState gameState) {
         return Payload.fromBytes(Utils.objectToByteArray(gameState));
-    }
-
-    public GwentGame getGame() {
-        return game;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.List;
 
 import at.moritzmusel.gwent.R;
@@ -27,7 +26,7 @@ import at.moritzmusel.gwent.model.ReturnCard;
 import at.moritzmusel.gwent.network.data.GameState;
 
 public class RedrawActivity extends AppCompatActivity {
-    private static List<Card> mPlayerCards;
+    private List<Card> mPlayerCards;
     private List<List<Card>> mRedrawCards;
     private GameState gameState;
     private TextView mRedrawDropView;
@@ -35,6 +34,7 @@ public class RedrawActivity extends AppCompatActivity {
     private int mRedrawCount = 0;
     private CardGenerator cardGenerator;
     private RedrawObjectGenerator redrawObjectGenerator;
+    private static final String TAG = "GameViewActivity";
 
 
     @Override
@@ -47,7 +47,7 @@ public class RedrawActivity extends AppCompatActivity {
         Intent intent = getIntent();
         this.gameState = (GameState) intent.getSerializableExtra("gameState");
 
-        this.redrawObjectGenerator = new RedrawObjectGenerator();
+        this.redrawObjectGenerator = RedrawObjectGenerator.getInstance();
         this.cardGenerator = new CardGenerator();
         this.gameState = cardGenerator.initMyHandCards(gameState);
 
@@ -63,9 +63,9 @@ public class RedrawActivity extends AppCompatActivity {
             GameViewActivity.setCards(findViewById(R.id.redrawUserCards1), true, mRedrawCards.get(0), getApplicationContext(), this, listener, gameState);
             GameViewActivity.setCards(findViewById(R.id.redrawUserCards2), true, mRedrawCards.get(1), getApplicationContext(), this, listener, gameState);
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            Log.e(TAG, e.getLocalizedMessage());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Log.e(TAG, e.getLocalizedMessage());
         }
     }
 

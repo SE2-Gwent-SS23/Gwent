@@ -11,9 +11,9 @@ public class Card implements Serializable {
     Ability ability;
     String filename;
     int count;
-    String flavor_txt;
+    String flavorTxt;
 
-    public Card(String name, Type type, Row row, int strength, Ability ability, String filename, int count, String flavor_txt) {
+    public Card(String name, Type type, Row row, int strength, Ability ability, String filename, int count, String flavorTxt) {
         this.name = name;
         this.type = type;
         this.row = row;
@@ -21,11 +21,10 @@ public class Card implements Serializable {
         this.ability = ability;
         this.filename = filename;
         this.count = count;
-        this.flavor_txt = flavor_txt;
+        this.flavorTxt = flavorTxt;
     }
 
     public Card() {
-
     }
 
     public void applyWeather() {
@@ -46,7 +45,7 @@ public class Card implements Serializable {
 
     public void changeRow(String txt) {
         if (txt.isEmpty()) {
-            this.row = Row.none;
+            this.row = Row.NONE;
         } else {
             for (Row r : Row.values()) {
                 if (r.toString().equals(txt)) {
@@ -54,12 +53,11 @@ public class Card implements Serializable {
                 }
             }
         }
-
     }
 
     public void changeAbility(String txt) {
         if (txt.isEmpty()) {
-            this.ability = Ability.none;
+            this.ability = Ability.NONE;
         } else {
             //can have multiple abilities thats why contains
             for (Ability a : Ability.values()) {
@@ -70,9 +68,6 @@ public class Card implements Serializable {
         }
     }
 
-
-
-    //getter & setter
     public String getName() {
         return name;
     }
@@ -109,10 +104,6 @@ public class Card implements Serializable {
         return ability;
     }
 
-    public void setAbility(Ability ability) {
-        this.ability = ability;
-    }
-
     public String getFilename() {
         return filename;
     }
@@ -129,12 +120,8 @@ public class Card implements Serializable {
         this.count = count;
     }
 
-    public String getFlavor_txt() {
-        return flavor_txt;
-    }
-
-    public void setFlavor_txt(String flavor_txt) {
-        this.flavor_txt = flavor_txt;
+    public void setFlavorTxt(String flavorTxt) {
+        this.flavorTxt = flavorTxt;
     }
 
     @Override
@@ -147,7 +134,7 @@ public class Card implements Serializable {
                 ", ability=" + ability +
                 ", filename='" + filename + '\'' +
                 ", count=" + count +
-                ", flavor_txt='" + flavor_txt + '\'' +
+                ", flavorTxt='" + flavorTxt + '\'' +
                 '}';
     }
 }
