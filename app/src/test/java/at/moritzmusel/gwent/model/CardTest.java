@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardTest {
+class CardTest {
     private static List<Card> cardList;
     private Card card1;
     private Card card2;
@@ -45,7 +45,7 @@ public class CardTest {
 
     @Test
     void testChangeAbility() {
-        Card newCard = new Card("Schirru", scoiatael, null, 8, scorch_s, "schirru", 1, "Time to look death in the face.");
+        Card newCard = new Card("Schirru", scoiatael, null, 1, scorch_s, "schirru", 1, "Time to look death in the face.");
         newCard.changeAbility("scorch_s");
         assertEquals(scorch_s, newCard.getAbility());
     }
