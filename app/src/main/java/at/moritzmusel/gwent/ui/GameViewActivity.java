@@ -68,7 +68,7 @@ import at.moritzmusel.gwent.network.data.GameState;
 
 
 public class GameViewActivity extends AppCompatActivity {
-    private static String gamestate = "gameState";
+    private static String gamestateExtra = "gameState";
     private List<RecyclerView> recyclerViews;
     private static final String TAG = "GameViewActivity";
     private Button buttonOpponentCards;
@@ -170,7 +170,8 @@ public class GameViewActivity extends AppCompatActivity {
                             //increment roundTracker
                             this.gameState.incrementRoundTracker();
 
-                            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
+                            for (RecyclerView view : this.recyclerViews)
+                                view.setOnDragListener(null);
 
                             //leerräumen
                             this.gameState.sendToMyGrave();
@@ -208,11 +209,12 @@ public class GameViewActivity extends AppCompatActivity {
             this.gameState = (GameState) value;
             network.currentState.setValue(this.gameState);
             try {
-                if(!this.gameState.isOpponentPassed()){
+                if (!this.gameState.isOpponentPassed()) {
                     enableDisableYourTurn(false);
-                }else{
+                } else {
                     for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
-                    for (RecyclerView view : this.recyclerViews) view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
+                    for (RecyclerView view : this.recyclerViews)
+                        view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
                 }
             } catch (JSONException e) {
                 System.out.println(e);
@@ -281,19 +283,17 @@ public class GameViewActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 123 && resultCode == RESULT_OK) {
-            if (data != null && data.hasExtra(gamestate)) {
-                this.gameState = (GameState) data.getSerializableExtra(gamestate);
-                // send/receive gamestate here to receive hand
-                // call to send
-                // merge gamestate
-                GameState gs = network.getCurrentState().getValue();
-                gs.setMyHand(gameState.getMyHand());
-                waitingCallback.setValue(gs);
-                network.sendGameState(gs);
-                //call to receive
-                Toast.makeText(this, "Waiting for opponent hand.", Toast.LENGTH_LONG).show();
-            }
+        if (requestCode == 123 && resultCode == RESULT_OK && data != null && data.hasExtra(gamestateExtra)) {
+            this.gameState = (GameState) data.getSerializableExtra(gamestateExtra);
+            // send/receive gamestate here to receive hand
+            // call to send
+            // merge gamestate
+            GameState gs = network.getCurrentState().getValue();
+            gs.setMyHand(gameState.getMyHand());
+            waitingCallback.setValue(gs);
+            network.sendGameState(gs);
+            //call to receive
+            Toast.makeText(this, "Waiting for opponent hand.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -303,7 +303,7 @@ public class GameViewActivity extends AppCompatActivity {
                 if (lobbyDialog.isShowing()) {
                     lobbyDialog.dismiss();
                     Intent redrawActivityIntent = new Intent(GameViewActivity.this, RedrawActivity.class);
-                    redrawActivityIntent.putExtra(gamestate, this.gameState);
+                    redrawActivityIntent.putExtra(gamestateExtra, this.gameState);
                     startActivityForResult(redrawActivityIntent, 123);
                 }
             } else {
@@ -505,8 +505,7 @@ public class GameViewActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(isFinishing())
-        {
+        if (isFinishing()) {
             //network.
         }
     }
@@ -559,7 +558,8 @@ public class GameViewActivity extends AppCompatActivity {
             endTurn.setOnClickListener(null);
             endTurn.setColorFilter(colorFilter);
         } else {
-            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
+            for (RecyclerView view : this.recyclerViews)
+                view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
             endTurn.setOnClickListener(clickEndTurn());
             endTurn.setColorFilter(null);
             endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
