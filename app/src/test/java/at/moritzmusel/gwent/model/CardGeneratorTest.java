@@ -1,21 +1,12 @@
 package at.moritzmusel.gwent.model;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-
-import static at.moritzmusel.gwent.model.Ability.scorch_s;
-import static at.moritzmusel.gwent.model.Type.scoiatael;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import java.io.IOException;
-
-import at.moritzmusel.gwent.ui.GameViewActivity;
 
 public class CardGeneratorTest {
 

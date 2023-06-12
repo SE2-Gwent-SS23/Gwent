@@ -46,7 +46,7 @@ public class Card implements Serializable {
 
     public void changeRow(String txt) {
         if (txt.isEmpty()) {
-            this.row = Row.none;
+            this.row = Row.NONE;
         } else {
             for (Row r : Row.values()) {
                 if (r.toString().equals(txt)) {
@@ -59,7 +59,7 @@ public class Card implements Serializable {
 
     public void changeAbility(String txt) {
         if (txt.isEmpty()) {
-            this.ability = Ability.none;
+            this.ability = Ability.NONE;
         } else {
             //can have multiple abilities thats why contains
             for (Ability a : Ability.values()) {
