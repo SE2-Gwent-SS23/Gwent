@@ -29,8 +29,6 @@ import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.network.data.GameState;
 
 public class CardGenerator {
-    private static CardGenerator cardGeneratorInstance;
-
     private List<Card> allCardsList;
     private Context context;
 
