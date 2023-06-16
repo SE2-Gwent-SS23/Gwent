@@ -1,25 +1,40 @@
 package at.moritzmusel.gwent.model;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static at.moritzmusel.gwent.model.Ability.SCORCH_S;
+import static at.moritzmusel.gwent.model.Type.SCOIATAEL;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.view.View;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.network.data.GameState;
+import at.moritzmusel.gwent.ui.DragListener;
+import at.moritzmusel.gwent.ui.GameViewActivity;
 
 class CardGeneratorTest {
     private JSONObject jsonObject;
@@ -29,6 +44,10 @@ class CardGeneratorTest {
     private CardGenerator cardGenerator;
     private AssetManager assetManager;
     private Context context;
+    private RecyclerView recyclerView;
+    private GameState gameState;
+    private GameViewActivity gameViewActivity;
+    private View.OnDragListener dragListener;
 
     @BeforeEach
     void init() {
@@ -38,6 +57,10 @@ class CardGeneratorTest {
         cardList = new ArrayList<>();
         jsonObject = new JSONObject();
         jsonArray = new JSONArray();
+        gameState = Mockito.mock(GameState.class);
+        dragListener = Mockito.mock(DragListener.class);
+        gameViewActivity = Mockito.mock(GameViewActivity.class);
+        recyclerView = Mockito.mock(RecyclerView.class);
         when(context.getAssets()).thenReturn(assetManager);
     }
 
@@ -86,8 +109,7 @@ class CardGeneratorTest {
     }
 
     @Test
-    void testInitMyHandCards() {
-        GameState gameState = new GameState(0, 0, 0, false);
+    void testNewMyHandCards() {
         List<Card> myHand = new ArrayList<>();
         Card card1 = new Card();
         card1.setCount(2);
@@ -101,5 +123,50 @@ class CardGeneratorTest {
         assertEquals(2, myHand.size());
         assertEquals(card1, myHand.get(0));
         assertEquals(card2, myHand.get(1));
+    }
+
+    @Test
+    void testMethodInitMyHandCards() {
+        List<Card> allCards = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Card card = new Card();
+            card.setCount(10);
+            allCards.add(card);
+        }
+        when(gameState.getAllCards()).thenReturn(allCards);
+
+        cardGenerator.initMyHandCards(gameState);
+        allCards = gameState.getMyHand();
+        for (Card card : allCards) {
+            // ein Count weniger als Zeile 133
+            assertEquals(9, card.getCount());
+        }
+
+        verify(gameState, times(30)).getAllCards();
+    }
+
+    @Test
+    void testSetCards() {
+        List<Card> cards = new ArrayList<>();
+        Card newCard = new Card("Schirru", SCOIATAEL, null, 8, SCORCH_S, "schirru", 1, "Time to look death in the face.");
+        cards.add(newCard);
+
+        /* when -> assert -> verify */
+        Mockito.when(recyclerView.getLayoutManager()).thenReturn(null);
+        Mockito.doAnswer(invocation -> {
+            Object arg = invocation.getArgument(0);
+            LinearLayoutManager layoutManager = (LinearLayoutManager) arg;
+            assertEquals(LinearLayoutManager.HORIZONTAL, layoutManager.getOrientation());
+            assertTrue(arg instanceof LinearLayoutManager);
+            return null;
+        }).when(recyclerView).setLayoutManager(any(LinearLayoutManager.class));
+
+        assertDoesNotThrow(() -> cardGenerator.setCards(recyclerView, true, cards, context, gameViewActivity, dragListener, gameState));
+
+        verify(recyclerView).setHasFixedSize(true);
+        verify(recyclerView).setLayoutManager(any(LinearLayoutManager.class));
+        verify(recyclerView).setAdapter(any(UserCardAdapter.class));
+        verify(recyclerView).setOnDragListener(any(DragListener.class));
+        verify(recyclerView).setItemAnimator(any(DefaultItemAnimator.class));
     }
 }
