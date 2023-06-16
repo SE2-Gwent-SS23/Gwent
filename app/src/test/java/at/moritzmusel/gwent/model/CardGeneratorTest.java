@@ -1,25 +1,45 @@
 package at.moritzmusel.gwent.model;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import static at.moritzmusel.gwent.model.Ability.SCORCH_S;
+import static at.moritzmusel.gwent.model.Type.SCOIATAEL;
+
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.widget.ImageView;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.moritzmusel.gwent.R;
+import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.network.data.GameState;
+import at.moritzmusel.gwent.ui.DragListener;
+import at.moritzmusel.gwent.ui.GameViewActivity;
 
 class CardGeneratorTest {
     private JSONObject jsonObject;
@@ -29,6 +49,10 @@ class CardGeneratorTest {
     private CardGenerator cardGenerator;
     private AssetManager assetManager;
     private Context context;
+    private RecyclerView recyclerView;
+    private GameState gameState;
+    private GameViewActivity gameViewActivity;
+    private View.OnDragListener dragListener;
 
     @BeforeEach
     void init() {
@@ -38,6 +62,8 @@ class CardGeneratorTest {
         cardList = new ArrayList<>();
         jsonObject = new JSONObject();
         jsonArray = new JSONArray();
+        gameState = Mockito.mock(GameState.class);
+        recyclerView = Mockito.mock(RecyclerView.class);
         when(context.getAssets()).thenReturn(assetManager);
     }
 
@@ -101,5 +127,30 @@ class CardGeneratorTest {
         assertEquals(2, myHand.size());
         assertEquals(card1, myHand.get(0));
         assertEquals(card2, myHand.get(1));
+    }
+
+    @Test
+    public void testSetCards() {
+        List<Card> cards = new ArrayList<>();
+        Card newCard = new Card("Schirru", SCOIATAEL, null, 8, SCORCH_S, "schirru", 1, "Time to look death in the face.");
+        cards.add(newCard);
+
+        /* when -> assert -> verify */
+        Mockito.when(recyclerView.getLayoutManager()).thenReturn(null);
+        Mockito.doAnswer(invocation -> {
+            Object arg = invocation.getArgument(0);
+            LinearLayoutManager layoutManager = (LinearLayoutManager) arg;
+            assertEquals(LinearLayoutManager.HORIZONTAL, layoutManager.getOrientation());
+            assertTrue(arg instanceof LinearLayoutManager);
+            return null;
+        }).when(recyclerView).setLayoutManager(Mockito.any(LinearLayoutManager.class));
+
+        assertDoesNotThrow(() -> cardGenerator.setCards(recyclerView, true, cards, context, gameViewActivity, dragListener, gameState));
+
+        Mockito.verify(recyclerView).setHasFixedSize(true);
+        Mockito.verify(recyclerView).setLayoutManager(Mockito.any(LinearLayoutManager.class));
+        Mockito.verify(recyclerView).setAdapter(Mockito.any(UserCardAdapter.class));
+        Mockito.verify(recyclerView).setOnDragListener(Mockito.any(DragListener.class));
+        Mockito.verify(recyclerView).setItemAnimator(Mockito.any(DefaultItemAnimator.class));
     }
 }

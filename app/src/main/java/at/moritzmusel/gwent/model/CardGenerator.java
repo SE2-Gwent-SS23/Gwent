@@ -31,9 +31,7 @@ import at.moritzmusel.gwent.network.data.GameState;
 public class CardGenerator {
     private List<Card> allCardsList;
     private Context context;
-
     private int deviceHeight;
-
     private SecureRandom mRandom = new SecureRandom();
 
 
