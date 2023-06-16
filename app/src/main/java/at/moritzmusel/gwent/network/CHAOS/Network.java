@@ -30,7 +30,7 @@ public class Network {
     private static Strategy STRATEGY = Strategy.P2P_POINT_TO_POINT;
 
     //Current Gamestate
-    public MutableLiveData<GameState> currentState = new MutableLiveData(GameState.UNITIALIZED);
+    public MutableLiveData<GameState> currentState = new MutableLiveData<GameState>(GameState.UNITIALIZED);
     public LiveData<GameState> getCurrentState(){
         return currentState;
     }
@@ -38,18 +38,13 @@ public class Network {
     //Nearby connections infos
     private ConnectionsClient connectionsClient;
     private String localUsername = UUID.randomUUID().toString();
-    private int localPlayer = 0;
-    private int opponentPlayer = 0;
     private String opponentEndpointId = "";
-
-    private Context context;
 
     //Listener for update on connection state
     private TriggerValueChange onConnectionSuccessfullTrigger = new TriggerValueChange();
 
     public Network(ConnectionsClient connectionsClient, Context context, TriggerValueChangeListener onConnectionSuccessfullTrigger){
         this.connectionsClient = connectionsClient;
-        this.context = context;
         this.onConnectionSuccessfullTrigger.setListener(onConnectionSuccessfullTrigger);
     }
 
@@ -156,8 +151,6 @@ public class Network {
         connectionsClient.startAdvertising(localUsername, BuildConfig.APPLICATION_ID, connectionLifecycleCallback, advertisingOptions)
                 .addOnSuccessListener(command -> {
                     d(TAG, "Advertising...");
-                    localPlayer = 1;
-                    opponentPlayer = 2;
                 })
                 .addOnFailureListener(command -> {
                     d(TAG, "Unable to start advertising");
@@ -175,8 +168,6 @@ public class Network {
                 discoveryOptions
         ).addOnSuccessListener(command -> {
             d(TAG, "Discovering...");
-            localPlayer = 2;
-            opponentPlayer = 1;
         }).addOnFailureListener(command -> {
             d(TAG, "Unable to start discovering");
         });
@@ -192,8 +183,6 @@ public class Network {
         connectionsClient.stopAdvertising();
         connectionsClient.stopDiscovery();
         connectionsClient.stopAllEndpoints();
-        localPlayer = 0;
-        opponentPlayer = 0;
         opponentEndpointId = "";
     }
 

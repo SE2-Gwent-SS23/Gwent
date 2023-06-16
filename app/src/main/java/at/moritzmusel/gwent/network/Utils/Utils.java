@@ -20,6 +20,7 @@ import java.util.Random;
 //import org.apache.http.conn.util.InetAddressUtils;
 
 public class Utils {
+    private Utils(){}
 
     /**
      * Convert byte array to hex string
