@@ -20,13 +20,12 @@ public class DragListener implements View.OnDragListener {
 
     private boolean isDropped = false;
     private GameState gameState;
-    private Context context;
+
 
     private int positionTarget;
     private int lane = 0;
 
-    public DragListener(Context context, GameState gameState) throws JSONException, IOException {
-        this.context = context;
+    public DragListener(GameState gameState) throws JSONException, IOException {
         this.gameState = gameState;
     }
 
@@ -108,10 +107,7 @@ public class DragListener implements View.OnDragListener {
             adapterTarget.notifyDataSetChanged();
 
             // update gamestate
-            if (lane == 1) {
-                this.gameState.removeFromMyHand(list);
-                GameViewActivity.gameStateUpdate.setValue(this.gameState);
-            } else if (lane == 2) {
+            if (lane == 1 || lane == 2) {
                 this.gameState.removeFromMyHand(list);
                 GameViewActivity.gameStateUpdate.setValue(this.gameState);
             }

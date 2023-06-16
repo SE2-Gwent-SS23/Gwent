@@ -140,8 +140,7 @@ public class GameState implements Serializable {
 
     }
 
-    public void initAllCards(Context context, int deviceHeight) {
-        CardGenerator cardGenerator = new CardGenerator(context, deviceHeight);
+    public void initAllCards(CardGenerator cardGenerator) {
         try {
             JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
             this.allCards = cardGenerator.fillAllCardsIntoList(jsonObject);
@@ -485,6 +484,11 @@ public class GameState implements Serializable {
     public void setCheated(boolean cheated) {
         this.cheated = cheated;
     }
+
+    public boolean isOver() {
+        return isOver;
+    }
+
 
     @Override
     public String toString() {

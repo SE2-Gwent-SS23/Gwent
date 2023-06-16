@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -68,9 +69,17 @@ public class RedrawActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.e(TAG, e.getLocalizedMessage());
         }
+        //add event listener to button
+        Button redrawButton = (Button) findViewById(R.id.btnEndRedraw);
+        redrawButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickCloseRedraw();
+            }
+        });
     }
 
-    public void onClickCloseRedraw(View view) {
+    public void onClickCloseRedraw() {
         for (int i = 0; i < mRedrawCards.size(); i++) {
             for (int j = 0; j < mRedrawCards.get(i).size(); j++) {
                 mPlayerCards.set((j + i * 5), mRedrawCards.get(i).get(j));

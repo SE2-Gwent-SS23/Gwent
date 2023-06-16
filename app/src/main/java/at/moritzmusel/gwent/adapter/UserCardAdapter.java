@@ -77,7 +77,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
             holder.frameLayout.performClick();
             holder.frameLayout.setOnTouchListener(this);
             try {
-                holder.frameLayout.setOnDragListener(new DragListener(this.context, this.gameState));
+                holder.frameLayout.setOnDragListener(new DragListener( this.gameState));
             } catch (JSONException e) {
                 Log.e(TAG, e.toString());
             } catch (IOException e) {
@@ -116,7 +116,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
     }
 
     public DragListener getDragInstance() throws JSONException, IOException {
-        return new DragListener(this.context, this.gameState);
+        return new DragListener( this.gameState);
     }
 
     public void updateList(List<Card> list) {
