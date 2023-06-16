@@ -196,19 +196,6 @@ public class GameStateTest {
 
     }
 
-    @Test
-    void testToString() {
-        this.gameState.addToMyHand(cardClose);
-        this.gameState.addToMyClose(cardClose);
-        this.gameState.addToMyRanged(cardRanged);
-        this.gameState.addToOpponentHand(cardClose);
-        this.gameState.addToOpponentClose(cardClose);
-        this.gameState.addToOpponentRanged(cardRanged);
-        this.gameState.addToMyGrave(cardRanged);
-        String testString = "GameState{localPlayer=0, playerTurn=0, playerWon=0, isOver=false, myDeck='', opponentDeck='', myHand=[Card{name='Test1', type=MONSTERS, row=CLOSE, strength=1, ability=BOND, filename='TestCase1', count=1, flavorTxt='First Card to test'}], opponentHand=[Card{name='Test1', type=MONSTERS, row=CLOSE, strength=1, ability=BOND, filename='TestCase1', count=1, flavorTxt='First Card to test'}], myGrave=[Card{name='Test2', type=SCOIATAEL, row=RANGED, strength=2, ability=MEDIC, filename='TestCase2', count=1, flavorTxt='Second Card to test'}], opponentGrave=[], weather=[], myClose=[Card{name='Test1', type=MONSTERS, row=CLOSE, strength=1, ability=BOND, filename='TestCase1', count=1, flavorTxt='First Card to test'}], myRanged=[Card{name='Test2', type=SCOIATAEL, row=RANGED, strength=2, ability=MEDIC, filename='TestCase2', count=1, flavorTxt='Second Card to test'}], opponentClose=[Card{name='Test1', type=MONSTERS, row=CLOSE, strength=1, ability=BOND, filename='TestCase1', count=1, flavorTxt='First Card to test'}], opponentRanged=[Card{name='Test2', type=SCOIATAEL, row=RANGED, strength=2, ability=MEDIC, filename='TestCase2', count=1, flavorTxt='Second Card to test'}], myLeader=Card{name='null', type=null, row=null, strength=0, ability=null, filename='null', count=0, flavorTxt='null'}, usedMyLeader=false, opponentLeader=Card{name='null', type=null, row=null, strength=0, ability=null, filename='null', count=0, flavorTxt='null'}, usedOpponentLeader=false, myRoundCounter=[I@3003827c, opponentRoundCounter=[I@29b40b3}";
-        assertEquals(this.gameState.toString(), testString);
-    }
-
     @AfterEach
     void tearDown() {
         this.gameState = null;
