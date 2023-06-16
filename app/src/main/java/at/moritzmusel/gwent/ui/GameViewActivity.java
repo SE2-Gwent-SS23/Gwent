@@ -240,7 +240,7 @@ public class GameViewActivity extends AppCompatActivity {
             Log.e(TAG, e.getLocalizedMessage());
         }
 
-        this.gameState.initAllCards(this.getApplicationContext(), this.deviceHeight);
+        this.gameState.initAllCards(this.cardGenerator);
 
         // adding views to list
         initRecyclerViewsToList();

@@ -140,15 +140,16 @@ public class GameState implements Serializable {
 
     }
 
-    public void initAllCards(Context context, int deviceHeight) {
-        CardGenerator cardGenerator = new CardGenerator(context, deviceHeight);
+    public void initAllCards(CardGenerator cardGenerator) {
         try {
             JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
             this.allCards = cardGenerator.fillAllCardsIntoList(jsonObject);
         } catch (JSONException e) {
-            Log.e(TAG, e.toString());
+            // Handle the JSON exception or propagate it to the caller
+            throw new RuntimeException("Error parsing JSON", e);
         } catch (IOException e) {
-            Log.e(TAG, e.toString());
+            // Handle the IO exception or propagate it to the caller
+            throw new RuntimeException("Error reading JSON file", e);
         }
     }
 
