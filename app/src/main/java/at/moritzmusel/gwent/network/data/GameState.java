@@ -486,6 +486,11 @@ public class GameState implements Serializable {
         this.cheated = cheated;
     }
 
+    public boolean isOver() {
+        return isOver;
+    }
+
+
     @Override
     public String toString() {
         return "GameState{" +
