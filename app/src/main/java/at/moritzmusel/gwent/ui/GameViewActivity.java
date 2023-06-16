@@ -93,13 +93,19 @@ public class GameViewActivity extends AppCompatActivity {
     // network variables
     private Network network;
     private String sessionType = "";
-    private final String[] REQUIRED_PERMISSIONS;
+    private String[] REQUIRED_PERMISSIONS;
     private static ActivityResultLauncher<String[]> requestMultiplePermissions;
     private TriggerValueChangeListener onConnectionSuccessfullTrigger;
     private TriggerValueChange waitingCallback = new TriggerValueChange();
     public static TriggerValueChange gameStateUpdate = new TriggerValueChange();
 
-    {
+
+    @SuppressLint({"ClickableViewAccessibility", "MissingInflatedId"})
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.game_view);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             REQUIRED_PERMISSIONS = new String[]{
                     android.Manifest.permission.BLUETOOTH_SCAN,
@@ -216,15 +222,6 @@ public class GameViewActivity extends AppCompatActivity {
             }
             network.sendGameState((GameState) value);
         });
-    }
-    // end
-
-
-    @SuppressLint({"ClickableViewAccessibility", "MissingInflatedId"})
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_view);
 
         this.gameState = new GameState(0, 0, 0, false);
 

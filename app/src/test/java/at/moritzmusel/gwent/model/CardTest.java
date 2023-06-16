@@ -69,6 +69,21 @@ class CardTest {
     void testNewEmptyCard() {
         Card newCard = new Card();
         assertEquals(newCard.toString(), card2.toString());
+        assertEquals(newCard.getFilename(), card2.getFilename());
+    }
+
+    @Test
+    void testChangeRowWithTxtEmpty() {
+        Card newCard = new Card("Schirru", SCOIATAEL, null, 8, SCORCH_S, "schirru", 1, "Time to look death in the face.");
+        newCard.changeRow("");
+        assertEquals(Row.NONE, newCard.getRow());
+    }
+
+    @Test
+    void testChangeAbilityWithTxtEmpty() {
+        Card newCard = new Card("Schirru", SCOIATAEL, null, 8, SCORCH_S, "schirru", 1, "Time to look death in the face.");
+        newCard.changeAbility("");
+        assertEquals(Ability.NONE, newCard.getAbility());
     }
 
 }

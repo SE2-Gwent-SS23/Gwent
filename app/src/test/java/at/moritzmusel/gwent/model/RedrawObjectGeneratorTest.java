@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static at.moritzmusel.gwent.model.Ability.BOND;
 import static at.moritzmusel.gwent.model.Ability.FOG;
@@ -27,6 +28,14 @@ class RedrawObjectGeneratorTest {
     @BeforeEach
     void init() {
         redrawObjectGenerator = new RedrawObjectGenerator();
+    }
+
+    @Test
+    void testRedrawInstance() {
+        RedrawObjectGenerator instance1 = RedrawObjectGenerator.getInstance();
+        RedrawObjectGenerator instance2 = RedrawObjectGenerator.getInstance();
+
+        assertSame(instance1, instance2);
     }
 
     @Test
@@ -74,6 +83,9 @@ class RedrawObjectGeneratorTest {
     void testDrawRandomCountCardCountZero() {
         GameState gameState = new GameState(0, 0, 0, false);
         List<Card> cards = new ArrayList<>();
+        cards.add(new Card("Name 1", SKELLIGE, null, 8, FOG, "name1", 0, "Time to look death in the face."));
+        cards.add(new Card("Name 2", SKELLIGE, null, 2, MUSTER, "name2", 3, "Text 2"));
+
         gameState.setAllCards(cards);
 
         RedrawObjectGenerator redrawObjectGenerator = new RedrawObjectGenerator();
@@ -82,9 +94,10 @@ class RedrawObjectGeneratorTest {
         assertNotNull(returnCard);
 
         List<Card> allCards = gameState.getAllCards();
-        assertFalse(allCards.contains(returnCard.getCard()));
+        assertTrue(allCards.contains(returnCard.getCard()));
 
         Card drawnCard = returnCard.getCard();
-        assertNull(drawnCard);
+        assertNotNull(drawnCard);
     }
+
 }

@@ -3,6 +3,7 @@ package at.moritzmusel.gwent.network.Utils;
 import android.util.Log;
 
 public class Logger {
+    private Logger(){}
     public static void i(String TAG, String message){
         Log.i(TAG, message);
     }
