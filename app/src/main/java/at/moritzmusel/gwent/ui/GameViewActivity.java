@@ -207,7 +207,7 @@ public class GameViewActivity extends AppCompatActivity {
                 } else {
                     for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
                     for (RecyclerView view : this.recyclerViews)
-                        view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
+                        view.setOnDragListener(new DragListener( gameState));
                 }
             } catch (JSONException e) {
                 Log.e(TAG, e.getLocalizedMessage());
@@ -516,7 +516,7 @@ public class GameViewActivity extends AppCompatActivity {
             cheatingButton.setVisibility(View.INVISIBLE);
             cheatingButton.setOnClickListener(null);
         } else {
-            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(new DragListener(this.getApplicationContext(), gameState));
+            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(new DragListener( gameState));
             endTurn.setOnClickListener(clickEndTurn());
             endTurn.setColorFilter(null);
             endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
@@ -556,16 +556,7 @@ public class GameViewActivity extends AppCompatActivity {
                 //TODO not sure if this is the correct way to update gamestate
                 gameState.applySun();
                 gameState.setCheated(true);
-/*
-                //get current gamestate
-                GameState gs = network.getCurrentState().getValue();
-                //set cheated
-                gs.setCheated(true);
-                //remove weather
-                gs.applySun();
-                //updateUI
-                waitingCallback.setValue(gs);
- */
+
             }
         }
         @Override
