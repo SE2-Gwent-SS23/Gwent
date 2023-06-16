@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,7 +31,7 @@ import at.moritzmusel.gwent.network.data.GameState;
 import at.moritzmusel.gwent.ui.DragListener;
 
 public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHolder> implements View.OnTouchListener {
-
+    private static final String TAG = "GameViewActivity";
     private List<Card> list;
     private Context context;
     private GameState gameState;
@@ -68,30 +69,19 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
             try {
                 setImageFromAsset(context.getAssets().open(placeholder), holder.imageView);
             } catch (IOException ex) {
-                System.out.println(ex);
+                Log.e(TAG, ex.toString());
             }
         }
 
-        if(card.getAbility() == Ability.DECOY) {
+        if(card.getAbility() == Ability.DECOY || this.isMyHand == true ) {
             holder.frameLayout.performClick();
             holder.frameLayout.setOnTouchListener(this);
             try {
                 holder.frameLayout.setOnDragListener(new DragListener(this.context, this.gameState));
             } catch (JSONException e) {
-                throw new RuntimeException(e);
+                Log.e(TAG, e.toString());
             } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            // calculate points ...
-        } else if(this.isMyHand) {
-            holder.frameLayout.performClick();
-            holder.frameLayout.setOnTouchListener(this);
-            try {
-                holder.frameLayout.setOnDragListener(new DragListener(this.context, this.gameState));
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                Log.e(TAG, e.toString());
             }
         }
     }

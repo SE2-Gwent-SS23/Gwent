@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.List;
 
 import at.moritzmusel.gwent.R;
@@ -35,6 +34,7 @@ public class RedrawActivity extends AppCompatActivity {
     private int mRedrawCount = 0;
     private CardGenerator cardGenerator;
     private RedrawObjectGenerator redrawObjectGenerator;
+    private static final String TAG = "GameViewActivity";
 
 
     @Override
@@ -46,9 +46,10 @@ public class RedrawActivity extends AppCompatActivity {
         // receiving the gameState from GameViewActivity
         Intent intent = getIntent();
         this.gameState = (GameState) intent.getSerializableExtra("gameState");
+        int deviceHeight = intent.getIntExtra("deviceHeight", 0);
 
         this.redrawObjectGenerator = RedrawObjectGenerator.getInstance();
-        this.cardGenerator = new CardGenerator();
+        this.cardGenerator = new CardGenerator(this.getApplicationContext(), deviceHeight);
         this.gameState = cardGenerator.initMyHandCards(gameState);
 
         mPlayerCards = gameState.getMyHand();
@@ -60,12 +61,12 @@ public class RedrawActivity extends AppCompatActivity {
 
         mRedrawCards = redrawObjectGenerator.halveList(mPlayerCards);
         try {
-            GameViewActivity.setCards(findViewById(R.id.redrawUserCards1), true, mRedrawCards.get(0), getApplicationContext(), this, listener, gameState);
-            GameViewActivity.setCards(findViewById(R.id.redrawUserCards2), true, mRedrawCards.get(1), getApplicationContext(), this, listener, gameState);
+            cardGenerator.setCards(findViewById(R.id.redrawUserCards1), true, mRedrawCards.get(0), getApplicationContext(), this, listener, gameState);
+            cardGenerator.setCards(findViewById(R.id.redrawUserCards2), true, mRedrawCards.get(1), getApplicationContext(), this, listener, gameState);
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            Log.e(TAG, e.getLocalizedMessage());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Log.e(TAG, e.getLocalizedMessage());
         }
     }
 

@@ -38,14 +38,18 @@ public class RedrawObjectGenerator {
 
     public ReturnCard drawRandomCard(GameState gameState) {
         SecureRandom random = new SecureRandom();
-        int zz = random.nextInt(gameState.getAllCards().size());
-        Card card = gameState.getAllCards().get(zz);
-        while (card.getCount() == 0) {
+        int zz = 0;
+        Card card = null;
+        if(!gameState.getAllCards().isEmpty()) {
             zz = random.nextInt(gameState.getAllCards().size());
             card = gameState.getAllCards().get(zz);
-        }
 
-        gameState.getAllCards().get(zz).setCount(card.getCount() - 1);
+            while (card.getCount() == 0) {
+                zz = random.nextInt(gameState.getAllCards().size());
+                card = gameState.getAllCards().get(zz);
+            }
+            gameState.getAllCards().get(zz).setCount(card.getCount() - 1);
+        }
 
         return new ReturnCard(gameState, card);
     }

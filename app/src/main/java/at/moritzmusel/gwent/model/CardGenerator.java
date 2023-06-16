@@ -1,6 +1,18 @@
 package at.moritzmusel.gwent.model;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,29 +24,23 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.moritzmusel.gwent.R;
+import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.network.data.GameState;
 
 public class CardGenerator {
-    private static CardGenerator cardGeneratorInstance;
-
     private List<Card> allCardsList;
     private Context context;
 
+    private int deviceHeight;
+
     private SecureRandom mRandom = new SecureRandom();
 
-    public CardGenerator() {
-    }
 
-    public CardGenerator(Context context) {
+    public CardGenerator(Context context, int deviceHeight) {
         this.allCardsList = new ArrayList<>();
         this.context = context;
-    }
-
-    public static CardGenerator getInstance() {
-        if (cardGeneratorInstance == null) {
-            cardGeneratorInstance = new CardGenerator();
-        }
-        return cardGeneratorInstance;
+        this.deviceHeight = deviceHeight;
     }
 
     public String loadCardJSONFromAsset() throws IOException {
@@ -48,9 +54,9 @@ public class CardGenerator {
             while (is.read(buffer) > 0) {
                 jsonString = new String(buffer, "UTF-8");
             }
-            if (is != null) is.close();
+            is.close();
         } catch (IOException e) {
-            System.out.println(e.getLocalizedMessage());
+            Log.e("Error", e.getLocalizedMessage());
             return null;
         } finally {
             if (is != null) is.close();
@@ -80,8 +86,8 @@ public class CardGenerator {
             newCard.setName(name.toUpperCase());
             newCard.setStrength(strength);
             newCard.setCount(count);
-            newCard.setFilename(filename.toUpperCase());
-            newCard.setFlavorTxt(flavorTxt.toUpperCase());
+            newCard.setFilename(filename);
+            newCard.setFlavorTxt(flavorTxt);
             newCard.changeType(obj.optString("type").toUpperCase());
             newCard.changeRow(obj.optString("row").toUpperCase());
             newCard.changeAbility(obj.optString("ability").toUpperCase());
@@ -109,5 +115,25 @@ public class CardGenerator {
             gameState.getAllCards().get(i).setCount(card.getCount() - 1);
         }
         return gameState;
+    }
+
+    public void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, View.OnDragListener dragListener, GameState gameState) throws JSONException, IOException {
+        UserCardAdapter adapterLanes = new UserCardAdapter(cards, isMyHand, context, deviceHeight / 6, gameState);
+        view.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(parentActivity, LinearLayoutManager.HORIZONTAL, false);
+        view.setLayoutManager(linearLayoutManagerUser);
+        view.setItemAnimator(new DefaultItemAnimator());
+        view.setAdapter(adapterLanes);
+        if (dragListener == null) {
+            view.setOnDragListener(adapterLanes.getDragInstance());
+        } else {
+            view.setOnDragListener(dragListener);
+        }
+    }
+
+    public void setImageFromAssetForOpponent(Context context, ImageView image) {
+        Bitmap bitmap = ((BitmapDrawable) AppCompatResources.getDrawable(context, R.drawable.card_deck_back_opponent_right)).getBitmap();
+        Drawable dr = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, 50, 70, true));
+        image.setImageDrawable(dr);
     }
 }
