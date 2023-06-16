@@ -130,7 +130,7 @@ class CardGeneratorTest {
     }
 
     @Test
-    public void testSetCards() {
+    void testSetCards() {
         List<Card> cards = new ArrayList<>();
         Card newCard = new Card("Schirru", SCOIATAEL, null, 8, SCORCH_S, "schirru", 1, "Time to look death in the face.");
         cards.add(newCard);
