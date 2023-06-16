@@ -1,11 +1,9 @@
 package at.moritzmusel.gwent;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 
-import at.moritzmusel.gwent.ui.GameEndScreenActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import at.moritzmusel.gwent.ui.WelcomeActivity;
 
 public class MainActivity extends AppCompatActivity {

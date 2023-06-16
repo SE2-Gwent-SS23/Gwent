@@ -34,21 +34,11 @@ class CardGeneratorTest {
     void init() {
         context = mock(Context.class);
         assetManager = mock(AssetManager.class);
-        cardGenerator = new CardGenerator(context);
+        cardGenerator = new CardGenerator(context, 100);
         cardList = new ArrayList<>();
         jsonObject = new JSONObject();
         jsonArray = new JSONArray();
         when(context.getAssets()).thenReturn(assetManager);
-    }
-
-    @Test
-    void testGetInstance() {
-        CardGenerator cardGeneratorInstance1 = CardGenerator.getInstance();
-        CardGenerator cardGeneratorInstance2 = CardGenerator.getInstance();
-
-        assertNotNull(cardGeneratorInstance1);
-        assertNotNull(cardGeneratorInstance2);
-        assertEquals(cardGeneratorInstance1, cardGeneratorInstance2);
     }
 
     @Test

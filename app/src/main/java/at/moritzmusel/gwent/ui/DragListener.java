@@ -107,7 +107,6 @@ public class DragListener implements View.OnDragListener {
             adapterTarget.updateList(customListTarget);
             adapterTarget.notifyDataSetChanged();
 
-            // this.gwentViewModel.play(gameSate); GameState schicken
             // update gamestate
             if (lane == 1) {
                 this.gameState.removeFromMyHand(list);
@@ -116,9 +115,6 @@ public class DragListener implements View.OnDragListener {
                 this.gameState.removeFromMyHand(list);
                 GameViewActivity.gameStateUpdate.setValue(this.gameState);
             }
-            // disable functionality
-
-            // send to server
         }
     }
 

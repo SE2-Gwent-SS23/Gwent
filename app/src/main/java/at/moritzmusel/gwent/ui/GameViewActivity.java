@@ -9,15 +9,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -41,10 +38,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.nearby.Nearby;
@@ -58,8 +52,8 @@ import java.util.List;
 import java.util.Objects;
 
 import at.moritzmusel.gwent.R;
-import at.moritzmusel.gwent.adapter.UserCardAdapter;
 import at.moritzmusel.gwent.model.Card;
+import at.moritzmusel.gwent.model.CardGenerator;
 import at.moritzmusel.gwent.network.CHAOS.Network;
 import at.moritzmusel.gwent.network.CHAOS.NetworkInstance;
 import at.moritzmusel.gwent.network.CHAOS.TriggerValueChange;
@@ -69,6 +63,7 @@ import at.moritzmusel.gwent.network.data.GameState;
 
 public class GameViewActivity extends AppCompatActivity {
     private static String gamestateExtra = "gameState";
+    private CardGenerator cardGenerator;
     private List<RecyclerView> recyclerViews;
     private static final String TAG = "GameViewActivity";
     private Button buttonOpponentCards;
@@ -79,7 +74,7 @@ public class GameViewActivity extends AppCompatActivity {
     private Dialog lobbyDialog;
 
     private GameState gameState;
-    private static int deviceHeight;
+    private int deviceHeight;
     private int buttonHelp = 0;
 
     // popup opponent window
@@ -231,6 +226,8 @@ public class GameViewActivity extends AppCompatActivity {
 
         this.gameState = new GameState(0, 0, 0, false);
 
+        this.cardGenerator = new CardGenerator(this.getApplicationContext(), this.deviceHeight);
+
         this.tvMyGrave = findViewById(R.id.tvMyGrave);
 
         try {
@@ -241,7 +238,7 @@ public class GameViewActivity extends AppCompatActivity {
             Log.e(TAG, e.getLocalizedMessage());
         }
 
-        this.gameState.initAllCards(this.getApplicationContext());
+        this.gameState.initAllCards(this.getApplicationContext(), this.deviceHeight);
 
         // adding views to list
         initRecyclerViewsToList();
@@ -300,6 +297,7 @@ public class GameViewActivity extends AppCompatActivity {
                     lobbyDialog.dismiss();
                     Intent redrawActivityIntent = new Intent(GameViewActivity.this, RedrawActivity.class);
                     redrawActivityIntent.putExtra(gamestateExtra, this.gameState);
+                    redrawActivityIntent.putExtra("deviceHeight", deviceHeight);
                     startActivityForResult(redrawActivityIntent, 123);
                 }
             } else {
@@ -362,31 +360,11 @@ public class GameViewActivity extends AppCompatActivity {
     }
 
     public void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, GameState gameState) throws JSONException, IOException {
-        setCards(view, isMyHand, cards, context, parentActivity, null, gameState);
-    }
-
-    public static void setCards(RecyclerView view, Boolean isMyHand, List<Card> cards, Context context, Activity parentActivity, View.OnDragListener dragListener, GameState gameState) throws JSONException, IOException {
-        UserCardAdapter adapterLanes = new UserCardAdapter(cards, isMyHand, context, deviceHeight / 6, gameState);
-        view.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManagerUser = new LinearLayoutManager(parentActivity, LinearLayoutManager.HORIZONTAL, false);
-        view.setLayoutManager(linearLayoutManagerUser);
-        view.setItemAnimator(new DefaultItemAnimator());
-        view.setAdapter(adapterLanes);
-        if (dragListener == null) {
-            view.setOnDragListener(adapterLanes.getDragInstance());
-        } else {
-            view.setOnDragListener(dragListener);
-        }
+        cardGenerator.setCards(view, isMyHand, cards, context, parentActivity, null, gameState);
     }
 
     public void setUserCards(List<Card> cards) throws JSONException, IOException {
         setCards(R.id.recyclerViewUserCardStack, true, cards);
-    }
-
-    private void setImageFromAssetForOpponent(ImageView image) {
-        Bitmap bitmap = ((BitmapDrawable) AppCompatResources.getDrawable(this.getApplicationContext(), R.drawable.card_deck_back_opponent_right)).getBitmap();
-        Drawable dr = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 50, 70, true));
-        image.setImageDrawable(dr);
     }
 
     /**
@@ -412,7 +390,7 @@ public class GameViewActivity extends AppCompatActivity {
             } else {
                 im.setPadding(10, 10, 0, 10);
             }
-            setImageFromAssetForOpponent(im);
+            cardGenerator.setImageFromAssetForOpponent(this.getApplicationContext(), im);
             llOpponent.addView(im);
         }
 
@@ -444,7 +422,7 @@ public class GameViewActivity extends AppCompatActivity {
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int i) {
-            throw new UnsupportedOperationException();
+            //throw new UnsupportedOperationException();
         }
     };
 

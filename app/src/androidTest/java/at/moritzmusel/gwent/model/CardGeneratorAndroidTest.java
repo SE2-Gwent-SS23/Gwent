@@ -18,7 +18,7 @@ public class CardGeneratorAndroidTest {
     @Test
     void testFillCardSizeTest() throws JSONException, IOException {
         Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        cardGenerator = new CardGenerator(targetContext);
+        cardGenerator = new CardGenerator(targetContext, 100);
         JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
         assertEquals(214, cardGenerator.fillAllCardsIntoList(jsonObject).size());
     }
