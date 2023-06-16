@@ -140,8 +140,8 @@ public class GameState implements Serializable {
 
     }
 
-    public void initAllCards(Context context) {
-        CardGenerator cardGenerator = new CardGenerator(context);
+    public void initAllCards(Context context, int deviceHeight) {
+        CardGenerator cardGenerator = new CardGenerator(context, deviceHeight);
         try {
             JSONObject jsonObject = new JSONObject(cardGenerator.loadCardJSONFromAsset());
             this.allCards = cardGenerator.fillAllCardsIntoList(jsonObject);
