@@ -2,6 +2,7 @@ package at.moritzmusel.gwent.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -53,7 +54,7 @@ public class GameStateTest {
         this.cardList.add(cardClose);
         this.cardList.add(cardRanged);
         // this.cardGenerator = Mockito.mock(CardGenerator.class);
-        this.context= Mockito.mock(GameViewActivity.class);
+        this.context = Mockito.mock(GameViewActivity.class);
         // when(context.getAssets()).thenReturn(assetManager);
         try {
             //    when(cardGenerator.fillAllCardsIntoList(any())).thenReturn(cardList);
@@ -71,7 +72,7 @@ public class GameStateTest {
         this.gameState.addToMyClose(cardClose);
         this.gameState.addToMyRanged(cardRanged);
         this.gameState.sendToMyGrave();
-        assertEquals(this.gameState.getMyGrave(), cardList);
+        assertEquals(cardList, this.gameState.getMyGrave());
         Assertions.assertTrue(this.gameState.getMyClose().isEmpty());
         Assertions.assertTrue(this.gameState.getMyRanged().isEmpty());
     }
@@ -81,7 +82,7 @@ public class GameStateTest {
         this.gameState.addToOpponentClose(cardClose);
         this.gameState.addToOpponentRanged(cardRanged);
         this.gameState.sendToOpponentGrave();
-        assertEquals(this.gameState.getOpponentGrave(), cardList);
+        assertEquals(cardList, this.gameState.getOpponentGrave());
         Assertions.assertTrue(this.gameState.getOpponentClose().isEmpty());
         Assertions.assertTrue(this.gameState.getOpponentRanged().isEmpty());
     }
@@ -95,10 +96,10 @@ public class GameStateTest {
         int[] threeWins = new int[]{9, 9, 9};
         this.gameState.setMyRoundCounter(myRoundCounter);
 
-        assertEquals(this.gameState.calculateMyWins(noWins), 0);
-        assertEquals(this.gameState.calculateMyWins(oneWins), 1);
-        assertEquals(this.gameState.calculateMyWins(twoWins), 2);
-        assertEquals(this.gameState.calculateMyWins(threeWins), 3);
+        assertEquals(0, this.gameState.calculateMyWins(noWins));
+        assertEquals(1, this.gameState.calculateMyWins(oneWins));
+        assertEquals(2, this.gameState.calculateMyWins(twoWins));
+        assertEquals(3, this.gameState.calculateMyWins(threeWins));
     }
 
     @Test
@@ -108,11 +109,6 @@ public class GameStateTest {
         Assertions.assertTrue(this.gameState.isMyPassed());
     }
 
-    @Test
-        //not used
-    void testDetermineWinner() {
-
-    }
 
     @Test
     void testInitGameState() {
@@ -162,7 +158,7 @@ public class GameStateTest {
         this.gameState.addToMyClose(cardRanged);
         this.gameState.addToMyRanged(cardRanged);
         this.gameState.addToMyRanged(cardClose);
-        assertEquals(this.gameState.calculateMyPoints(), 6);
+        assertEquals(6, this.gameState.calculateMyPoints());
     }
 
     @Test
@@ -171,7 +167,7 @@ public class GameStateTest {
         this.gameState.addToOpponentClose(cardRanged);
         this.gameState.addToOpponentRanged(cardRanged);
         this.gameState.addToOpponentRanged(cardClose);
-        assertEquals(this.gameState.calculateOpponentPoints(), 6);
+        assertEquals(6, this.gameState.calculateOpponentPoints());
     }
 
     @Test
@@ -182,18 +178,25 @@ public class GameStateTest {
         Assertions.assertTrue(this.gameState.getWeather().isEmpty());
     }
 
+
     @Test
-        //not used
-    void testSwapPlayer() {
+    void testIncrementRoundTracker() {
+        assertEquals(0, this.gameState.getRoundTracker());
+        this.gameState.incrementRoundTracker();
+        assertEquals(1, this.gameState.getRoundTracker());
 
     }
 
     @Test
-    void testIncrementRoundTracker() {
-        assertEquals(this.gameState.getRoundTracker(), 0);
-        this.gameState.incrementRoundTracker();
-        assertEquals(this.gameState.getRoundTracker(), 1);
-
+    void testToString() {
+        this.gameState.addToMyHand(cardClose);
+        this.gameState.addToMyClose(cardClose);
+        this.gameState.addToMyRanged(cardRanged);
+        this.gameState.addToOpponentHand(cardClose);
+        this.gameState.addToOpponentClose(cardClose);
+        this.gameState.addToOpponentRanged(cardRanged);
+        this.gameState.addToMyGrave(cardRanged);
+        Assertions.assertTrue(this.gameState.toString() instanceof String);
     }
 
     @AfterEach
