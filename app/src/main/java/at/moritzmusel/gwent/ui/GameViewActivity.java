@@ -102,9 +102,8 @@ public class GameViewActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
 
                 //TODO not sure if this is the correct way to update gamestate
-                gameState.applySun();
+                gameState.removeRandomCardFromOpponentHand();
                 gameState.setCheated(true);
-
             }
         }
 
@@ -568,6 +567,8 @@ public class GameViewActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     //TODO set cheated to false when your turn ends
     private View.OnClickListener clickListenerCheatingButton() {

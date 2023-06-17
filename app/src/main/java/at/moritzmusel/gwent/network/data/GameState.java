@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +72,6 @@ public class GameState implements Serializable {
         return wins;
     }
 
-
     public void hasCards() {
         if (this.myHand.size() == 0) {
             this.myPassed = true;
@@ -98,7 +98,6 @@ public class GameState implements Serializable {
             return false;
         }
     }
-
 
     public void initGameState() throws JSONException, IOException {
         this.myDeck = "";
@@ -137,7 +136,6 @@ public class GameState implements Serializable {
         this.myPassed = false;
         this.opponentPassed = false;
         this.roundTracker = 0;
-
     }
 
     public void initAllCards(CardGenerator cardGenerator) {
@@ -150,7 +148,6 @@ public class GameState implements Serializable {
             Log.e(TAG, e.toString());
         }
     }
-
 
     public int calculateMyPoints() {
         int sum = 0;
@@ -176,6 +173,15 @@ public class GameState implements Serializable {
 
     public void applySun() {
         this.weather.clear();
+    }
+
+    public void removeRandomCardFromOpponentHand(){
+        SecureRandom random = new SecureRandom();
+        int zz = 0;
+        if(!this.opponentHand.isEmpty()) {
+            zz = random.nextInt(this.getOpponentHand().size());
+            this.opponentHand.remove(zz);
+        }
     }
 
     public void swapPlayer() {
@@ -209,13 +215,11 @@ public class GameState implements Serializable {
         int[] tempRoundCounter = this.myRoundCounter;
         this.myRoundCounter = this.opponentRoundCounter;
         this.opponentRoundCounter = tempRoundCounter;
-
     }
 
     public void incrementRoundTracker() {
         this.roundTracker++;
     }
-
 
     public void addToMyHand(Card card) {
         this.myHand.add(card);
@@ -353,7 +357,6 @@ public class GameState implements Serializable {
         this.myClose = myClose;
     }
 
-
     public List<Card> getMyRanged() {
         return myRanged;
     }
@@ -361,7 +364,6 @@ public class GameState implements Serializable {
     public void setMyRanged(List<Card> myRanged) {
         this.myRanged = myRanged;
     }
-
 
     public List<Card> getOpponentClose() {
         return opponentClose;
@@ -371,15 +373,11 @@ public class GameState implements Serializable {
         this.opponentClose = opponentClose;
     }
 
-
     public List<Card> getOpponentRanged() {
         return opponentRanged;
     }
 
-    public void setOpponentRanged(List<Card> opponentRanged) {
-        this.opponentRanged = opponentRanged;
-    }
-
+    public void setOpponentRanged(List<Card> opponentRanged) {this.opponentRanged = opponentRanged;}
 
     public Card getMyLeader() {
         return myLeader;
@@ -409,9 +407,7 @@ public class GameState implements Serializable {
         return usedOpponentLeader;
     }
 
-    public void setUsedOpponentLeader(Boolean usedOpponentLeader) {
-        this.usedOpponentLeader = usedOpponentLeader;
-    }
+    public void setUsedOpponentLeader(Boolean usedOpponentLeader) {this.usedOpponentLeader = usedOpponentLeader;}
 
     public List<Card> getAllCards() {
         return this.allCards;
@@ -453,21 +449,15 @@ public class GameState implements Serializable {
         this.myRoundCounter = myRoundCounter;
     }
 
-    public void setMyRoundCounterByRound(int points) {
-        this.myRoundCounter[this.roundTracker] = points;
-    }
+    public void setMyRoundCounterByRound(int points) {this.myRoundCounter[this.roundTracker] = points;}
 
     public int[] getOpponentRoundCounter() {
         return opponentRoundCounter;
     }
 
-    public void setOpponentRoundCounter(int[] opponentRoundCounter) {
-        this.opponentRoundCounter = opponentRoundCounter;
-    }
+    public void setOpponentRoundCounter(int[] opponentRoundCounter) {this.opponentRoundCounter = opponentRoundCounter;}
 
-    public void setOpponentRoundCounterByRound(int counter) {
-        this.opponentRoundCounter[this.roundTracker] = counter;
-    }
+    public void setOpponentRoundCounterByRound(int counter) {this.opponentRoundCounter[this.roundTracker] = counter;}
 
     public int getRoundTracker() {
         return roundTracker;
@@ -488,7 +478,6 @@ public class GameState implements Serializable {
     public boolean isOver() {
         return isOver;
     }
-
 
     @Override
     public String toString() {
@@ -514,6 +503,7 @@ public class GameState implements Serializable {
                 ", usedOpponentLeader=" + usedOpponentLeader +
                 ", myRoundCounter=" + myRoundCounter +
                 ", opponentRoundCounter=" + opponentRoundCounter +
+                ", cheated=" + cheated +
                 '}';
     }
 }
