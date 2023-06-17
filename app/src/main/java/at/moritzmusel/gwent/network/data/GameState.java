@@ -16,12 +16,8 @@ import at.moritzmusel.gwent.model.CardGenerator;
 
 public class GameState implements Serializable {
     //TODO last parameter @board should be the game info storage type
-    public static GameState UNITIALIZED = new GameState(0, 0, 0, false);
+    public static GameState UNITIALIZED = new GameState();
     private static final String TAG = "GameViewActivity";
-    private final int localPlayer;
-    private final int playerTurn;
-    private final int playerWon;
-    private final boolean isOver;
     private String myDeck;
     private String opponentDeck;
     private List<Card> myHand;
@@ -78,11 +74,8 @@ public class GameState implements Serializable {
         }
     }
 
-    public GameState(int localPlayer, int playerTurn, int playerWon, boolean isOver) {
-        this.localPlayer = localPlayer;
-        this.playerTurn = playerTurn;
-        this.playerWon = playerWon;
-        this.isOver = isOver;
+    public GameState() {
+
     }
 
     public boolean determineWinner(Boolean[] array) {
@@ -485,9 +478,6 @@ public class GameState implements Serializable {
         this.cheated = cheated;
     }
 
-    public boolean isOver() {
-        return isOver;
-    }
 
 
     @Override
@@ -495,8 +485,6 @@ public class GameState implements Serializable {
         return "GameState{" +
                 "roundTracker=" + roundTracker +
                 ", myPassed/opponenPassed=" + myPassed + "/" + opponentPassed +
-                ", playerWon=" + playerWon +
-                ", isOver=" + isOver +
                 ", myDeck='" + myDeck + '\'' +
                 ", opponentDeck='" + opponentDeck + '\'' +
                 ", myHand=" + myHand +

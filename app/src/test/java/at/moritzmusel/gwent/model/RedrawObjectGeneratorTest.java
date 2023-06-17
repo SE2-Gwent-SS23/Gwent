@@ -58,7 +58,7 @@ class RedrawObjectGeneratorTest {
 
     @Test
     void testDrawRandomCard() {
-        GameState gameState = new GameState(0, 0, 0, false);
+        GameState gameState = new GameState();
         List<Card> cards = new ArrayList<>();
         cards.add(new Card("Name 1", SKELLIGE, null, 8, FOG, "name1", 1, "Time to look death in the face."));
         cards.add(new Card("Name 2", SKELLIGE, null, 2, MUSTER, "name2", 3, "Text 2"));
@@ -81,7 +81,7 @@ class RedrawObjectGeneratorTest {
 
     @Test
     void testDrawRandomCountCardCountZero() {
-        GameState gameState = new GameState(0, 0, 0, false);
+        GameState gameState = new GameState();
         List<Card> cards = new ArrayList<>();
         cards.add(new Card("Name 1", SKELLIGE, null, 8, FOG, "name1", 0, "Time to look death in the face."));
         cards.add(new Card("Name 2", SKELLIGE, null, 2, MUSTER, "name2", 3, "Text 2"));
