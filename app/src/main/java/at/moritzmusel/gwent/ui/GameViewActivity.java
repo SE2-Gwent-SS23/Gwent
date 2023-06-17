@@ -63,7 +63,6 @@ import at.moritzmusel.gwent.network.data.GameState;
 
 public class GameViewActivity extends AppCompatActivity {
     private static final String TAG = "GameViewActivity";
-    private boolean networkPassedIrgentwasHatDavidGemeintUndImEndturnVergleichmasIrgentwie = true;
     public static TriggerValueChange gameStateUpdate = new TriggerValueChange();
     private static String gamestateExtra = "gameState";
     private static ActivityResultLauncher<String[]> requestMultiplePermissions;
@@ -144,7 +143,6 @@ public class GameViewActivity extends AppCompatActivity {
         } else {
             REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
         }
-        // Log.i(TAG, Arrays.toString(REQUIRED_PERMISSIONS));
 
         waitingCallback.setListener(value -> {
             GameState g = (GameState) value;
@@ -188,19 +186,6 @@ public class GameViewActivity extends AppCompatActivity {
 
                             this.gameState.setMyRoundCounterByRound(myPoints);
                             this.gameState.setOpponentRoundCounterByRound(opponentPoints);
-
-                            /*
-                            //why in draw
-                            int roundTrackerReal = this.gameState.getRoundTracker() + 1;
-                            if (myPoints > opponentPoints) {
-                                Toast.makeText(this, "You are the winner of round: " + roundTrackerReal, Toast.LENGTH_LONG).show();
-
-                            } else if (myPoints < opponentPoints) {
-                                Toast.makeText(this, "You lost round: " + roundTrackerReal, Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(this, "Round: " + roundTrackerReal + " is a draw.", Toast.LENGTH_LONG).show();
-                            }
-                            */
 
                             //increment roundTracker
                             this.gameState.incrementRoundTracker();
@@ -246,7 +231,7 @@ public class GameViewActivity extends AppCompatActivity {
             network.sendGameState((GameState) value);
         });
 
-        this.gameState = new GameState(0, 0, 0, false);
+        this.gameState = new GameState();
 
         this.cardGenerator = new CardGenerator(this.getApplicationContext(), this.deviceHeight);
 
@@ -486,7 +471,6 @@ public class GameViewActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
-            // Log.i(TAG, "requestMultiplePermissions called");
             requestMultiplePermissions.launch(REQUIRED_PERMISSIONS);
         }
     }
