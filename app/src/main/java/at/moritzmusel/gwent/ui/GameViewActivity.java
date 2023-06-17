@@ -101,7 +101,6 @@ public class GameViewActivity extends AppCompatActivity {
             if (mAccel > 12) {
                 Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
 
-                //TODO not sure if this is the correct way to update gamestate
                 gameState.removeRandomCardFromOpponentHand();
                 gameState.setCheated(true);
             }
@@ -276,8 +275,6 @@ public class GameViewActivity extends AppCompatActivity {
                         finish();
                     } else recreate();
                 });
-
-        initShakeSensor();
         doNetworking();
     }
 
@@ -345,13 +342,16 @@ public class GameViewActivity extends AppCompatActivity {
         });
     }
 
-
     private void initShakeSensor() {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         mAccel = 10f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
+    }
+
+    private void removeShakeSensor(){
+        mSensorManager.unregisterListener(mSensorListener);
     }
 
     private void settingResponsiveGameBoard() {
@@ -543,6 +543,7 @@ public class GameViewActivity extends AppCompatActivity {
             endTurn.setColorFilter(colorFilter);
             cheatingButton.setVisibility(View.INVISIBLE);
             cheatingButton.setOnClickListener(null);
+            initShakeSensor();
         } else {
             for (RecyclerView view : this.recyclerViews)
                 view.setOnDragListener(new DragListener(gameState));
@@ -551,6 +552,7 @@ public class GameViewActivity extends AppCompatActivity {
             endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
             cheatingButton.setVisibility(View.VISIBLE);
             cheatingButton.setOnClickListener(clickListenerCheatingButton());
+            removeShakeSensor();
         }
     }
 
@@ -568,14 +570,11 @@ public class GameViewActivity extends AppCompatActivity {
         });
     }
 
-
-
     //TODO set cheated to false when your turn ends
     private View.OnClickListener clickListenerCheatingButton() {
         return (view -> {
-            GameState gs = network.getCurrentState().getValue();
-            if (gs.isCheated()) {
-                //gs.setCheated(false);
+            if (gameState.isCheated()) {
+                gameState.setCheated(false);
                 Toast.makeText(getApplicationContext(), "cheating detected!", Toast.LENGTH_SHORT).show();
                 //TODO punish enemy
             } else {
