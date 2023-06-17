@@ -29,8 +29,11 @@ import at.moritzmusel.gwent.model.Ability;
 import at.moritzmusel.gwent.model.Card;
 import at.moritzmusel.gwent.network.data.GameState;
 import at.moritzmusel.gwent.ui.DragListener;
+import at.moritzmusel.gwent.ui.GameViewActivity;
 
-public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHolder> implements View.OnTouchListener {
+public class UserCardAdapter extends
+        RecyclerView.Adapter<UserCardAdapter.ViewHolder> implements
+        View.OnTouchListener {
     private static final String TAG = "GameViewActivity";
     private List<Card> list;
     private Context context;
@@ -38,7 +41,8 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
     private Boolean isMyHand;
     private int rvHeight;
 
-    public UserCardAdapter(List<Card> list, Boolean isMyHand, Context context, int rvHeight, GameState gameState) {
+    public UserCardAdapter(List<Card> list, Boolean isMyHand, Context
+            context, int rvHeight, GameState gameState) {
         this.list = list;
         this.context = context;
         this.isMyHand = isMyHand;
@@ -48,26 +52,33 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
 
     @NonNull
     @Override
-    public UserCardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem = layoutInflater.inflate(R.layout.card_placeholder, parent, false);
+    public UserCardAdapter.ViewHolder onCreateViewHolder(@NonNull
+                                                                 ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater =
+                LayoutInflater.from(parent.getContext());
+        View listItem = layoutInflater.inflate(R.layout.card_placeholder,
+                parent, false);
         return new ViewHolder(listItem);
     }
 
     @SuppressLint("RestrictedApi")
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    {
         Card card = this.list.get(position);
         String cardNumber = card.getStrength()+"";
         holder.textView.setText(cardNumber);
         holder.frameLayout.setTag(position);
         String placeholder = "neutral_cow.jpg";
         try {
-            String fileName = card.getType().toString().toLowerCase() +"_"+card.getFilename().toLowerCase() + ".jpg";
-            setImageFromAsset(context.getAssets().open(fileName), holder.imageView);
+            String fileName = card.getType().toString().toLowerCase()
+                    +"_"+card.getFilename().toLowerCase() + ".jpg";
+            setImageFromAsset(context.getAssets().open(fileName),
+                    holder.imageView);
         } catch (IOException e) {
             try {
-                setImageFromAsset(context.getAssets().open(placeholder), holder.imageView);
+                setImageFromAsset(context.getAssets().open(placeholder),
+                        holder.imageView);
             } catch (IOException ex) {
                 Log.e(TAG, ex.toString());
             }
@@ -77,7 +88,8 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
             holder.frameLayout.performClick();
             holder.frameLayout.setOnTouchListener(this);
             try {
-                holder.frameLayout.setOnDragListener(new DragListener( this.gameState));
+                holder.frameLayout.setOnDragListener(new DragListener(
+                        this.gameState));
             } catch (JSONException e) {
                 Log.e(TAG, e.toString());
             } catch (IOException e) {
@@ -91,10 +103,12 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
      *
      * @param image
      */
-    public void setImageFromAsset(InputStream imgStream, ImageView image) {
+    public void setImageFromAsset(InputStream imgStream, ImageView image)
+    {
         Drawable d = Drawable.createFromStream(imgStream, null);
         Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
-        Drawable dr = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, rvHeight-rvHeight/3, rvHeight, true));
+        Drawable dr = new BitmapDrawable(context.getResources(),
+                Bitmap.createScaledBitmap(bitmap, rvHeight-rvHeight/3, rvHeight, true));
         image.setImageDrawable(dr);
     }
 
@@ -108,14 +122,16 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         view.performClick();
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             ClipData data = ClipData.newPlainText("", "");
-            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+            View.DragShadowBuilder shadowBuilder = new
+                    View.DragShadowBuilder(view);
             view.startDragAndDrop(data, shadowBuilder, view, 0);
             return true;
         }
         return false;
     }
 
-    public DragListener getDragInstance() throws JSONException, IOException {
+    public DragListener getDragInstance() throws JSONException,
+            IOException {
         return new DragListener( this.gameState);
     }
 
@@ -135,8 +151,10 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
-            this.imageView = itemView.findViewById(R.id.card_placeholder_image);
-            this.textView = itemView.findViewById(R.id.card_placeholder_tv);
+            this.imageView =
+                    itemView.findViewById(R.id.card_placeholder_image);
+            this.textView =
+                    itemView.findViewById(R.id.card_placeholder_tv);
             this.frameLayout = itemView.findViewById(R.id.framelayout1);
         }
     }

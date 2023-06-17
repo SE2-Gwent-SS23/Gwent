@@ -71,12 +71,7 @@ public class RedrawActivity extends AppCompatActivity {
         }
         //add event listener to button
         Button redrawButton = (Button) findViewById(R.id.btnEndRedraw);
-        redrawButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickCloseRedraw();
-            }
-        });
+        redrawButton.setOnClickListener(v -> onClickCloseRedraw());
     }
 
     public void onClickCloseRedraw() {
@@ -113,4 +108,3 @@ public class RedrawActivity extends AppCompatActivity {
         }
     }
 }
-
