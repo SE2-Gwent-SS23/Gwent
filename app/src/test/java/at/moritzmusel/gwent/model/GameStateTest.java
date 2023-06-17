@@ -47,7 +47,7 @@ public class GameStateTest {
 
     @BeforeEach
     void init() {
-        this.gameState = new GameState(0, 0, 0, false);
+        this.gameState = new GameState();
         this.cardClose = new Card("Test1", Type.MONSTERS, Row.CLOSE, 1, Ability.BOND, "TestCase1", 1, "First Card to test");
         this.cardRanged = new Card("Test2", Type.SCOIATAEL, Row.RANGED, 2, Ability.MEDIC, "TestCase2", 1, "Second Card to test");
         this.cardList = new ArrayList<>();
@@ -120,7 +120,7 @@ public class GameStateTest {
         Assertions.assertTrue(gameState.getUsedMyLeader() instanceof Boolean);
         Assertions.assertTrue(gameState.getUsedOpponentLeader() instanceof Boolean);
         Assertions.assertTrue(gameState.getMyRoundCounter() instanceof int[]);
-        assertNotNull(gameState.isCheated());
+        Assertions.assertFalse(gameState.isCheated());
         Assertions.assertTrue(gameState.getMyHand() instanceof ArrayList);
         Assertions.assertTrue(gameState.getAllCards() instanceof ArrayList);
         Assertions.assertTrue(gameState.getMyRanged() instanceof ArrayList);
@@ -130,9 +130,9 @@ public class GameStateTest {
         Assertions.assertTrue(gameState.getOpponentHand() instanceof ArrayList);
         Assertions.assertTrue(gameState.getMyGrave() instanceof ArrayList);
         Assertions.assertTrue(gameState.getOpponentGrave() instanceof ArrayList);
-        assertNotNull(gameState.isMyPassed());
-        assertNotNull(gameState.isOpponentPassed());
-        assertNotNull(gameState.getRoundTracker());
+        Assertions.assertFalse(gameState.isMyPassed());
+        Assertions.assertFalse(gameState.isOpponentPassed());
+        Assertions.assertEquals(0, gameState.getRoundTracker());
     }
 
     @Test
@@ -142,7 +142,7 @@ public class GameStateTest {
         Mockito.when(cardGenerator.loadCardJSONFromAsset()).thenReturn("{\"cards\": []}");
         Mockito.when(cardGenerator.fillAllCardsIntoList(Mockito.any(JSONObject.class))).thenReturn(new ArrayList<>());
 
-        GameState yourClass = new GameState(0, 0, 0, false);
+        GameState yourClass = new GameState();
         yourClass.initAllCards(cardGenerator);
 
         Assertions.assertNotNull(yourClass.getAllCards());
