@@ -77,6 +77,7 @@ public class GameViewActivity extends AppCompatActivity {
     private GameState gameState;
     private int deviceHeight;
     private int buttonHelp = 0;
+    private boolean attachDoubleTapDetector;
     // popup opponent window
     private LayoutInflater inflaterOpponent;
     private View popupViewOpponent;
@@ -86,6 +87,7 @@ public class GameViewActivity extends AppCompatActivity {
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
+    private boolean mShaked;
     //shake sensor listener
     private final SensorEventListener mSensorListener = new SensorEventListener() {
         @Override
@@ -97,13 +99,12 @@ public class GameViewActivity extends AppCompatActivity {
             mAccelCurrent = (float) Math.sqrt(x * x + y * y + z * z);
             float delta = mAccelCurrent - mAccelLast;
             mAccel = mAccel * 0.9f + delta;
-            if (mAccel > 12) {
+            if (mAccel > 12 && !mShaked) {
                 Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
 
-                //TODO not sure if this is the correct way to update gamestate
-                gameState.applySun();
+                gameState.removeRandomCardFromOpponentHand();
                 gameState.setCheated(true);
-
+                mShaked = true;
             }
         }
 
@@ -112,6 +113,7 @@ public class GameViewActivity extends AppCompatActivity {
             throw new UnsupportedOperationException();
         }
     };
+
     // network variables
     private Network network;
     private String sessionType = "";
@@ -251,6 +253,7 @@ public class GameViewActivity extends AppCompatActivity {
         settingResponsiveGameBoard();
 
         initClickOpponentCardsListener();
+        findViewById(R.id.button_cheat).setOnClickListener(clickListenerCheatingButton());
         findViewById(R.id.iv_buttonGamePassWaitEndTurn).setOnClickListener(clickEndTurn());
 
         requestMultiplePermissions = this.registerForActivityResult(
@@ -262,8 +265,6 @@ public class GameViewActivity extends AppCompatActivity {
                         finish();
                     } else recreate();
                 });
-
-        initShakeSensor();
         doNetworking();
     }
 
@@ -331,13 +332,17 @@ public class GameViewActivity extends AppCompatActivity {
         });
     }
 
-
     private void initShakeSensor() {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         mAccel = 10f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
+        mShaked = false;
+    }
+
+    private void removeShakeSensor() {
+        mSensorManager.unregisterListener(mSensorListener);
     }
 
     private void settingResponsiveGameBoard() {
@@ -411,7 +416,9 @@ public class GameViewActivity extends AppCompatActivity {
             llOpponent.addView(im);
 
             //add double tap listener to enemy cards for cheating
-            im.setOnTouchListener(new DoubleTapDetector(this));
+            if (attachDoubleTapDetector) {
+                im.setOnTouchListener(new DoubleTapDetector(this));
+            }
         }
 
         // important: before getting the size of pop-up we should assign default measurements for the view
@@ -526,17 +533,22 @@ public class GameViewActivity extends AppCompatActivity {
             for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
             endTurn.setOnClickListener(null);
             endTurn.setColorFilter(colorFilter);
+
             cheatingButton.setVisibility(View.INVISIBLE);
-            cheatingButton.setOnClickListener(null);
+            initShakeSensor();
+            attachDoubleTapDetector = true;
         } else {
             for (RecyclerView view : this.recyclerViews)
                 view.setOnDragListener(new DragListener(gameState));
             endTurn.setOnClickListener(clickEndTurn());
             endTurn.setColorFilter(null);
             endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
+
             cheatingButton.setVisibility(View.VISIBLE);
-            cheatingButton.setOnClickListener(clickListenerCheatingButton());
+            removeShakeSensor();
+            attachDoubleTapDetector = false;
         }
+        gameState.setCheated(false);
     }
 
     private View.OnClickListener clickEndTurn() {
@@ -553,17 +565,26 @@ public class GameViewActivity extends AppCompatActivity {
         });
     }
 
-    //TODO set cheated to false when your turn ends
     private View.OnClickListener clickListenerCheatingButton() {
         return (view -> {
-            GameState gs = network.getCurrentState().getValue();
-            if (gs.isCheated()) {
-                //gs.setCheated(false);
+            if (gameState.isCheated()) {
+                gameState.setCheated(false);
                 Toast.makeText(getApplicationContext(), "cheating detected!", Toast.LENGTH_SHORT).show();
+
                 //TODO punish enemy
+                //not sure if this works
+                int arr[] = gameState.getOpponentRoundCounter();
+                arr[gameState.getRoundTracker()] -= 10;
+                gameState.setOpponentRoundCounter(arr);
+
             } else {
                 Toast.makeText(getApplicationContext(), "no cheating detected, you are wrong!", Toast.LENGTH_SHORT).show();
+
                 //TODO punish you
+                //not sure if this works
+                int arr[] = gameState.getMyRoundCounter();
+                arr[gameState.getRoundTracker()] -= 10;
+                gameState.setMyRoundCounter(arr);
             }
         });
     }
