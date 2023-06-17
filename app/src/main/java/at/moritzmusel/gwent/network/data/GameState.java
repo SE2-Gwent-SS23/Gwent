@@ -493,8 +493,8 @@ public class GameState implements Serializable {
     @Override
     public String toString() {
         return "GameState{" +
-                "localPlayer=" + localPlayer +
-                ", playerTurn=" + playerTurn +
+                "roundTracker=" + roundTracker +
+                ", myPassed/opponenPassed=" + myPassed + "/" + opponentPassed +
                 ", playerWon=" + playerWon +
                 ", isOver=" + isOver +
                 ", myDeck='" + myDeck + '\'' +

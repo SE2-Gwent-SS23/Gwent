@@ -29,6 +29,7 @@ import at.moritzmusel.gwent.model.Ability;
 import at.moritzmusel.gwent.model.Card;
 import at.moritzmusel.gwent.network.data.GameState;
 import at.moritzmusel.gwent.ui.DragListener;
+import at.moritzmusel.gwent.ui.GameViewActivity;
 
 public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHolder> implements View.OnTouchListener {
     private static final String TAG = "GameViewActivity";

@@ -23,10 +23,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -51,7 +49,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import at.moritzmusel.gwent.R;
 import at.moritzmusel.gwent.model.Card;
@@ -64,47 +61,71 @@ import at.moritzmusel.gwent.network.data.GameState;
 
 
 public class GameViewActivity extends AppCompatActivity {
+    private static final String TAG = "GameViewActivity";
+    private boolean networkPassedIrgentwasHatDavidGemeintUndImEndturnVergleichmasIrgentwie = true;
+    public static TriggerValueChange gameStateUpdate = new TriggerValueChange();
     private static String gamestateExtra = "gameState";
+    private static ActivityResultLauncher<String[]> requestMultiplePermissions;
     private CardGenerator cardGenerator;
     private List<RecyclerView> recyclerViews;
-    private static final String TAG = "GameViewActivity";
     private Button buttonOpponentCards;
     private TextView tvMyGrave;
     private TextView tvOpponentMonster;
     private TextView tvOpponentGrave;
     private PopupWindow popupWindow;
     private Dialog lobbyDialog;
-
     private GameState gameState;
     private int deviceHeight;
     private int buttonHelp = 0;
-
     // popup opponent window
     private LayoutInflater inflaterOpponent;
     private View popupViewOpponent;
     private LinearLayout llOpponent;
-
     // variables for shake sensor
     private SensorManager mSensorManager;
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
+    //shake sensor listener
+    private final SensorEventListener mSensorListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            mAccelLast = mAccelCurrent;
+            mAccelCurrent = (float) Math.sqrt(x * x + y * y + z * z);
+            float delta = mAccelCurrent - mAccelLast;
+            mAccel = mAccel * 0.9f + delta;
+            if (mAccel > 12) {
+                Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
 
+                //TODO not sure if this is the correct way to update gamestate
+                gameState.applySun();
+                gameState.setCheated(true);
+
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+            throw new UnsupportedOperationException();
+        }
+    };
     // network variables
     private Network network;
     private String sessionType = "";
     private String[] REQUIRED_PERMISSIONS;
-    private static ActivityResultLauncher<String[]> requestMultiplePermissions;
     private TriggerValueChangeListener onConnectionSuccessfullTrigger;
     private TriggerValueChange waitingCallback = new TriggerValueChange();
-    public static TriggerValueChange gameStateUpdate = new TriggerValueChange();
-
 
     @SuppressLint({"ClickableViewAccessibility", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_view);
+
+        this.deviceHeight = getResources().getDisplayMetrics().heightPixels;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             REQUIRED_PERMISSIONS = new String[]{
@@ -119,18 +140,7 @@ public class GameViewActivity extends AppCompatActivity {
         } else {
             REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
         }
-
-        requestMultiplePermissions = this.registerForActivityResult(
-                new ActivityResultContracts.RequestMultiplePermissions(),
-                permissions -> {
-                    if (permissions.entrySet().stream().anyMatch(val -> !val.getValue())) {
-                        Log.e(TAG, "Missing permissions");
-                        Toast.makeText(this, "Required permissions needed. Go to settings!", Toast.LENGTH_LONG).show();
-                        finish();
-                    } else recreate();
-                });
-
-        Log.i(TAG, Arrays.toString(REQUIRED_PERMISSIONS));
+        // Log.i(TAG, Arrays.toString(REQUIRED_PERMISSIONS));
 
         waitingCallback.setListener(value -> {
             GameState g = (GameState) value;
@@ -144,16 +154,26 @@ public class GameViewActivity extends AppCompatActivity {
                     setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
                     setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
                     i("Callback", this.gameState.toString());
+
                     enableDisableYourTurn(true);
                     updateUI(gameState);
+
+                    if (this.gameState.getRoundTracker() > 2) {
+                        Intent endScreenActivityIntent = new Intent(GameViewActivity.this, GameEndScreenActivity.class);
+                        endScreenActivityIntent.putExtra("gameStateEnd", this.gameState);
+                        startActivity(endScreenActivityIntent);
+                    }
 
                     //round ending
                     this.gameState.hasCards();
                     if (this.gameState.isMyPassed()) {
                         //disable functunality
                         enableDisableYourTurn(false);
-                        //send Gamestate
-                        network.sendGameState(this.gameState);
+
+                        if (this.gameState.isOpponentPassed()) {
+                            //send Gamestate
+                            network.sendGameState(this.gameState);
+                        }
 
                         //why here
                         if (this.gameState.isOpponentPassed()) {
@@ -161,12 +181,13 @@ public class GameViewActivity extends AppCompatActivity {
                             this.gameState.setOpponentPassed(false);
                             int myPoints = this.gameState.calculateMyPoints();
                             int opponentPoints = this.gameState.calculateOpponentPoints();
-                            int roundTrackerReal = this.gameState.getRoundTracker() + 1;
 
                             this.gameState.setMyRoundCounterByRound(myPoints);
                             this.gameState.setOpponentRoundCounterByRound(opponentPoints);
 
+                            /*
                             //why in draw
+                            int roundTrackerReal = this.gameState.getRoundTracker() + 1;
                             if (myPoints > opponentPoints) {
                                 Toast.makeText(this, "You are the winner of round: " + roundTrackerReal, Toast.LENGTH_LONG).show();
 
@@ -175,6 +196,8 @@ public class GameViewActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(this, "Round: " + roundTrackerReal + " is a draw.", Toast.LENGTH_LONG).show();
                             }
+                            */
+
                             //increment roundTracker
                             this.gameState.incrementRoundTracker();
 
@@ -188,13 +211,9 @@ public class GameViewActivity extends AppCompatActivity {
                             network.sendGameState(this.gameState);
                             updateUI(this.gameState);
 
-                            if (this.gameState.calculateMyWins(this.gameState.getOpponentRoundCounter()) > 1) {
+                            if (this.gameState.calculateMyWins(this.gameState.getOpponentRoundCounter()) > 2) {
                                 Toast.makeText(this, "You won the game!", Toast.LENGTH_LONG).show();
                             }
-
-                            Intent endScreenActivityIntent = new Intent(GameViewActivity.this, GameEndScreenActivity.class);
-                            endScreenActivityIntent.putExtra("gameStateEnd", this.gameState);
-                            startActivity(endScreenActivityIntent);
                         }
                     }
                 } catch (JSONException e) {
@@ -213,7 +232,7 @@ public class GameViewActivity extends AppCompatActivity {
                 } else {
                     for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
                     for (RecyclerView view : this.recyclerViews)
-                        view.setOnDragListener(new DragListener( gameState));
+                        view.setOnDragListener(new DragListener(gameState));
                 }
             } catch (JSONException e) {
                 Log.e(TAG, e.getLocalizedMessage());
@@ -247,7 +266,18 @@ public class GameViewActivity extends AppCompatActivity {
 
         initClickOpponentCardsListener();
         findViewById(R.id.iv_buttonGamePassWaitEndTurn).setOnClickListener(clickEndTurn());
-        initShakeSensor();
+
+        requestMultiplePermissions = this.registerForActivityResult(
+                new ActivityResultContracts.RequestMultiplePermissions(),
+                permissions -> {
+                    if (permissions.entrySet().stream().anyMatch(val -> !val.getValue())) {
+                        Log.e(TAG, "Missing permissions");
+                        Toast.makeText(this, "Required permissions needed. Go to settings!", Toast.LENGTH_LONG).show();
+                        finish();
+                    } else recreate();
+                });
+
+        //initShakeSensor();
         doNetworking();
     }
 
@@ -315,6 +345,7 @@ public class GameViewActivity extends AppCompatActivity {
         });
     }
 
+    /*
     private void initShakeSensor() {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
@@ -322,7 +353,7 @@ public class GameViewActivity extends AppCompatActivity {
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
     }
-
+    */
     private void settingResponsiveGameBoard() {
         /* Setting responsive bounds of the game lanes */
         RecyclerView rvOpponentOne = findViewById(R.id.recyclerViewCardOpponentLaneOne);
@@ -409,16 +440,16 @@ public class GameViewActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        // mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         super.onResume();
     }
+    //END shake sensor listener
 
     @Override
     protected void onPause() {
-        mSensorManager.unregisterListener(mSensorListener);
+        // mSensorManager.unregisterListener(mSensorListener);
         super.onPause();
     }
-    //END shake sensor listener
 
     private void showLobbyPopup() {
         TextView lobbyText = lobbyDialog.findViewById(R.id.lobby_text);
@@ -447,7 +478,7 @@ public class GameViewActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
-            Log.i(TAG, "requestMultiplePermissions called");
+            // Log.i(TAG, "requestMultiplePermissions called");
             requestMultiplePermissions.launch(REQUIRED_PERMISSIONS);
         }
     }
@@ -513,7 +544,8 @@ public class GameViewActivity extends AppCompatActivity {
             cheatingButton.setVisibility(View.INVISIBLE);
             cheatingButton.setOnClickListener(null);
         } else {
-            for (RecyclerView view : this.recyclerViews) view.setOnDragListener(new DragListener( gameState));
+            for (RecyclerView view : this.recyclerViews)
+                view.setOnDragListener(new DragListener(gameState));
             endTurn.setOnClickListener(clickEndTurn());
             endTurn.setColorFilter(null);
             endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
@@ -536,32 +568,6 @@ public class GameViewActivity extends AppCompatActivity {
         });
     }
 
-    //shake sensor listener
-    private final SensorEventListener mSensorListener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            float x = event.values[0];
-            float y = event.values[1];
-            float z = event.values[2];
-            mAccelLast = mAccelCurrent;
-            mAccelCurrent = (float) Math.sqrt(x * x + y * y + z * z);
-            float delta = mAccelCurrent - mAccelLast;
-            mAccel = mAccel * 0.9f + delta;
-            if (mAccel > 12) {
-                Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
-
-                //TODO not sure if this is the correct way to update gamestate
-                gameState.applySun();
-                gameState.setCheated(true);
-
-            }
-        }
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {
-            throw new UnsupportedOperationException();
-        }
-    };
-
     //TODO set cheated to false when your turn ends
     private View.OnClickListener clickListenerCheatingButton() {
         return (view -> {
@@ -570,7 +576,7 @@ public class GameViewActivity extends AppCompatActivity {
                 //gs.setCheated(false);
                 Toast.makeText(getApplicationContext(), "cheating detected!", Toast.LENGTH_SHORT).show();
                 //TODO punish enemy
-            }else{
+            } else {
                 Toast.makeText(getApplicationContext(), "no cheating detected, you are wrong!", Toast.LENGTH_SHORT).show();
                 //TODO punish you
             }
