@@ -78,6 +78,7 @@ public class GameViewActivity extends AppCompatActivity {
     private GameState gameState;
     private int deviceHeight;
     private int buttonHelp = 0;
+    private boolean attachDoubleTapDetector;
     // popup opponent window
     private LayoutInflater inflaterOpponent;
     private View popupViewOpponent;
@@ -87,6 +88,7 @@ public class GameViewActivity extends AppCompatActivity {
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
+    private boolean mShaked;
     //shake sensor listener
     private final SensorEventListener mSensorListener = new SensorEventListener() {
         @Override
@@ -98,11 +100,12 @@ public class GameViewActivity extends AppCompatActivity {
             mAccelCurrent = (float) Math.sqrt(x * x + y * y + z * z);
             float delta = mAccelCurrent - mAccelLast;
             mAccel = mAccel * 0.9f + delta;
-            if (mAccel > 12) {
+            if (mAccel > 12 && !mShaked) {
                 Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
 
                 gameState.removeRandomCardFromOpponentHand();
                 gameState.setCheated(true);
+                mShaked = true;
             }
         }
 
@@ -348,9 +351,10 @@ public class GameViewActivity extends AppCompatActivity {
         mAccel = 10f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
+        mShaked = false;
     }
 
-    private void removeShakeSensor(){
+    private void removeShakeSensor() {
         mSensorManager.unregisterListener(mSensorListener);
     }
 
@@ -425,7 +429,9 @@ public class GameViewActivity extends AppCompatActivity {
             llOpponent.addView(im);
 
             //add double tap listener to enemy cards for cheating
-            im.setOnTouchListener(new DoubleTapDetector(this));
+            if (attachDoubleTapDetector) {
+                im.setOnTouchListener(new DoubleTapDetector(this));
+            }
         }
 
         // important: before getting the size of pop-up we should assign default measurements for the view
@@ -544,6 +550,7 @@ public class GameViewActivity extends AppCompatActivity {
             cheatingButton.setVisibility(View.INVISIBLE);
             cheatingButton.setOnClickListener(null);
             initShakeSensor();
+            attachDoubleTapDetector = true;
         } else {
             for (RecyclerView view : this.recyclerViews)
                 view.setOnDragListener(new DragListener(gameState));
@@ -553,6 +560,7 @@ public class GameViewActivity extends AppCompatActivity {
             cheatingButton.setVisibility(View.VISIBLE);
             cheatingButton.setOnClickListener(clickListenerCheatingButton());
             removeShakeSensor();
+            attachDoubleTapDetector = false;
         }
     }
 
