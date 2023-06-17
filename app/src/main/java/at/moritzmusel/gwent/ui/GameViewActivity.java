@@ -103,8 +103,7 @@ public class GameViewActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
 
                 gameState.removeRandomCardFromOpponentHand();
-                //TODO set your cheating boolean
-                //gameState.setCheated(true);
+                gameState.setCheated(true);
                 mShaked = true;
             }
         }
@@ -254,6 +253,7 @@ public class GameViewActivity extends AppCompatActivity {
         settingResponsiveGameBoard();
 
         initClickOpponentCardsListener();
+        findViewById(R.id.button_cheat).setOnClickListener(clickListenerCheatingButton());
         findViewById(R.id.iv_buttonGamePassWaitEndTurn).setOnClickListener(clickEndTurn());
 
         requestMultiplePermissions = this.registerForActivityResult(
@@ -533,8 +533,8 @@ public class GameViewActivity extends AppCompatActivity {
             for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
             endTurn.setOnClickListener(null);
             endTurn.setColorFilter(colorFilter);
+
             cheatingButton.setVisibility(View.INVISIBLE);
-            cheatingButton.setOnClickListener(null);
             initShakeSensor();
             attachDoubleTapDetector = true;
         } else {
@@ -543,11 +543,12 @@ public class GameViewActivity extends AppCompatActivity {
             endTurn.setOnClickListener(clickEndTurn());
             endTurn.setColorFilter(null);
             endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
+
             cheatingButton.setVisibility(View.VISIBLE);
-            cheatingButton.setOnClickListener(clickListenerCheatingButton());
             removeShakeSensor();
             attachDoubleTapDetector = false;
         }
+        gameState.setCheated(false);
     }
 
     private View.OnClickListener clickEndTurn() {
@@ -564,16 +565,26 @@ public class GameViewActivity extends AppCompatActivity {
         });
     }
 
-    //TODO set cheated to false when your turn ends
     private View.OnClickListener clickListenerCheatingButton() {
         return (view -> {
-            if (gameState.isOpponentCheated()) {
-                gameState.setOpponentCheated(false);
+            if (gameState.isCheated()) {
+                gameState.setCheated(false);
                 Toast.makeText(getApplicationContext(), "cheating detected!", Toast.LENGTH_SHORT).show();
+
                 //TODO punish enemy
+                //not sure if this works
+                int arr[] = gameState.getOpponentRoundCounter();
+                arr[gameState.getRoundTracker()] -= 10;
+                gameState.setOpponentRoundCounter(arr);
+
             } else {
                 Toast.makeText(getApplicationContext(), "no cheating detected, you are wrong!", Toast.LENGTH_SHORT).show();
+
                 //TODO punish you
+                //not sure if this works
+                int arr[] = gameState.getMyRoundCounter();
+                arr[gameState.getRoundTracker()] -= 10;
+                gameState.setMyRoundCounter(arr);
             }
         });
     }
