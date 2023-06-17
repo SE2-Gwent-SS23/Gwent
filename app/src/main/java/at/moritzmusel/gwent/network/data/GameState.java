@@ -36,6 +36,7 @@ public class GameState implements Serializable {
     private List<Card> opponentRanged; // 1. Reihe
     private boolean redrawPhase = true;
     private boolean cheated = false;
+    private boolean opponentCheated = false;
 
     private Card myLeader;
     private Boolean usedMyLeader;
@@ -110,11 +111,11 @@ public class GameState implements Serializable {
         this.myRoundCounter = new int[]{0, 0, 0};
         this.opponentRoundCounter = new int[]{0, 0, 0};
         this.cheated = false;
+        this.opponentCheated = false;
 
         // myHand
         this.myHand = new ArrayList<>();
         this.allCards = new ArrayList<>();
-
 
         // Ranged
         this.myRanged = new ArrayList<>();
@@ -126,7 +127,6 @@ public class GameState implements Serializable {
 
         // opponentHand
         this.opponentHand = new ArrayList<>();
-
 
         // Grave
         this.myGrave = new ArrayList<>();
@@ -437,9 +437,7 @@ public class GameState implements Serializable {
         this.myPassed = myPassed;
     }
 
-    public void setOpponentPassed(boolean opponentPassed) {
-        this.opponentPassed = opponentPassed;
-    }
+    public void setOpponentPassed(boolean opponentPassed) {this.opponentPassed = opponentPassed;}
 
     public int[] getMyRoundCounter() {
         return myRoundCounter;
@@ -471,9 +469,13 @@ public class GameState implements Serializable {
         return cheated;
     }
 
-    public void setCheated(boolean cheated) {
-        this.cheated = cheated;
+    public void setCheated(boolean cheated) {this.cheated = cheated;}
+
+    public boolean isOpponentCheated() {
+        return opponentCheated;
     }
+
+    public void setOpponentCheated(boolean opponentCheated) {this.opponentCheated = opponentCheated;}
 
     public boolean isOver() {
         return isOver;
@@ -504,7 +506,7 @@ public class GameState implements Serializable {
                 ", myRoundCounter=" + myRoundCounter +
                 ", opponentRoundCounter=" + opponentRoundCounter +
                 ", cheated=" + cheated +
+                ", opponentCheated=" + opponentCheated +
                 '}';
     }
 }
-

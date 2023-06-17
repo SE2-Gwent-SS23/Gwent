@@ -104,7 +104,8 @@ public class GameViewActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
 
                 gameState.removeRandomCardFromOpponentHand();
-                gameState.setCheated(true);
+                //TODO set your cheating boolean
+                //gameState.setCheated(true);
                 mShaked = true;
             }
         }
@@ -114,6 +115,7 @@ public class GameViewActivity extends AppCompatActivity {
             throw new UnsupportedOperationException();
         }
     };
+
     // network variables
     private Network network;
     private String sessionType = "";
@@ -581,8 +583,8 @@ public class GameViewActivity extends AppCompatActivity {
     //TODO set cheated to false when your turn ends
     private View.OnClickListener clickListenerCheatingButton() {
         return (view -> {
-            if (gameState.isCheated()) {
-                gameState.setCheated(false);
+            if (gameState.isOpponentCheated()) {
+                gameState.setOpponentCheated(false);
                 Toast.makeText(getApplicationContext(), "cheating detected!", Toast.LENGTH_SHORT).show();
                 //TODO punish enemy
             } else {
