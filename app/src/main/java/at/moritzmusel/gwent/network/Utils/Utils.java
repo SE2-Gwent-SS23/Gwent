@@ -1,7 +1,5 @@
 package at.moritzmusel.gwent.network.Utils;
 
-import android.os.Build;
-
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,15 +7,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.security.SecureRandom;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Random;
-//import org.apache.http.conn.util.InetAddressUtils;
 
 public class Utils {
     private Utils(){}

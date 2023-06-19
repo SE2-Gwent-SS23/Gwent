@@ -65,27 +65,31 @@ public class GameViewActivity extends AppCompatActivity {
     private static final String TAG = "GameViewActivity";
     public static TriggerValueChange gameStateUpdate = new TriggerValueChange();
     private static String gamestateExtra = "gameState";
-    private static ActivityResultLauncher<String[]> requestMultiplePermissions;
+    private ActivityResultLauncher<String[]> requestMultiplePermissions;
     private CardGenerator cardGenerator;
     private List<RecyclerView> recyclerViews;
     private Button buttonOpponentCards;
     private TextView tvMyGrave;
-    private TextView tvOpponentMonster;
     private TextView tvOpponentGrave;
     private PopupWindow popupWindow;
     private Dialog lobbyDialog;
     private GameState gameState;
     private int deviceHeight;
     private int buttonHelp = 0;
+    private boolean attachDoubleTapDetector;
+
     // popup opponent window
     private LayoutInflater inflaterOpponent;
     private View popupViewOpponent;
     private LinearLayout llOpponent;
+
     // variables for shake sensor
     private SensorManager mSensorManager;
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
+    private boolean mShaked;
+
     //shake sensor listener
     private final SensorEventListener mSensorListener = new SensorEventListener() {
         @Override
@@ -97,13 +101,12 @@ public class GameViewActivity extends AppCompatActivity {
             mAccelCurrent = (float) Math.sqrt(x * x + y * y + z * z);
             float delta = mAccelCurrent - mAccelLast;
             mAccel = mAccel * 0.9f + delta;
-            if (mAccel > 12) {
+            if (mAccel > 12 && !mShaked) {
                 Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
 
-                //TODO not sure if this is the correct way to update gamestate
-                gameState.applySun();
+                gameState.removeRandomCardFromOpponentHand();
                 gameState.setCheated(true);
-
+                mShaked = true;
             }
         }
 
@@ -112,6 +115,7 @@ public class GameViewActivity extends AppCompatActivity {
             throw new UnsupportedOperationException();
         }
     };
+
     // network variables
     private Network network;
     private String sessionType = "";
@@ -126,7 +130,47 @@ public class GameViewActivity extends AppCompatActivity {
         setContentView(R.layout.game_view);
 
         this.deviceHeight = getResources().getDisplayMetrics().heightPixels;
+        this.gameState = new GameState();
+        this.cardGenerator = new CardGenerator(this.getApplicationContext(), this.deviceHeight);
+        this.tvMyGrave = findViewById(R.id.tvMyGrave);
 
+        initRequiredPermission();
+        initWaitingCallbackWithListener();
+        initGameStateUpdateWithListener();
+
+        try {
+            this.gameState.initGameState();
+        } catch (JSONException e) {
+            Log.e(TAG, e.getLocalizedMessage());
+        } catch (IOException e) {
+            Log.e(TAG, e.getLocalizedMessage());
+        }
+
+        this.gameState.initAllCards(this.cardGenerator);
+
+        // adding views to list
+        initRecyclerViewsToList();
+
+        sessionType = getIntent().getExtras().getString("lobby_type");
+        settingResponsiveGameBoard();
+
+        initClickOpponentCardsListener();
+        findViewById(R.id.button_cheat).setOnClickListener(clickListenerCheatingButton());
+        findViewById(R.id.iv_buttonGamePassWaitEndTurn).setOnClickListener(clickEndTurn());
+
+        requestMultiplePermissions = this.registerForActivityResult(
+                new ActivityResultContracts.RequestMultiplePermissions(),
+                permissions -> {
+                    if (permissions.entrySet().stream().anyMatch(val -> !val.getValue())) {
+                        Log.e(TAG, "Missing permissions");
+                        Toast.makeText(this, "Required permissions needed. Go to settings!", Toast.LENGTH_LONG).show();
+                        finish();
+                    } else recreate();
+                });
+        doNetworking();
+    }
+
+    private void initRequiredPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             REQUIRED_PERMISSIONS = new String[]{
                     android.Manifest.permission.BLUETOOTH_SCAN,
@@ -140,7 +184,42 @@ public class GameViewActivity extends AppCompatActivity {
         } else {
             REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
         }
+    }
 
+    private void initClickOpponentCardsListener() {
+        buttonOpponentCards.setOnClickListener(view -> {
+            if ((buttonHelp++) % 2 == 0) {
+                buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_up_24));
+                onButtonShowPopupWindowClick(getWindow().getDecorView().getRootView());
+            } else {
+                buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_down_24));
+                popupWindow.dismiss();
+            }
+        });
+    }
+
+    private void initGameStateUpdateWithListener() {
+        gameStateUpdate.setListener(value -> {
+            this.gameState = (GameState) value;
+            network.currentState.setValue(this.gameState);
+            try {
+                if (!this.gameState.isOpponentPassed()) {
+                    enableDisableYourTurn(false);
+                } else {
+                    for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
+                    for (RecyclerView view : this.recyclerViews)
+                        view.setOnDragListener(new DragListener(gameState));
+                }
+            } catch (JSONException e) {
+                Log.e(TAG, e.getLocalizedMessage());
+            } catch (IOException e) {
+                Log.e(TAG, e.getLocalizedMessage());
+            }
+            network.sendGameState((GameState) value);
+        });
+    }
+
+    private void initWaitingCallbackWithListener() {
         waitingCallback.setListener(value -> {
             GameState g = (GameState) value;
 
@@ -174,7 +253,6 @@ public class GameViewActivity extends AppCompatActivity {
                             network.sendGameState(this.gameState);
                         }
 
-                        //why here
                         if (this.gameState.isOpponentPassed()) {
                             this.gameState.setMyPassed(false);
                             this.gameState.setOpponentPassed(false);
@@ -207,74 +285,6 @@ public class GameViewActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     Log.e(TAG, e.getLocalizedMessage());
                 }
-            }
-        });
-        gameStateUpdate.setListener(value -> {
-            this.gameState = (GameState) value;
-            network.currentState.setValue(this.gameState);
-            try {
-                if (!this.gameState.isOpponentPassed()) {
-                    enableDisableYourTurn(false);
-                } else {
-                    for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
-                    for (RecyclerView view : this.recyclerViews)
-                        view.setOnDragListener(new DragListener(gameState));
-                }
-            } catch (JSONException e) {
-                Log.e(TAG, e.getLocalizedMessage());
-            } catch (IOException e) {
-                Log.e(TAG, e.getLocalizedMessage());
-            }
-            network.sendGameState((GameState) value);
-        });
-
-        this.gameState = new GameState();
-
-        this.cardGenerator = new CardGenerator(this.getApplicationContext(), this.deviceHeight);
-
-        this.tvMyGrave = findViewById(R.id.tvMyGrave);
-
-        try {
-            this.gameState.initGameState();
-        } catch (JSONException e) {
-            Log.e(TAG, e.getLocalizedMessage());
-        } catch (IOException e) {
-            Log.e(TAG, e.getLocalizedMessage());
-        }
-
-        this.gameState.initAllCards(this.cardGenerator);
-
-        // adding views to list
-        initRecyclerViewsToList();
-
-        sessionType = getIntent().getExtras().getString("lobby_type");
-        settingResponsiveGameBoard();
-
-        initClickOpponentCardsListener();
-        findViewById(R.id.iv_buttonGamePassWaitEndTurn).setOnClickListener(clickEndTurn());
-
-        requestMultiplePermissions = this.registerForActivityResult(
-                new ActivityResultContracts.RequestMultiplePermissions(),
-                permissions -> {
-                    if (permissions.entrySet().stream().anyMatch(val -> !val.getValue())) {
-                        Log.e(TAG, "Missing permissions");
-                        Toast.makeText(this, "Required permissions needed. Go to settings!", Toast.LENGTH_LONG).show();
-                        finish();
-                    } else recreate();
-                });
-
-        initShakeSensor();
-        doNetworking();
-    }
-
-    private void initClickOpponentCardsListener() {
-        buttonOpponentCards.setOnClickListener(view -> {
-            if ((buttonHelp++) % 2 == 0) {
-                buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_up_24));
-                onButtonShowPopupWindowClick(getWindow().getDecorView().getRootView());
-            } else {
-                buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_down_24));
-                popupWindow.dismiss();
             }
         });
     }
@@ -320,7 +330,7 @@ public class GameViewActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error creating/hosting lobby.", Toast.LENGTH_LONG).show();
             }
         };
-        network = NetworkInstance.getInstance(Nearby.getConnectionsClient(this), this, onConnectionSuccessfullTrigger);
+        network = NetworkInstance.getInstance(Nearby.getConnectionsClient(this), onConnectionSuccessfullTrigger);
         lobbyDialog = new Dialog(this);
         lobbyDialog.setContentView(R.layout.lobby_window);
         showLobbyPopup();
@@ -331,13 +341,17 @@ public class GameViewActivity extends AppCompatActivity {
         });
     }
 
-
     private void initShakeSensor() {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         mAccel = 10f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
+        mShaked = false;
+    }
+
+    private void removeShakeSensor() {
+        mSensorManager.unregisterListener(mSensorListener);
     }
 
     private void settingResponsiveGameBoard() {
@@ -411,7 +425,9 @@ public class GameViewActivity extends AppCompatActivity {
             llOpponent.addView(im);
 
             //add double tap listener to enemy cards for cheating
-            im.setOnTouchListener(new DoubleTapDetector(this));
+            if (attachDoubleTapDetector) {
+                im.setOnTouchListener(new DoubleTapDetector(this));
+            }
         }
 
         // important: before getting the size of pop-up we should assign default measurements for the view
@@ -490,8 +506,6 @@ public class GameViewActivity extends AppCompatActivity {
         PopupWindow popupWindowOpp = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
         // Modify the data in the PopupWindowOpponent
-        tvOpponentMonster = popupWindowOpp.getContentView().findViewById(R.id.tvOpponentMonsters);
-        tvOpponentMonster.setText(gameState.getOpponentHand().size() + "");
         tvOpponentGrave = popupWindowOpp.getContentView().findViewById(R.id.tvOpponentGrave);
         tvOpponentGrave.setText(gameState.getOpponentGrave().size() + "");
 
@@ -526,17 +540,22 @@ public class GameViewActivity extends AppCompatActivity {
             for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
             endTurn.setOnClickListener(null);
             endTurn.setColorFilter(colorFilter);
+
             cheatingButton.setVisibility(View.INVISIBLE);
-            cheatingButton.setOnClickListener(null);
+            initShakeSensor();
+            attachDoubleTapDetector = true;
         } else {
             for (RecyclerView view : this.recyclerViews)
                 view.setOnDragListener(new DragListener(gameState));
             endTurn.setOnClickListener(clickEndTurn());
             endTurn.setColorFilter(null);
             endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
+
             cheatingButton.setVisibility(View.VISIBLE);
-            cheatingButton.setOnClickListener(clickListenerCheatingButton());
+            removeShakeSensor();
+            attachDoubleTapDetector = false;
         }
+        gameState.setCheated(false);
     }
 
     private View.OnClickListener clickEndTurn() {
@@ -553,17 +572,26 @@ public class GameViewActivity extends AppCompatActivity {
         });
     }
 
-    //TODO set cheated to false when your turn ends
     private View.OnClickListener clickListenerCheatingButton() {
         return (view -> {
-            GameState gs = network.getCurrentState().getValue();
-            if (gs.isCheated()) {
-                //gs.setCheated(false);
+            if (gameState.isCheated()) {
+                gameState.setCheated(false);
                 Toast.makeText(getApplicationContext(), "cheating detected!", Toast.LENGTH_SHORT).show();
+
                 //TODO punish enemy
+                //not sure if this works
+                int arr[] = gameState.getOpponentRoundCounter();
+                arr[gameState.getRoundTracker()] -= 10;
+                gameState.setOpponentRoundCounter(arr);
+
             } else {
                 Toast.makeText(getApplicationContext(), "no cheating detected, you are wrong!", Toast.LENGTH_SHORT).show();
+
                 //TODO punish you
+                //not sure if this works
+                int arr[] = gameState.getMyRoundCounter();
+                arr[gameState.getRoundTracker()] -= 10;
+                gameState.setMyRoundCounter(arr);
             }
         });
     }
