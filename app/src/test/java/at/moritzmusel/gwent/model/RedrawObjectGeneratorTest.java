@@ -41,17 +41,17 @@ class RedrawObjectGeneratorTest {
     @Test
     void testHalfList() {
         List<Card> newList = Arrays.asList(
-                new Card("Name 1", SKELLIGE, null, 8, FOG, "name1.jpg", 1, "Time to look death in the face."),
-                new Card("Name 2", SKELLIGE, null, 2, MUSTER, "name2.jpg", 3, "Text 2"),
-                new Card("Name 3", WEATHER, null, 5, BOND, "name3.jpg", 2, "Text 3"),
-                new Card("Name 4", SPECIAL, null, 3, FOG, "name4.jpg", 4, "Text 4")
+                new Card("Name 1", SKELLIGE, null, 8, FOG, "name1.jpg", 1),
+                new Card("Name 2", SKELLIGE, null, 2, MUSTER, "name2.jpg", 3),
+                new Card("Name 3", WEATHER, null, 5, BOND, "name3.jpg", 2),
+                new Card("Name 4", SPECIAL, null, 3, FOG, "name4.jpg", 4)
                 );
 
         List<List<Card>> expectedResultListOfList = Arrays.asList(
-                Arrays.asList(  new Card("Name 1", SKELLIGE, null, 8, FOG, "name1.jpg", 1, "Time to look death in the face."),
-                                new Card("Name 2", SKELLIGE, null, 2, MUSTER, "name2.jpg", 3, "Text 2")),
-                Arrays.asList(  new Card("Name 3", WEATHER, null, 5, BOND, "name3.jpg", 2, "Text 3"),
-                                new Card("Name 4", SPECIAL, null, 3, FOG, "name4.jpg", 4, "Text 4")));
+                Arrays.asList(  new Card("Name 1", SKELLIGE, null, 8, FOG, "name1.jpg", 1),
+                                new Card("Name 2", SKELLIGE, null, 2, MUSTER, "name2.jpg", 3)),
+                Arrays.asList(  new Card("Name 3", WEATHER, null, 5, BOND, "name3.jpg", 2),
+                                new Card("Name 4", SPECIAL, null, 3, FOG, "name4.jpg", 4)));
 
         assertEquals(expectedResultListOfList.toString(), redrawObjectGenerator.halveList(newList).toString());
     }
@@ -60,9 +60,9 @@ class RedrawObjectGeneratorTest {
     void testDrawRandomCard() {
         GameState gameState = new GameState();
         List<Card> cards = new ArrayList<>();
-        cards.add(new Card("Name 1", SKELLIGE, null, 8, FOG, "name1", 1, "Time to look death in the face."));
-        cards.add(new Card("Name 2", SKELLIGE, null, 2, MUSTER, "name2", 3, "Text 2"));
-        cards.add(new Card("Name 3", SKELLIGE, null, 9, MUSTER, "name3", 3, "Text 3"));
+        cards.add(new Card("Name 1", SKELLIGE, null, 8, FOG, "name1", 1));
+        cards.add(new Card("Name 2", SKELLIGE, null, 2, MUSTER, "name2", 3));
+        cards.add(new Card("Name 3", SKELLIGE, null, 9, MUSTER, "name3", 3));
         gameState.setAllCards(cards);
 
         RedrawObjectGenerator redrawObjectGenerator = new RedrawObjectGenerator();
@@ -83,8 +83,8 @@ class RedrawObjectGeneratorTest {
     void testDrawRandomCountCardCountZero() {
         GameState gameState = new GameState();
         List<Card> cards = new ArrayList<>();
-        cards.add(new Card("Name 1", SKELLIGE, null, 8, FOG, "name1", 0, "Time to look death in the face."));
-        cards.add(new Card("Name 2", SKELLIGE, null, 2, MUSTER, "name2", 3, "Text 2"));
+        cards.add(new Card("Name 1", SKELLIGE, null, 8, FOG, "name1", 0));
+        cards.add(new Card("Name 2", SKELLIGE, null, 2, MUSTER, "name2", 3));
 
         gameState.setAllCards(cards);
 

@@ -48,8 +48,8 @@ public class GameStateTest {
     @BeforeEach
     void init() {
         this.gameState = new GameState();
-        this.cardClose = new Card("Test1", Type.MONSTERS, Row.CLOSE, 1, Ability.BOND, "TestCase1", 1, "First Card to test");
-        this.cardRanged = new Card("Test2", Type.SCOIATAEL, Row.RANGED, 2, Ability.MEDIC, "TestCase2", 1, "Second Card to test");
+        this.cardClose = new Card("Test1", Type.MONSTERS, Row.CLOSE, 1, Ability.BOND, "TestCase1", 1);
+        this.cardRanged = new Card("Test2", Type.SCOIATAEL, Row.RANGED, 2, Ability.MEDIC, "TestCase2", 1);
         this.cardList = new ArrayList<>();
         this.cardList.add(cardClose);
         this.cardList.add(cardRanged);
