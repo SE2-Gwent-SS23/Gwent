@@ -26,7 +26,7 @@ public class SelectNameActivity extends AppCompatActivity {
 
         Boolean extra = getIntent().getExtras().getBoolean("comingFromWelcome", true);
 
-        if (storedName.length() > 4 && extra) {
+        if (storedName.length() > 4 && Boolean.TRUE.equals(extra)) {
             startActivity(loadingIntent);
         }
 
