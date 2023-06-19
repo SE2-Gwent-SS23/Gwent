@@ -77,6 +77,7 @@ public class GameViewActivity extends AppCompatActivity {
     private int deviceHeight;
     private int buttonHelp = 0;
     private boolean attachDoubleTapDetector;
+    private boolean yourTurn;
 
     // popup opponent window
     private LayoutInflater inflaterOpponent;
@@ -101,7 +102,7 @@ public class GameViewActivity extends AppCompatActivity {
             mAccelCurrent = (float) Math.sqrt(x * x + y * y + z * z);
             float delta = mAccelCurrent - mAccelLast;
             mAccel = mAccel * 0.9f + delta;
-            if (mAccel > 12 && !mShaked) {
+            if (mAccel > 12 && !mShaked && !yourTurn) {
                 Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
 
                 gameState.removeRandomCardFromOpponentHand();
@@ -167,6 +168,7 @@ public class GameViewActivity extends AppCompatActivity {
                         finish();
                     } else recreate();
                 });
+        initShakeSensor();
         doNetworking();
     }
 
@@ -347,7 +349,6 @@ public class GameViewActivity extends AppCompatActivity {
         mAccel = 10f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
-        mShaked = false;
     }
 
     private void removeShakeSensor() {
@@ -531,6 +532,7 @@ public class GameViewActivity extends AppCompatActivity {
      * Also disables all relevant DragListeners.
      */
     public void enableDisableYourTurn(boolean yourTurn) throws JSONException, IOException {
+        this.yourTurn = yourTurn;
         ImageView endTurn = findViewById(R.id.iv_buttonGamePassWaitEndTurn);
         Button cheatingButton = findViewById(R.id.button_cheat);
         ColorMatrix matrix = new ColorMatrix();
@@ -543,8 +545,6 @@ public class GameViewActivity extends AppCompatActivity {
             endTurn.setColorFilter(colorFilter);
 
             cheatingButton.setVisibility(View.INVISIBLE);
-            // TODO: Markus fix sensor
-            //initShakeSensor();
             attachDoubleTapDetector = true;
         } else {
             for (RecyclerView view : this.recyclerViews)
@@ -554,10 +554,9 @@ public class GameViewActivity extends AppCompatActivity {
             endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
 
             cheatingButton.setVisibility(View.VISIBLE);
-            // TODO: Markus fix sensor
-            //removeShakeSensor();
             attachDoubleTapDetector = false;
         }
+        mShaked = false;
         gameState.setCheated(false);
     }
 
@@ -581,21 +580,22 @@ public class GameViewActivity extends AppCompatActivity {
                 gameState.setCheated(false);
                 Toast.makeText(getApplicationContext(), "cheating detected!", Toast.LENGTH_SHORT).show();
 
-                //TODO punish enemy
-                //not sure if this works
-                int arr[] = gameState.getOpponentRoundCounter();
-                arr[gameState.getRoundTracker()] -= 10;
-                gameState.setOpponentRoundCounter(arr);
+                gameState.setOpponentRoundCounter(punish(gameState.getOpponentRoundCounter(),gameState.getRoundTracker(),-10));
 
             } else {
                 Toast.makeText(getApplicationContext(), "no cheating detected, you are wrong!", Toast.LENGTH_SHORT).show();
 
-                //TODO punish you
-                //not sure if this works
-                int arr[] = gameState.getMyRoundCounter();
-                arr[gameState.getRoundTracker()] -= 10;
-                gameState.setMyRoundCounter(arr);
+                gameState.setMyRoundCounter(punish(gameState.getMyRoundCounter(),gameState.getRoundTracker(),-10));
             }
         });
+    }
+
+    private int[] punish(int[] arr, int rt, int amount){
+        if (arr[rt] < amount) {
+            arr[rt] = 0;
+        } else {
+            arr[rt] -= 10;
+        }
+        return arr;
     }
 }
