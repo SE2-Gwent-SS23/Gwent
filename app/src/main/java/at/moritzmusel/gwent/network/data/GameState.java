@@ -74,9 +74,7 @@ public class GameState implements Serializable {
         }
     }
 
-    public GameState() {
 
-    }
 
     public boolean determineWinner(Boolean[] array) {
         int counter = 0;
