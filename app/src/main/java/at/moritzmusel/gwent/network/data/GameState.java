@@ -74,10 +74,8 @@ public class GameState implements Serializable {
         }
     }
 
-    /* // added nested comment for sonarcloud, because constructor is empty. No attributes needed. */
-    public GameState() {
 
-    }
+
 
     public boolean determineWinner(Boolean[] array) {
         int counter = 0;

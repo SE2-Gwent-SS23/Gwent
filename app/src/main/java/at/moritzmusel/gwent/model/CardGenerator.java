@@ -68,7 +68,6 @@ public class CardGenerator {
         String name;
         int strength;
         int count;
-        String flavorTxt;
         String filename;
         JSONArray jsonArray = jsonObject.optJSONArray("cards");
 
@@ -78,14 +77,12 @@ public class CardGenerator {
             strength = Integer.parseInt(obj.optString("strength"));
             filename = obj.optString("filename");
             count = Integer.parseInt(obj.optString("count"));
-            flavorTxt = obj.optString("flavor_txt");
 
             Card newCard = new Card();
             newCard.setName(name.toUpperCase());
             newCard.setStrength(strength);
             newCard.setCount(count);
             newCard.setFilename(filename);
-            newCard.setFlavorTxt(flavorTxt);
             newCard.changeType(obj.optString("type").toUpperCase());
             newCard.changeRow(obj.optString("row").toUpperCase());
             newCard.changeAbility(obj.optString("ability").toUpperCase());
