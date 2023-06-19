@@ -10,7 +10,11 @@ import java.util.Scanner;
 
 public class SaveStringToFileClass {
 
+    private SaveStringToFileClass() {
+    }
+
     private static final String TAG = "GameViewActivity";
+
     public static void saveData(Context context, String filename, String data) {
 
         try (FileOutputStream fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE)) {
@@ -32,7 +36,7 @@ public class SaveStringToFileClass {
 
             return streamString;
 
-        }  catch (IOException e) {
+        } catch (IOException e) {
             Log.e(TAG, e.toString());
         }
         return null;

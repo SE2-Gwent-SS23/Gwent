@@ -45,16 +45,18 @@ public class Network {
     //Listener for update on connection state
     private TriggerValueChange onConnectionSuccessfullTrigger = new TriggerValueChange();
 
-    public Network(ConnectionsClient connectionsClient, Context context, TriggerValueChangeListener onConnectionSuccessfullTrigger){
+    public Network(ConnectionsClient connectionsClient, TriggerValueChangeListener onConnectionSuccessfullTrigger){
         this.connectionsClient = connectionsClient;
         this.onConnectionSuccessfullTrigger.setListener(onConnectionSuccessfullTrigger);
     }
 
-    //Listener for in/out going payloads, eg. send/receive data (gamestate)
+    //Listener for in/out going payloads, eg. send/receive data(gamestate)
     private final PayloadCallback payloadCallback = new PayloadCallback() {
         @Override
-        public void onPayloadReceived(@NonNull String s, @NonNull Payload payload) {
-            GameState opponentGS = (GameState)Utils.byteArrayToObject(payload.asBytes());
+        public void onPayloadReceived(@NonNull String s, @NonNull Payload
+                payload) {
+            GameState opponentGS =
+                    (GameState)Utils.byteArrayToObject(payload.asBytes());
             GameState currGamestate = getCurrentState().getValue();
             i(TAG, opponentGS.toString());
 
@@ -63,7 +65,8 @@ public class Network {
                 currGamestate.setOpponentHand(opponentGS.getMyHand());
             }
 
-            if(currGamestate.getRoundTracker() < opponentGS.getRoundTracker()) {
+            if(currGamestate.getRoundTracker() <
+                    opponentGS.getRoundTracker()) {
                 currGamestate.incrementRoundTracker();
                 currGamestate.sendToMyGrave();
                 currGamestate.setMyPassed(false);
@@ -80,7 +83,6 @@ public class Network {
             currGamestate.setOpponentPassed(opponentGS.isMyPassed());
 
             currentState.postValue(currGamestate);
-            // i(TAG, Utils.byteArrayToObject(payload.asBytes()).toString());
         }
 
         @Override
@@ -90,16 +92,19 @@ public class Network {
     };
 
     //Lifecycle
-    private final ConnectionLifecycleCallback connectionLifecycleCallback = new ConnectionLifecycleCallback() {
+    private final ConnectionLifecycleCallback connectionLifecycleCallback
+            = new ConnectionLifecycleCallback() {
         @Override
-        public void onConnectionInitiated(@NonNull String s, @NonNull ConnectionInfo connectionInfo) {
+        public void onConnectionInitiated(@NonNull String s, @NonNull
+                ConnectionInfo connectionInfo) {
             // d(TAG, "onConnectionInitiated");
             // d(TAG, "Accepting connection...");
             connectionsClient.acceptConnection(s, payloadCallback);
         }
 
         @Override
-        public void onConnectionResult(@NonNull String s, @NonNull ConnectionResolution connectionResolution) {
+        public void onConnectionResult(@NonNull String s, @NonNull
+                ConnectionResolution connectionResolution) {
             // d(TAG, "onConnectionResult");
             switch (connectionResolution.getStatus().getStatusCode()) {
                 case ConnectionsStatusCodes.STATUS_OK:
@@ -120,8 +125,8 @@ public class Network {
                     break;
                 default:
                     // d(TAG, "Unknown status code ${resolution.status.statusCode}");
-                    onConnectionSuccessfullTrigger.setValue(false);
-                    break;
+                onConnectionSuccessfullTrigger.setValue(false);
+                break;
             }
         }
 
@@ -132,33 +137,37 @@ public class Network {
         }
     };
     //
-    private final EndpointDiscoveryCallback endpointDiscoveryCallback = new EndpointDiscoveryCallback() {
-        @Override
-        public void onEndpointFound(@NonNull String s, @NonNull DiscoveredEndpointInfo discoveredEndpointInfo) {
-            // d(TAG, "onEndpointFound");
-            // d(TAG, "Requesting connection...");
-            connectionsClient.requestConnection(
-                    localUsername,
-                    s,
-                    connectionLifecycleCallback
-            ).addOnSuccessListener(command -> {
-                // d(TAG, "Successfully requested a connection");
-            }).addOnFailureListener(command -> {
-                // d(TAG, "Failed to request the connection");
-            });
-        }
+    private final EndpointDiscoveryCallback endpointDiscoveryCallback =
+            new EndpointDiscoveryCallback() {
+                @Override
+                public void onEndpointFound(@NonNull String s, @NonNull
+                        DiscoveredEndpointInfo discoveredEndpointInfo) {
+                    // d(TAG, "onEndpointFound");
+                    // d(TAG, "Requesting connection...");
+                    connectionsClient.requestConnection(
+                            localUsername,
+                            s,
+                            connectionLifecycleCallback
+                    ).addOnSuccessListener(command -> {
+                        // d(TAG, "Successfully requested a connection");
+                    }).addOnFailureListener(command -> {
+                        // d(TAG, "Failed to request the connection");
+                    });
+                }
 
-        @Override
-        public void onEndpointLost(@NonNull String s) {
-            // d(TAG, "onEndpointLost");
-        }
-    };
+                @Override
+                public void onEndpointLost(@NonNull String s) {
+                    // d(TAG, "onEndpointLost");
+                }
+            };
 
     public void startHosting() {
         // d(TAG, "Start advertising...");
         AdvertisingOptions advertisingOptions = new AdvertisingOptions.Builder().setStrategy(STRATEGY).build();
 
-        connectionsClient.startAdvertising(localUsername, BuildConfig.APPLICATION_ID, connectionLifecycleCallback, advertisingOptions)
+        connectionsClient.startAdvertising(localUsername,
+                        BuildConfig.APPLICATION_ID, connectionLifecycleCallback,
+                        advertisingOptions)
                 .addOnSuccessListener(command -> {
                     // d(TAG, "Advertising...");
                 })
@@ -171,7 +180,8 @@ public class Network {
 
     public void startDiscovering() {
         // d(TAG, "Start discovering...");
-        DiscoveryOptions discoveryOptions = new DiscoveryOptions.Builder().setStrategy(STRATEGY).build();
+        DiscoveryOptions discoveryOptions = new
+                DiscoveryOptions.Builder().setStrategy(STRATEGY).build();
         connectionsClient.startDiscovery(
                 BuildConfig.APPLICATION_ID,
                 endpointDiscoveryCallback,
@@ -184,8 +194,9 @@ public class Network {
     }
 
     public void sendGameState(GameState gameState) {
-        // d(TAG, "Sending to " +opponentEndpointId + " " +gameState.toString());
-        connectionsClient.sendPayload(opponentEndpointId, dataToPayload(gameState));
+        // d(TAG, "Sending to " +opponentEndpointId + " "+gameState.toString());
+        connectionsClient.sendPayload(opponentEndpointId,
+                dataToPayload(gameState));
     }
 
     private void stopClient() {

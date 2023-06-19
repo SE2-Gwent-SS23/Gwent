@@ -79,7 +79,6 @@ class CardGeneratorTest {
         String name = "DECOY";
         int strength = 5;
         int count = 2;
-        String flavor_txt = "Test text";
         String filename = "monsters_arachas.jpg";
 
         JSONObject newCardObj = new JSONObject();
@@ -88,7 +87,6 @@ class CardGeneratorTest {
         newCardObj.put("type", "REALMS");
         newCardObj.put("strength", String.valueOf(strength));
         newCardObj.put("count", String.valueOf(count));
-        newCardObj.put("flavor_txt", flavor_txt);
         newCardObj.put("filename", filename);
         newCardObj.put("ability", "RAIN");
 
@@ -99,7 +97,6 @@ class CardGeneratorTest {
         newCard.changeType("REALMS");
         newCard.setStrength(strength);
         newCard.setCount(count);
-        newCard.setFlavorTxt(flavor_txt);
         newCard.setFilename(filename);
         newCard.changeRow("NONE");
         newCard.changeAbility("RAIN");
@@ -148,7 +145,7 @@ class CardGeneratorTest {
     @Test
     void testSetCards() {
         List<Card> cards = new ArrayList<>();
-        Card newCard = new Card("Schirru", SCOIATAEL, null, 8, SCORCH_S, "schirru", 1, "Time to look death in the face.");
+        Card newCard = new Card("Schirru", SCOIATAEL, null, 8, SCORCH_S, "schirru", 1);
         cards.add(newCard);
 
         /* when -> assert -> verify */

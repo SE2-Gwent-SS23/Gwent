@@ -11,9 +11,8 @@ public class Card implements Serializable {
     Ability ability;
     String filename;
     int count;
-    String flavorTxt;
 
-    public Card(String name, Type type, Row row, int strength, Ability ability, String filename, int count, String flavorTxt) {
+    public Card(String name, Type type, Row row, int strength, Ability ability, String filename, int count) {
         this.name = name;
         this.type = type;
         this.row = row;
@@ -21,7 +20,6 @@ public class Card implements Serializable {
         this.ability = ability;
         this.filename = filename;
         this.count = count;
-        this.flavorTxt = flavorTxt;
     }
 
     public Card() {
@@ -120,9 +118,7 @@ public class Card implements Serializable {
         this.count = count;
     }
 
-    public void setFlavorTxt(String flavorTxt) {
-        this.flavorTxt = flavorTxt;
-    }
+
 
     @Override
     public String toString() {
@@ -134,7 +130,6 @@ public class Card implements Serializable {
                 ", ability=" + ability +
                 ", filename='" + filename + '\'' +
                 ", count=" + count +
-                ", flavorTxt='" + flavorTxt + '\'' +
                 '}';
     }
 }
