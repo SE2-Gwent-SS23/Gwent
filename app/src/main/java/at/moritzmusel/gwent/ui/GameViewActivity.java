@@ -102,8 +102,10 @@ public class GameViewActivity extends AppCompatActivity {
             mAccelCurrent = (float) Math.sqrt(x * x + y * y + z * z);
             float delta = mAccelCurrent - mAccelLast;
             mAccel = mAccel * 0.9f + delta;
+            Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
+
             if (mAccel > 12 && !mShaked && !yourTurn) {
-                Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Shake event when its not your turn", Toast.LENGTH_SHORT).show();
 
                 gameState.removeRandomCardFromOpponentHand();
                 gameState.setCheated(true);
@@ -427,7 +429,7 @@ public class GameViewActivity extends AppCompatActivity {
 
             //add double tap listener to enemy cards for cheating
             if (attachDoubleTapDetector) {
-                im.setOnTouchListener(new DoubleTapDetector(this));
+                im.setOnTouchListener(new DoubleTapDetector(this, gameState));
             }
         }
 
@@ -443,15 +445,14 @@ public class GameViewActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        //mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         super.onResume();
     }
     //END shake sensor listener
 
     @Override
     protected void onPause() {
-        // TODO: Markus fix sensor
-        //mSensorManager.unregisterListener(mSensorListener);
+        mSensorManager.unregisterListener(mSensorListener);
         super.onPause();
     }
 

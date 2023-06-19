@@ -6,13 +6,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import at.moritzmusel.gwent.network.data.GameState;
+
 public class DoubleTapDetector implements View.OnTouchListener {
 
     private GestureDetector gestureDetector;
     private View clickedView;
+    private GameState gameState;
 
-    public DoubleTapDetector(Context context) {
+    public DoubleTapDetector(Context context, GameState gameState) {
         gestureDetector = new GestureDetector(context, new GestureListener());
+        this.gameState = gameState;
     }
 
     @Override
@@ -26,9 +30,11 @@ public class DoubleTapDetector implements View.OnTouchListener {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
             // This method will be called when a double tap is detected
-            // TODO Handle the double tap event here
             Toast.makeText(clickedView.getContext(), "Double-tap event detected", Toast.LENGTH_SHORT).show();
-            clickedView.getId();
+            int i = clickedView.getId();
+            gameState.removeCardById(i);
+            gameState.setCheated(true);
+            GameViewActivity.gameStateUpdate.setValue(gameState);
 
             return true;
         }

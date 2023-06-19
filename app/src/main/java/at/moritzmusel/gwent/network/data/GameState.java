@@ -175,6 +175,10 @@ public class GameState implements Serializable {
         }
     }
 
+    public void removeCardById(int id){
+        this.opponentHand.remove(id);
+    }
+
     public void swapPlayer() {
         List<Card> tempOpponentHand = new ArrayList<>(this.opponentHand);
         List<Card> tempOpponentGrave = new ArrayList<>(this.opponentGrave);
