@@ -68,7 +68,6 @@ public class CardGenerator {
         String name;
         int strength;
         int count;
-        String flavorTxt;
         String filename;
         JSONArray jsonArray = jsonObject.optJSONArray("cards");
 
