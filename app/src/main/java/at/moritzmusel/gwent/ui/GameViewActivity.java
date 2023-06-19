@@ -65,12 +65,11 @@ public class GameViewActivity extends AppCompatActivity {
     private static final String TAG = "GameViewActivity";
     public static TriggerValueChange gameStateUpdate = new TriggerValueChange();
     private static String gamestateExtra = "gameState";
-    private static ActivityResultLauncher<String[]> requestMultiplePermissions;
+    private ActivityResultLauncher<String[]> requestMultiplePermissions;
     private CardGenerator cardGenerator;
     private List<RecyclerView> recyclerViews;
     private Button buttonOpponentCards;
     private TextView tvMyGrave;
-    private TextView tvOpponentMonster;
     private TextView tvOpponentGrave;
     private PopupWindow popupWindow;
     private Dialog lobbyDialog;
@@ -78,16 +77,19 @@ public class GameViewActivity extends AppCompatActivity {
     private int deviceHeight;
     private int buttonHelp = 0;
     private boolean attachDoubleTapDetector;
+
     // popup opponent window
     private LayoutInflater inflaterOpponent;
     private View popupViewOpponent;
     private LinearLayout llOpponent;
+
     // variables for shake sensor
     private SensorManager mSensorManager;
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
     private boolean mShaked;
+
     //shake sensor listener
     private final SensorEventListener mSensorListener = new SensorEventListener() {
         @Override
@@ -128,113 +130,13 @@ public class GameViewActivity extends AppCompatActivity {
         setContentView(R.layout.game_view);
 
         this.deviceHeight = getResources().getDisplayMetrics().heightPixels;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            REQUIRED_PERMISSIONS = new String[]{
-                    android.Manifest.permission.BLUETOOTH_SCAN,
-                    android.Manifest.permission.BLUETOOTH_ADVERTISE,
-                    android.Manifest.permission.BLUETOOTH_CONNECT,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.NEARBY_WIFI_DEVICES
-            };
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            REQUIRED_PERMISSIONS = new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION};
-        } else {
-            REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
-        }
-
-        waitingCallback.setListener(value -> {
-            GameState g = (GameState) value;
-
-            if (g.getOpponentHand() != null) {
-                try {
-                    //setCards here
-                    setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
-                    setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
-                    setUserCards(this.gameState.getMyHand());
-                    setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
-                    setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
-                    i("Callback", this.gameState.toString());
-
-                    enableDisableYourTurn(true);
-                    updateUI(gameState);
-
-                    if (this.gameState.getRoundTracker() > 2) {
-                        Intent endScreenActivityIntent = new Intent(GameViewActivity.this, GameEndScreenActivity.class);
-                        endScreenActivityIntent.putExtra("gameStateEnd", this.gameState);
-                        startActivity(endScreenActivityIntent);
-                    }
-
-                    //round ending
-                    this.gameState.hasCards();
-                    if (this.gameState.isMyPassed()) {
-                        //disable functunality
-                        enableDisableYourTurn(false);
-
-                        if (this.gameState.isOpponentPassed()) {
-                            //send Gamestate
-                            network.sendGameState(this.gameState);
-                        }
-
-                        //why here
-                        if (this.gameState.isOpponentPassed()) {
-                            this.gameState.setMyPassed(false);
-                            this.gameState.setOpponentPassed(false);
-                            int myPoints = this.gameState.calculateMyPoints();
-                            int opponentPoints = this.gameState.calculateOpponentPoints();
-
-                            this.gameState.setMyRoundCounterByRound(myPoints);
-                            this.gameState.setOpponentRoundCounterByRound(opponentPoints);
-
-                            //increment roundTracker
-                            this.gameState.incrementRoundTracker();
-
-                            for (RecyclerView view : this.recyclerViews)
-                                view.setOnDragListener(null);
-
-                            //leerräumen
-                            this.gameState.sendToMyGrave();
-                            this.gameState.sendToOpponentGrave();
-
-                            network.sendGameState(this.gameState);
-                            updateUI(this.gameState);
-
-                            if (this.gameState.calculateMyWins(this.gameState.getOpponentRoundCounter()) > 2) {
-                                Toast.makeText(this, "You won the game!", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }
-                } catch (JSONException e) {
-                    Log.e(TAG, e.getLocalizedMessage());
-                } catch (IOException e) {
-                    Log.e(TAG, e.getLocalizedMessage());
-                }
-            }
-        });
-        gameStateUpdate.setListener(value -> {
-            this.gameState = (GameState) value;
-            network.currentState.setValue(this.gameState);
-            try {
-                if (!this.gameState.isOpponentPassed()) {
-                    enableDisableYourTurn(false);
-                } else {
-                    for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
-                    for (RecyclerView view : this.recyclerViews)
-                        view.setOnDragListener(new DragListener(gameState));
-                }
-            } catch (JSONException e) {
-                Log.e(TAG, e.getLocalizedMessage());
-            } catch (IOException e) {
-                Log.e(TAG, e.getLocalizedMessage());
-            }
-            network.sendGameState((GameState) value);
-        });
-
         this.gameState = new GameState();
-
         this.cardGenerator = new CardGenerator(this.getApplicationContext(), this.deviceHeight);
-
         this.tvMyGrave = findViewById(R.id.tvMyGrave);
+
+        initRequiredPermission();
+        initWaitingCallbackWithListener();
+        initGameStateUpdateWithListener();
 
         try {
             this.gameState.initGameState();
@@ -268,6 +170,22 @@ public class GameViewActivity extends AppCompatActivity {
         doNetworking();
     }
 
+    private void initRequiredPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            REQUIRED_PERMISSIONS = new String[]{
+                    android.Manifest.permission.BLUETOOTH_SCAN,
+                    android.Manifest.permission.BLUETOOTH_ADVERTISE,
+                    android.Manifest.permission.BLUETOOTH_CONNECT,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.NEARBY_WIFI_DEVICES
+            };
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            REQUIRED_PERMISSIONS = new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION};
+        } else {
+            REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
+        }
+    }
+
     private void initClickOpponentCardsListener() {
         buttonOpponentCards.setOnClickListener(view -> {
             if ((buttonHelp++) % 2 == 0) {
@@ -276,6 +194,97 @@ public class GameViewActivity extends AppCompatActivity {
             } else {
                 buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_down_24));
                 popupWindow.dismiss();
+            }
+        });
+    }
+
+    private void initGameStateUpdateWithListener() {
+        gameStateUpdate.setListener(value -> {
+            this.gameState = (GameState) value;
+            network.currentState.setValue(this.gameState);
+            try {
+                if (!this.gameState.isOpponentPassed()) {
+                    enableDisableYourTurn(false);
+                } else {
+                    for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
+                    for (RecyclerView view : this.recyclerViews)
+                        view.setOnDragListener(new DragListener(gameState));
+                }
+            } catch (JSONException e) {
+                Log.e(TAG, e.getLocalizedMessage());
+            } catch (IOException e) {
+                Log.e(TAG, e.getLocalizedMessage());
+            }
+            network.sendGameState((GameState) value);
+        });
+    }
+
+    private void initWaitingCallbackWithListener() {
+        waitingCallback.setListener(value -> {
+            GameState g = (GameState) value;
+
+            if (g.getOpponentHand() != null) {
+                try {
+                    //setCards here
+                    setCards(R.id.recyclerViewCardOpponentLaneOne, false, this.gameState.getOpponentRanged());
+                    setCards(R.id.recyclerViewCardOpponentLaneTwo, false, this.gameState.getOpponentClose());
+                    setUserCards(this.gameState.getMyHand());
+                    setCards(R.id.recyclerViewCardUserLaneOne, false, this.gameState.getMyClose());
+                    setCards(R.id.recyclerViewCardUserLaneTwo, false, this.gameState.getMyRanged());
+                    i("Callback", this.gameState.toString());
+
+                    enableDisableYourTurn(true);
+                    updateUI(gameState);
+
+                    if (this.gameState.getRoundTracker() > 2) {
+                        Intent endScreenActivityIntent = new Intent(GameViewActivity.this, GameEndScreenActivity.class);
+                        endScreenActivityIntent.putExtra("gameStateEnd", this.gameState);
+                        startActivity(endScreenActivityIntent);
+                    }
+
+                    //round ending
+                    this.gameState.hasCards();
+                    if (this.gameState.isMyPassed()) {
+                        //disable functunality
+                        enableDisableYourTurn(false);
+
+                        if (this.gameState.isOpponentPassed()) {
+                            //send Gamestate
+                            network.sendGameState(this.gameState);
+                        }
+
+                        if (this.gameState.isOpponentPassed()) {
+                            this.gameState.setMyPassed(false);
+                            this.gameState.setOpponentPassed(false);
+                            int myPoints = this.gameState.calculateMyPoints();
+                            int opponentPoints = this.gameState.calculateOpponentPoints();
+
+                            this.gameState.setMyRoundCounterByRound(myPoints);
+                            this.gameState.setOpponentRoundCounterByRound(opponentPoints);
+
+                            //increment roundTracker
+                            this.gameState.incrementRoundTracker();
+
+                            for (RecyclerView view : this.recyclerViews)
+                                view.setOnDragListener(null);
+
+                            //leerräumen
+                            this.gameState.sendToMyGrave();
+                            this.gameState.sendToOpponentGrave();
+
+                            network.sendGameState(this.gameState);
+                            updateUI(this.gameState);
+
+                            if (this.gameState.calculateMyWins(this.gameState.getOpponentRoundCounter()) > 2) {
+                                Toast.makeText(this, "You won the game!", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    Log.e(TAG, e.getLocalizedMessage());
+                } catch (IOException e) {
+                    Log.e(TAG, e.getLocalizedMessage());
+                }
             }
         });
     }
@@ -321,7 +330,7 @@ public class GameViewActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error creating/hosting lobby.", Toast.LENGTH_LONG).show();
             }
         };
-        network = NetworkInstance.getInstance(Nearby.getConnectionsClient(this), this, onConnectionSuccessfullTrigger);
+        network = NetworkInstance.getInstance(Nearby.getConnectionsClient(this), onConnectionSuccessfullTrigger);
         lobbyDialog = new Dialog(this);
         lobbyDialog.setContentView(R.layout.lobby_window);
         showLobbyPopup();
@@ -497,8 +506,6 @@ public class GameViewActivity extends AppCompatActivity {
         PopupWindow popupWindowOpp = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
         // Modify the data in the PopupWindowOpponent
-        tvOpponentMonster = popupWindowOpp.getContentView().findViewById(R.id.tvOpponentMonsters);
-        tvOpponentMonster.setText(gameState.getOpponentHand().size() + "");
         tvOpponentGrave = popupWindowOpp.getContentView().findViewById(R.id.tvOpponentGrave);
         tvOpponentGrave.setText(gameState.getOpponentGrave().size() + "");
 

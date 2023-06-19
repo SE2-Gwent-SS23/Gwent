@@ -45,7 +45,7 @@ public class Network {
     //Listener for update on connection state
     private TriggerValueChange onConnectionSuccessfullTrigger = new TriggerValueChange();
 
-    public Network(ConnectionsClient connectionsClient, Context context, TriggerValueChangeListener onConnectionSuccessfullTrigger){
+    public Network(ConnectionsClient connectionsClient, TriggerValueChangeListener onConnectionSuccessfullTrigger){
         this.connectionsClient = connectionsClient;
         this.onConnectionSuccessfullTrigger.setListener(onConnectionSuccessfullTrigger);
     }
@@ -83,7 +83,6 @@ public class Network {
             currGamestate.setOpponentPassed(opponentGS.isMyPassed());
 
             currentState.postValue(currGamestate);
-            // i(TAG, Utils.byteArrayToObject(payload.asBytes()).toString());
         }
 
         @Override

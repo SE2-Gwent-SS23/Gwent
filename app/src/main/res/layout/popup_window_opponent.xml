@@ -61,35 +61,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintVertical_bias="0.0"></LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/framelayoutOpponent2"
-            android:layout_width="68dp"
-            android:layout_height="85dp"
-            android:layout_gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/gridLayout3"
-            app:layout_constraintStart_toEndOf="@+id/gridLayout"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/iv_deck_stack_opponent_right"
-                android:layout_width="48dp"
-                android:layout_height="65dp"
-                android:layout_gravity="center"
-                android:background="@drawable/card_deck_back_opponent_right"
-                android:contentDescription="@string/ImageViewDeckStackOpponentRight" />
-
-            <TextView
-                android:id="@+id/tvOpponentMonsters"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|center"
-                android:background="@drawable/tv_points"
-                android:padding="5dp"
-                android:text="9"
-                android:textColor="@android:color/white"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-        </FrameLayout>
     </GridLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
