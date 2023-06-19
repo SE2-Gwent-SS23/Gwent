@@ -70,7 +70,6 @@ public class GameViewActivity extends AppCompatActivity {
     private List<RecyclerView> recyclerViews;
     private Button buttonOpponentCards;
     private TextView tvMyGrave;
-    private TextView tvOpponentMonster;
     private TextView tvOpponentGrave;
     private PopupWindow popupWindow;
     private Dialog lobbyDialog;
@@ -78,16 +77,19 @@ public class GameViewActivity extends AppCompatActivity {
     private int deviceHeight;
     private int buttonHelp = 0;
     private boolean attachDoubleTapDetector;
+
     // popup opponent window
     private LayoutInflater inflaterOpponent;
     private View popupViewOpponent;
     private LinearLayout llOpponent;
+
     // variables for shake sensor
     private SensorManager mSensorManager;
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
     private boolean mShaked;
+
     //shake sensor listener
     private final SensorEventListener mSensorListener = new SensorEventListener() {
         @Override
@@ -251,7 +253,6 @@ public class GameViewActivity extends AppCompatActivity {
                             network.sendGameState(this.gameState);
                         }
 
-                        //why here
                         if (this.gameState.isOpponentPassed()) {
                             this.gameState.setMyPassed(false);
                             this.gameState.setOpponentPassed(false);
@@ -505,8 +506,6 @@ public class GameViewActivity extends AppCompatActivity {
         PopupWindow popupWindowOpp = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
         // Modify the data in the PopupWindowOpponent
-        tvOpponentMonster = popupWindowOpp.getContentView().findViewById(R.id.tvOpponentMonsters);
-        tvOpponentMonster.setText(gameState.getOpponentHand().size() + "");
         tvOpponentGrave = popupWindowOpp.getContentView().findViewById(R.id.tvOpponentGrave);
         tvOpponentGrave.setText(gameState.getOpponentGrave().size() + "");
 
