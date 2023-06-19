@@ -87,7 +87,6 @@ public class Network {
 
         @Override
         public void onPayloadTransferUpdate(@NonNull String s, @NonNull PayloadTransferUpdate payloadTransferUpdate) {
-            // i(TAG,"onPayloadSend");
         }
     };
 
@@ -97,8 +96,6 @@ public class Network {
         @Override
         public void onConnectionInitiated(@NonNull String s, @NonNull
                 ConnectionInfo connectionInfo) {
-            // d(TAG, "onConnectionInitiated");
-            // d(TAG, "Accepting connection...");
             connectionsClient.acceptConnection(s, payloadCallback);
         }
 
@@ -108,23 +105,18 @@ public class Network {
             // d(TAG, "onConnectionResult");
             switch (connectionResolution.getStatus().getStatusCode()) {
                 case ConnectionsStatusCodes.STATUS_OK:
-                    // d(TAG, "ConnectionsStatusCodes.STATUS_OK");
                     connectionsClient.stopAdvertising();
                     connectionsClient.stopDiscovery();
                     opponentEndpointId = s;
-                    // d(TAG, "opponentEndpointId: " + opponentEndpointId);
                     onConnectionSuccessfullTrigger.setValue(true);
                     break;
                 case ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED:
-                    // d(TAG, "ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED");
                     onConnectionSuccessfullTrigger.setValue(false);
                     break;
                 case ConnectionsStatusCodes.STATUS_ERROR:
-                    // d(TAG, "ConnectionsStatusCodes.STATUS_ERROR");
                     onConnectionSuccessfullTrigger.setValue(false);
                     break;
                 default:
-                    // d(TAG, "Unknown status code ${resolution.status.statusCode}");
                 onConnectionSuccessfullTrigger.setValue(false);
                 break;
             }
@@ -132,7 +124,6 @@ public class Network {
 
         @Override
         public void onDisconnected(@NonNull String s) {
-            // d(TAG, "onDisconnected");
             stopClient();
         }
     };
@@ -142,44 +133,33 @@ public class Network {
                 @Override
                 public void onEndpointFound(@NonNull String s, @NonNull
                         DiscoveredEndpointInfo discoveredEndpointInfo) {
-                    // d(TAG, "onEndpointFound");
-                    // d(TAG, "Requesting connection...");
                     connectionsClient.requestConnection(
                             localUsername,
                             s,
                             connectionLifecycleCallback
                     ).addOnSuccessListener(command -> {
-                        // d(TAG, "Successfully requested a connection");
                     }).addOnFailureListener(command -> {
-                        // d(TAG, "Failed to request the connection");
                     });
                 }
 
                 @Override
                 public void onEndpointLost(@NonNull String s) {
-                    // d(TAG, "onEndpointLost");
                 }
             };
 
     public void startHosting() {
-        // d(TAG, "Start advertising...");
         AdvertisingOptions advertisingOptions = new AdvertisingOptions.Builder().setStrategy(STRATEGY).build();
 
         connectionsClient.startAdvertising(localUsername,
                         BuildConfig.APPLICATION_ID, connectionLifecycleCallback,
                         advertisingOptions)
                 .addOnSuccessListener(command -> {
-                    // d(TAG, "Advertising...");
                 })
                 .addOnFailureListener(command -> {
-                    // d(TAG, "Unable to start advertising");
-                    // e(TAG, command.getMessage());
-                    //TODO NAVIGATE BACK TO HOMESCREEN
                 });
     }
 
     public void startDiscovering() {
-        // d(TAG, "Start discovering...");
         DiscoveryOptions discoveryOptions = new
                 DiscoveryOptions.Builder().setStrategy(STRATEGY).build();
         connectionsClient.startDiscovery(
@@ -187,20 +167,16 @@ public class Network {
                 endpointDiscoveryCallback,
                 discoveryOptions
         ).addOnSuccessListener(command -> {
-            // d(TAG, "Discovering...");
         }).addOnFailureListener(command -> {
-            // d(TAG, "Unable to start discovering");
         });
     }
 
     public void sendGameState(GameState gameState) {
-        // d(TAG, "Sending to " +opponentEndpointId + " "+gameState.toString());
         connectionsClient.sendPayload(opponentEndpointId,
                 dataToPayload(gameState));
     }
 
     private void stopClient() {
-        // d(TAG, "Stop advertising, discovering, all endpoints");
         connectionsClient.stopAdvertising();
         connectionsClient.stopDiscovery();
         connectionsClient.stopAllEndpoints();

@@ -9,11 +9,10 @@ public class NetworkInstance {
     private static Network network;
 
     private NetworkInstance(ConnectionsClient connectionsClient, TriggerValueChangeListener onConnectionSuccessfulTrigger){
-        network = new Network(connectionsClient, onConnectionSuccessfulTrigger);
     }
 
     public static Network getInstance(ConnectionsClient connectionsClient, TriggerValueChangeListener onConnectionSuccessfulTrigger){
-        if(network == null) new NetworkInstance(connectionsClient, onConnectionSuccessfulTrigger);
+        if (network == null) synchronized (NetworkInstance.class) { if (network == null) network = new Network(connectionsClient, onConnectionSuccessfulTrigger); }
         return network;
     }
 }
