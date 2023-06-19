@@ -65,7 +65,7 @@ public class GameViewActivity extends AppCompatActivity {
     private static final String TAG = "GameViewActivity";
     public static TriggerValueChange gameStateUpdate = new TriggerValueChange();
     private static String gamestateExtra = "gameState";
-    private static ActivityResultLauncher<String[]> requestMultiplePermissions;
+    private ActivityResultLauncher<String[]> requestMultiplePermissions;
     private CardGenerator cardGenerator;
     private List<RecyclerView> recyclerViews;
     private Button buttonOpponentCards;
@@ -128,7 +128,47 @@ public class GameViewActivity extends AppCompatActivity {
         setContentView(R.layout.game_view);
 
         this.deviceHeight = getResources().getDisplayMetrics().heightPixels;
+        this.gameState = new GameState();
+        this.cardGenerator = new CardGenerator(this.getApplicationContext(), this.deviceHeight);
+        this.tvMyGrave = findViewById(R.id.tvMyGrave);
 
+        initRequiredPermission();
+        initWaitingCallbackWithListener();
+        initGameStateUpdateWithListener();
+
+        try {
+            this.gameState.initGameState();
+        } catch (JSONException e) {
+            Log.e(TAG, e.getLocalizedMessage());
+        } catch (IOException e) {
+            Log.e(TAG, e.getLocalizedMessage());
+        }
+
+        this.gameState.initAllCards(this.cardGenerator);
+
+        // adding views to list
+        initRecyclerViewsToList();
+
+        sessionType = getIntent().getExtras().getString("lobby_type");
+        settingResponsiveGameBoard();
+
+        initClickOpponentCardsListener();
+        findViewById(R.id.button_cheat).setOnClickListener(clickListenerCheatingButton());
+        findViewById(R.id.iv_buttonGamePassWaitEndTurn).setOnClickListener(clickEndTurn());
+
+        requestMultiplePermissions = this.registerForActivityResult(
+                new ActivityResultContracts.RequestMultiplePermissions(),
+                permissions -> {
+                    if (permissions.entrySet().stream().anyMatch(val -> !val.getValue())) {
+                        Log.e(TAG, "Missing permissions");
+                        Toast.makeText(this, "Required permissions needed. Go to settings!", Toast.LENGTH_LONG).show();
+                        finish();
+                    } else recreate();
+                });
+        doNetworking();
+    }
+
+    private void initRequiredPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             REQUIRED_PERMISSIONS = new String[]{
                     android.Manifest.permission.BLUETOOTH_SCAN,
@@ -142,7 +182,42 @@ public class GameViewActivity extends AppCompatActivity {
         } else {
             REQUIRED_PERMISSIONS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
         }
+    }
 
+    private void initClickOpponentCardsListener() {
+        buttonOpponentCards.setOnClickListener(view -> {
+            if ((buttonHelp++) % 2 == 0) {
+                buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_up_24));
+                onButtonShowPopupWindowClick(getWindow().getDecorView().getRootView());
+            } else {
+                buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_down_24));
+                popupWindow.dismiss();
+            }
+        });
+    }
+
+    private void initGameStateUpdateWithListener() {
+        gameStateUpdate.setListener(value -> {
+            this.gameState = (GameState) value;
+            network.currentState.setValue(this.gameState);
+            try {
+                if (!this.gameState.isOpponentPassed()) {
+                    enableDisableYourTurn(false);
+                } else {
+                    for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
+                    for (RecyclerView view : this.recyclerViews)
+                        view.setOnDragListener(new DragListener(gameState));
+                }
+            } catch (JSONException e) {
+                Log.e(TAG, e.getLocalizedMessage());
+            } catch (IOException e) {
+                Log.e(TAG, e.getLocalizedMessage());
+            }
+            network.sendGameState((GameState) value);
+        });
+    }
+
+    private void initWaitingCallbackWithListener() {
         waitingCallback.setListener(value -> {
             GameState g = (GameState) value;
 
@@ -211,73 +286,6 @@ public class GameViewActivity extends AppCompatActivity {
                 }
             }
         });
-        gameStateUpdate.setListener(value -> {
-            this.gameState = (GameState) value;
-            network.currentState.setValue(this.gameState);
-            try {
-                if (!this.gameState.isOpponentPassed()) {
-                    enableDisableYourTurn(false);
-                } else {
-                    for (RecyclerView view : this.recyclerViews) view.setOnDragListener(null);
-                    for (RecyclerView view : this.recyclerViews)
-                        view.setOnDragListener(new DragListener(gameState));
-                }
-            } catch (JSONException e) {
-                Log.e(TAG, e.getLocalizedMessage());
-            } catch (IOException e) {
-                Log.e(TAG, e.getLocalizedMessage());
-            }
-            network.sendGameState((GameState) value);
-        });
-
-        this.gameState = new GameState();
-
-        this.cardGenerator = new CardGenerator(this.getApplicationContext(), this.deviceHeight);
-
-        this.tvMyGrave = findViewById(R.id.tvMyGrave);
-
-        try {
-            this.gameState.initGameState();
-        } catch (JSONException e) {
-            Log.e(TAG, e.getLocalizedMessage());
-        } catch (IOException e) {
-            Log.e(TAG, e.getLocalizedMessage());
-        }
-
-        this.gameState.initAllCards(this.cardGenerator);
-
-        // adding views to list
-        initRecyclerViewsToList();
-
-        sessionType = getIntent().getExtras().getString("lobby_type");
-        settingResponsiveGameBoard();
-
-        initClickOpponentCardsListener();
-        findViewById(R.id.button_cheat).setOnClickListener(clickListenerCheatingButton());
-        findViewById(R.id.iv_buttonGamePassWaitEndTurn).setOnClickListener(clickEndTurn());
-
-        requestMultiplePermissions = this.registerForActivityResult(
-                new ActivityResultContracts.RequestMultiplePermissions(),
-                permissions -> {
-                    if (permissions.entrySet().stream().anyMatch(val -> !val.getValue())) {
-                        Log.e(TAG, "Missing permissions");
-                        Toast.makeText(this, "Required permissions needed. Go to settings!", Toast.LENGTH_LONG).show();
-                        finish();
-                    } else recreate();
-                });
-        doNetworking();
-    }
-
-    private void initClickOpponentCardsListener() {
-        buttonOpponentCards.setOnClickListener(view -> {
-            if ((buttonHelp++) % 2 == 0) {
-                buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_up_24));
-                onButtonShowPopupWindowClick(getWindow().getDecorView().getRootView());
-            } else {
-                buttonOpponentCards.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_keyboard_arrow_down_24));
-                popupWindow.dismiss();
-            }
-        });
     }
 
     private void initRecyclerViewsToList() {
@@ -321,7 +329,7 @@ public class GameViewActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error creating/hosting lobby.", Toast.LENGTH_LONG).show();
             }
         };
-        network = NetworkInstance.getInstance(Nearby.getConnectionsClient(this), this, onConnectionSuccessfullTrigger);
+        network = NetworkInstance.getInstance(Nearby.getConnectionsClient(this), onConnectionSuccessfullTrigger);
         lobbyDialog = new Dialog(this);
         lobbyDialog.setContentView(R.layout.lobby_window);
         showLobbyPopup();

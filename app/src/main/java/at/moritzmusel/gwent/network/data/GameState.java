@@ -1,6 +1,5 @@
 package at.moritzmusel.gwent.network.data;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -75,6 +74,7 @@ public class GameState implements Serializable {
         }
     }
 
+    /* // added nested comment for sonarcloud, because constructor is empty. No attributes needed. */
     public GameState() {
 
     }
