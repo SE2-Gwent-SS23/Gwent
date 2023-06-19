@@ -20,7 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         changeName.setOnClickListener(view -> {
             Intent nameIntent = new Intent(SettingsActivity.this, SelectNameActivity.class);
-            nameIntent.putExtra("comingFromSettings", true);
+            nameIntent.putExtra("comingFromWelcome", false);
             startActivity(nameIntent);
         });
 

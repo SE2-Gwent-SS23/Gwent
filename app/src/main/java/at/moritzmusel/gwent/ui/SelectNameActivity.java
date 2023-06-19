@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import at.moritzmusel.gwent.R;
 
@@ -25,16 +24,16 @@ public class SelectNameActivity extends AppCompatActivity {
         Intent loadingIntent = new Intent(SelectNameActivity.this, LoadingActivity.class);
         String storedName = "" + SaveStringToFileClass.getSavedData(getBaseContext(), getString(R.string.playerName_fileName));
 
-        Boolean extra = getIntent().getExtras().getBoolean("comingFromSettings", false);
+        Boolean extra = getIntent().getExtras().getBoolean("comingFromWelcome", true);
 
-        if (storedName.length() > 4 && !extra) {
+        if (storedName.length() > 4 && extra) {
             startActivity(loadingIntent);
         }
 
         findViewById(R.id.button_enterName).setOnClickListener(view -> {
             String userInput = name.getText().toString();
 
-            if (userInput.length() > 0) {
+            if (userInput.length() > 4) {
                 SaveStringToFileClass.saveData(getBaseContext(), getString(R.string.playerName_fileName), userInput);
                 startActivity(loadingIntent);
             } else {
