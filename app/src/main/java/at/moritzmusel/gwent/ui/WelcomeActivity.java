@@ -22,6 +22,7 @@ public class WelcomeActivity extends AppCompatActivity {
         backgroundImg.setOnClickListener(view -> {
             // Starting Load Screen when Welcome Screen is clicked
             Intent intent = new Intent(WelcomeActivity.this, SelectNameActivity.class);
+            intent.putExtra("comingFromSettings", false);
             startActivity(intent);
         });
     }

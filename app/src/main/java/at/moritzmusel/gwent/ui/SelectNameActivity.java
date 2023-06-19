@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import at.moritzmusel.gwent.R;
 
@@ -22,10 +23,11 @@ public class SelectNameActivity extends AppCompatActivity {
         error.setVisibility(View.INVISIBLE);
 
         Intent loadingIntent = new Intent(SelectNameActivity.this, LoadingActivity.class);
-        String storedName = null;
-        storedName = "" + SaveStringToFileClass.getSavedData(getBaseContext(), getString(R.string.playerName_fileName));
+        String storedName = "" + SaveStringToFileClass.getSavedData(getBaseContext(), getString(R.string.playerName_fileName));
 
-        if (storedName.length() > 0) {
+        Boolean extra = getIntent().getExtras().getBoolean("comingFromSettings", false);
+
+        if (storedName.length() > 4 && !extra) {
             startActivity(loadingIntent);
         }
 
