@@ -1,6 +1,5 @@
 package at.moritzmusel.gwent.network.data;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -8,6 +7,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +31,7 @@ public class GameState implements Serializable {
     private List<Card> opponentRanged; // 1. Reihe
     private boolean redrawPhase = true;
     private boolean cheated = false;
+    private boolean opponentCheated = false;
 
     private Card myLeader;
     private Boolean usedMyLeader;
@@ -67,12 +68,12 @@ public class GameState implements Serializable {
         return wins;
     }
 
-
     public void hasCards() {
         if (this.myHand.size() == 0) {
             this.myPassed = true;
         }
     }
+
 
 
 
@@ -90,7 +91,6 @@ public class GameState implements Serializable {
         }
     }
 
-
     public void initGameState() throws JSONException, IOException {
         this.myDeck = "";
         this.opponentDeck = "";
@@ -102,11 +102,11 @@ public class GameState implements Serializable {
         this.myRoundCounter = new int[]{0, 0, 0};
         this.opponentRoundCounter = new int[]{0, 0, 0};
         this.cheated = false;
+        this.opponentCheated = false;
 
         // myHand
         this.myHand = new ArrayList<>();
         this.allCards = new ArrayList<>();
-
 
         // Ranged
         this.myRanged = new ArrayList<>();
@@ -119,7 +119,6 @@ public class GameState implements Serializable {
         // opponentHand
         this.opponentHand = new ArrayList<>();
 
-
         // Grave
         this.myGrave = new ArrayList<>();
         this.opponentGrave = new ArrayList<>();
@@ -128,7 +127,6 @@ public class GameState implements Serializable {
         this.myPassed = false;
         this.opponentPassed = false;
         this.roundTracker = 0;
-
     }
 
     public void initAllCards(CardGenerator cardGenerator) {
@@ -141,7 +139,6 @@ public class GameState implements Serializable {
             Log.e(TAG, e.toString());
         }
     }
-
 
     public int calculateMyPoints() {
         int sum = 0;
@@ -167,6 +164,15 @@ public class GameState implements Serializable {
 
     public void applySun() {
         this.weather.clear();
+    }
+
+    public void removeRandomCardFromOpponentHand() {
+        SecureRandom random = new SecureRandom();
+        int zz = 0;
+        if (!this.opponentHand.isEmpty()) {
+            zz = random.nextInt(this.getOpponentHand().size());
+            this.opponentHand.remove(zz);
+        }
     }
 
     public void swapPlayer() {
@@ -200,13 +206,11 @@ public class GameState implements Serializable {
         int[] tempRoundCounter = this.myRoundCounter;
         this.myRoundCounter = this.opponentRoundCounter;
         this.opponentRoundCounter = tempRoundCounter;
-
     }
 
     public void incrementRoundTracker() {
         this.roundTracker++;
     }
-
 
     public void addToMyHand(Card card) {
         this.myHand.add(card);
@@ -344,7 +348,6 @@ public class GameState implements Serializable {
         this.myClose = myClose;
     }
 
-
     public List<Card> getMyRanged() {
         return myRanged;
     }
@@ -352,7 +355,6 @@ public class GameState implements Serializable {
     public void setMyRanged(List<Card> myRanged) {
         this.myRanged = myRanged;
     }
-
 
     public List<Card> getOpponentClose() {
         return opponentClose;
@@ -362,7 +364,6 @@ public class GameState implements Serializable {
         this.opponentClose = opponentClose;
     }
 
-
     public List<Card> getOpponentRanged() {
         return opponentRanged;
     }
@@ -370,7 +371,6 @@ public class GameState implements Serializable {
     public void setOpponentRanged(List<Card> opponentRanged) {
         this.opponentRanged = opponentRanged;
     }
-
 
     public Card getMyLeader() {
         return myLeader;
@@ -476,7 +476,13 @@ public class GameState implements Serializable {
         this.cheated = cheated;
     }
 
+    public boolean isOpponentCheated() {
+        return opponentCheated;
+    }
 
+    public void setOpponentCheated(boolean opponentCheated) {
+        this.opponentCheated = opponentCheated;
+    }
 
     @Override
     public String toString() {
@@ -500,7 +506,8 @@ public class GameState implements Serializable {
                 ", usedOpponentLeader=" + usedOpponentLeader +
                 ", myRoundCounter=" + myRoundCounter +
                 ", opponentRoundCounter=" + opponentRoundCounter +
+                ", cheated=" + cheated +
+                ", opponentCheated=" + opponentCheated +
                 '}';
     }
 }
-
