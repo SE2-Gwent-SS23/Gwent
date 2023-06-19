@@ -2,7 +2,9 @@ package at.moritzmusel.gwent.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import at.moritzmusel.gwent.R;
 
@@ -13,13 +15,18 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        // below line is used to check if frame layout is empty or not.
-        if (findViewById(R.id.idFrameLayout) != null) {
-            if (savedInstanceState != null) {
-                return;
-            }
-            // below line is to inflate our fragment.
-            getFragmentManager().beginTransaction().add(R.id.idFrameLayout, new SettingsFragment()).commit();
-        }
+        Button changeName = findViewById(R.id.button_changeName);
+        Button backToMenu = findViewById(R.id.button_backToMenu);
+
+        changeName.setOnClickListener(view -> {
+            Intent nameIntent = new Intent(SettingsActivity.this, SelectNameActivity.class);
+            nameIntent.putExtra("comingFromSettings", true);
+            startActivity(nameIntent);
+        });
+
+        backToMenu.setOnClickListener(view -> {
+            Intent menuIntent = new Intent(SettingsActivity.this, MainMenuActivity.class);
+            startActivity(menuIntent);
+        });
     }
 }
