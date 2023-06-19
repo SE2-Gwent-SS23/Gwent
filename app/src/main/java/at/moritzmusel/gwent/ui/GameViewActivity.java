@@ -442,14 +442,15 @@ public class GameViewActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        //mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         super.onResume();
     }
     //END shake sensor listener
 
     @Override
     protected void onPause() {
-        mSensorManager.unregisterListener(mSensorListener);
+        // TODO: Markus fix sensor
+        //mSensorManager.unregisterListener(mSensorListener);
         super.onPause();
     }
 
@@ -542,7 +543,8 @@ public class GameViewActivity extends AppCompatActivity {
             endTurn.setColorFilter(colorFilter);
 
             cheatingButton.setVisibility(View.INVISIBLE);
-            initShakeSensor();
+            // TODO: Markus fix sensor
+            //initShakeSensor();
             attachDoubleTapDetector = true;
         } else {
             for (RecyclerView view : this.recyclerViews)
@@ -552,7 +554,8 @@ public class GameViewActivity extends AppCompatActivity {
             endTurn.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_OVER);
 
             cheatingButton.setVisibility(View.VISIBLE);
-            removeShakeSensor();
+            // TODO: Markus fix sensor
+            //removeShakeSensor();
             attachDoubleTapDetector = false;
         }
         gameState.setCheated(false);

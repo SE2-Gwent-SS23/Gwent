@@ -12,7 +12,7 @@ public class NetworkInstance {
     }
 
     public static Network getInstance(ConnectionsClient connectionsClient, TriggerValueChangeListener onConnectionSuccessfulTrigger){
-        if (network == null) synchronized (NetworkInstance.class) { if (network == null) network = new Network(connectionsClient, onConnectionSuccessfulTrigger); }
+        if (network == null) network = new Network(connectionsClient, onConnectionSuccessfulTrigger);
         return network;
     }
 }
