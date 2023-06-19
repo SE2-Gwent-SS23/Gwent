@@ -1,5 +1,7 @@
 package at.moritzmusel.gwent.network.Utils;
 
+import android.util.Log;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -19,7 +21,7 @@ public class Utils {
             oos.flush();
             byteArray = bos.toByteArray();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            Log.e("Utils - ", e.getMessage());
         }
         return byteArray;
     }
@@ -30,10 +32,8 @@ public class Utils {
             ByteArrayInputStream bis = new ByteArrayInputStream(array);
             ObjectInputStream ois = new ObjectInputStream(bis);
             object = (Object) ois.readObject();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | ClassNotFoundException e) {
+            Log.e("Utils - ", e.getMessage());
         }
         return object;
     }

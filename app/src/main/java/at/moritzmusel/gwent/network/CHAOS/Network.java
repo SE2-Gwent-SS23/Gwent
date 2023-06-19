@@ -102,7 +102,6 @@ public class Network {
         @Override
         public void onConnectionResult(@NonNull String s, @NonNull
                 ConnectionResolution connectionResolution) {
-            // d(TAG, "onConnectionResult");
             switch (connectionResolution.getStatus().getStatusCode()) {
                 case ConnectionsStatusCodes.STATUS_OK:
                     connectionsClient.stopAdvertising();

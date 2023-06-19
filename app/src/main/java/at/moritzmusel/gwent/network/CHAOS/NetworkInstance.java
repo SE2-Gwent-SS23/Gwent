@@ -8,9 +8,6 @@ public class NetworkInstance {
     @SuppressLint("StaticFieldLeak")
     private static Network network;
 
-    private NetworkInstance(ConnectionsClient connectionsClient, TriggerValueChangeListener onConnectionSuccessfulTrigger){
-    }
-
     public static Network getInstance(ConnectionsClient connectionsClient, TriggerValueChangeListener onConnectionSuccessfulTrigger){
         if (network == null) network = new Network(connectionsClient, onConnectionSuccessfulTrigger);
         return network;
