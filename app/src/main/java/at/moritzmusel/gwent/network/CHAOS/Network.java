@@ -87,6 +87,7 @@ public class Network {
 
         @Override
         public void onPayloadTransferUpdate(@NonNull String s, @NonNull PayloadTransferUpdate payloadTransferUpdate) {
+            // handle onPayloadTransfer event
         }
     };
 
@@ -143,6 +144,7 @@ public class Network {
 
                 @Override
                 public void onEndpointLost(@NonNull String s) {
+                    //handle when endpoint is lost
                 }
             };
 
