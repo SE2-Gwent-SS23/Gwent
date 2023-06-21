@@ -1,6 +1,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=SE2-Gwent-SS23_Gwent&metric=coverage)](https://sonarcloud.io/summary/new_code?id=SE2-Gwent-SS23_Gwent)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=SE2-Gwent-SS23_Gwent&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=SE2-Gwent-SS23_Gwent)
 
+[![itch.io-Page](https://cdn.jim-nielsen.com/ios/512/gwent-the-witcher-card-game-2019-12-11.png)](https://moritzmusel.itch.io/gwent-ss23)
 
 <img src="https://cdn.vox-cdn.com/thumbor/UY9qkeeHR4j2OSxBma-pqd2VvgU=/0x0:1024x659/1200x800/filters:focal(431x249:593x411)/cdn.vox-cdn.com/uploads/chorus_image/image/49801529/gwentcardgame.0.jpg" width="250" style="display: block;margin-left: auto;margin-right: auto;"/>
 
